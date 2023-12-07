@@ -38,15 +38,12 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
-    // Module
-    implementation project(':ui:home')
-
     // Hilt (DI)
     implementation "com.google.dagger:hilt-android:2.44"
     annotationProcessor "com.google.dagger:hilt-compiler:2.44"
 
     // Navigation Component
-    def nav_version = "2.7.5"
+    def nav_version = "2.5.3"
 
     // Java language implementation
     implementation "androidx.navigation:navigation-fragment:$nav_version"
