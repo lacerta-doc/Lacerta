@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace 'one.nem.ui.home'
+    namespace 'one.nem.lacerta.ui.home'
     compileSdk 33
 
     defaultConfig {
