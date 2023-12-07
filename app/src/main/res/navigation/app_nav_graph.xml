@@ -1,14 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/app_nav_graph"
-    app:startDestination="@id/placeholder">
+    app:startDestination="@id/appBlankFragment">
 
     <include app:graph="@navigation/ui_home_nav_graph" />
-    <fragment android:id="@+id/placeholder" >
+    <fragment
+        android:id="@+id/homeTestUi2"
+        android:name="one.nem.ui.home.HomeTestUi"
+        android:label="HomeTestUi" />
+    <fragment
+        android:id="@+id/appBlankFragment"
+        android:name="one.nem.lacerta.AppBlankFragment"
+        android:label="app_fragment_blank"
+        tools:layout="@layout/app_fragment_blank" >
         <action
-            android:id="@+id/action_placeholder_to_ui_home_nav_graph"
-            app:destination="@id/ui_home_nav_graph" />
+            android:id="@+id/action_appBlankFragment_to_homeTestUi22"
+            app:destination="@id/homeTestUi2" />
     </fragment>
 
 
