@@ -2,11 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@id/ui_home_nav_graph"
-        android:title="HomeTestUi"/>
-
-    <item
-        android:id="@id/appBlankFragment"
-        android:title="app_fragment_blank"/>
+        android:id="@+id/homeTestUi"
+        android:title="HomeTestUi" />
 
 </menu>
