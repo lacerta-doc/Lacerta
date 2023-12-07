@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Lacerta"
 include ':app'
+include ':ui:home'
