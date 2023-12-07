@@ -17,3 +17,4 @@ rootProject.name = "Lacerta"
 include ':app'
 include ':feature:home'
 include ':feature:search'
+include ':feature:library'
