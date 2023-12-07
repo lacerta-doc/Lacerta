@@ -11,17 +11,6 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
     }
-    versionCatalogs {
-        navigations{
-            def nav_version = "2.7.5"
-            bundle("navs", ["androidx.navigation:navigation-fragment:$nav_version",
-                            "androidx.navigation:navigation-ui:$nav_version",
-                            "androidx.navigation:navigation-fragment-ktx:$nav_version",
-                            "androidx.navigation:navigation-ui-ktx:$nav_version",
-                            "androidx.navigation:navigation-dynamic-features-fragment:$nav_version",
-                            "androidx.navigation:navigation-testing:$nav_version"])
-        }
-    }
 }
 
 rootProject.name = "Lacerta"
