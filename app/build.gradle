@@ -4,7 +4,7 @@ plugins {
 
 android {
     namespace 'one.nem.lacerta'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "one.nem.lacerta"
