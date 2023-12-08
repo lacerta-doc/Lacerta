@@ -38,10 +38,23 @@ dependencies {
     androidTestImplementation libs.androidx.test.espresso.core
 
     // 内部モジュール
+    // Feature
     implementation project(':feature:home')
     implementation project(':feature:search')
     implementation project(':feature:library')
     implementation project(':feature:scan')
+
+    // Component
+    implementation project(':component:common')
+    implementation project(':component:scanner')
+    implementation project(':component:viewer')
+
+    // Data
+    implementation project(':data:repository')
+
+    // Source
+    implementation project(':data:source:database')
+    implementation project(':data:source:preference')
     
     // Hilt (DI)
     implementation libs.com.google.dagger.hilt.android
