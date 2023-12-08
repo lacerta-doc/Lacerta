@@ -1,5 +1,6 @@
 [versions]
 nav = "2.7.5"
+agp = "8.0.2"
 
 [libraries]
 navigation-fragment = { group="androidx.navigation", name="navigation-fragment", version.ref="nav"}
@@ -18,3 +19,4 @@ com-google-dagger-hilt-android = { group="com.google.dagger", name="hilt-android
 com-google-dagger-hilt-compiler = { group="com.google.dagger", name="hilt-compiler", version="2.44" }
 
 [plugins]
+com-android-library = { id = "com.android.library", version.ref = "agp" }
