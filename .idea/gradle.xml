@@ -23,6 +23,7 @@
             <option value="$PROJECT_DIR$/data/source/preference" />
             <option value="$PROJECT_DIR$/feature" />
             <option value="$PROJECT_DIR$/feature/common" />
+            <option value="$PROJECT_DIR$/feature/debug" />
             <option value="$PROJECT_DIR$/feature/home" />
             <option value="$PROJECT_DIR$/feature/library" />
             <option value="$PROJECT_DIR$/feature/scan" />
