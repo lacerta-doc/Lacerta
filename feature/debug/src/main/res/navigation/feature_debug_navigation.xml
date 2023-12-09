@@ -2,7 +2,11 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/feature_debug_navigation">
+    android:id="@+id/feature_debug_navigation"
+    app:startDestination="@id/blankFragment">
+
+
+
     <fragment
         android:id="@+id/blankFragment"
         android:name="one.nem.lacerta.feature.debug.BlankFragment"
