@@ -32,4 +32,10 @@ dependencies {
     testImplementation libs.junit
     androidTestImplementation libs.androidx.test.ext.junit
     androidTestImplementation libs.androidx.test.espresso.core
+
+    // Navigation
+    implementation libs.navigation.fragment
+    implementation libs.navigation.ui
+    implementation libs.navigation.dynamic.features.fragment
+
 }
