@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import javax.inject.Inject;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link DebugMenuFragment#newInstance} factory method to
@@ -16,6 +18,7 @@ import android.widget.Button;
  */
 public class DebugMenuFragment extends Fragment {
 
+    @Inject
 
 
     // TODO: Rename parameter arguments, choose names that match
