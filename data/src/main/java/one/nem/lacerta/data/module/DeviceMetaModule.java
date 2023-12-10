@@ -1,9 +1,7 @@
-package com.example.lacerta.data.module;
+package one.nem.lacerta.data.module;
 
-import android.app.Application;
-
-import com.example.lacerta.data.impl.DeviceMetaImpl;
-import com.example.lacerta.data.repository.DeviceMeta;
+import one.nem.lacerta.data.impl.DeviceMetaImpl;
+import one.nem.lacerta.data.repository.DeviceMeta;
 
 import dagger.Binds;
 import dagger.Module;

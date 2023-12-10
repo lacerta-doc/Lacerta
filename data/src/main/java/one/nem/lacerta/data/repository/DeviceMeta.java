@@ -1,4 +1,4 @@
-package com.example.lacerta.data.repository;
+package one.nem.lacerta.data.repository;
 
 public interface DeviceMeta {
     String getDeviceId();

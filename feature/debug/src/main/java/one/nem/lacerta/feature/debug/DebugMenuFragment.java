@@ -13,6 +13,9 @@ import android.widget.Toast;
 import dagger.hilt.android.AndroidEntryPoint;
 import javax.inject.Inject;
 
+import one.nem.lacerta.data.repository.DeviceMeta;
+
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link DebugMenuFragment#newInstance} factory method to
@@ -21,6 +24,9 @@ import javax.inject.Inject;
 
 @AndroidEntryPoint
 public class DebugMenuFragment extends Fragment {
+
+    @Inject
+    DeviceMeta deviceMeta;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -74,11 +80,11 @@ public class DebugMenuFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-//        Button button = view.findViewById(R.id.button_di_test);
-//        // Lambda
-//        button.setOnClickListener(v -> {
-//            Toast.makeText(getContext(), testData.getTestData(), Toast.LENGTH_SHORT).show();
-//        });
+        Button button = view.findViewById(R.id.button_di_test);
+        // Lambda
+        button.setOnClickListener(v -> {
+            Toast.makeText(getContext(), deviceMeta.getDeviceId(), Toast.LENGTH_SHORT).show();
+        });
 
     }
 }

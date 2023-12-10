@@ -1,6 +1,6 @@
-package com.example.lacerta.data.impl;
+package one.nem.lacerta.data.impl;
 
-import com.example.lacerta.data.repository.DeviceMeta;
+import one.nem.lacerta.data.repository.DeviceMeta;
 
 import javax.inject.Inject;
 

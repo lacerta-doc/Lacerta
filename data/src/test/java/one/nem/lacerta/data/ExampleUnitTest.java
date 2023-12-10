@@ -1,4 +1,4 @@
-package com.example.lacerta.data;
+package one.nem.lacerta.data;
 
 import org.junit.Test;
 

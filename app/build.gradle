@@ -57,6 +57,7 @@ dependencies {
 //    implementation project(':data:source:database')
 //    implementation project(':data:source:preference')
 //
+    implementation project(':data')
     // Hilt (DI)
     implementation libs.com.google.dagger.hilt.android
     annotationProcessor libs.com.google.dagger.hilt.compiler
