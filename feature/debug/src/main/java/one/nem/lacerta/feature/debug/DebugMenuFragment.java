@@ -80,14 +80,19 @@ public class DebugMenuFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-//        Button button = view.findViewById(R.id.button_di_test);
-//        // Lambda
-//        button.setOnClickListener(v -> {
-//            Toast.makeText(getContext(), deviceMeta.getDeviceMeta().getAndroidApiLevel()
-//                    + deviceMeta.getDeviceMeta().getAndroidVersion()
-//                    + deviceMeta.getDeviceMeta().getDeviceManufacturer()
-//                    + deviceMeta.getDeviceMeta().getDeviceModel(), Toast.LENGTH_SHORT).show();
-//        });
+        view.findViewById(R.id.btn_debug_menu_scan).setOnClickListener( v -> {
+            // スキャン機能呼び出し
+            Toast.makeText(getContext(), "testMessage", Toast.LENGTH_SHORT).show();
+        });
 
+        view.findViewById(R.id.btn_debug_menu_shared_pref_editor).setOnClickListener( v -> {
+            // SharedPrefEditor機能呼び出し
+            Toast.makeText(getContext(), "textMessage", Toast.LENGTH_SHORT).show();
+        });
+
+        view.findViewById(R.id.btn_debug_menu_clear_pref).setOnClickListener( v -> {
+            // SharedPrefClear
+            Toast.makeText(getContext(), "textMessage", Toast.LENGTH_SHORT).show();
+        });
     }
 }

@@ -66,10 +66,10 @@
                 android:layout_marginTop="8dp" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_debug_menu_clear_storage"
+                android:id="@+id/btn_debug_menu_shared_pref_editor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Clear Storage"
+                android:text="Shared Preferences Editor"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginTop="8dp" />
