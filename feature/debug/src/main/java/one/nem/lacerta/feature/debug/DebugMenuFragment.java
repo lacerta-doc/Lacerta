@@ -11,8 +11,6 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import dagger.hilt.android.AndroidEntryPoint;
-import one.nem.lacerta.data.repository.TestData;
-
 import javax.inject.Inject;
 
 /**
@@ -24,8 +22,6 @@ import javax.inject.Inject;
 @AndroidEntryPoint
 public class DebugMenuFragment extends Fragment {
 
-    @Inject
-    TestData testData;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -78,11 +74,11 @@ public class DebugMenuFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Button button = view.findViewById(R.id.button_di_test);
-        // Lambda
-        button.setOnClickListener(v -> {
-            Toast.makeText(getContext(), testData.getTestData(), Toast.LENGTH_SHORT).show();
-        });
+//        Button button = view.findViewById(R.id.button_di_test);
+//        // Lambda
+//        button.setOnClickListener(v -> {
+//            Toast.makeText(getContext(), testData.getTestData(), Toast.LENGTH_SHORT).show();
+//        });
 
     }
 }

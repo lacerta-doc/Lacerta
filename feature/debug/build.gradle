@@ -45,7 +45,7 @@ dependencies {
 
     // 内部モジュール
     // data
-    implementation project(':data:repository')
+//    implementation project(':data:repository')
 
 
 }
