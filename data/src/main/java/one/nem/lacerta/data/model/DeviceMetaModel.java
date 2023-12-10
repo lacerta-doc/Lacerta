@@ -4,9 +4,9 @@ public class DeviceMetaModel {
     private String DeviceManufacturer;
     private String DeviceModel;
     private String AndroidVersion;
-    private String AndroidApiLevel;
+    private int AndroidApiLevel;
 
-    public DeviceMetaModel(String DeviceManufacturer, String DeviceModel, String AndroidVersion, String AndroidApiLevel) {
+    public DeviceMetaModel(String DeviceManufacturer, String DeviceModel, String AndroidVersion, int AndroidApiLevel) {
         this.DeviceManufacturer = DeviceManufacturer;
         this.DeviceModel = DeviceModel;
         this.AndroidVersion = AndroidVersion;
@@ -28,7 +28,7 @@ public class DeviceMetaModel {
         return AndroidVersion;
     }
 
-    public String getAndroidApiLevel() {
+    public int getAndroidApiLevel() {
         return AndroidApiLevel;
     }
 }
