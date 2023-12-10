@@ -1,4 +1,6 @@
 package com.example.lacerta.data.repository;
 
-public class DeviceMeta {
+public interface DeviceMeta {
+    String getDeviceId();
+    String getDeviceApiLevel();
 }
