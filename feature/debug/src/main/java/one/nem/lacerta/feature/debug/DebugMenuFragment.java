@@ -8,6 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
+
+import one.nem.lacerta.data.repository.TestData;
 
 import javax.inject.Inject;
 
@@ -19,7 +22,7 @@ import javax.inject.Inject;
 public class DebugMenuFragment extends Fragment {
 
     @Inject
-
+    TestData testData;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -75,8 +78,8 @@ public class DebugMenuFragment extends Fragment {
         Button button = view.findViewById(R.id.button_di_test);
         // Lambda
         button.setOnClickListener(v -> {
-
-        }
+            Toast.makeText(getContext(), testData.getTestData(), Toast.LENGTH_SHORT).show();
+        });
 
     }
 }
