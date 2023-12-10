@@ -7,13 +7,20 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import one.nem.lacerta.data.repository.TestData;
+
 import dagger.hilt.android.AndroidEntryPoint;
+import javax.inject.Inject;
 
 @AndroidEntryPoint
 public class MainActivity extends AppCompatActivity {
+
+    @Inject
+    TestData testData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,5 +35,7 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav);
 
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
+
+        Toast.makeText(this, testData.getTestData(), Toast.LENGTH_SHORT).show();
     }
 }

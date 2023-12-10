@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import dagger.hilt.android.AndroidEntryPoint;
 import one.nem.lacerta.data.repository.TestData;
 
 import javax.inject.Inject;
@@ -19,6 +20,7 @@ import javax.inject.Inject;
  * Use the {@link DebugMenuFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+
 public class DebugMenuFragment extends Fragment {
 
     @Inject
