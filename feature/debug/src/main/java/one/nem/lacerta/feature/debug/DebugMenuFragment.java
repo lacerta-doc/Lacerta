@@ -21,6 +21,7 @@ import javax.inject.Inject;
  * create an instance of this fragment.
  */
 
+@AndroidEntryPoint
 public class DebugMenuFragment extends Fragment {
 
     @Inject

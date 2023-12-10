@@ -11,16 +11,12 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import one.nem.lacerta.data.repository.TestData;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import javax.inject.Inject;
 
 @AndroidEntryPoint
 public class MainActivity extends AppCompatActivity {
-
-    @Inject
-    TestData testData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +32,6 @@ public class MainActivity extends AppCompatActivity {
 
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
-        Toast.makeText(this, testData.getTestData(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "testMessage", Toast.LENGTH_SHORT).show();
     }
 }

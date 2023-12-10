@@ -45,18 +45,18 @@ dependencies {
     implementation project(':feature:scan')
     implementation project(':feature:debug')  // デバッグメニュー
 
-    // Component
-    implementation project(':component:common')
-    implementation project(':component:scanner')
-    implementation project(':component:viewer')
+//    // Component
+//    implementation project(':component:common')
+//    implementation project(':component:scanner')
+//    implementation project(':component:viewer')
 
-    // Data
-    implementation project(':data:repository')
-
-    // Source
-    implementation project(':data:source:database')
-    implementation project(':data:source:preference')
-    
+//    // Data
+//    implementation project(':data:repository')
+//
+//    // Source
+//    implementation project(':data:source:database')
+//    implementation project(':data:source:preference')
+//
     // Hilt (DI)
     implementation libs.com.google.dagger.hilt.android
     annotationProcessor libs.com.google.dagger.hilt.compiler
