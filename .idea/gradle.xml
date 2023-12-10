@@ -4,8 +4,6 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
-        <option name="testRunner" value="GRADLE" />
-        <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="gradleJvm" value="jbr-17" />
         <option name="modules">
@@ -17,10 +15,6 @@
             <option value="$PROJECT_DIR$/component/scanner" />
             <option value="$PROJECT_DIR$/component/viewer" />
             <option value="$PROJECT_DIR$/data" />
-            <option value="$PROJECT_DIR$/data/repository" />
-            <option value="$PROJECT_DIR$/data/source" />
-            <option value="$PROJECT_DIR$/data/source/database" />
-            <option value="$PROJECT_DIR$/data/source/preference" />
             <option value="$PROJECT_DIR$/feature" />
             <option value="$PROJECT_DIR$/feature/common" />
             <option value="$PROJECT_DIR$/feature/debug" />
