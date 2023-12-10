@@ -32,4 +32,8 @@ dependencies {
     testImplementation libs.junit
     androidTestImplementation libs.androidx.test.ext.junit
     androidTestImplementation libs.androidx.test.espresso.core
+
+    // Hilt (DI)
+    implementation libs.com.google.dagger.hilt.android
+    annotationProcessor libs.com.google.dagger.hilt.compiler
 }
