@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,12 +61,14 @@ public class DebugSharedPrefEditorFragment extends Fragment {
         view.findViewById(R.id.loadButton).setOnClickListener(v -> {
             String key = loadKeyEditText.getText().toString();
             String value = prefCommon.getStringValue(key);
+            Log.d("loadButton", "key:" + key + " value:" + value);
             view.findViewById(R.id.loadValueTextView).setContentDescription(value);
         });
 
         view.findViewById(R.id.saveButton).setOnClickListener(v -> {
             String KeyValue = saveKeyEditText.getText().toString();
             String[] split = KeyValue.split(":", 2);
+            Log.d("saveButton", "split[0]:" + split[0] + " split[1]:" + split[1]);
             prefCommon.setStringValue(split[0], split[1]);
         });
 
