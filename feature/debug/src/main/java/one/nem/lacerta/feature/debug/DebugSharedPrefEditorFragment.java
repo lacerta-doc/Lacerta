@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -86,12 +87,16 @@ public class DebugSharedPrefEditorFragment extends Fragment {
         });
 
         // ラジオボタンの変更を監視
-        view.findViewById(R.id.radioButtonCommon).setOnClickListener(v -> {
-            sharedPrefType = SharedPrefType.COMMON;
-            updateList(prefItemTextView);
-        });
-        view.findViewById(R.id.radioButtonUserData).setOnClickListener(v -> {
-            sharedPrefType = SharedPrefType.USERDATA;
+        ((RadioGroup) view.findViewById(R.id.radioGroupPrefType)).setOnCheckedChangeListener((group, checkedId) -> {
+            if (checkedId == R.id.radioButtonCommon) {
+                sharedPrefType = SharedPrefType.COMMON;
+                view.findViewById(R.id.radioButtonUserData).setSelected(false);
+            } else if (checkedId == R.id.radioButtonUserData) {
+                sharedPrefType = SharedPrefType.USERDATA;
+                view.findViewById(R.id.radioButtonCommon).setSelected(false);
+            } else {
+                Log.e("DebugSharedPrefEditorFragment", "radioButtonのIDが不正です");
+            }
             updateList(prefItemTextView);
         });
 
