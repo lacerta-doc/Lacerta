@@ -17,4 +17,8 @@ public class DocumentsImpl implements Documents {
     public ArrayList<DocumentMeta> getRecentDocuments(int limit) {
         return null; // TODO-rca:
     }
+
+    public ArrayList<DocumentMeta> getStarredDocuments(int limit) {
+        return null; // TODO-rca:
+    }
 }
