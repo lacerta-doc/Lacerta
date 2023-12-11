@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import one.nem.lacerta.source.pref.repository.Common; //TODO-rca: 名前変えるべきかも
 
@@ -62,7 +63,8 @@ public class DebugSharedPrefEditorFragment extends Fragment {
             String key = loadKeyEditText.getText().toString();
             String value = prefCommon.getStringValue(key);
             Log.d("loadButton", "key:" + key + " value:" + value);
-            view.findViewById(R.id.loadValueTextView).setContentDescription(value);
+            TextView loadValueTextView = view.findViewById(R.id.loadValueTextView);
+            loadValueTextView.setText(value);
         });
 
         view.findViewById(R.id.saveButton).setOnClickListener(v -> {
