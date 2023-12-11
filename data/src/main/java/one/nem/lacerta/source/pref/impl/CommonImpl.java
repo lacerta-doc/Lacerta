@@ -16,12 +16,14 @@ import dagger.hilt.android.qualifiers.ApplicationContext;
 
 import one.nem.lacerta.source.pref.repository.Common;
 
-@AndroidEntryPoint
 public class CommonImpl implements Common {
 
-    @ApplicationContext
-    @Inject
     Context applicationContext;
+
+    @Inject
+    public CommonImpl(@ApplicationContext Context applicationContext) {
+        this.applicationContext = applicationContext;
+    }
 
     public String getStringValue(String key) {
         SharedPreferences pref = applicationContext.getSharedPreferences("common", Context.MODE_PRIVATE);
