@@ -12,6 +12,10 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
+import java.util.Map;
+
 import one.nem.lacerta.data.model.shared_pref.enums.SharedPrefType;
 import one.nem.lacerta.source.pref.repository.Common; //TODO-rca: 名前変えるべきかも
 
@@ -68,6 +72,8 @@ public class DebugSharedPrefEditorFragment extends Fragment {
         EditText loadKeyEditText = view.findViewById(R.id.loadKeyEditText);
         EditText saveKeyEditText = view.findViewById(R.id.saveKeyEditText);
 
+        TextView loadValueTextView = view.findViewById(R.id.loadValueTextView);
+
         view.findViewById(R.id.loadButton).setOnClickListener(v -> {
             String value = sharedPref.getSharedPreferencesByTag(sharedPrefType).getString(loadKeyEditText.getText().toString(), "null");
             ((TextView) view.findViewById(R.id.loadValueTextView)).setText(value);
@@ -76,19 +82,27 @@ public class DebugSharedPrefEditorFragment extends Fragment {
         view.findViewById(R.id.saveButton).setOnClickListener(v -> {
             String[] split = saveKeyEditText.getText().toString().split(":");
             sharedPref.getSharedPreferencesByTag(sharedPrefType).edit().putString(split[0], split[1]).apply();
+            updateList(loadValueTextView);
         });
 
         // ラジオボタンの変更を監視
         view.findViewById(R.id.radioButtonCommon).setOnClickListener(v -> {
             sharedPrefType = SharedPrefType.COMMON;
+            updateList(loadValueTextView);
         });
         view.findViewById(R.id.radioButtonUserData).setOnClickListener(v -> {
             sharedPrefType = SharedPrefType.USERDATA;
+            updateList(loadValueTextView);
         });
 
     }
 
-    public void updateRecyclerView(RecyclerView recyclerView) {
-        
+    public void updateList(TextView textView) {
+        // リストの更新
+        Map<String, ?> resultMap = sharedPref.getSharedPreferencesByTag(sharedPrefType).getAll();
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<String, ?> entry : resultMap.entrySet()) {
+            sb.append(entry.getKey()).append(":").append(entry.getValue().toString()).append("\n");
+        }
     }
 }
