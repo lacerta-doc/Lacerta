@@ -104,5 +104,7 @@ public class DebugSharedPrefEditorFragment extends Fragment {
         for (Map.Entry<String, ?> entry : resultMap.entrySet()) {
             sb.append(entry.getKey()).append(":").append(entry.getValue().toString()).append("\n");
         }
+
+        textView.setText(sb.toString());
     }
 }
