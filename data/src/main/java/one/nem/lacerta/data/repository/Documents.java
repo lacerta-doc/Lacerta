@@ -10,5 +10,6 @@ public interface Documents {
 
     ArrayList<DocumentMeta> getRecentDocuments(int limit);
 
+    ArrayList<DocumentMeta> getStarredDocuments(int limit);
 
 }
