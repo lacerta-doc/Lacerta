@@ -25,11 +25,11 @@
                 android:text="Common" />
 
             <RadioButton
-                android:id="@+id/radioButtonUser"
+                android:id="@+id/radioButtonUserData"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="User" />
+                android:text="UserData" />
 
             <RadioButton
                 android:id="@+id/radioButtonUndefined"
