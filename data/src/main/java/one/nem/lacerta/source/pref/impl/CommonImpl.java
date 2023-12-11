@@ -14,8 +14,10 @@ import javax.inject.Inject;
 import dagger.hilt.android.AndroidEntryPoint;
 import dagger.hilt.android.qualifiers.ApplicationContext;
 
+import one.nem.lacerta.source.pref.repository.Common;
+
 @AndroidEntryPoint
-public class CommonImpl {
+public class CommonImpl implements Common {
 
     @ApplicationContext
     @Inject

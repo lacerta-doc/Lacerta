@@ -3,6 +3,7 @@ package one.nem.lacerta.feature.debug;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import android.view.LayoutInflater;
@@ -88,6 +89,7 @@ public class DebugMenuFragment extends Fragment {
 
         view.findViewById(R.id.btn_debug_menu_shared_pref_editor).setOnClickListener( v -> {
             // Fragment移動
+            Navigation.findNavController(view).navigate(R.id.action_debugMenuFragment_to_debugSharedPrefEditorFragment);
         });
 
         view.findViewById(R.id.btn_debug_menu_clear_pref).setOnClickListener( v -> {
