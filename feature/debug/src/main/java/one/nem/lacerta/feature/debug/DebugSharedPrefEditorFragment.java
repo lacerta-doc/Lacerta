@@ -40,7 +40,7 @@ public class DebugSharedPrefEditorFragment extends Fragment {
     @Inject
     SharedPref sharedPref;
 
-    SharedPrefType sharedPrefType = SharedPrefType.COMMON;
+    SharedPrefType sharedPrefType = null;
 
     public DebugSharedPrefEditorFragment() {
         // Required empty public constructor
@@ -90,8 +90,10 @@ public class DebugSharedPrefEditorFragment extends Fragment {
         ((RadioGroup) view.findViewById(R.id.radioGroupPrefType)).setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId == R.id.radioButtonCommon) {
                 sharedPrefType = SharedPrefType.COMMON;
+                updateList(prefItemTextView);
             } else if (checkedId == R.id.radioButtonUserData) {
                 sharedPrefType = SharedPrefType.USERDATA;
+                updateList(prefItemTextView);
             } else {
                 Log.e("DebugSharedPrefEditorFragment", "radioButtonのIDが不正です");
             }
