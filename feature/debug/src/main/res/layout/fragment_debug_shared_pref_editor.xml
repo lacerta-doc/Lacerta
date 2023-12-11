@@ -10,34 +10,29 @@
     <RadioGroup
         android:id="@+id/radioGroupPrefType"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+        <RadioButton
+            android:id="@+id/radioButtonCommon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Common" />
 
-            <RadioButton
-                android:id="@+id/radioButtonCommon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Common" />
+        <RadioButton
+            android:id="@+id/radioButtonUserData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="UserData" />
 
-            <RadioButton
-                android:id="@+id/radioButtonUserData"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="UserData" />
-
-            <RadioButton
-                android:id="@+id/radioButtonUndefined"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Undefined" />
-        </LinearLayout>
+        <RadioButton
+            android:id="@+id/radioButtonUndefined"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Undefined" />
 
     </RadioGroup>
 
