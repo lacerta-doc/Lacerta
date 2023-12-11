@@ -12,10 +12,19 @@
         <action
             android:id="@+id/action_debugMenuFragment_to_debugSharedPrefEditorFragment"
             app:destination="@id/debugSharedPrefEditorFragment" />
+        <action
+            android:id="@+id/action_debugMenuFragment_to_debugPlayGroundFragment"
+            app:destination="@id/debugPlayGroundFragment" />
     </fragment>
     <fragment
         android:id="@+id/debugSharedPrefEditorFragment"
         android:name="one.nem.lacerta.feature.debug.DebugSharedPrefEditorFragment"
         android:label="fragment_debug_shared_pref_editor"
         tools:layout="@layout/fragment_debug_shared_pref_editor" />
+
+    <fragment
+        android:id="@+id/debugPlayGroundFragment"
+        android:name="one.nem.lacerta.feature.debug.DebugPlayGroundFragment"
+        android:label="fragment_debug_play_ground"
+        tools:layout="@layout/fragment_debug_play_ground" />
 </navigation>
