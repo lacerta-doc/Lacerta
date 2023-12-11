@@ -1,19 +1,23 @@
 package one.nem.lacerta.data.model.documents;
 
+import java.util.Date;
+
 import one.nem.lacerta.data.model.documents.enums.DocumentType;
+
+// TODO-rca: Dateをデバイスのロケールに合わせてStringに変換するメソッドを実装する?
 public class DocumentMeta {
     // ドキュメントのメタ情報
     public String id; // ドキュメントの内部ID(UUIDv4?)
     public String name; // ドキュメントの名前
-    public String description; // ドキュメントの説明
     public DocumentType type; // ドキュメントの種類
+    public Date created; // ドキュメントの作成日時
     public String[] tags; // ドキュメントのタグ
     public String[] categories; // ドキュメントのカテゴリ
 
-    public DocumentMeta(String id, String name, String description, DocumentType type, String[] tags, String[] categories) {
+    public DocumentMeta(String id, String name, Date created, DocumentType type, String[] tags, String[] categories) {
         this.id = id;
         this.name = name;
-        this.description = description;
+        this.created = created;
         this.type = type;
         this.tags = tags;
         this.categories = categories;
@@ -22,7 +26,7 @@ public class DocumentMeta {
     public DocumentMeta() {
         this.id = "";
         this.name = "";
-        this.description = "";
+        this.created = new Date();
         this.type = DocumentType.OTHER;
         this.tags = new String[0];
         this.categories = new String[0];
@@ -39,8 +43,8 @@ public class DocumentMeta {
         return name;
     }
 
-    public String getDescription() {
-        return description;
+    public Date getCreated() {
+        return created;
     }
 
     public DocumentType getType() {
@@ -69,11 +73,11 @@ public class DocumentMeta {
         }
     }
 
-    public void setDescription(String description) {
-        if (description == null) {
-            this.description = "";
+    public void setCreated(Date created) {
+        if (created == null) {
+            this.created = new Date();
         } else {
-            this.description = description;
+            this.created = created;
         }
     }
 
