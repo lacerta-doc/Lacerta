@@ -73,5 +73,9 @@ public class DebugMenuFragment extends Fragment {
         view.findViewById(R.id.btn_debug_menu_clear_pref).setOnClickListener( v -> {
             // SharedPrefClear
         });
+
+        view.findViewById(R.id.btn_debug_menu_call_play_ground).setOnClickListener( v -> {
+            Navigation.findNavController(view).navigate(R.id.action_debugMenuFragment_to_debugPlayGroundFragment);
+        });
     }
 }

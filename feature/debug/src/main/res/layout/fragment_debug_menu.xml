@@ -50,9 +50,9 @@
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Call Debug Events"
-                android:textSize="24sp"
-                android:padding="8dp" />
+                android:padding="8dp"
+                android:text="SharedPref"
+                android:textSize="24sp" />
 <!--                android:textColor="@color/material_dynamic_primary10" />-->
 
             <com.google.android.material.button.MaterialButton
@@ -72,6 +72,22 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginTop="8dp" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="SharedPref"
+                android:textSize="24sp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_debug_menu_call_play_ground"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:text="Playground" />
         </LinearLayout>
 
     </ScrollView>
