@@ -72,7 +72,7 @@ public class DebugSharedPrefEditorFragment extends Fragment {
         EditText loadKeyEditText = view.findViewById(R.id.loadKeyEditText);
         EditText saveKeyEditText = view.findViewById(R.id.saveKeyEditText);
 
-        TextView loadValueTextView = view.findViewById(R.id.loadValueTextView);
+        TextView prefItemTextView = view.findViewById(R.id.prefItemTextView);
 
         view.findViewById(R.id.loadButton).setOnClickListener(v -> {
             String value = sharedPref.getSharedPreferencesByTag(sharedPrefType).getString(loadKeyEditText.getText().toString(), "null");
@@ -82,17 +82,17 @@ public class DebugSharedPrefEditorFragment extends Fragment {
         view.findViewById(R.id.saveButton).setOnClickListener(v -> {
             String[] split = saveKeyEditText.getText().toString().split(":");
             sharedPref.getSharedPreferencesByTag(sharedPrefType).edit().putString(split[0], split[1]).apply();
-            updateList(loadValueTextView);
+            updateList(prefItemTextView);
         });
 
         // ラジオボタンの変更を監視
         view.findViewById(R.id.radioButtonCommon).setOnClickListener(v -> {
             sharedPrefType = SharedPrefType.COMMON;
-            updateList(loadValueTextView);
+            updateList(prefItemTextView);
         });
         view.findViewById(R.id.radioButtonUserData).setOnClickListener(v -> {
             sharedPrefType = SharedPrefType.USERDATA;
-            updateList(loadValueTextView);
+            updateList(prefItemTextView);
         });
 
     }
