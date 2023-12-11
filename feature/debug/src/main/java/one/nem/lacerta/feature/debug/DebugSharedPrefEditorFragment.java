@@ -11,7 +11,10 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import one.nem.lacerta.data.model.shared_pref.enums.SharedPrefType;
 import one.nem.lacerta.source.pref.repository.Common; //TODO-rca: 名前変えるべきかも
+
+import one.nem.lacerta.data.repository.SharedPref;
 
 import javax.inject.Inject;
 
@@ -27,6 +30,11 @@ public class DebugSharedPrefEditorFragment extends Fragment {
 
     @Inject
     Common prefCommon;
+
+    @Inject
+    SharedPref sharedPref;
+
+    SharedPrefType sharedPrefType = SharedPrefType.COMMON;
 
     public DebugSharedPrefEditorFragment() {
         // Required empty public constructor
@@ -60,18 +68,21 @@ public class DebugSharedPrefEditorFragment extends Fragment {
         EditText saveKeyEditText = view.findViewById(R.id.saveKeyEditText);
 
         view.findViewById(R.id.loadButton).setOnClickListener(v -> {
-            String key = loadKeyEditText.getText().toString();
-            String value = prefCommon.getStringValue(key);
-            Log.d("loadButton", "key:" + key + " value:" + value);
-            TextView loadValueTextView = view.findViewById(R.id.loadValueTextView);
-            loadValueTextView.setText(value);
+            String value = sharedPref.getSharedPreferencesByTag(sharedPrefType).getString(loadKeyEditText.getText().toString(), "null");
+            ((TextView) view.findViewById(R.id.loadValueTextView)).setText(value);
         });
 
         view.findViewById(R.id.saveButton).setOnClickListener(v -> {
-            String KeyValue = saveKeyEditText.getText().toString();
-            String[] split = KeyValue.split(":", 2);
-            Log.d("saveButton", "split[0]:" + split[0] + " split[1]:" + split[1]);
-            prefCommon.setStringValue(split[0], split[1]);
+            String[] split = saveKeyEditText.getText().toString().split(":");
+            sharedPref.getSharedPreferencesByTag(sharedPrefType).edit().putString(split[0], split[1]).apply();
+        });
+
+        // ラジオボタンの変更を監視
+        view.findViewById(R.id.radioButtonCommon).setOnClickListener(v -> {
+            sharedPrefType = SharedPrefType.COMMON;
+        });
+        view.findViewById(R.id.radioButtonUserData).setOnClickListener(v -> {
+            sharedPrefType = SharedPrefType.USERDATA;
         });
 
     }
