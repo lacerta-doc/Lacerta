@@ -7,13 +7,26 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link DebugPlayGroundFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import one.nem.lacerta.data.repository.Documents;
+
+import one.nem.lacerta.data.repository.SharedPref;
+
+import one.nem.lacerta.data.model.shared_pref.enums.SharedPrefType;
+
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint // HiltのDIを有効にするアノテーション
 public class DebugPlayGroundFragment extends Fragment {
+
+    @Inject // DI
+    Documents documents;
+
+    @Inject // DI
+    SharedPref sharedPref;
 
     public DebugPlayGroundFragment() {
         // Required empty public constructor
@@ -45,5 +58,8 @@ public class DebugPlayGroundFragment extends Fragment {
         // ここがいままでのonCreateと同等のものです。
         // findViewById(R.id.hoge)とかは view.findViewById(R.id.hoge) と書き換える必要アリ
         // (viewは引数として受け取ってるviewなので、別メソッドに切り出したりするなら渡してあげる）
+
+        // ShardPrefの要素数をトーストする例
+        Toast.makeText(getContext(), "SharedPrefの要素数: " + sharedPref.getSharedPreferencesByTag(SharedPrefType.COMMON).getAll().size(), Toast.LENGTH_SHORT).show();
     }
 }
