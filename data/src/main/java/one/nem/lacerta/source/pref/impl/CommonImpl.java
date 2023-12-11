@@ -11,41 +11,42 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
+import dagger.hilt.android.AndroidEntryPoint;
+import dagger.hilt.android.qualifiers.ApplicationContext;
+
+@AndroidEntryPoint
 public class CommonImpl {
 
-    private final AppCompatActivity activity;
-
+    @ApplicationContext
     @Inject
-    public CommonImpl(AppCompatActivity activity) {
-        this.activity = activity;
-    }
+    Context applicationContext;
 
     public String getStringValue(String key) {
-        SharedPreferences pref = activity.getSharedPreferences("common", Context.MODE_PRIVATE);
+        SharedPreferences pref = applicationContext.getSharedPreferences("common", Context.MODE_PRIVATE);
         return pref.getString(key, "");
     }
 
     public void setStringValue(String key, String value) {
-        SharedPreferences pref = activity.getSharedPreferences("common", Context.MODE_PRIVATE);
+        SharedPreferences pref = applicationContext.getSharedPreferences("common", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
         editor.putString(key, value);
         editor.apply();
     }
 
     public boolean isExist(String key) {
-        SharedPreferences pref = activity.getSharedPreferences("common", Context.MODE_PRIVATE);
+        SharedPreferences pref = applicationContext.getSharedPreferences("common", Context.MODE_PRIVATE);
         return pref.contains(key);
     }
 
     public void remove(String key) {
-        SharedPreferences pref = activity.getSharedPreferences("common", Context.MODE_PRIVATE);
+        SharedPreferences pref = applicationContext.getSharedPreferences("common", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
         editor.remove(key);
         editor.apply();
     }
 
     public ArrayList<String> getExistKeys() {
-        SharedPreferences pref = activity.getSharedPreferences("common", Context.MODE_PRIVATE);
+        SharedPreferences pref = applicationContext.getSharedPreferences("common", Context.MODE_PRIVATE);
         // キーだけをArrayListに切り出す
         return new ArrayList<>(pref.getAll().keySet());
     }
