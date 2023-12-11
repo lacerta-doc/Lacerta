@@ -27,13 +27,6 @@
             android:layout_weight="1"
             android:text="UserData" />
 
-        <RadioButton
-            android:id="@+id/radioButtonUndefined"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Undefined" />
-
     </RadioGroup>
 
     <com.google.android.material.textview.MaterialTextView
