@@ -22,7 +22,6 @@ public class Documents {
 
     private String[] categories;
 
-    private String repositoryId;
 
     // WIP
 }
