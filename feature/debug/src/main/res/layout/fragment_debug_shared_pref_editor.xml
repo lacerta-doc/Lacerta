@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:layout_weight="2"
-            android:hint="Key" />
+            android:hint="Key:Value" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/saveButton"
@@ -43,26 +43,41 @@
         android:text="Load pref" />
 
     <LinearLayout
-        android:id="@+id/LoadLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="3">
+        android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/loadKeyEditText"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:id="@+id/LoadLinearLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:hint="Key" />
+            android:orientation="horizontal"
+            android:weightSum="3">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/loadButton"
-            android:layout_width="0dp"
+            <EditText
+                android:id="@+id/loadKeyEditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:hint="Key" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/loadButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:lauout_weight="1"
+                android:text="Load" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/loadValueTextView"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:lauout_weight="1"
-            android:text="Load" />
+            android:text="No value..."
+            android:textSize="24sp" />
     </LinearLayout>
 
 

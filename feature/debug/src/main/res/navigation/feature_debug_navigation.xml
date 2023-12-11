@@ -8,5 +8,14 @@
         android:id="@+id/debugMenuFragment"
         android:name="one.nem.lacerta.feature.debug.DebugMenuFragment"
         android:label="fragment_debug_menu"
-        tools:layout="@layout/fragment_debug_menu" />
+        tools:layout="@layout/fragment_debug_menu" >
+        <action
+            android:id="@+id/action_debugMenuFragment_to_debugSharedPrefEditorFragment"
+            app:destination="@id/debugSharedPrefEditorFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/debugSharedPrefEditorFragment"
+        android:name="one.nem.lacerta.feature.debug.DebugSharedPrefEditorFragment"
+        android:label="fragment_debug_shared_pref_editor"
+        tools:layout="@layout/fragment_debug_shared_pref_editor" />
 </navigation>

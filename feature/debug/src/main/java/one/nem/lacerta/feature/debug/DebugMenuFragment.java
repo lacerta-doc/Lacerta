@@ -3,6 +3,7 @@ package one.nem.lacerta.feature.debug;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.ui.NavigationUI;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -86,13 +87,11 @@ public class DebugMenuFragment extends Fragment {
         });
 
         view.findViewById(R.id.btn_debug_menu_shared_pref_editor).setOnClickListener( v -> {
-            // SharedPrefEditor機能呼び出し
-            Toast.makeText(getContext(), "textMessage", Toast.LENGTH_SHORT).show();
+            // Fragment移動
         });
 
         view.findViewById(R.id.btn_debug_menu_clear_pref).setOnClickListener( v -> {
             // SharedPrefClear
-            Toast.makeText(getContext(), "textMessage", Toast.LENGTH_SHORT).show();
         });
     }
 }
