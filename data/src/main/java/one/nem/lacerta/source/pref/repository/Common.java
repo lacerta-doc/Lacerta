@@ -1,5 +1,6 @@
 package one.nem.lacerta.source.pref.repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface Common {
@@ -13,5 +14,5 @@ public interface Common {
 
     void remove(String key);
 
-    List<String> getExistKeys();
+    ArrayList<String> getExistKeys();
 }
