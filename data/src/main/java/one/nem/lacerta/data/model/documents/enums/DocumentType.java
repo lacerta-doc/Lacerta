@@ -1,4 +1,4 @@
-package one.nem.lacerta.data.model.documents;
+package one.nem.lacerta.data.model.documents.enums;
 
 public enum DocumentType {
     // ドキュメントの種類
