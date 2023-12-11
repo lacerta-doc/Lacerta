@@ -12,7 +12,7 @@ import one.nem.lacerta.data.model.shared_pref.enums.SharedPrefType;
 
 public class SharedPrefImpl implements SharedPref{
 
-    private Context applicationContext;
+    private final Context applicationContext;
 
     @Inject
     public SharedPrefImpl(@ApplicationContext Context applicationContext) {
