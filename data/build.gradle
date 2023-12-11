@@ -40,4 +40,8 @@ dependencies {
 
     // libsディレクトリにあるライブラリを追加
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // Room
+    implementation libs.androidx.room.runtime
+    annotationProcessor libs.androidx.room.compiler
 }
