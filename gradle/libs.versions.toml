@@ -2,6 +2,7 @@
 nav = "2.7.5"
 agp = "8.0.2"
 activity = "1.8.0"
+room = "2.5.0"
 
 [libraries]
 navigation-fragment = { group="androidx.navigation", name="navigation-fragment", version.ref="nav"}
@@ -19,6 +20,9 @@ androidx-test-espresso-core = { group="androidx.test.espresso", name="espresso-c
 com-google-dagger-hilt-android = { group="com.google.dagger", name="hilt-android", version="2.44" }
 com-google-dagger-hilt-compiler = { group="com.google.dagger", name="hilt-compiler", version="2.44" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
+
+androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 
 [plugins]
 com-android-library = { id = "com.android.library", version.ref = "agp" }
