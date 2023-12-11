@@ -18,4 +18,9 @@
         android:name="one.nem.lacerta.feature.debug.DebugSharedPrefEditorFragment"
         android:label="fragment_debug_shared_pref_editor"
         tools:layout="@layout/fragment_debug_shared_pref_editor" />
+    <fragment
+        android:id="@+id/test"
+        android:name="one.nem.lacerta.feature.debug.Test"
+        android:label="fragment_test"
+        tools:layout="@layout/fragment_test" />
 </navigation>
