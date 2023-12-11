@@ -1,12 +1,16 @@
 package one.nem.lacerta.component.scanner;
 
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
+import androidx.constraintlayout.utils.widget.ImageFilterView;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.websitebeaver.documentscanner.DocumentScanner;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -17,31 +21,20 @@ public class ScannerScanFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+//    private static final String MAX_SCAN_COUNT = "max_scan_count"; // 規定値
 
     // TODO: Rename and change types of parameters
     private String mParam1;
-    private String mParam2;
+
 
     public ScannerScanFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ScannerScanFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ScannerScanFragment newInstance(String param1, String param2) {
+    public static ScannerScanFragment newInstance(String param1) {
         ScannerScanFragment fragment = new ScannerScanFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+//        args.putString(MAX_SCAN_COUNT, param1);
         fragment.setArguments(args);
         return fragment;
     }
@@ -50,15 +43,33 @@ public class ScannerScanFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+//            mParam1 = getArguments().getString(MAX_SCAN_COUNT);
+//            scan(Integer.parseInt(mParam1));
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_scanner_scan, container, false);
+
+    public DocumentScanner getDocumentScanner() {
+        return new DocumentScanner(
+                this,
+                (croppedImageResults) -> {
+                    // display the first cropped image
+                    croppedImageView.setImageBitmap(
+                            BitmapFactory.decodeFile(croppedImageResults.get(0))
+                    );
+                    return null;
+                },
+                (errorMessage) -> {
+                    // an error happened
+                    return null;
+                },
+                () -> {
+                    // user canceled document scan
+                    return null;
+                },
+                null,
+                null,
+                null
+        );
     }
 }
