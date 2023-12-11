@@ -21,6 +21,6 @@ public class SharedPrefImpl implements SharedPref{
 
         @Override
         public SharedPreferences getSharedPreferencesByTag(SharedPrefType sharedPrefType) {
-            return applicationContext.getSharedPreferences(SharedPrefType.COMMON.getTag(), Context.MODE_PRIVATE);
+            return applicationContext.getSharedPreferences(sharedPrefType.getTag(), Context.MODE_PRIVATE);
         }
 }
