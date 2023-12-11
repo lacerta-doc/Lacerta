@@ -1,7 +1,7 @@
 package one.nem.lacerta.data.model.documents;
 
 import one.nem.lacerta.data.model.documents.enums.DocumentType;
-public class Meta {
+public class DocumentMeta {
     // ドキュメントのメタ情報
     public String id; // ドキュメントの内部ID(UUIDv4?)
     public String name; // ドキュメントの名前
@@ -10,7 +10,7 @@ public class Meta {
     public String[] tags; // ドキュメントのタグ
     public String[] categories; // ドキュメントのカテゴリ
 
-    public Meta(String id, String name, String description, DocumentType type, String[] tags, String[] categories) {
+    public DocumentMeta(String id, String name, String description, DocumentType type, String[] tags, String[] categories) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -19,7 +19,7 @@ public class Meta {
         this.categories = categories;
     }
 
-    public Meta() {
+    public DocumentMeta() {
         this.id = "";
         this.name = "";
         this.description = "";
