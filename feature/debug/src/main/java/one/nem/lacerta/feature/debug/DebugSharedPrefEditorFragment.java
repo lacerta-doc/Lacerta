@@ -3,6 +3,7 @@ package one.nem.lacerta.feature.debug;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -85,5 +86,9 @@ public class DebugSharedPrefEditorFragment extends Fragment {
             sharedPrefType = SharedPrefType.USERDATA;
         });
 
+    }
+
+    public void updateRecyclerView(RecyclerView recyclerView) {
+        
     }
 }
