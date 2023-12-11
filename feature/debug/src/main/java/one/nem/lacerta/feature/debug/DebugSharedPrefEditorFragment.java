@@ -90,10 +90,8 @@ public class DebugSharedPrefEditorFragment extends Fragment {
         ((RadioGroup) view.findViewById(R.id.radioGroupPrefType)).setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId == R.id.radioButtonCommon) {
                 sharedPrefType = SharedPrefType.COMMON;
-                view.findViewById(R.id.radioButtonUserData).setSelected(false);
             } else if (checkedId == R.id.radioButtonUserData) {
                 sharedPrefType = SharedPrefType.USERDATA;
-                view.findViewById(R.id.radioButtonCommon).setSelected(false);
             } else {
                 Log.e("DebugSharedPrefEditorFragment", "radioButtonのIDが不正です");
             }
