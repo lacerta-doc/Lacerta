@@ -81,5 +81,7 @@ public class DebugMenuFragment extends Fragment {
         view.findViewById(R.id.btn_debug_menu_get_external_path).setOnClickListener( v -> {
             Toast.makeText(getContext(), getContext().getExternalFilesDir(null).toPath().toString(), Toast.LENGTH_SHORT).show();
         });
+
+
     }
 }
