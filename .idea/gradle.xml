@@ -22,6 +22,7 @@
             <option value="$PROJECT_DIR$/feature/library" />
             <option value="$PROJECT_DIR$/feature/scan" />
             <option value="$PROJECT_DIR$/feature/search" />
+            <option value="$PROJECT_DIR$/utils" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />
