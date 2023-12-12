@@ -12,6 +12,6 @@ import one.nem.lacerta.utils.impl.FileUtilsImpl;
 abstract public class FileUtilsModule {
 
     @Binds
-
+    public abstract FileUtils bindFileUtils(FileUtilsImpl fileUtilsImpl);
 
 }
