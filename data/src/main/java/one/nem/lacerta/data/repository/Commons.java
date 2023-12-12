@@ -4,6 +4,8 @@ import java.nio.file.Path;
 
 public interface Commons {
 
-    Path getExternalFilesDir(String type);
+    Path getExternalFilesDirPath(String type);
+
+    Path getExternalFilesDirPath();
 
 }
