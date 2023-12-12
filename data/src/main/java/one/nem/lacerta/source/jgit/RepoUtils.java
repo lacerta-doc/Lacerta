@@ -13,6 +13,10 @@ import one.nem.lacerta.utils.repository.FileUtils;
 public class RepoUtils {
     // Internal Utils
 
+    @Inject // TODO-rca: 実装を切り離す?
+    RepoUtils() {
+    }
+
     @Inject
     FileUtils fileUtils;
 
