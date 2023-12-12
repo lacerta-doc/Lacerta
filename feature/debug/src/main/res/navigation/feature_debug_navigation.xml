@@ -15,6 +15,9 @@
         <action
             android:id="@+id/action_debugMenuFragment_to_debugPlayGroundFragment"
             app:destination="@id/debugPlayGroundFragment" />
+        <action
+            android:id="@+id/action_debugMenuFragment_to_debugRepositoryDebuggerFragment"
+            app:destination="@id/debugRepositoryDebuggerFragment" />
     </fragment>
     <fragment
         android:id="@+id/debugSharedPrefEditorFragment"
@@ -27,4 +30,10 @@
         android:name="one.nem.lacerta.feature.debug.DebugPlayGroundFragment"
         android:label="fragment_debug_play_ground"
         tools:layout="@layout/fragment_debug_play_ground" />
+
+    <fragment
+        android:id="@+id/debugRepositoryDebuggerFragment"
+        android:name="one.nem.lacerta.feature.debug.DebugRepositoryDebuggerFragment"
+        android:label="fragment_debug_repository_debugger"
+        tools:layout="@layout/fragment_debug_repository_debugger" />
 </navigation>
