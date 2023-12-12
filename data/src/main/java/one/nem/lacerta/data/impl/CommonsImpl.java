@@ -10,19 +10,23 @@ import javax.inject.Inject;
 import dagger.hilt.android.qualifiers.ApplicationContext;
 import one.nem.lacerta.data.repository.Commons;
 
-import one.nem.lacerta.data.utils.UtilsRepo; // Internal Utils Repo
+import one.nem.lacerta.utils.repository.FileUtils;
 
 public class CommonsImpl implements Commons{
 
     @Inject
-    UtilsRepo utilsRepo;
+    public CommonsImpl() {
+    }
+
+    @Inject
+    FileUtils fileUtils;
 
     public Path getExternalFilesDirPath(String type) {
-        return utilsRepo.getExternalFilesDirPath(type);
+        return fileUtils.getExternalFilesDirPath(type);
     }
 
     public Path getExternalFilesDirPath() {
-        return utilsRepo.getExternalFilesDirPath();
+        return fileUtils.getExternalFilesDirPath();
     }
 
 }
