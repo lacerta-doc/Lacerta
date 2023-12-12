@@ -38,8 +38,8 @@ dependencies {
     implementation libs.com.google.dagger.hilt.android
     annotationProcessor libs.com.google.dagger.hilt.compiler
 
-    // libsディレクトリにあるライブラリを追加
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    // JGit
+    implementation 'org.eclipse.jgit:org.eclipse.jgit:6.8.0.202311291450-r'
 
     // Room
     implementation libs.androidx.room.runtime
