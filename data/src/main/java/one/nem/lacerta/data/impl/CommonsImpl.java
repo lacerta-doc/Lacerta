@@ -12,7 +12,7 @@ import one.nem.lacerta.data.repository.Commons;
 
 public class CommonsImpl implements Commons{
 
-    private Context applicationContext;
+    private final Context applicationContext;
 
     @Inject
     public CommonsImpl(@ApplicationContext Context applicationContext) {
