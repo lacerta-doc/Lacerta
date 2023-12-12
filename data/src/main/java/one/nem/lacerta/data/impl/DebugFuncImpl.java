@@ -1,4 +1,27 @@
 package one.nem.lacerta.data.impl;
 
-public class DebugFuncImpl {
+import org.eclipse.jgit.lib.Repository;
+
+import javax.inject.Inject;
+
+import one.nem.lacerta.data.repository.DebugFunc;
+import one.nem.lacerta.source.jgit.RepoUtils;
+import one.nem.lacerta.utils.repository.FileUtils;
+
+public class DebugFuncImpl implements DebugFunc {
+
+    @Inject
+    public DebugFuncImpl() {
+    }
+
+    @Inject
+    RepoUtils repoUtils;
+
+    public Repository getOrCreateRepositoryById(String id) {
+        Repository repo = repoUtils.getRepo(id); // TODO-rca: リポジトリの存在確認をもうすこしなんとかする
+        if (repo == null) {
+            repo = repoUtils.createRepo(id);
+        }
+        return repo;
+    }
 }

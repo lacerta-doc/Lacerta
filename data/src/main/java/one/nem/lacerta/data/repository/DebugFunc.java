@@ -1,4 +1,9 @@
 package one.nem.lacerta.data.repository;
 
-public class DebugFunc {
+import org.eclipse.jgit.lib.Repository;
+
+public interface DebugFunc {
+
+    Repository getOrCreateRepositoryById(String id);
+
 }
