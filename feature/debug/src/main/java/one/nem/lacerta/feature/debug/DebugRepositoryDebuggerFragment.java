@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.eclipse.jgit.lib.Repository;
 import org.intellij.lang.annotations.JdkConstants;
 
 import java.util.UUID;
@@ -70,6 +71,6 @@ public class DebugRepositoryDebuggerFragment extends Fragment {
             String repoId = editTextRepoId.getText().toString();
             Repository repo = debugFunc.getOrCreateRepositoryById(repoId);
             Toast.makeText(getContext(), "Get or create repository: " + repoId, Toast.LENGTH_SHORT).show();
-        }
+        });
     }
 }
