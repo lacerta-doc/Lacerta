@@ -4,13 +4,14 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
-import androidx.navigation.ui.NavigationUI;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Toast;
+
+import java.io.File;
+import java.io.IOException;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import javax.inject.Inject;
@@ -82,7 +83,18 @@ public class DebugMenuFragment extends Fragment {
             Toast.makeText(getContext(), getContext().getExternalFilesDir(null).toPath().toString(), Toast.LENGTH_SHORT).show();
         });
 
-        view.findViewById(R.id.btn_debug_menu_go_to_repository_debugger).setOnClickListener( v -> {
+        view.findViewById(R.id.btn_debug_menu_file_write_test).setOnClickListener( v -> {
+            File file = getContext().getExternalFilesDir(null);
+            // ファイル書き込みテスト
+            try {
+                File testFile = new File(file, "test.txt");
+                testFile.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        view.findViewById(R.id.btn_debug_menu_go_to_repository_debug).setOnClickListener(v -> {
             Navigation.findNavController(view).navigate(R.id.action_debugMenuFragment_to_debugRepositoryDebuggerFragment);
         });
 
