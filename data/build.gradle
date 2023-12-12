@@ -44,4 +44,7 @@ dependencies {
     // Room
     implementation libs.androidx.room.runtime
     annotationProcessor libs.androidx.room.compiler
+
+    // モジュール
+    implementation project(':utils')
 }
