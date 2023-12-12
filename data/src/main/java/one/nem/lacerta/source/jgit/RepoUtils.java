@@ -4,6 +4,7 @@ import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 
+import java.io.File;
 import java.nio.file.Path;
 
 import javax.inject.Inject;
@@ -25,8 +26,9 @@ public class RepoUtils {
         Path rootPath = fileUtils.getExternalFilesDirPath();
 
         try {
-            Repository repo = new FileRepository(rootPath.resolve(id).resolve(".git").toFile());
-            repo.create();
+            Repository repo = FileRepositoryBuilder.create(
+                    new File(rootPath.resolve(id).resolve(".git").toString())
+            );
             return repo;
         } catch (Exception e) {
             // TODO-rca: handle exception
