@@ -45,6 +45,9 @@ dependencies {
     implementation libs.com.google.dagger.hilt.android
     annotationProcessor libs.com.google.dagger.hilt.compiler
 
+    // libsディレクトリにあるライブラリを追加
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
     // 内部モジュール
     // data
     implementation project(':data')
