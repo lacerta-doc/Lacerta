@@ -1,4 +1,4 @@
-package oen.nem.lacerta.utils.impl;
+package one.nem.lacerta.utils.impl;
 
 import android.content.Context;
 
@@ -9,7 +9,7 @@ import javax.inject.Inject;
 
 import dagger.hilt.android.qualifiers.ApplicationContext;
 
-import oen.nem.lacerta.utils.repository.FileUtils;
+import one.nem.lacerta.utils.repository.FileUtils;
 
 public class FileUtilsImpl implements FileUtils {
 

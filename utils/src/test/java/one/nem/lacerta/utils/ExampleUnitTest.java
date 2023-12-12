@@ -1,4 +1,4 @@
-package oen.nem.lacerta.utils;
+package one.nem.lacerta.utils;
 
 import org.junit.Test;
 

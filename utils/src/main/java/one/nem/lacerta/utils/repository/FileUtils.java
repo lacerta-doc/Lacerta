@@ -1,4 +1,4 @@
-package oen.nem.lacerta.utils.repository;
+package one.nem.lacerta.utils.repository;
 
 import java.nio.file.Path;
 
