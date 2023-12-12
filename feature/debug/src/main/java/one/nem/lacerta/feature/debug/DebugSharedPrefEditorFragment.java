@@ -18,7 +18,6 @@ import org.w3c.dom.Text;
 import java.util.Map;
 
 import one.nem.lacerta.data.model.shared_pref.enums.SharedPrefType;
-import one.nem.lacerta.source.pref.repository.Common; //TODO-rca: 名前変えるべきかも
 
 import one.nem.lacerta.data.repository.SharedPref;
 
@@ -33,9 +32,6 @@ import dagger.hilt.android.AndroidEntryPoint;
  */
 @AndroidEntryPoint
 public class DebugSharedPrefEditorFragment extends Fragment {
-
-    @Inject
-    Common prefCommon;
 
     @Inject
     SharedPref sharedPref;
