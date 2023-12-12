@@ -8,14 +8,15 @@ import java.util.Objects;
 import javax.inject.Inject;
 
 import dagger.hilt.android.qualifiers.ApplicationContext;
-import one.nem.lacerta.data.utils.UtilsRepo;
 
-public class UtilsImpl implements UtilsRepo{
+import oen.nem.lacerta.utils.repository.FileUtils;
+
+public class FileUtilsImpl implements FileUtils {
 
     private final Context applicationContext;
 
     @Inject
-    public UtilsImpl(@ApplicationContext Context applicationContext) {
+    public FileUtilsImpl(@ApplicationContext Context applicationContext) {
         this.applicationContext = applicationContext;
     }
 

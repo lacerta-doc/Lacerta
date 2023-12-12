@@ -9,7 +9,7 @@ import one.nem.lacerta.data.utils.UtilsRepo;
 
 @Module
 @InstallIn(SingletonComponent.class)
-abstract public class UtilsModule {
+abstract public class FileUtilsModule {
 
     @Binds
     public abstract UtilsRepo bindUtils(UtilsImpl utilsImpl);
