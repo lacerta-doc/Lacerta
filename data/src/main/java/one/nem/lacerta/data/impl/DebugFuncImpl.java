@@ -18,10 +18,11 @@ public class DebugFuncImpl implements DebugFunc {
     RepoUtils repoUtils;
 
     public Repository getOrCreateRepositoryById(String id) {
-        Repository repo = repoUtils.getRepo(id); // TODO-rca: リポジトリの存在確認をもうすこしなんとかする
-        if (repo == null) {
-            repo = repoUtils.createRepo(id);
-        }
+//        Repository repo = repoUtils.getRepo(id); // TODO-rca: リポジトリの存在確認をもうすこしなんとかする
+//        if (repo == null) {
+//            repo = repoUtils.createRepo(id);
+//        }
+        Repository repo = repoUtils.createRepo(id); // debug
         return repo;
     }
 }

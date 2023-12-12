@@ -26,9 +26,8 @@ public class RepoUtils {
         Path rootPath = fileUtils.getExternalFilesDirPath();
 
         try {
-            Repository repo = FileRepositoryBuilder.create(
-                    new File(rootPath.resolve(id).resolve(".git").toString())
-            );
+            Repository repo = new FileRepositoryBuilder().setGitDir(rootPath.resolve(id).resolve(".git").toFile()).build();
+            repo.create();
             return repo;
         } catch (Exception e) {
             // TODO-rca: handle exception
