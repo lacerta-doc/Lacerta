@@ -22,6 +22,5 @@ public class Documents {
 
     private String[] categories;
 
-
     // WIP
 }
