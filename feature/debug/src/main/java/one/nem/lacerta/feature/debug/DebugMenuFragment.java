@@ -82,6 +82,9 @@ public class DebugMenuFragment extends Fragment {
             Toast.makeText(getContext(), getContext().getExternalFilesDir(null).toPath().toString(), Toast.LENGTH_SHORT).show();
         });
 
+        view.findViewById(R.id.btn_debug_menu_go_to_repository_debugger).setOnClickListener( v -> {
+            Navigation.findNavController(view).navigate(R.id.action_debugMenuFragment_to_debugRepositoryDebuggerFragment);
+        });
 
     }
 }
