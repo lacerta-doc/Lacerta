@@ -32,7 +32,7 @@ public class DeviceInfoUtilsImpl implements DeviceInfoUtils {
 
     @Override
     public boolean hasPermission(String permission) {
-        return null
+        return false;
     }
 
     @Override
