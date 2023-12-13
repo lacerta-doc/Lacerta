@@ -54,7 +54,6 @@ public interface TagDao {
     @Delete
     void deleteAll(List<Tag> tags);
 
-    @Delete
+    @Query("DELETE FROM tag WHERE id = :id")
     void deleteById(String id);
-
 }
