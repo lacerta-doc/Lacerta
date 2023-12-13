@@ -1,5 +1,6 @@
 package one.nem.lacerta.source.database.entity;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -10,6 +11,7 @@ import java.util.Date;
 public class Document {
     @PrimaryKey
     @ColumnInfo(name = "id")
+    @NonNull
     public String id; // ドキュメントID
 
     @ColumnInfo(name = "title")
