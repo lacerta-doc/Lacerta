@@ -56,7 +56,6 @@ public interface DocumentDao {
     @Delete
     void deleteAll(List<Document> documents);
 
-    @Delete
+    @Query("DELETE FROM document WHERE id = :id")
     void deleteById(String id);
-
 }
