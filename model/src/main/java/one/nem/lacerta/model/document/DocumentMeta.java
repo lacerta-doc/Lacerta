@@ -1,5 +1,7 @@
 package one.nem.lacerta.model.document;
 
+import java.util.ArrayList;
+import one.nem.lacerta.model.document.tag.DocumentTag;
 import java.util.Date;
 
 public class DocumentMeta {
@@ -7,8 +9,8 @@ public class DocumentMeta {
         String id;
         String title;
         Date updatedAt;
-        String author;
-        String defaultBranch;
+        Date createdAt;
+        ArrayList<DocumentTag> tags;
 
         // TODO-rca: Getter, Setter
 }
