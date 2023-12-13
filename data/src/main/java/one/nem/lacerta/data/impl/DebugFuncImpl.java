@@ -6,7 +6,6 @@ import javax.inject.Inject;
 
 import one.nem.lacerta.data.repository.DebugFunc;
 import one.nem.lacerta.source.jgit.RepoUtils;
-import one.nem.lacerta.utils.repository.FileUtils;
 
 public class DebugFuncImpl implements DebugFunc {
 
