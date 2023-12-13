@@ -13,7 +13,7 @@ public class Documents {
     @PrimaryKey
     private String id;
 
-    @ColumnInfo(name = "name")
+    @ColumnInfo(name = "title")
     private String title; // Titleに変更する?
 
     @ColumnInfo(name = "type")
