@@ -15,6 +15,8 @@ import one.nem.lacerta.data.repository.SharedPref;
 
 import one.nem.lacerta.data.model.shared_pref.enums.SharedPrefType;
 
+import one.nem.lacerta.source.db.LacertaDatabase;
+
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -27,6 +29,9 @@ public class DebugPlayGroundFragment extends Fragment {
 
     @Inject // DI
     SharedPref sharedPref;
+
+    @Inject
+    LacertaDatabase lacertaDatabase; // TODO-rca: Repositoryを噛ませる
 
     public DebugPlayGroundFragment() {
         // Required empty public constructor
@@ -60,6 +65,6 @@ public class DebugPlayGroundFragment extends Fragment {
         // (viewは引数として受け取ってるviewなので、別メソッドに切り出したりするなら渡してあげる）
 
         // ShardPrefの要素数をトーストする例
-        Toast.makeText(getContext(), "SharedPrefの要素数: " + sharedPref.getSharedPreferencesByTag(SharedPrefType.COMMON).getAll().size(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "DBの要素数" + lacertaDatabase.repositoriesDao(), Toast.LENGTH_SHORT).show();
     }
 }
