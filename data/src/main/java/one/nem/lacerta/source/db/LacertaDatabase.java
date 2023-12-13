@@ -4,6 +4,7 @@ import androidx.room.Database;
 import androidx.room.RoomDatabase;
 
 import one.nem.lacerta.source.db.dao.DocumentsDao;
+import one.nem.lacerta.source.db.dao.RepositoriesDao;
 import one.nem.lacerta.source.db.entity.Documents;
 import one.nem.lacerta.source.db.entity.Repositories;
 
