@@ -14,5 +14,48 @@ public class DocumentDetail {
     String defaultBranch;
     Path fullPath;
 
+    // Getter
+
+    public DocumentMeta getMeta() {
+        return meta;
+    }
+
+    public DocumentPath getPath() {
+        return path;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public String getDefaultBranch() {
+        return defaultBranch;
+    }
+
+    public Path getFullPath() {
+        return fullPath;
+    }
+
+    // Setter
+
+    public void setMeta(DocumentMeta meta) {
+        this.meta = meta;
+    }
+
+    public void setPath(DocumentPath path) {
+        this.path = path;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public void setDefaultBranch(String defaultBranch) {
+        this.defaultBranch = defaultBranch;
+    }
+
+    public void setFullPath(Path fullPath) {
+        this.fullPath = fullPath;
+    }
 
 }
