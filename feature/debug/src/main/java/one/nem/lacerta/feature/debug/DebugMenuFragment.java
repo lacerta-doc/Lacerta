@@ -16,8 +16,6 @@ import java.io.IOException;
 import dagger.hilt.android.AndroidEntryPoint;
 import javax.inject.Inject;
 
-import one.nem.lacerta.data.repository.DeviceMeta;
-
 import one.nem.lacerta.utils.repository.DeviceInfoUtils;
 
 
@@ -29,10 +27,6 @@ import one.nem.lacerta.utils.repository.DeviceInfoUtils;
 
 @AndroidEntryPoint
 public class DebugMenuFragment extends Fragment {
-
-    @Inject
-    DeviceMeta deviceMeta;
-
     @Inject
     DeviceInfoUtils deviceInfoUtils;
 
