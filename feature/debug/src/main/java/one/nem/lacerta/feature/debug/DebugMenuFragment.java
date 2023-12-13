@@ -18,6 +18,8 @@ import javax.inject.Inject;
 
 import one.nem.lacerta.data.repository.DeviceMeta;
 
+import one.nem.lacerta.utils.repository.DeviceInfoUtils;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,6 +34,7 @@ public class DebugMenuFragment extends Fragment {
     DeviceMeta deviceMeta;
 
     @Inject
+    DeviceInfoUtils deviceInfoUtils;
 
 
     public DebugMenuFragment() {
@@ -80,7 +83,7 @@ public class DebugMenuFragment extends Fragment {
         });
 
         view.findViewById(R.id.btn_debug_menu_get_external_path).setOnClickListener( v -> {
-            Toast.makeText(getContext(), getContext().getExternalFilesDir(null).toPath().toString(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), deviceInfoUtils.getExternalStorageDirectory().toString(), Toast.LENGTH_SHORT).show();
         });
 
         view.findViewById(R.id.btn_debug_menu_file_write_test).setOnClickListener( v -> {
