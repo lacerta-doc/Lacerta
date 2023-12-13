@@ -4,10 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+
+import one.nem.lacerta.source.database.common.DateTypeConverter;
 
 import java.util.Date;
 
 @Entity(tableName = "document")
+@TypeConverters(DateTypeConverter.class)
 public class Document {
     @PrimaryKey
     @ColumnInfo(name = "id")
