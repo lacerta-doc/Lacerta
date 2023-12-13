@@ -52,5 +52,9 @@ dependencies {
     // data
     implementation project(':data')
 
+    // Debug
+    implementation project(':source')
+    implementation project(':utils')
+
 
 }
