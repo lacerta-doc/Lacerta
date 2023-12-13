@@ -3,6 +3,7 @@ package one.nem.lacerta.utils.impl;
 import android.content.Context;
 
 import java.nio.file.Path;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -19,17 +20,19 @@ public class DeviceInfoUtilsImpl implements DeviceInfoUtils {
 
     @Override
     public Path getExternalStorageDirectory() {
-        return
+        // TODO-rca: 結果がnullだった場合の処理を追加する？
+        return Objects.requireNonNull(applicationContext.getExternalFilesDir(null)).toPath();
     }
 
     @Override
     public Path getExternalStorageDirectory(String type) {
-        return null;
+        // TODO-rca: 結果がnullだった場合の処理を追加する？
+        return Objects.requireNonNull(applicationContext.getExternalFilesDir(type)).toPath();
     }
 
     @Override
     public boolean hasPermission(String permission) {
-        return false;
+        return null
     }
 
     @Override
