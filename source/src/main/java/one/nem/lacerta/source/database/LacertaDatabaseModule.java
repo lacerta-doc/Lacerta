@@ -15,7 +15,7 @@ import dagger.hilt.components.SingletonComponent;
 public class LacertaDatabaseModule {
 
     @Provides
-    public LacertaDatabase provideLacertaDatabase(@ApplicationContext Context context) {
+    public static LacertaDatabase provideLacertaDatabase(@ApplicationContext Context context) {
         return Room.databaseBuilder(context,
                 LacertaDatabase.class,
                 "lacerta.db").build();
