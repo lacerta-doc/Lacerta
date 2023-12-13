@@ -14,10 +14,10 @@ public class Document {
     public String title; // タイトル
 
     @ColumnInfo(name = "created_at")
-    public String createdAt; // 作成日時
+    public Date createdAt; // 作成日時
 
     @ColumnInfo(name = "updated_at")
-    public String updatedAt; // 更新日時
+    public Date updatedAt; // 更新日時
 
     @ColumnInfo(name = "author")
     public String author; // 作成者
