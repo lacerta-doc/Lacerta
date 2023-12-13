@@ -1,8 +1,13 @@
 package one.nem.lacerta.source.database;
 
+import android.content.Context;
+
+import androidx.room.Room;
+
 import dagger.Module;
 import dagger.Provides;
 import dagger.hilt.InstallIn;
+import dagger.hilt.android.qualifiers.ApplicationContext;
 import dagger.hilt.components.SingletonComponent;
 
 @Module
@@ -10,7 +15,9 @@ import dagger.hilt.components.SingletonComponent;
 public class LacertaDatabaseModule {
 
     @Provides
-    public LacertaDatabase provideLacertaDatabase() {
-        return null;
+    public LacertaDatabase provideLacertaDatabase(@ApplicationContext Context context) {
+        return Room.databaseBuilder(context,
+                LacertaDatabase.class,
+                "lacerta.db").build();
     }
 }
