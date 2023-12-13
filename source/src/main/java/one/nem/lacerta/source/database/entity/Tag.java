@@ -9,7 +9,7 @@ public class Tag {
     @PrimaryKey
     public String id; // タグID
 
-    public String name; // タグ名
+    public String tagName; // タグ名
 
     public String color; // タグの色
 }
