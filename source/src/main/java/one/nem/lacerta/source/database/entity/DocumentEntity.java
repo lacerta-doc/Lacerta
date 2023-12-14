@@ -8,6 +8,7 @@ import androidx.room.TypeConverters;
 
 import one.nem.lacerta.source.database.common.DateTypeConverter;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 @Entity(tableName = "document")
@@ -32,4 +33,7 @@ public class DocumentEntity {
 
     @ColumnInfo(name = "default_branch")
     public String defaultBranch; // デフォルトブランチ
+
+    @ColumnInfo(name = "tag_ids
+    public ArrayList<String> tagIds; // タグ
 }
