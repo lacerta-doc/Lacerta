@@ -18,6 +18,8 @@ import javax.inject.Inject;
 
 import one.nem.lacerta.utils.repository.DeviceInfoUtils;
 
+import one.nem.lacerta.data.Document;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -94,6 +96,10 @@ public class DebugMenuFragment extends Fragment {
         view.findViewById(R.id.btn_debug_menu_go_to_repository_debug).setOnClickListener(v -> {
             Navigation.findNavController(view).navigate(R.id.action_debugMenuFragment_to_debugRepositoryDebuggerFragment);
         });
+
+        view.findViewById(R.id.btn_debug_menu_insert_test_data).setOnClickListener(v -> {
+            Navigation.findNavController(view).navigate(R.id.action_debugMenuFragment_to_debugInsertTestDataFragment);
+        }
 
     }
 }
