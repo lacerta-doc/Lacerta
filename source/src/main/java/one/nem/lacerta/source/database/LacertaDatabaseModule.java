@@ -18,6 +18,8 @@ public class LacertaDatabaseModule {
     public static LacertaDatabase provideLacertaDatabase(@ApplicationContext Context context) {
         return Room.databaseBuilder(context,
                 LacertaDatabase.class,
-                "lacerta.db").build();
+                "lacerta.db")
+                .allowMainThreadQueries() // Debug
+                .build();
     }
 }
