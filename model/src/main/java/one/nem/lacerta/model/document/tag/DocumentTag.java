@@ -4,6 +4,7 @@ package one.nem.lacerta.model.document.tag;
  * ドキュメントのタグ
  */
 public class DocumentTag {
+    // TODO-rca: コンストラクタを追加する
 
     /**
      * タグのID(String)
