@@ -34,6 +34,7 @@ public class DocumentImpl implements Document{
 //        ArrayList<DocumentMeta> documentMetas = new ArrayList<>();
 //        database.documentDao().
         // TODO-rca: 履歴取得するDao実装する
+        return null;
     }
 
     @Override
