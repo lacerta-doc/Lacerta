@@ -34,6 +34,6 @@ public class DocumentEntity {
     @ColumnInfo(name = "default_branch")
     public String defaultBranch; // デフォルトブランチ
 
-    @ColumnInfo(name = "tag_ids
+    @ColumnInfo(name = "tag_ids")
     public ArrayList<String> tagIds; // タグ
 }
