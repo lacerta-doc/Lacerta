@@ -50,4 +50,7 @@ dependencies {
 
     // 型モジュール
     implementation project(':model')
+
+    // データソースモジュール
+    implementation project(':source')
 }
