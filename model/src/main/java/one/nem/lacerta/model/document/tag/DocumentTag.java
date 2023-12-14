@@ -47,6 +47,7 @@ public class DocumentTag {
 
     /**
      * タグのID(String)を設定する
+     * @param id タグのID
      */
     public void setId(String id) {
         this.id = id;
@@ -54,6 +55,7 @@ public class DocumentTag {
 
     /**
      * タグの名前(String)を設定する
+     * @param name タグの名前
      */
     public void setName(String name) {
         this.name = name;
@@ -61,6 +63,7 @@ public class DocumentTag {
 
     /**
      * タグの色(String)を設定する
+     * @param color タグの色
      */
     public void setColor(String color) {
         this.color = color;
