@@ -18,6 +18,8 @@ import javax.inject.Inject;
 
 import one.nem.lacerta.utils.repository.DeviceInfoUtils;
 
+import one.nem.lacerta.data.DocumentDebug; // Debug
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,6 +32,8 @@ public class DebugMenuFragment extends Fragment {
     @Inject
     DeviceInfoUtils deviceInfoUtils;
 
+    @Inject
+    DocumentDebug documentDebug; // Debug
 
     public DebugMenuFragment() {
         // Required empty public constructor
