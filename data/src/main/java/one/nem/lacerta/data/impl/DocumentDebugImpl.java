@@ -19,6 +19,10 @@ public class DocumentDebugImpl implements DocumentDebug{
     @Inject
     LacertaDatabase database;
 
+    @Inject
+    public DocumentDebugImpl() {
+    }
+
 
     public void insertDocument(DocumentMeta meta, DocumentDetail detail) {
         DocumentEntity documentEntity = new DocumentEntity();
