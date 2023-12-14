@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.util.UUID;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import javax.inject.Inject;
@@ -20,6 +22,10 @@ import one.nem.lacerta.utils.repository.DeviceInfoUtils;
 
 import one.nem.lacerta.data.DocumentDebug; // Debug
 
+import one.nem.lacerta.model.document.DocumentMeta;
+import one.nem.lacerta.model.document.DocumentDetail;
+import one.nem.lacerta.model.document.path.DocumentPath;
+import one.nem.lacerta.model.document.tag.DocumentTag;
 
 
 /**
@@ -102,7 +108,21 @@ public class DebugMenuFragment extends Fragment {
 
         view.findViewById(R.id.btn_debug_menu_insert_test_data).setOnClickListener(v -> {
             // テストデータ挿入
+            DocumentMeta meta = new DocumentMeta();
+            DocumentDetail detail = new DocumentDetail();
 
-        }
+            meta.setId(UUID.randomUUID().toString());
+            meta.setTitle("testTitle");
+            meta.setCreatedAt(new java.util.Date());
+            meta.setUpdatedAt(new java.util.Date());
+            meta.setTags(new java.util.ArrayList<DocumentTag>());
+
+            detail.setAuthor("testAuthor");
+            detail.setDefaultBranch("testDefaultBranch");
+            detail.setMeta(meta);
+            detail.setPath(new DocumentPath("testRootPath", "testPath"));
+
+            documentDebug.insertDocument(meta, detail);
+        });
     }
 }
