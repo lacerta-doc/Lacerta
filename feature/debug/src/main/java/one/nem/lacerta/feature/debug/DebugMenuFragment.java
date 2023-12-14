@@ -21,6 +21,7 @@ import one.nem.lacerta.utils.repository.DeviceInfoUtils;
 import one.nem.lacerta.data.DocumentDebug; // Debug
 
 
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link DebugMenuFragment#newInstance} factory method to
@@ -99,5 +100,9 @@ public class DebugMenuFragment extends Fragment {
             Navigation.findNavController(view).navigate(R.id.action_debugMenuFragment_to_debugRepositoryDebuggerFragment);
         });
 
+        view.findViewById(R.id.btn_debug_menu_insert_test_data).setOnClickListener(v -> {
+            // テストデータ挿入
+
+        }
     }
 }
