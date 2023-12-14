@@ -124,5 +124,9 @@ public class DebugMenuFragment extends Fragment {
 
             documentDebug.insertDocument(meta, detail);
         });
+
+        view.findViewById(R.id.btn_debug_menu_select_test_data).setOnClickListener(v -> {
+            // Placeholder
+        });
     }
 }
