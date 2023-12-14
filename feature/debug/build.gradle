@@ -56,5 +56,7 @@ dependencies {
     implementation project(':source')
     implementation project(':utils')
 
+    // 型
+    implementation project(':model')
 
 }
