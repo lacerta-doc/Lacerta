@@ -11,6 +11,8 @@ import one.nem.lacerta.model.document.DocumentDetail;
 
 import one.nem.lacerta.source.database.LacertaDatabase;
 
+import one.nem.lacerta.source.database.entity.DocumentEntity;
+
 
 public class DocumentImpl implements Document{
 
@@ -37,6 +39,16 @@ public class DocumentImpl implements Document{
     @Override
     public DocumentDetail getDocumentDetail(String id) {
         DocumentDetail documentDetail = new DocumentDetail();
+        DocumentEntity documentEntity = database.documentDao().findById(id);
+
+        // 組み立て処理
+        // TODO-rca: 切り出すべきかも?
+        DocumentMeta documentMeta = new DocumentMeta();
+        documentMeta.setId(documentEntity.id);
+        documentMeta.setTitle(documentEntity.title);
+        documentMeta.setCreatedAt(documentEntity.createdAt);
+        documentMeta.setUpdatedAt(documentEntity.updatedAt);
+        documentMeta.setTags(documentEntity.tagIds);
 
     }
 
