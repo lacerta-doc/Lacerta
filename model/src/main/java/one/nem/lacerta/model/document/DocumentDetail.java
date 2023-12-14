@@ -6,14 +6,33 @@ import java.util.Date;
 import one.nem.lacerta.model.document.path.DocumentPath;
 import one.nem.lacerta.model.document.DocumentMeta;
 
+/**
+ * ドキュメントの詳細データ
+ */
 public class DocumentDetail {
 
+    /**
+     * ドキュメントのメタデータ(DocumentMetaインスタンス)
+     */
     DocumentMeta meta;
-    DocumentPath path;
-    String author;
-    String defaultBranch;
-    // Getter
 
+    /**
+     * ドキュメントのパス(DocumentPathインスタンス)
+     */
+    DocumentPath path;
+
+    /**
+     * ドキュメントの作者(String)
+     */
+    String author;
+
+    /**
+     * ドキュメントのデフォルトブランチ(String)
+     */
+    String defaultBranch;
+
+
+    // Getter
     public DocumentMeta getMeta() {
         return meta;
     }
