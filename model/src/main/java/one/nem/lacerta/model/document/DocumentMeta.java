@@ -5,63 +5,118 @@ import one.nem.lacerta.model.document.tag.DocumentTag;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * ドキュメントのメタデータ
+ */
 public class DocumentMeta {
 
-        String id;
-        String title;
-        Date updatedAt;
-        Date createdAt;
-        List<DocumentTag> tags;
+    /**
+     * ドキュメントのID(String)
+     */
+    String id;
 
-        // Getter
+    /**
+     * ドキュメントのタイトル(String)
+     */
+    String title;
 
-        public String getId() {
-            return id;
+    /**
+     * ドキュメントの更新日時(Date)
+     */
+    Date updatedAt;
+
+    /**
+     * ドキュメントの作成日時(Date)
+     */
+    Date createdAt;
+
+    /**
+     * ドキュメントのタグ(DocumentTagインスタンスのリスト)
+     */
+    List<DocumentTag> tags;
+
+    // Getter
+
+    /**
+     * ドキュメントのID(String)を取得する
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * ドキュメントのタイトル(String)を取得する
+     */
+    public String getTitle() {
+        return title;
+    }
+
+    /**
+     * ドキュメントの更新日時(Date)を取得する
+     */
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    /**
+     * ドキュメントの作成日時(Date)を取得する
+     */
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    /**
+     * ドキュメントのタグ(DocumentTagインスタンスのリスト)を取得する
+     */
+    public List<DocumentTag> getTags() {
+        return tags;
+    }
+
+    /**
+     * ドキュメントのタグ(DocumentTagインスタンスのリスト)のID(String)を取得する
+     */
+    public List<String> getTagIds() {
+        List<String> tagIds = new ArrayList<>();
+        for (DocumentTag tag : tags) {
+            tagIds.add(tag.getId());
         }
+        return tagIds;
+    }
 
-        public String getTitle() {
-            return title;
-        }
+    // Setter
 
-        public Date getUpdatedAt() {
-            return updatedAt;
-        }
+    /**
+     * ドキュメントのID(String)を設定する
+     */
+    public void setId(String id) {
+        this.id = id;
+    }
 
-        public Date getCreatedAt() {
-            return createdAt;
-        }
+    /**
+     * ドキュメントのタイトル(String)を設定する
+     */
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-        public List<DocumentTag> getTags() {
-            return tags;
-        }
+    /**
+     * ドキュメントの更新日時(Date)を設定する
+     */
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 
-        public List<String> getTagIds() {
-            List<String> tagIds = new ArrayList<>();
-            for (DocumentTag tag : tags) {
-                tagIds.add(tag.getId());
-            }
-            return tagIds;
-        }
+    /**
+     * ドキュメントの作成日時(Date)を設定する
+     */
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
 
-        // Setter
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
-        }
-
-        public void setUpdatedAt(Date updatedAt) {
-            this.updatedAt = updatedAt;
-        }
-
-        public void setCreatedAt(Date createdAt) {
-            this.createdAt = createdAt;
-        }
-
-        public void setTags(List<DocumentTag> tags) {
-            this.tags = tags;
-        }
+    /**
+     * ドキュメントのタグ(DocumentTagインスタンスのリスト)を設定する
+     */
+    public void setTags(List<DocumentTag> tags) {
+        this.tags = tags;
+    }
 }
