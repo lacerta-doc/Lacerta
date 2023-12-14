@@ -4,15 +4,18 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverter;
 import androidx.room.TypeConverters;
 
 import one.nem.lacerta.source.database.common.DateTypeConverter;
+import one.nem.lacerta.source.database.common.TagArrayListConverter;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity(tableName = "document")
-@TypeConverters(DateTypeConverter.class)
+@TypeConverters({DateTypeConverter.class, TagArrayListConverter.class})
 public class DocumentEntity {
     @PrimaryKey
     @ColumnInfo(name = "id")
@@ -35,5 +38,5 @@ public class DocumentEntity {
     public String defaultBranch; // デフォルトブランチ
 
     @ColumnInfo(name = "tag_ids")
-    public ArrayList<String> tagIds; // タグ
+    public List<String> tagIds; // タグ
 }
