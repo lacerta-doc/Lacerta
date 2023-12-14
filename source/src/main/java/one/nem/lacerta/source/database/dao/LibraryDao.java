@@ -10,13 +10,13 @@ import one.nem.lacerta.source.database.entity.LibraryEntity;
 @Dao
 public interface LibraryDao {
 
-    @Query("SELECT * FROM LibraryEntity WHERE id = :id")
+    @Query("SELECT * FROM Library WHERE id = :id")
     LibraryEntity findById(String id);
 
-    @Query("SELECT * FROM LibraryEntity")
+    @Query("SELECT * FROM Library")
     List<LibraryEntity> findAll();
 
-    @Query("SELECT * FROM LibraryEntity WHERE id IN (:ids)")
+    @Query("SELECT * FROM Library WHERE id IN (:ids)")
     List<LibraryEntity> findByIds(List<String> ids);
 
     // WIP
