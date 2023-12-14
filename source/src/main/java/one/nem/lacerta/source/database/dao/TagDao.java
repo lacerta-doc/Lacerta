@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import one.nem.lacerta.source.database.entity.TagEntity;
@@ -19,10 +20,10 @@ public interface TagDao {
     TagEntity findById(String id);
 
     @Query("SELECT * FROM TagEntity")
-    List<TagEntity> findAll();
+    ArrayList<TagEntity> findAll();
 
     @Query("SELECT * FROM TagEntity WHERE id IN (:ids)")
-    List<TagEntity> findByIds(List<String> ids);
+    ArrayList<TagEntity> findByIds(ArrayList<String> ids);
 
     // Insert
     @Insert
