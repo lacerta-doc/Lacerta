@@ -16,13 +16,13 @@ public interface TagDao {
 
     // Select
 
-    @Query("SELECT * FROM TagEntity WHERE id = :id")
+    @Query("SELECT * FROM Tag WHERE id = :id")
     TagEntity findById(String id);
 
-    @Query("SELECT * FROM TagEntity")
+    @Query("SELECT * FROM Tag")
     ArrayList<TagEntity> findAll();
 
-    @Query("SELECT * FROM TagEntity WHERE id IN (:ids)")
+    @Query("SELECT * FROM Tag WHERE id IN (:ids)")
     ArrayList<TagEntity> findByIds(ArrayList<String> ids);
 
     // Insert
@@ -55,6 +55,6 @@ public interface TagDao {
     @Delete
     void deleteAll(List<TagEntity> tags);
 
-    @Query("DELETE FROM TagEntity WHERE id = :id")
+    @Query("DELETE FROM Tag WHERE id = :id")
     void deleteById(String id);
 }
