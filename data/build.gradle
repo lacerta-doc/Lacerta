@@ -45,9 +45,9 @@ dependencies {
     implementation libs.androidx.room.runtime
     annotationProcessor libs.androidx.room.compiler
 
-    // モジュール
+    // Utilsモジュール
     implementation project(':utils')
 
-    // 型
+    // 型モジュール
     implementation project(':model')
 }
