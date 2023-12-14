@@ -12,8 +12,6 @@ public class DocumentDetail {
     DocumentPath path;
     String author;
     String defaultBranch;
-    Path fullPath;
-
     // Getter
 
     public DocumentMeta getMeta() {
@@ -32,9 +30,6 @@ public class DocumentDetail {
         return defaultBranch;
     }
 
-    public Path getFullPath() {
-        return fullPath;
-    }
 
     // Setter
 
@@ -43,7 +38,7 @@ public class DocumentDetail {
     }
 
     public void setPath(DocumentPath path) {
-        this.path = path;
+        this.path =  path;
     }
 
     public void setAuthor(String author) {
@@ -54,8 +49,5 @@ public class DocumentDetail {
         this.defaultBranch = defaultBranch;
     }
 
-    public void setFullPath(Path fullPath) {
-        this.fullPath = fullPath;
-    }
 
 }
