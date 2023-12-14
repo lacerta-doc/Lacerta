@@ -10,6 +10,7 @@ import one.nem.lacerta.model.document.DocumentMeta;
  * ドキュメントの詳細データ
  */
 public class DocumentDetail {
+    // TODO-rca: コンストラクタを追加する
 
     /**
      * ドキュメントのメタデータ(DocumentMetaインスタンス)
