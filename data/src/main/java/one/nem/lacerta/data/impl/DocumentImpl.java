@@ -46,7 +46,8 @@ public class DocumentImpl implements Document{
         DocumentDetail documentDetail = new DocumentDetail();
         DocumentEntity documentEntity = database.documentDao().findById(id);
 
-        // タグデータ作成
+        // タグ取得
+        // TODO-rca: 切り出すべきかも？
         List<TagEntity> tagEntities = database.tagDao().findByIds(documentEntity.tagIds);
         ArrayList<DocumentTag> documentTags = new ArrayList<>();
         for (TagEntity tagEntity : tagEntities) {
@@ -58,7 +59,8 @@ public class DocumentImpl implements Document{
         }
 
         // パス取得
-        LibraryEntity libraryEntity = database.libraryDao().findById(id)
+        // TODO-rca: 切り出すべきかも？
+        LibraryEntity libraryEntity = database.libraryDao().findById(id);
         DocumentPath documentPath = new DocumentPath(libraryEntity.rootPath, libraryEntity.path);
 
         // 組み立て処理
@@ -71,9 +73,10 @@ public class DocumentImpl implements Document{
         documentMeta.setTags(documentTags);
         documentDetail.setMeta(documentMeta);
         documentDetail.setAuthor(documentEntity.author);
-        documentDetail.setPath(new DocumentPath(documentEntity.defaultBranch));
+        documentDetail.setPath(documentPath);
+        documentDetail.setDefaultBranch(documentEntity.defaultBranch);
 
-
+        return documentDetail;
     }
 
     @Override
