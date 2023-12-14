@@ -22,7 +22,4 @@ public class LibraryEntity {
     @ColumnInfo(name = "path")
     public String path; // パス
 
-    // タグ
-    @ColumnInfo(name = "tags")
-    public ArrayList<TagEntity> tags;
 }
