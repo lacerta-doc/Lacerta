@@ -37,6 +37,4 @@ public interface Document {
      */
     DocumentDetail getDocumentDetailByMeta(DocumentMeta meta); // 簡単に使えるように
 
-
-
 }
