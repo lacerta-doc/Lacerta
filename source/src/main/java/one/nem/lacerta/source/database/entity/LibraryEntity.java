@@ -6,7 +6,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "library")
-public class Library {
+public class LibraryEntity {
 
     @PrimaryKey
     @ColumnInfo(name = "id")

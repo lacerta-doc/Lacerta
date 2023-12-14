@@ -8,7 +8,7 @@ import androidx.room.Update;
 
 import java.util.List;
 
-import one.nem.lacerta.source.database.entity.Document;
+import one.nem.lacerta.source.database.entity.DocumentEntity;
 
 
 @Dao
@@ -16,46 +16,46 @@ public interface DocumentDao {
 
     // Select
 
-    @Query("SELECT * FROM document WHERE id = :id")
-    Document findById(String id);
+    @Query("SELECT * FROM DocumentEntity WHERE id = :id")
+    DocumentEntity findById(String id);
 
-    @Query("SELECT * FROM document")
-    List<Document> findAll();
+    @Query("SELECT * FROM DocumentEntity")
+    List<DocumentEntity> findAll();
 
-    @Query("SELECT * FROM document WHERE id IN (:ids)")
-    List<Document> findByIds(List<String> ids);
+    @Query("SELECT * FROM DocumentEntity WHERE id IN (:ids)")
+    List<DocumentEntity> findByIds(List<String> ids);
 
     // Insert
     @Insert
-    void insert(Document document);
+    void insert(DocumentEntity document);
 
     @Insert
-    void insertAll(Document... documents);
+    void insertAll(DocumentEntity... documents);
 
     @Insert
-    void insertAll(List<Document> documents);
+    void insertAll(List<DocumentEntity> documents);
 
     // Update
 
     @Update
-    void update(Document document);
+    void update(DocumentEntity document);
 
     @Update
-    void updateAll(Document... documents);
+    void updateAll(DocumentEntity... documents);
 
     @Update
-    void updateAll(List<Document> documents);
+    void updateAll(List<DocumentEntity> documents);
 
     // Delete
     @Delete
-    void delete(Document document);
+    void delete(DocumentEntity document);
 
     @Delete
-    void deleteAll(Document... documents);
+    void deleteAll(DocumentEntity... documents);
 
     @Delete
-    void deleteAll(List<Document> documents);
+    void deleteAll(List<DocumentEntity> documents);
 
-    @Query("DELETE FROM document WHERE id = :id")
+    @Query("DELETE FROM DocumentEntity WHERE id = :id")
     void deleteById(String id);
 }

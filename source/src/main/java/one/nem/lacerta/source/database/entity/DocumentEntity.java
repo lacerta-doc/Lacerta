@@ -12,7 +12,7 @@ import java.util.Date;
 
 @Entity(tableName = "document")
 @TypeConverters(DateTypeConverter.class)
-public class Document {
+public class DocumentEntity {
     @PrimaryKey
     @ColumnInfo(name = "id")
     @NonNull

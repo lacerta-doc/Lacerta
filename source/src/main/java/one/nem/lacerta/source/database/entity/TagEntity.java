@@ -6,7 +6,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "tag")
-public class Tag {
+public class TagEntity {
 
     @PrimaryKey
     @ColumnInfo(name = "id")

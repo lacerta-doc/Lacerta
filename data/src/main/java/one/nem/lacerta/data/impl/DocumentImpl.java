@@ -8,10 +8,6 @@ import one.nem.lacerta.data.Document;
 
 import one.nem.lacerta.model.document.DocumentMeta;
 import one.nem.lacerta.model.document.DocumentDetail;
-import one.nem.lacerta.model.document.path.DocumentPath;
-import one.nem.lacerta.model.document.tag.DocumentTag;
-
-import one.nem.lacerta.source.database.entity.Document;
 
 import one.nem.lacerta.source.database.LacertaDatabase;
 

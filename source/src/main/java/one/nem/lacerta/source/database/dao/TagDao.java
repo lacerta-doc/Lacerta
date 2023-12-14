@@ -8,52 +8,52 @@ import androidx.room.Update;
 
 import java.util.List;
 
-import one.nem.lacerta.source.database.entity.Tag;
+import one.nem.lacerta.source.database.entity.TagEntity;
 
 @Dao
 public interface TagDao {
 
     // Select
 
-    @Query("SELECT * FROM tag WHERE id = :id")
-    Tag findById(String id);
+    @Query("SELECT * FROM TagEntity WHERE id = :id")
+    TagEntity findById(String id);
 
-    @Query("SELECT * FROM tag")
-    List<Tag> findAll();
+    @Query("SELECT * FROM TagEntity")
+    List<TagEntity> findAll();
 
-    @Query("SELECT * FROM tag WHERE id IN (:ids)")
-    List<Tag> findByIds(List<String> ids);
+    @Query("SELECT * FROM TagEntity WHERE id IN (:ids)")
+    List<TagEntity> findByIds(List<String> ids);
 
     // Insert
     @Insert
-    void insert(Tag tag);
+    void insert(TagEntity tag);
 
     @Insert
-    void insertAll(Tag... tags);
+    void insertAll(TagEntity... tags);
 
     @Insert
-    void insertAll(List<Tag> tags);
+    void insertAll(List<TagEntity> tags);
 
     // Update
     @Update
-    void update(Tag tag);
+    void update(TagEntity tag);
 
     @Update
-    void updateAll(Tag... tags);
+    void updateAll(TagEntity... tags);
 
     @Update
-    void updateAll(List<Tag> tags);
+    void updateAll(List<TagEntity> tags);
 
     // Delete
     @Delete
-    void delete(Tag tag);
+    void delete(TagEntity tag);
 
     @Delete
-    void deleteAll(Tag... tags);
+    void deleteAll(TagEntity... tags);
 
     @Delete
-    void deleteAll(List<Tag> tags);
+    void deleteAll(List<TagEntity> tags);
 
-    @Query("DELETE FROM tag WHERE id = :id")
+    @Query("DELETE FROM TagEntity WHERE id = :id")
     void deleteById(String id);
 }
