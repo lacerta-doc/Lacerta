@@ -16,13 +16,13 @@ public interface DocumentDao {
 
     // Select
 
-    @Query("SELECT * FROM DocumentEntity WHERE id = :id")
+    @Query("SELECT * FROM Document WHERE id = :id")
     DocumentEntity findById(String id);
 
-    @Query("SELECT * FROM DocumentEntity")
+    @Query("SELECT * FROM Document")
     List<DocumentEntity> findAll();
 
-    @Query("SELECT * FROM DocumentEntity WHERE id IN (:ids)")
+    @Query("SELECT * FROM Document WHERE id IN (:ids)")
     List<DocumentEntity> findByIds(List<String> ids);
 
     // Insert
@@ -56,6 +56,6 @@ public interface DocumentDao {
     @Delete
     void deleteAll(List<DocumentEntity> documents);
 
-    @Query("DELETE FROM DocumentEntity WHERE id = :id")
+    @Query("DELETE FROM Document WHERE id = :id")
     void deleteById(String id);
 }
