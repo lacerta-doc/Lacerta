@@ -4,26 +4,51 @@ import one.nem.lacerta.source.jgit.ManageRepo;
 
 import javax.inject.Inject;
 
+import one.nem.lacerta.utils.repository.DeviceInfoUtils;
+
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.RepositoryBuilder;
+
 public class ManageRepoImpl implements ManageRepo {
+
+    private final DeviceInfoUtils deviceInfoUtils;
+
+    @Inject
+    public ManageRepoImpl(DeviceInfoUtils deviceInfoUtils) {
+        this.deviceInfoUtils = deviceInfoUtils;
+    }
 
     @Override
     public Repository getRepository(String id) {
-        return null;
+        RepositoryBuilder repositoryBuilder = new RepositoryBuilder();
+        repositoryBuilder.setGitDir(deviceInfoUtils.getExternalStorageDirectory().resolve(id).resolve(".git").toFile());
+        repositoryBuilder.setMustExist(true);
+        try {
+            return repositoryBuilder.build();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override
     public Repository createRepository(String id) {
-        return null;
+        RepositoryBuilder repositoryBuilder = new RepositoryBuilder();
+        repositoryBuilder.setGitDir(deviceInfoUtils.getExternalStorageDirectory().resolve(id).resolve(".git").toFile());
+        repositoryBuilder.setMustExist(false);
+        try {
+            return repositoryBuilder.build();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override
     public void deleteRepository(String id) {
-
+        // TODO-rca: 未実装
     }
 
     @Override
     public boolean repositoryExists(String id) {
-        return false;
+        return false; // TODO-rca: 未実装
     }
 }
