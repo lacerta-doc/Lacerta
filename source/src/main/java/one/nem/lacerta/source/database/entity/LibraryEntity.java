@@ -3,7 +3,10 @@ package one.nem.lacerta.source.database.entity;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
+
+import java.util.ArrayList;
 
 @Entity(tableName = "library")
 public class LibraryEntity {
@@ -18,4 +21,8 @@ public class LibraryEntity {
 
     @ColumnInfo(name = "path")
     public String path; // パス
+
+    // タグ
+    @ColumnInfo(name = "tags")
+    public ArrayList<TagEntity> tags;
 }
