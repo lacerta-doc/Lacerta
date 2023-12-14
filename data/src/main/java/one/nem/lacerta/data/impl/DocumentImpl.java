@@ -1,6 +1,7 @@
 package one.nem.lacerta.data.impl;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -46,7 +47,7 @@ public class DocumentImpl implements Document{
         DocumentEntity documentEntity = database.documentDao().findById(id);
 
         // タグデータ作成
-        ArrayList<TagEntity> tagEntities = database.tagDao().findByIds(documentEntity.tagIds);
+        List<TagEntity> tagEntities = database.tagDao().findByIds(documentEntity.tagIds);
         ArrayList<DocumentTag> documentTags = new ArrayList<>();
         for (TagEntity tagEntity : tagEntities) {
             DocumentTag documentTag = new DocumentTag();
