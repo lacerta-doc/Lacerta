@@ -35,6 +35,14 @@ public class DocumentMeta {
             return tags;
         }
 
+        public List<String> getTagIds() {
+            List<String> tagIds = new ArrayList<>();
+            for (DocumentTag tag : tags) {
+                tagIds.add(tag.getId());
+            }
+            return tagIds;
+        }
+
         // Setter
 
         public void setId(String id) {
