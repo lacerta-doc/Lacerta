@@ -81,6 +81,6 @@ public class DocumentImpl implements Document{
 
     @Override
     public DocumentDetail getDocumentDetailByMeta(DocumentMeta meta) {
-        return null;
+        return getDocumentDetail(meta.getId()); // TODO-rca: 効率悪いのでMetaはもらった物を使うようにする（処理を切り分ける？）
     }
 }
