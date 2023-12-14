@@ -9,9 +9,11 @@ import one.nem.lacerta.data.Document;
 import one.nem.lacerta.model.document.DocumentMeta;
 import one.nem.lacerta.model.document.DocumentDetail;
 
+import one.nem.lacerta.model.document.tag.DocumentTag;
 import one.nem.lacerta.source.database.LacertaDatabase;
 
 import one.nem.lacerta.source.database.entity.DocumentEntity;
+import one.nem.lacerta.source.database.entity.TagEntity;
 
 
 public class DocumentImpl implements Document{
@@ -41,6 +43,7 @@ public class DocumentImpl implements Document{
         DocumentDetail documentDetail = new DocumentDetail();
         DocumentEntity documentEntity = database.documentDao().findById(id);
 
+        ArrayList<TagEntity> tagEntities = database.tagDao().findByIds(documentEntity.tagIds);
         // 組み立て処理
         // TODO-rca: 切り出すべきかも?
         DocumentMeta documentMeta = new DocumentMeta();
@@ -48,7 +51,7 @@ public class DocumentImpl implements Document{
         documentMeta.setTitle(documentEntity.title);
         documentMeta.setCreatedAt(documentEntity.createdAt);
         documentMeta.setUpdatedAt(documentEntity.updatedAt);
-        documentMeta.setTags(documentEntity.tagIds);
+
 
     }
 
