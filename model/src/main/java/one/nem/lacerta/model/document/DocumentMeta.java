@@ -3,6 +3,7 @@ package one.nem.lacerta.model.document;
 import java.util.ArrayList;
 import one.nem.lacerta.model.document.tag.DocumentTag;
 import java.util.Date;
+import java.util.List;
 
 public class DocumentMeta {
 
@@ -10,7 +11,7 @@ public class DocumentMeta {
         String title;
         Date updatedAt;
         Date createdAt;
-        ArrayList<DocumentTag> tags;
+        List<DocumentTag> tags;
 
         // Getter
 
@@ -30,7 +31,7 @@ public class DocumentMeta {
             return createdAt;
         }
 
-        public ArrayList<DocumentTag> getTags() {
+        public List<DocumentTag> getTags() {
             return tags;
         }
 
@@ -52,7 +53,7 @@ public class DocumentMeta {
             this.createdAt = createdAt;
         }
 
-        public void setTags(ArrayList<DocumentTag> tags) {
+        public void setTags(List<DocumentTag> tags) {
             this.tags = tags;
         }
 }
