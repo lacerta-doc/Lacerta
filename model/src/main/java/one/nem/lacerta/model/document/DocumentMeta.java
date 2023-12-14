@@ -9,6 +9,7 @@ import java.util.List;
  * ドキュメントのメタデータ
  */
 public class DocumentMeta {
+    // TODO-rca: 作成日時なしでインスタンス化できるようにする？
 
     /**
      * ドキュメントのID(String)
@@ -87,6 +88,7 @@ public class DocumentMeta {
 
     /**
      * ドキュメントのID(String)を設定する
+     * @param id ドキュメントのID
      */
     public void setId(String id) {
         this.id = id;
@@ -94,6 +96,7 @@ public class DocumentMeta {
 
     /**
      * ドキュメントのタイトル(String)を設定する
+     * @param title ドキュメントのタイトル
      */
     public void setTitle(String title) {
         this.title = title;
@@ -101,6 +104,7 @@ public class DocumentMeta {
 
     /**
      * ドキュメントの更新日時(Date)を設定する
+     * @param updatedAt ドキュメントの更新日時
      */
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
@@ -108,6 +112,7 @@ public class DocumentMeta {
 
     /**
      * ドキュメントの作成日時(Date)を設定する
+     * @param createdAt ドキュメントの作成日時
      */
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
@@ -115,6 +120,7 @@ public class DocumentMeta {
 
     /**
      * ドキュメントのタグ(DocumentTagインスタンスのリスト)を設定する
+     * @param tags ドキュメントのタグ(DocumentTagインスタンスのリスト)
      */
     public void setTags(List<DocumentTag> tags) {
         this.tags = tags;
