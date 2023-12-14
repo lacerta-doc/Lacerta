@@ -7,6 +7,7 @@ import java.nio.file.Paths;
  * ドキュメントのパス
  */
 public class DocumentPath {
+    // TODO-rca: コンストラクタを追加する
 
     /**
      * ドキュメントのルートパス(String)
