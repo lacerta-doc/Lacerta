@@ -20,10 +20,10 @@ public interface TagDao {
     TagEntity findById(String id);
 
     @Query("SELECT * FROM Tag")
-    ArrayList<TagEntity> findAll();
+    List<TagEntity> findAll();
 
     @Query("SELECT * FROM Tag WHERE id IN (:ids)")
-    ArrayList<TagEntity> findByIds(ArrayList<String> ids);
+    List<TagEntity> findByIds(List<String> ids);
 
     // Insert
     @Insert
