@@ -9,13 +9,14 @@ import androidx.room.TypeConverters;
 
 import one.nem.lacerta.source.database.common.DateTypeConverter;
 import one.nem.lacerta.source.database.common.TagArrayListConverter;
+import one.nem.lacerta.source.database.common.TagListConverter;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Entity(tableName = "document")
-@TypeConverters({DateTypeConverter.class, TagArrayListConverter.class})
+@TypeConverters({DateTypeConverter.class, TagListConverter.class})
 public class DocumentEntity {
     @PrimaryKey
     @ColumnInfo(name = "id")
