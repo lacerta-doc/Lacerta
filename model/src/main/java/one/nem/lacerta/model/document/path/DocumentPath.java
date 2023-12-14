@@ -8,6 +8,16 @@ public class DocumentPath {
         String rootPath;
         String path;
 
+        // Constructor
+
+        public DocumentPath() {
+        }
+
+        public DocumentPath(String rootPath, String path) {
+            this.rootPath = rootPath;
+            this.path = path;
+        }
+
         // Getter
 
         public String getRootPath() {
