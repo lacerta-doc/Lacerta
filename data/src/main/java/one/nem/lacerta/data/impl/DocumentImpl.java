@@ -11,6 +11,8 @@ import one.nem.lacerta.model.document.DocumentDetail;
 import one.nem.lacerta.model.document.path.DocumentPath;
 import one.nem.lacerta.model.document.tag.DocumentTag;
 
+import one.nem.lacerta.source.database.entity.Document;
+
 import one.nem.lacerta.source.database.LacertaDatabase;
 
 
@@ -26,7 +28,9 @@ public class DocumentImpl implements Document{
 
     @Override
     public ArrayList<DocumentMeta> getRecentDocumentMetas(int limit) {
-        return null;
+//        ArrayList<DocumentMeta> documentMetas = new ArrayList<>();
+//        database.documentDao().
+        // TODO-rca: 履歴取得するDao実装する
     }
 
     @Override
@@ -36,7 +40,8 @@ public class DocumentImpl implements Document{
 
     @Override
     public DocumentDetail getDocumentDetail(String id) {
-        return null;
+        DocumentDetail documentDetail = new DocumentDetail();
+
     }
 
     @Override
