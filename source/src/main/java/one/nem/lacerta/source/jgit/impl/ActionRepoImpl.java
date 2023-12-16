@@ -3,9 +3,17 @@ package one.nem.lacerta.source.jgit.impl;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.Repository;
 
+import javax.inject.Inject;
+
 import one.nem.lacerta.source.jgit.ActionRepo;
+import one.nem.lacerta.utils.LacertaLogger;
 
 public class ActionRepoImpl implements ActionRepo{
+
+    @Inject // Inject logger
+    LacertaLogger logger;
+
+    private final String TAG = "ActionRepoImpl";
 
     Repository repository;
 
@@ -14,6 +22,7 @@ public class ActionRepoImpl implements ActionRepo{
     // Internal method
     private Git getGit() {
         if (this.git == null) {
+            logger.debug(TAG, "getGit: git is null. Creating new Git instance");
             this.git = new Git(repository);
         }
         return this.git;
@@ -27,6 +36,7 @@ public class ActionRepoImpl implements ActionRepo{
     @Override
     public Repository getRepository() {
         if (repository == null) {
+            logger.warn(TAG, "getRepository: repository is null. Throwing RuntimeException");
             throw new RuntimeException("リポジトリが設定されていません");
         }
         return repository;
@@ -43,6 +53,7 @@ public class ActionRepoImpl implements ActionRepo{
         try {
             return git.status().call().getUntracked().toArray(new String[0]);
         } catch (Exception e) { // TODO-rca: エラーハンドリング
+            logger.error(TAG, "getUnstagedFiles: " + e.getMessage());
             return new String[0];
         }
     }
@@ -53,6 +64,7 @@ public class ActionRepoImpl implements ActionRepo{
         try {
             return git.status().call().getAdded().toArray(new String[0]);
         } catch (Exception e) { // TODO-rca: エラーハンドリング
+            logger.error(TAG, "getStagedFiles: " + e.getMessage());
             return new String[0];
         }
     }
