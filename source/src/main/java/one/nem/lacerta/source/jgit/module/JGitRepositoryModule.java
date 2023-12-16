@@ -4,13 +4,12 @@ import dagger.Binds;
 import dagger.Module;
 import dagger.hilt.InstallIn;
 import dagger.hilt.components.SingletonComponent;
-import one.nem.lacerta.source.jgit.ManageRepo;
-import one.nem.lacerta.source.jgit.impl.ManageRepoImpl;
+import one.nem.lacerta.source.jgit.JGitRepository;
 
 @Module
 @InstallIn(SingletonComponent.class)
-abstract public class ManageRepoModule {
+abstract public class JGitRepositoryModule {
 
     @Binds
-    public abstract ManageRepo bindManageRepo(ManageRepoImpl manageRepoImpl);
+    public abstract JGitRepository bindManageRepo(one.nem.lacerta.source.jgit.impl.JGitRepositoryImpl manageRepoImpl);
 }

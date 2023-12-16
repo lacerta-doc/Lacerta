@@ -1,25 +1,24 @@
 package one.nem.lacerta.source.jgit.impl;
 
-import one.nem.lacerta.source.jgit.ManageRepo;
+import one.nem.lacerta.source.jgit.JGitRepository;
 
 import javax.inject.Inject;
 
 import one.nem.lacerta.utils.repository.DeviceInfoUtils;
 
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryBuilder;
 
-public class ManageRepoImpl implements ManageRepo {
+public class JGitRepositoryImpl implements JGitRepository {
 
     private final DeviceInfoUtils deviceInfoUtils;
 
     @Inject
-    public ManageRepoImpl(DeviceInfoUtils deviceInfoUtils) {
+    public JGitRepositoryImpl(DeviceInfoUtils deviceInfoUtils) {
         this.deviceInfoUtils = deviceInfoUtils;
     }
 
     @Override
-    public Repository getRepository(String id) {
+    public org.eclipse.jgit.lib.Repository getRepository(String id) {
         RepositoryBuilder repositoryBuilder = new RepositoryBuilder();
         repositoryBuilder.setGitDir(deviceInfoUtils.getExternalStorageDirectory().resolve(id).resolve(".git").toFile());
         repositoryBuilder.setMustExist(true);
@@ -31,7 +30,7 @@ public class ManageRepoImpl implements ManageRepo {
     }
 
     @Override
-    public Repository createRepository(String id) {
+    public org.eclipse.jgit.lib.Repository createRepository(String id) {
         RepositoryBuilder repositoryBuilder = new RepositoryBuilder();
         repositoryBuilder.setGitDir(deviceInfoUtils.getExternalStorageDirectory().resolve(id).resolve(".git").toFile());
         repositoryBuilder.setMustExist(false);
