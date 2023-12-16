@@ -88,4 +88,9 @@ public class DocumentImpl implements Document{
     public DocumentDetail getDocumentDetailByMeta(DocumentMeta meta) {
         return getDocumentDetail(meta.getId()); // TODO-rca: 効率悪いのでMetaはもらった物を使うようにする（処理を切り分ける？）
     }
+
+    @Override
+    public DocumentDetail createDocumentByMeta(DocumentMeta meta) {
+        return null;
+    }
 }
