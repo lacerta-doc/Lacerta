@@ -71,16 +71,31 @@ public class ActionRepoImpl implements ActionRepo{
 
     @Override
     public void stageFile(String path) {
-
+        Git git = getGit();
+        try {
+            git.add().addFilepattern(path).call();
+        } catch (Exception e) { // TODO-rca: エラーハンドリング
+            logger.error(TAG, "stageFile: " + e.getMessage());
+        }
     }
 
     @Override
     public void unstageFile(String path) {
-
+        Git git = getGit();
+        try {
+            git.reset().addPath(path).call();
+        } catch (Exception e) { // TODO-rca: エラーハンドリング
+            logger.error(TAG, "unstageFile: " + e.getMessage());
+        }
     }
 
     @Override
     public void commit(String message) {
-
+        Git git = getGit();
+        try {
+            git.commit().setMessage(message).call();
+        } catch (Exception e) { // TODO-rca: エラーハンドリング
+            logger.error(TAG, "commit: " + e.getMessage());
+        }
     }
 }
