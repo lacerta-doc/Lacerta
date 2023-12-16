@@ -10,7 +10,6 @@ import one.nem.lacerta.model.document.DocumentMeta;
  * ドキュメントの詳細データ
  */
 public class DocumentDetail {
-    // TODO-rca: コンストラクタを追加する
 
     /**
      * ドキュメントのメタデータ(DocumentMetaインスタンス)
@@ -32,6 +31,16 @@ public class DocumentDetail {
      */
     String defaultBranch;
 
+    // Constructor
+    public DocumentDetail() {
+    }
+
+    public DocumentDetail(DocumentMeta meta, DocumentPath path, String author, String defaultBranch) {
+        this.meta = meta;
+        this.path = path;
+        this.author = author;
+        this.defaultBranch = defaultBranch;
+    }
 
     // Getter
 
