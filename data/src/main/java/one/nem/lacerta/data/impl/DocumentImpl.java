@@ -18,6 +18,8 @@ import one.nem.lacerta.source.database.entity.DocumentEntity;
 import one.nem.lacerta.source.database.entity.LibraryEntity;
 import one.nem.lacerta.source.database.entity.TagEntity;
 
+import one.nem.lacerta.source.jgit.JGitRepository;
+
 
 public class DocumentImpl implements Document{
 
@@ -28,6 +30,8 @@ public class DocumentImpl implements Document{
         this.database = database;
     }
 
+    @Inject
+    JGitRepository jGitRepository;
 
     @Override
     public ArrayList<DocumentMeta> getRecentDocumentMetas(int limit) {
@@ -60,14 +64,18 @@ public class DocumentImpl implements Document{
         LibraryEntity libraryEntity = database.libraryDao().findById(id);
         DocumentPath documentPath = new DocumentPath(libraryEntity.rootPath, libraryEntity.path);
 
+        // リポジトリ取得
+        jGitRepository.getRepository(id);
+
         // 組み立て処理
-        // TODO-rca: 切り出すべきかも?
+        // 可読性が終わるのでコンストラクタはつかわないほうがいいかも？
         DocumentMeta documentMeta = new DocumentMeta();
         documentMeta.setId(documentEntity.id);
         documentMeta.setTitle(documentEntity.title);
         documentMeta.setCreatedAt(documentEntity.createdAt);
         documentMeta.setUpdatedAt(documentEntity.updatedAt);
         documentMeta.setTags(documentTags);
+
         documentDetail.setMeta(documentMeta);
         documentDetail.setAuthor(documentEntity.author);
         documentDetail.setPath(documentPath);
