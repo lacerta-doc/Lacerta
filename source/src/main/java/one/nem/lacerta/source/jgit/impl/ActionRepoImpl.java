@@ -9,9 +9,14 @@ public class ActionRepoImpl implements ActionRepo{
 
     Repository repository;
 
+    Git git;
+
     // Internal method
     private Git getGit() {
-        return new Git(repository);
+        if (this.git == null) {
+            this.git = new Git(repository);
+        }
+        return this.git;
     }
 
     @Override
@@ -34,7 +39,7 @@ public class ActionRepoImpl implements ActionRepo{
 
     @Override
     public String[] getUnstagedFiles() {
-        Git git = new Git(repository);
+        Git git = getGit();
         try {
             return git.status().call().getUntracked().toArray(new String[0]);
         } catch (Exception e) { // TODO-rca: エラーハンドリング
@@ -44,7 +49,7 @@ public class ActionRepoImpl implements ActionRepo{
 
     @Override
     public String[] getStagedFiles() {
-        Git git = new Git(repository);
+        Git git = getGit();
         try {
             return git.status().call().getAdded().toArray(new String[0]);
         } catch (Exception e) { // TODO-rca: エラーハンドリング
