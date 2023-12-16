@@ -7,7 +7,11 @@ public interface DeviceInfoUtils {
     // External storage directory
     Path getExternalStorageDirectory();
 
+    String getExternalStorageDirectoryString();
+
     Path getExternalStorageDirectory(String type);
+
+    String getExternalStorageDirectoryString(String type);
 
     // Permission
     boolean hasPermission(String permission);
