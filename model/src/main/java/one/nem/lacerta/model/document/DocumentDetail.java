@@ -1,5 +1,7 @@
 package one.nem.lacerta.model.document;
 
+import org.eclipse.jgit.lib.Repository;
+
 import java.nio.file.Path;
 import java.util.Date;
 
