@@ -4,22 +4,28 @@ import org.eclipse.jgit.lib.Repository;
 
 public interface ActionRepo {
 
-    // 未ステージングのファイルリスト
-    String[] getUnstagedFiles(Repository repository);
+    // リポジトリをインスタンス変数に格納
+    Repository setRepository(Repository repository);
 
-    // ステージング済みのファイルリスト
-    String[] getStagedFiles(Repository repository);
+    // リポジトリ取得
+    Repository getRepository();
 
-    // ファイルをステージングする
-    void stageFile(Repository repository, String path);
+    // リポジトリ名取得
+    String getRepositoryName();
 
-    // ファイルをアンステージングする
-    void unstageFile(Repository repository, String path);
+    // ステージングされていないファイルの一覧を取得
+    String[] getUnstagedFiles();
 
-    // ファイルをコミットする
-    void commitFile(Repository repository, String path, String message);
+    // ステージングされているファイルの一覧を取得
+    String[] getStagedFiles();
 
-    // ファイルを削除する
-//    void deleteFile(Repository repository, String path); // TODO-rca:
+    // ファイルをステージング
+    void stageFile(String path);
+
+    // ファイルをアンステージング
+    void unstageFile(String path);
+
+    // ステージングされているファイルをコミット
+    void commit(String message);
 
 }
