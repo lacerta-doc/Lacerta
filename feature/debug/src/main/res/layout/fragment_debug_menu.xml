@@ -1,45 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".DebugMenuFragment">
 
-    <com.google.android.material.textview.MaterialTextView
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Debug Menu"
-        android:textSize="36sp"
-        android:padding="16dp" />
+        android:tooltipText="Debug menu"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!--    <com.google.android.material.textview.MaterialTextView-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="Debug Menu"-->
+    <!--        android:textSize="36sp"-->
+    <!--        android:padding="16dp" />-->
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <!-- Call Events -->
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="8dp"
                 android:text="Call Debug Events"
-                android:textSize="24sp"
-                android:padding="8dp" />
-<!--                android:textColor="@color/material_dynamic_primary10" />-->
+                android:textSize="24sp" />
+            <!--                android:textColor="@color/material_dynamic_primary10" />-->
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_debug_menu_scan"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Start scan action"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginTop="8dp" />
+                android:text="Start scan action" />
 
             <!-- Padding -->
 
@@ -53,25 +66,25 @@
                 android:padding="8dp"
                 android:text="SharedPref"
                 android:textSize="24sp" />
-<!--                android:textColor="@color/material_dynamic_primary10" />-->
+            <!--                android:textColor="@color/material_dynamic_primary10" />-->
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_debug_menu_clear_pref"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Clear Preferences"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginTop="8dp" />
+                android:text="Clear Preferences" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_debug_menu_shared_pref_editor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Shared Preferences Editor"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginTop="8dp" />
+                android:text="Shared Preferences Editor" />
 
             <!-- Padding -->
 
@@ -190,4 +203,4 @@
     </ScrollView>
 
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

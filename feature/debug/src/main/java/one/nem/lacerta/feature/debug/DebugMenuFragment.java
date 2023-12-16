@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import java.io.File;
 import java.io.IOException;
@@ -68,6 +69,11 @@ public class DebugMenuFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        // Toolbarの設定
+        // TODO-rca: Toolbarの設定を共通化する
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        toolbar.setTitle("DebugMenu");
 
         view.findViewById(R.id.btn_debug_menu_scan).setOnClickListener( v -> {
             // スキャン機能呼び出し
