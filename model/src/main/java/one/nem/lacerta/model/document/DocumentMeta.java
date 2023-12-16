@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import one.nem.lacerta.model.document.tag.DocumentTag;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * ドキュメントのメタデータ
@@ -56,6 +57,11 @@ public class DocumentMeta {
 
     public DocumentMeta(String id, String title) { // Without tags, updatedAt, createdAt
         this.id = id;
+        this.title = title;
+    }
+
+    public DocumentMeta(String title) { // title only
+        this.id = UUID.randomUUID().toString(); // 新規作成時想定なのでコンストラクタで生成してしまう(使う人が楽なので)
         this.title = title;
     }
 
