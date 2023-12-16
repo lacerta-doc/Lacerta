@@ -40,15 +40,13 @@
                     app:cardCornerRadius="8dp"
                     app:cardElevation="4dp">
 
-                    <TextView
+                        <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingStart="16dp"
-                        android:paddingTop="16dp"
-                        android:paddingBottom="8dp"
                         android:text="This is a CardView"
-                        android:textColor="@android:color/black"
-                        android:textSize="18sp" />
+                        android:padding="16dp"
+                        android:textSize="18sp"
+                        android:textColor="@android:color/black"/>
 
                 </androidx.cardview.widget.CardView>
 
