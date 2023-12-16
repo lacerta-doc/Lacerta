@@ -4,8 +4,6 @@ package one.nem.lacerta.model.document.tag;
  * ドキュメントのタグ
  */
 public class DocumentTag {
-    // TODO-rca: コンストラクタを追加する
-
     /**
      * タグのID(String)
      */
@@ -20,6 +18,16 @@ public class DocumentTag {
      * タグの色(String)
      */
     String color;
+
+    // Constructor
+    public DocumentTag() {
+    }
+
+    public DocumentTag(String id, String name, String color) {
+        this.id = id;
+        this.name = name;
+        this.color = color;
+    }
 
     // Getter
 
