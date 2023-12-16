@@ -19,6 +19,7 @@ import one.nem.lacerta.source.database.entity.LibraryEntity;
 import one.nem.lacerta.source.database.entity.TagEntity;
 
 import one.nem.lacerta.source.jgit.JGitRepository;
+import one.nem.lacerta.utils.repository.DeviceInfoUtils;
 
 
 public class DocumentImpl implements Document{
@@ -32,6 +33,9 @@ public class DocumentImpl implements Document{
 
     @Inject
     JGitRepository jGitRepository;
+
+    @Inject
+    DeviceInfoUtils deviceInfoUtils;
 
     @Override
     public ArrayList<DocumentMeta> getRecentDocumentMetas(int limit) {
@@ -91,6 +95,10 @@ public class DocumentImpl implements Document{
 
     @Override
     public DocumentDetail createDocumentByMeta(DocumentMeta meta) {
-        return null;
+        DocumentDetail documentDetail = new DocumentDetail();
+
+        documentDetail.setMeta(meta);
+        documentDetail.setAuthor("author"); // TODO-rca: SharedPrefを扱う機能を作ってそこから取得するようにする or Gitの設定を参照するようにする
+        documentDetail.setPath(new DocumentPath(deviceInfoUtils.getExternalStorageDirectory(), meta.getTitle())); // TODO-rca: パスの生成方法を考える
     }
 }
