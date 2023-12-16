@@ -65,7 +65,7 @@ public class DocumentImpl implements Document{
         DocumentPath documentPath = new DocumentPath(libraryEntity.rootPath, libraryEntity.path);
 
         // リポジトリ取得
-        jGitRepository.getRepository(id);
+        documentDetail.setRepository(jGitRepository.getRepository(id)); // TODO-rca: エラーハンドリング
 
         // 組み立て処理
         // 可読性が終わるのでコンストラクタはつかわないほうがいいかも？
