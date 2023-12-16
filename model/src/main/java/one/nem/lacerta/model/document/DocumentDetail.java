@@ -76,6 +76,13 @@ public class DocumentDetail {
         return defaultBranch;
     }
 
+    /**
+     * ドキュメントのリポジトリを取得する
+     */
+    public Repository getRepository() {
+        return repository;
+    }
+
 
     // Setter
 
@@ -111,5 +118,11 @@ public class DocumentDetail {
         this.defaultBranch = defaultBranch;
     }
 
+    /**
+     * ドキュメントのリポジトリを設定する
+     */
+    public void setRepository(Repository repository) {
+        this.repository = repository;
+    }
 
 }
