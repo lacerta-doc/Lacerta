@@ -72,7 +72,7 @@ public class DebugMenuFragment extends Fragment {
 
         // Toolbarの設定
         // TODO-rca: Toolbarの設定を共通化する
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        androidx.appcompat.widget.Toolbar toolbar = view.findViewById(R.id.toolbar);
         toolbar.setTitle("DebugMenu");
 
         view.findViewById(R.id.btn_debug_menu_scan).setOnClickListener( v -> {
