@@ -6,6 +6,8 @@ import javax.inject.Inject;
 
 import one.nem.lacerta.utils.repository.DeviceInfoUtils;
 
+import org.eclipse.jgit.lib.Repository;
+
 import org.eclipse.jgit.lib.RepositoryBuilder;
 
 public class JGitRepositoryImpl implements JGitRepository {
@@ -18,7 +20,7 @@ public class JGitRepositoryImpl implements JGitRepository {
     }
 
     @Override
-    public org.eclipse.jgit.lib.Repository getRepository(String id) {
+    public Repository getRepository(String id) {
         RepositoryBuilder repositoryBuilder = new RepositoryBuilder();
         repositoryBuilder.setGitDir(deviceInfoUtils.getExternalStorageDirectory().resolve(id).resolve(".git").toFile());
         repositoryBuilder.setMustExist(true);
@@ -30,7 +32,7 @@ public class JGitRepositoryImpl implements JGitRepository {
     }
 
     @Override
-    public org.eclipse.jgit.lib.Repository createRepository(String id) {
+    public Repository createRepository(String id) {
         RepositoryBuilder repositoryBuilder = new RepositoryBuilder();
         repositoryBuilder.setGitDir(deviceInfoUtils.getExternalStorageDirectory().resolve(id).resolve(".git").toFile());
         repositoryBuilder.setMustExist(false);

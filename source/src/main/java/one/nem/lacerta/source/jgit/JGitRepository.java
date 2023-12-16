@@ -1,11 +1,13 @@
 package one.nem.lacerta.source.jgit;
 
+import org.eclipse.jgit.lib.Repository;
+
 public interface JGitRepository {
 
     // リポジトリ取得
-    org.eclipse.jgit.lib.Repository getRepository(String id);
+    Repository getRepository(String id);
     // リポジトリ作成
-    org.eclipse.jgit.lib.Repository createRepository(String id);
+    Repository createRepository(String id);
     // リポジトリ削除
     void deleteRepository(String id);
     // リポジトリ存在確認
