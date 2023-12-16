@@ -6,9 +6,11 @@ import one.nem.lacerta.source.jgit.ActionRepo;
 
 public class ActionRepoImpl implements ActionRepo{
 
+    Repository repository;
+
     @Override
-    public Repository setRepository(Repository repository) {
-        return null;
+    public void setRepository(Repository repository) {
+        this.repository = repository;
     }
 
     @Override

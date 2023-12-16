@@ -5,7 +5,7 @@ import org.eclipse.jgit.lib.Repository;
 public interface ActionRepo {
 
     // リポジトリをインスタンス変数に格納
-    Repository setRepository(Repository repository);
+    void setRepository(Repository repository);
 
     // リポジトリ取得
     Repository getRepository();
