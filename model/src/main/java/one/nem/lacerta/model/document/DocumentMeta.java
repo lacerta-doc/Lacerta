@@ -149,4 +149,17 @@ public class DocumentMeta {
         this.tags = tags;
     }
 
+    /**
+     * updatedAtを現在時刻に設定する
+     */
+    public void setUpdatedAtNow() {
+        this.updatedAt = new Date();
+    }
+
+    /**
+     * createdAtを現在時刻に設定する
+     */
+    public void setCreatedAtNow() {
+        this.createdAt = new Date();
+    }
 }
