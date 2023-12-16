@@ -1,7 +1,9 @@
 # Lacerta
 WIP
 ## モジュール設計
-![Untitled Diagram drawio(2)](https://github.com/lacerta-doc/Lacerta/assets/66072112/47006ffd-0fd3-4eec-8a28-fb9629b990bf)
+
+![Untitled Diagram(2)](https://github.com/lacerta-doc/Lacerta/assets/66072112/9daabaca-5cdc-49f8-ac66-196c588a47c9)
+
 
 ## コーディング規則/推奨(WIP)
 ### 規則
