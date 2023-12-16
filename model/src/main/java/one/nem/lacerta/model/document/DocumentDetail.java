@@ -31,6 +31,8 @@ public class DocumentDetail {
      */
     String defaultBranch;
 
+    Repository repository;
+
     // Constructor
     public DocumentDetail() {
     }
