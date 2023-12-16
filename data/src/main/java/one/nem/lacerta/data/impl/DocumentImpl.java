@@ -52,11 +52,7 @@ public class DocumentImpl implements Document{
         List<TagEntity> tagEntities = database.tagDao().findByIds(documentEntity.tagIds);
         ArrayList<DocumentTag> documentTags = new ArrayList<>();
         for (TagEntity tagEntity : tagEntities) {
-            DocumentTag documentTag = new DocumentTag();
-            documentTag.setId(tagEntity.id);
-            documentTag.setName(tagEntity.tagName);
-            documentTag.setColor(tagEntity.color);
-            documentTags.add(documentTag);
+            documentTags.add(new DocumentTag(tagEntity.id, tagEntity.tagName, tagEntity.color));
         }
 
         // パス取得
