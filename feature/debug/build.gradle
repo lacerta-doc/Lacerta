@@ -59,4 +59,7 @@ dependencies {
     // 型
     implementation project(':model')
 
+    // Shared
+    implementation project(':shared:ui')
+
 }
