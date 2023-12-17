@@ -33,7 +33,6 @@ public class DebugMenuListItemAdapter extends RecyclerView.Adapter<DebugMenuList
     @Override
     public void onBindViewHolder(@NonNull DebugMenuListItemViewHolder holder, int position) {
         DebugMenuListItem item = debugMenuListItems.get(position);
-        Log.d("DebugMenuListItemAdapter", "onBindViewHolder: " + item.getTitle()); // TODO: Remove
         // Set title
         holder.title.setText(item.getTitle());
         // Set description
