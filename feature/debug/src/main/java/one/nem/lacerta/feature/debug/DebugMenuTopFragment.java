@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+import one.nem.lacerta.feature.debug.common.adapter.DebugMenuListItemAdapter;
 import one.nem.lacerta.feature.debug.common.model.DebugMenuListItem;
 
 /**
@@ -42,10 +43,11 @@ public class DebugMenuTopFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_debug_menu_top, container, false);
 
         RecyclerView recyclerView = view.findViewById(R.id.debug_menu_recycler_view);
-
+        recyclerView.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(getContext()));
         List<DebugMenuListItem> debugMenuListItems = new ArrayList<>();
         debugMenuListItems.add(new DebugMenuListItem("Meta Data", "View meta data", R.id.action_debugMenuTopFragment_to_debugMenuMetaDataFragment, true));
-
+        DebugMenuListItemAdapter adapter = new DebugMenuListItemAdapter(debugMenuListItems);
+        recyclerView.setAdapter(adapter);
         return view;
     }
 }
