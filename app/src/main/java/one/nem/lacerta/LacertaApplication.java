@@ -11,6 +11,8 @@ public class LacertaApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        // DynamicColorを有効化
         DynamicColors.applyToActivitiesIfAvailable(this);
     }
 }

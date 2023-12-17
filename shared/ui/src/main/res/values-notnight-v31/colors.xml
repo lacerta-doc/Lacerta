@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- TODO: ダーク対応させる -->
     <color name="colorPrimary">@color/material_dynamic_primary40</color>
     <color name="colorOnPrimary">#FFFFFF</color>
     <color name="colorPrimaryContainer">@color/material_dynamic_primary90</color>
