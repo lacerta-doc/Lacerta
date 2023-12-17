@@ -9,11 +9,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+
 import javax.inject.Inject;
 
 import one.nem.lacerta.data.Document;
 import one.nem.lacerta.feature.debug.common.adapter.DebugMenuDocumentListItemAdapter;
 import one.nem.lacerta.feature.debug.common.model.DebugMenuDocumentListItem;
+import one.nem.lacerta.model.document.DocumentMeta;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -50,7 +54,15 @@ public class DebugMenuDocumentTesterListFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view_document_list);
         recyclerView.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(getContext()));
 
+        ArrayList<DocumentMeta> documentMetas = document.getAllDocumentMetas(100);
 
+        ArrayList<DebugMenuDocumentListItem> debugMenuDocumentListItems = new ArrayList<>();
+
+        for (DocumentMeta documentMeta : documentMetas) {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+            debugMenuDocumentListItems.add(new DebugMenuDocumentListItem(documentMeta.getTitle(), "Internal Id: " + documentMeta.getId(), simpleDateFormat.format(documentMeta.getUpdatedAt())));
+        }
 
         return view;
     }
