@@ -132,7 +132,7 @@ public class DebugMenuFragment extends Fragment {
         });
 
         view.findViewById(R.id.btn_debug_menu_select_test_data).setOnClickListener(v -> {
-            // Placeholder
+            Navigation.findNavController(view).navigate(R.id.action_debugMenuFragment_to_debugDocumentManageFragment);
         });
     }
 }
