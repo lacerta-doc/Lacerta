@@ -58,6 +58,9 @@ dependencies {
 //    implementation project(':data:source:preference')
 //
     implementation project(':data')
+
+    implementation project(':shared:ui')
+
     // Hilt (DI)
     implementation libs.com.google.dagger.hilt.android
     annotationProcessor libs.com.google.dagger.hilt.compiler
