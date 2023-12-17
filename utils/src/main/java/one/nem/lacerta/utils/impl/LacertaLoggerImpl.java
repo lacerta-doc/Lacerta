@@ -2,8 +2,14 @@ package one.nem.lacerta.utils.impl;
 
 import android.util.Log;
 
+import javax.inject.Inject;
+
 import one.nem.lacerta.utils.LacertaLogger;
 public class LacertaLoggerImpl implements LacertaLogger{
+
+    @Inject
+    public LacertaLoggerImpl() {
+    }
 
     @Override
     public void info(String tag, String message) {
