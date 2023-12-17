@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.textfield.TextInputEditText;
+
 import java.util.UUID;
 
 import javax.inject.Inject;
@@ -55,8 +57,10 @@ public class DebugMenuDocumentTesterManageFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_debug_menu_document_tester_manage, container, false);
 
+        TextInputEditText editTextDocumentTitle = view.findViewById(R.id.edit_text_document_title);
         view.findViewById(R.id.button_insert_test_data).setOnClickListener( v -> {
-            DocumentMeta meta = new DocumentMeta("test_title");
+
+            DocumentMeta meta = new DocumentMeta(editTextDocumentTitle != null ? editTextDocumentTitle.getText().toString() : "empty title"); // TODO-rca: Nullable
             DocumentPath path = new DocumentPath("root", "test_path");
             DocumentDetail detail = new DocumentDetail(meta, path, "test_author", "test_default_branch");
 
