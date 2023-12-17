@@ -35,6 +35,17 @@
                     android:textColor="@color/colorOnSecondaryContainer"
                     android:text="Debug actions" />
 
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Document title"
+                    android:id="@+id/edit_text_document_title"
+                    android:layout_margin="16dp"
+                    android:inputType="text"
+                    android:textSize="16sp"
+                    style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox" />
+
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/button_insert_test_data"
                     style="@style/Widget.Material3.Button.OutlinedButton"
