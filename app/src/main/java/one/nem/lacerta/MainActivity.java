@@ -10,8 +10,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-
+import com.google.android.material.color.DynamicColors;
 
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -23,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // DynamicColorを有効化
         setContentView(R.layout.activity_main);
 
         // Debug
