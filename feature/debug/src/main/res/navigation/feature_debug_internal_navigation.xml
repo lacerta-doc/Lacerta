@@ -26,5 +26,14 @@
         android:id="@+id/debugMenuDocumentTesterTopFragment"
         android:name="one.nem.lacerta.feature.debug.DebugMenuDocumentTesterTopFragment"
         android:label="fragment_debug_menu_document_tester_top"
-        tools:layout="@layout/fragment_debug_menu_document_tester_top" />
+        tools:layout="@layout/fragment_debug_menu_document_tester_top" >
+        <action
+            android:id="@+id/action_debugMenuDocumentTesterTopFragment_to_debugMenuDocumentTesterListFragment"
+            app:destination="@id/debugMenuDocumentTesterListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/debugMenuDocumentTesterListFragment"
+        android:name="one.nem.lacerta.feature.debug.DebugMenuDocumentTesterListFragment"
+        android:label="fragment_debug_menu_document_tester_list"
+        tools:layout="@layout/fragment_debug_menu_document_tester_list" />
 </navigation>
