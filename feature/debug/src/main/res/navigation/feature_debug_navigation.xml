@@ -18,6 +18,9 @@
         <action
             android:id="@+id/action_debugMenuFragment_to_debugRepositoryDebuggerFragment"
             app:destination="@id/debugRepositoryDebuggerFragment" />
+        <action
+            android:id="@+id/action_debugMenuFragment_to_debugDocumentManageFragment"
+            app:destination="@id/debugDocumentManageFragment" />
     </fragment>
     <fragment
         android:id="@+id/debugSharedPrefEditorFragment"
@@ -36,4 +39,10 @@
         android:name="one.nem.lacerta.feature.debug.DebugRepositoryDebuggerFragment"
         android:label="fragment_debug_repository_debugger"
         tools:layout="@layout/fragment_debug_repository_debugger" />
+
+    <fragment
+        android:id="@+id/debugDocumentManageFragment"
+        android:name="one.nem.lacerta.feature.debug.DocumentManageDebugFragment"
+        android:label="fragment_debug_document_manage"
+        tools:layout="@layout/fragment_document_manage_debug" />
 </navigation>
