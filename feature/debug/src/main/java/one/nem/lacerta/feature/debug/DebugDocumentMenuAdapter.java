@@ -19,6 +19,18 @@ public class DebugDocumentMenuAdapter extends RecyclerView.Adapter<DebugDocument
     public DebugDocumentMenuAdapter(List<SettingMenuItem> menuItems) {
         this.menuItems = menuItems;
     }
+
+    public DebugDocumentMenuAdapter() {
+        // Empty constructor
+    }
+
+    public void addMenuItem(SettingMenuItem menuItem) {
+        this.menuItems.add(menuItem);
+    }
+    public void setMenuItems(List<SettingMenuItem> menuItems) {
+        this.menuItems = menuItems;
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
