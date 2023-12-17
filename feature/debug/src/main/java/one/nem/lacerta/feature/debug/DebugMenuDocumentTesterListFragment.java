@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
+import dagger.hilt.android.AndroidEntryPoint;
 import one.nem.lacerta.data.Document;
 import one.nem.lacerta.feature.debug.common.adapter.DebugMenuDocumentListItemAdapter;
 import one.nem.lacerta.feature.debug.common.model.DebugMenuDocumentListItem;
@@ -24,6 +25,8 @@ import one.nem.lacerta.model.document.DocumentMeta;
  * Use the {@link DebugMenuDocumentTesterListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+
+@AndroidEntryPoint
 public class DebugMenuDocumentTesterListFragment extends Fragment {
 
     @Inject
