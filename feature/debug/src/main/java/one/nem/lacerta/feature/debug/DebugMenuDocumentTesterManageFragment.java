@@ -12,6 +12,7 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 
+import dagger.hilt.android.AndroidEntryPoint;
 import dagger.multibindings.IntKey;
 import one.nem.lacerta.data.DocumentDebug;
 
@@ -26,6 +27,7 @@ import one.nem.lacerta.model.document.tag.DocumentTag;
  * Use the {@link DebugMenuDocumentTesterManageFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+@AndroidEntryPoint
 public class DebugMenuDocumentTesterManageFragment extends Fragment {
 
     @Inject

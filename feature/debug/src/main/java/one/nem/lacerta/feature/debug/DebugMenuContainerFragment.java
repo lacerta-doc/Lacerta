@@ -8,11 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link DebugMenuContainerFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+@AndroidEntryPoint
 public class DebugMenuContainerFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
