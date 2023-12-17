@@ -10,6 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
+import one.nem.lacerta.feature.debug.common.model.SettingMenuItem;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link DocumentManageDebugFragment#newInstance} factory method to
@@ -39,6 +43,10 @@ public class DocumentManageDebugFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_document_manage_debug, container, false);
 
         RecyclerView recyclerView = view.findViewById(R.id.doc_editor_menu_recycler_view);
+
+        List<SettingMenuItem> menuItems = List.of(
+                new SettingMenuItem("test", )
+        );
 
         recyclerView.setAdapter(new DebugDocumentMenuAdapter());
 
