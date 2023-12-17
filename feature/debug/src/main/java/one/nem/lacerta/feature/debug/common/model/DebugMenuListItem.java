@@ -4,10 +4,10 @@ public class DebugMenuListItem {
 
     private String title;
     private String description;
-    private String destinationId; // Navigation destination ID
+    private int destinationId; // Navigation destination ID
     private boolean enabled;
 
-    public DebugMenuListItem(String title, String description, String destinationId, boolean enabled) {
+    public DebugMenuListItem(String title, String description, int destinationId, boolean enabled) {
         this.title = title;
         this.description = description;
         this.destinationId = destinationId;
@@ -22,7 +22,7 @@ public class DebugMenuListItem {
         return description;
     }
 
-    public String getDestinationId() {
+    public int getDestinationId() {
         return destinationId;
     }
 
