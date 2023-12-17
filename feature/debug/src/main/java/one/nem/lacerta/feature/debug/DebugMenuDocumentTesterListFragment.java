@@ -19,6 +19,7 @@ import one.nem.lacerta.data.Document;
 import one.nem.lacerta.feature.debug.common.adapter.DebugMenuDocumentListItemAdapter;
 import one.nem.lacerta.feature.debug.common.model.DebugMenuDocumentListItem;
 import one.nem.lacerta.model.document.DocumentMeta;
+import one.nem.lacerta.utils.LacertaLogger;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,6 +32,9 @@ public class DebugMenuDocumentTesterListFragment extends Fragment {
 
     @Inject
     Document document;
+
+    @Inject
+    LacertaLogger logger;
 
     public DebugMenuDocumentTesterListFragment() {
         // Required empty public constructor
@@ -59,13 +63,17 @@ public class DebugMenuDocumentTesterListFragment extends Fragment {
 
         ArrayList<DocumentMeta> documentMetas = document.getAllDocumentMetas(100);
 
+
+
         ArrayList<DebugMenuDocumentListItem> debugMenuDocumentListItems = new ArrayList<>();
 
         for (DocumentMeta documentMeta : documentMetas) {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
             debugMenuDocumentListItems.add(new DebugMenuDocumentListItem(documentMeta.getTitle(), "Internal Id: " + documentMeta.getId(), simpleDateFormat.format(documentMeta.getUpdatedAt())));
         }
+
+        DebugMenuDocumentListItemAdapter adapter = new DebugMenuDocumentListItemAdapter(debugMenuDocumentListItems);
+        recyclerView.setAdapter(adapter);
 
         return view;
     }
