@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -32,6 +33,10 @@ public class DebugMenuListItemAdapter extends RecyclerView.Adapter<DebugMenuList
         DebugMenuListItem item = debugMenuListItems.get(position);
         holder.title.setText(item.getTitle());
         holder.description.setText(item.getDescription());
+
+        holder.itemView.setOnClickListener( v -> {
+            Navigation.findNavController(v).navigate(item.getDestinationId());
+        });
     }
 
     @Override
