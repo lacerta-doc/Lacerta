@@ -13,9 +13,9 @@ import one.nem.lacerta.model.document.tag.DocumentTag;
  */
 public interface Document {
 
-    ArrayList<DocumentMeta> getAllDocumentMetas(String path, int limit);
+    ArrayList<DocumentMeta> getAllDocumentMetas(int limit);
 
-    ArrayList<DocumentMeta> getAllDocumentMetas(String path, int limit, int offset);
+    ArrayList<DocumentMeta> getAllDocumentMetas(int limit, int offset);
 
     /**
      * 更新の新しいドキュメントから順に並べてlimit件取得する
