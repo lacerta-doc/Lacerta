@@ -3,6 +3,7 @@ package one.nem.lacerta.feature.debug.common.adapter;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,7 +29,18 @@ public class DebugMenuDocumentListItemAdapter extends RecyclerView.Adapter<Debug
 
     @Override
     public void onBindViewHolder(@NonNull DebugMenuDocumentListItemAdapter.DebugMenuDocumentListItemViewHolder holder, int position) {
+        DebugMenuDocumentListItem item = debugMenuDocumentListItems.get(position);
 
+        // Set title
+        holder.title.setText(item.getTitle());
+        // Set description
+        holder.description.setText(item.getDescription());
+        // Set updated at
+        holder.updatedAt.setText("Updated at: " + item.getUpdatedAt());
+
+        holder.itemView.setOnClickListener(v -> {
+            Toast.makeText(v.getContext(), "Clicked on " + item.getTitle(), Toast.LENGTH_SHORT).show(); // Debug
+        });
     }
 
     @Override
