@@ -24,13 +24,13 @@ public class DebugMenuDocumentListItemAdapter extends RecyclerView.Adapter<Debug
 
     @NonNull
     @Override
-    public DebugMenuDocumentListItemAdapter.DebugMenuDocumentListItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public DebugMenuDocumentListItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_debug_menu_document, parent, false);
         return new DebugMenuDocumentListItemViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull DebugMenuDocumentListItemAdapter.DebugMenuDocumentListItemViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull DebugMenuDocumentListItemViewHolder holder, int position) {
         DebugMenuDocumentListItem item = debugMenuDocumentListItems.get(position);
 
         // Set title
@@ -47,7 +47,7 @@ public class DebugMenuDocumentListItemAdapter extends RecyclerView.Adapter<Debug
 
     @Override
     public int getItemCount() {
-        return 0;
+        return debugMenuDocumentListItems.size();
     }
 
     public class DebugMenuDocumentListItemViewHolder extends RecyclerView.ViewHolder {
