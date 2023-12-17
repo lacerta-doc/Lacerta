@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import one.nem.lacerta.feature.debug.R;
 import one.nem.lacerta.feature.debug.common.model.DebugMenuListItem;
 
 public class DebugMenuListItemAdapter extends RecyclerView.Adapter<DebugMenuListItemAdapter.DebugMenuListItemViewHolder> {
@@ -22,7 +23,7 @@ public class DebugMenuListItemAdapter extends RecyclerView.Adapter<DebugMenuList
     @NonNull
     @Override
     public DebugMenuListItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.debug_menu_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_debug_menu, parent, false);
         return new DebugMenuListItemViewHolder(view);
     }
 
