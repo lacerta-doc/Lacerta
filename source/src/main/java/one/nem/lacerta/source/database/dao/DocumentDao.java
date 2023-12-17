@@ -22,6 +22,9 @@ public interface DocumentDao {
     @Query("SELECT * FROM Document")
     List<DocumentEntity> findAll();
 
+    @Query("SELECT * FROM Document LIMIT :limit")
+    List<DocumentEntity> getAllWithLimit(int limit);
+
     @Query("SELECT * FROM Document WHERE id IN (:ids)")
     List<DocumentEntity> findByIds(List<String> ids);
 
