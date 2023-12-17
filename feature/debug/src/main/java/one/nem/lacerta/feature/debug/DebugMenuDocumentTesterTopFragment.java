@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+import one.nem.lacerta.feature.debug.common.adapter.DebugMenuListItemAdapter;
 import one.nem.lacerta.feature.debug.common.model.DebugMenuListItem;
 
 /**
@@ -46,8 +47,13 @@ public class DebugMenuDocumentTesterTopFragment extends Fragment {
 
         List<DebugMenuListItem> debugMenuDocTesterListItems = new ArrayList<>();
 
-        // WIP
+        debugMenuDocTesterListItems.add(new DebugMenuListItem("DocumentListFragment", "DocumentListFragment", R.id.action_debugMenuDocumentTesterTopFragment_to_debugMenuDocumentTesterListFragment, true));
+        debugMenuDocTesterListItems.add(new DebugMenuListItem("DocumentManagerFragment", "DocumentManagerFragment", R.id.action_debugMenuDocumentTesterTopFragment_to_debugMenuDocumentTesterManageFragment, true));
 
+
+        DebugMenuListItemAdapter adapter = new DebugMenuListItemAdapter(debugMenuDocTesterListItems);
+        recyclerView.setAdapter(adapter);
         return view;
+
     }
 }
