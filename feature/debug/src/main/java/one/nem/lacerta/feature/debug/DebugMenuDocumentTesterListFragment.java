@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -63,9 +64,9 @@ public class DebugMenuDocumentTesterListFragment extends Fragment {
 
         ArrayList<DocumentMeta> documentMetas = document.getAllDocumentMetas(100);
 
+        logger.debug("Debug/DocList", "Document count: " + documentMetas.size());
 
-
-        ArrayList<DebugMenuDocumentListItem> debugMenuDocumentListItems = new ArrayList<>();
+        List<DebugMenuDocumentListItem> debugMenuDocumentListItems = new ArrayList<>();
 
         for (DocumentMeta documentMeta : documentMetas) {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
