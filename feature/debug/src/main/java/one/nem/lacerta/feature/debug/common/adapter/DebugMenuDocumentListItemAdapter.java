@@ -1,5 +1,6 @@
 package one.nem.lacerta.feature.debug.common.adapter;
 
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -24,7 +25,8 @@ public class DebugMenuDocumentListItemAdapter extends RecyclerView.Adapter<Debug
     @NonNull
     @Override
     public DebugMenuDocumentListItemAdapter.DebugMenuDocumentListItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_debug_menu_document, parent, false);
+        return new DebugMenuDocumentListItemViewHolder(view);
     }
 
     @Override
