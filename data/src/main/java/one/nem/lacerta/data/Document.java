@@ -1,5 +1,6 @@
 package one.nem.lacerta.data;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import one.nem.lacerta.model.document.DocumentMeta;
@@ -11,6 +12,10 @@ import one.nem.lacerta.model.document.tag.DocumentTag;
  * ドキュメントのデータを取得する
  */
 public interface Document {
+
+    ArrayList<DocumentMeta> getAllDocumentMetasByPath(String path, int limit);
+
+    ArrayList<DocumentMeta> getAllDocumentMetasByPath(String path, int limit, int offset);
 
     /**
      * 更新の新しいドキュメントから順に並べてlimit件取得する
