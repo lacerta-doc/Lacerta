@@ -31,7 +31,7 @@ public class DebugMenuListItemAdapter extends RecyclerView.Adapter<DebugMenuList
     public void onBindViewHolder(@NonNull DebugMenuListItemViewHolder holder, int position) {
         DebugMenuListItem item = debugMenuListItems.get(position);
         holder.title.setText(item.getTitle());
-        // Set other views in the holder with data from `item`
+        holder.description.setText(item.getDescription());
     }
 
     @Override
@@ -41,6 +41,7 @@ public class DebugMenuListItemAdapter extends RecyclerView.Adapter<DebugMenuList
 
     static class DebugMenuListItemViewHolder extends RecyclerView.ViewHolder {
         TextView title;
+        TextView description;
 
         public DebugMenuListItemViewHolder(@NonNull View itemView) {
             super(itemView);
