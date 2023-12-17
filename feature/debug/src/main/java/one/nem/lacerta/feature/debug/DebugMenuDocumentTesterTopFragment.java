@@ -10,15 +10,15 @@ import android.view.ViewGroup;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link DebugMenuDocumentTesterFragment#newInstance} factory method to
+ * Use the {@link DebugMenuDocumentTesterTopFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DebugMenuDocumentTesterFragment extends Fragment {
-    public DebugMenuDocumentTesterFragment() {
+public class DebugMenuDocumentTesterTopFragment extends Fragment {
+    public DebugMenuDocumentTesterTopFragment() {
         // Required empty public constructor
     }
-    public static DebugMenuDocumentTesterFragment newInstance() {
-        DebugMenuDocumentTesterFragment fragment = new DebugMenuDocumentTesterFragment();
+    public static DebugMenuDocumentTesterTopFragment newInstance() {
+        DebugMenuDocumentTesterTopFragment fragment = new DebugMenuDocumentTesterTopFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -33,6 +33,6 @@ public class DebugMenuDocumentTesterFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_debug_menu_document_tester, container, false);
+        return inflater.inflate(R.layout.fragment_debug_menu_document_tester_top, container, false);
     }
 }
