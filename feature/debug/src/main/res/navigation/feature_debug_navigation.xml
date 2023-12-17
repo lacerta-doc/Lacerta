@@ -3,21 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/feature_debug_navigation"
-    app:startDestination="@id/debugMenuTopFragment">
-
-
+    app:startDestination="@id/debugMenuContainerFragment">
     <fragment
-        android:id="@+id/debugMenuTopFragment"
-        android:name="one.nem.lacerta.feature.debug.DebugMenuTopFragment"
-        android:label="fragment_debug_menu_top"
-        tools:layout="@layout/fragment_debug_menu_top" >
-        <action
-            android:id="@+id/action_debugMenuTopFragment_to_debugMenuMetaDataFragment"
-            app:destination="@id/debugMenuMetaDataFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/debugMenuMetaDataFragment"
-        android:name="one.nem.lacerta.feature.debug.DebugMenuMetaDataFragment"
-        android:label="fragment_debug_menu_meta_data"
-        tools:layout="@layout/fragment_debug_menu_meta_data" />
+        android:id="@+id/debugMenuContainerFragment"
+        android:name="one.nem.lacerta.feature.debug.DebugMenuContainerFragment"
+        android:label="fragment_debug_menu_container"
+        tools:layout="@layout/fragment_debug_menu_container" />
 </navigation>
