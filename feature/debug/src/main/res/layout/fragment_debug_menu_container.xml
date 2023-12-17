@@ -27,7 +27,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/debug_menu_top_toolbar"
         app:navGraph="@navigation/feature_debug_internal_navigation" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
