@@ -38,6 +38,40 @@ public class DocumentImpl implements Document{
     DeviceInfoUtils deviceInfoUtils;
 
     @Override
+    public ArrayList<DocumentMeta> getAllDocumentMetas(int limit) {
+        ArrayList<DocumentMeta> documentMetas = new ArrayList<>();
+        List<DocumentEntity> documentEntities = database.documentDao().getAllWithLimit(limit);
+
+        for (DocumentEntity documentEntity : documentEntities) {
+            // タグ取得
+            // TODO-rca: 切り出すべきかも？
+            List<TagEntity> tagEntities = database.tagDao().findByIds(documentEntity.tagIds);
+            ArrayList<DocumentTag> documentTags = new ArrayList<>();
+            for (TagEntity tagEntity : tagEntities) {
+                documentTags.add(new DocumentTag(tagEntity.id, tagEntity.tagName, tagEntity.color));
+            }
+
+            // 組み立て処理
+            // 可読性が終わるのでコンストラクタはつかわないほうがいいかも？
+            DocumentMeta documentMeta = new DocumentMeta();
+            documentMeta.setId(documentEntity.id);
+            documentMeta.setTitle(documentEntity.title);
+            documentMeta.setCreatedAt(documentEntity.createdAt);
+            documentMeta.setUpdatedAt(documentEntity.updatedAt);
+            documentMeta.setTags(documentTags);
+
+            documentMetas.add(documentMeta);
+        }
+
+        return documentMetas;
+    }
+
+    @Override
+    public ArrayList<DocumentMeta> getAllDocumentMetas(int limit, int offset) {
+        return null; // TODO-rca: 実装する
+    }
+
+    @Override
     public ArrayList<DocumentMeta> getRecentDocumentMetas(int limit) {
 //        ArrayList<DocumentMeta> documentMetas = new ArrayList<>();
 //        database.documentDao().
