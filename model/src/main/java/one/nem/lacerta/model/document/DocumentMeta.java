@@ -58,11 +58,19 @@ public class DocumentMeta {
     public DocumentMeta(String id, String title) { // Without tags, updatedAt, createdAt
         this.id = id;
         this.title = title;
+        // 現在時刻を設定
+        this.updatedAt = new Date();
+        this.createdAt = new Date();
+        this.tags = new ArrayList<>();
     }
 
     public DocumentMeta(String title) { // title only
         this.id = UUID.randomUUID().toString(); // 新規作成時想定なのでコンストラクタで生成してしまう(使う人が楽なので)
         this.title = title;
+        // 現在時刻を設定
+        this.updatedAt = new Date();
+        this.createdAt = new Date();
+        this.tags = new ArrayList<>();
     }
 
     // Getter
