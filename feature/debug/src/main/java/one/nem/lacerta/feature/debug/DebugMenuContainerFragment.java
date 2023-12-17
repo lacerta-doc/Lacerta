@@ -10,10 +10,10 @@ import android.view.ViewGroup;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link DebugMenuSubContainerFragment#newInstance} factory method to
+ * Use the {@link DebugMenuContainerFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DebugMenuSubContainerFragment extends Fragment {
+public class DebugMenuContainerFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,7 +24,7 @@ public class DebugMenuSubContainerFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public DebugMenuSubContainerFragment() {
+    public DebugMenuContainerFragment() {
         // Required empty public constructor
     }
 
@@ -37,8 +37,8 @@ public class DebugMenuSubContainerFragment extends Fragment {
      * @return A new instance of fragment DebugMenuSubContainerFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static DebugMenuSubContainerFragment newInstance(String param1, String param2) {
-        DebugMenuSubContainerFragment fragment = new DebugMenuSubContainerFragment();
+    public static DebugMenuContainerFragment newInstance(String param1, String param2) {
+        DebugMenuContainerFragment fragment = new DebugMenuContainerFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -59,6 +59,6 @@ public class DebugMenuSubContainerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_debug_menu_sub_container, container, false);
+        return inflater.inflate(R.layout.fragment_debug_menu_container, container, false);
     }
 }
