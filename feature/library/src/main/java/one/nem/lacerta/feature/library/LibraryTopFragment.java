@@ -65,8 +65,8 @@ public class LibraryTopFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_library_top, container, false);
-        
- // Use view.findViewById instead of findViewById
+
+        // Use view.findViewById instead of findViewById
           ListView documentListView = view.findViewById(R.id.document_list);
           List<String> documentList = new ArrayList<>();
 
@@ -76,7 +76,7 @@ public class LibraryTopFragment extends Fragment {
 
           // レイアウトリソースを指定する（例: simple_list_item_1）
           ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                  requireActivity(), // 使用するActivityに依存する場合は requireActivity() を使う
+                   getActivity(), // 修正: requireActivity() ではなく getActivity() を使用
                   android.R.layout.simple_list_item_1,
                   documentList);
 
