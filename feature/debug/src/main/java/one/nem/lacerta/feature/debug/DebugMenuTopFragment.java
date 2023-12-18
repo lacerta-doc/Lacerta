@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.transition.MaterialSharedAxis;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +36,13 @@ public class DebugMenuTopFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MaterialSharedAxis enterTransition = new MaterialSharedAxis(MaterialSharedAxis.Z, true);
+        enterTransition.setDuration(500);
+        setEnterTransition(enterTransition);
+
+        MaterialSharedAxis returnTransition = new MaterialSharedAxis(MaterialSharedAxis.Z, false);
+        returnTransition.setDuration(500);
+        setReturnTransition(returnTransition);
     }
 
     @Override

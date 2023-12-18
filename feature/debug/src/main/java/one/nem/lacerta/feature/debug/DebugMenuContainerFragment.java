@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.transition.MaterialSharedAxis;
+
 import dagger.hilt.android.AndroidEntryPoint;
 
 /**
@@ -52,10 +54,13 @@ public class DebugMenuContainerFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        MaterialSharedAxis enterTransition = new MaterialSharedAxis(MaterialSharedAxis.Z, true);
+        enterTransition.setDuration(500);
+        setEnterTransition(enterTransition);
+
+        MaterialSharedAxis returnTransition = new MaterialSharedAxis(MaterialSharedAxis.Z, false);
+        returnTransition.setDuration(500);
+        setReturnTransition(returnTransition);
     }
 
     @Override
