@@ -2,11 +2,8 @@ package one.nem.lacerta.feature.home;
 
 import android.os.Bundle;
 
-import android.transition.TransitionInflater;
-
 import androidx.fragment.app.Fragment;
 
-import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,14 +49,9 @@ public class HomeTopFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Transition
-        TransitionInflater inflater = TransitionInflater.from(requireContext());
-        setEnterTransition(inflater.inflateTransition(android.R.transition.slide_top));
-        setExitTransition(inflater.inflateTransition(android.R.transition.slide_bottom));
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
-        } else {
         }
     }
 
