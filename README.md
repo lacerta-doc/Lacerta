@@ -5,7 +5,7 @@ WIP
 ![Untitled Diagram(2)](https://github.com/lacerta-doc/Lacerta/assets/66072112/9daabaca-5cdc-49f8-ac66-196c588a47c9)
 
 ## メモ
-- アイコン: Google Material Icons https://fonts.google.com/icons
+- アイコン: Google Material Icons https://fonts.google.com/icons (Weight:300, Grade:0, Optical size: 24px)
 
 ## コーディング規則/推奨(WIP)
 ### 規則
