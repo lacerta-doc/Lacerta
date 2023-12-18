@@ -16,7 +16,7 @@
             app:exitAnim="@anim/slide_to_right"
             app:popUpTo="@id/homeTopFragment"
             app:popUpToInclusive="true"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popEnterAnim="@anim/slide_from_right"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
 
