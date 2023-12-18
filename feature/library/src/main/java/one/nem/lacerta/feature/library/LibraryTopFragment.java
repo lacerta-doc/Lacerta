@@ -7,6 +7,11 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -59,6 +64,25 @@ public class LibraryTopFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_library_top, container, false);
-    }
+        View view =  inflater.inflate(R.layout.fragment_library_top, container, false);
+        
+ // Use view.findViewById instead of findViewById
+          ListView documentListView = view.findViewById(R.id.document_list);
+          List<String> documentList = new ArrayList<>();
+
+          documentList.add("Document A");
+          documentList.add("Document B");
+          documentList.add("Document C");
+
+          // レイアウトリソースを指定する（例: simple_list_item_1）
+          ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                  requireActivity(), // 使用するActivityに依存する場合は requireActivity() を使う
+                  android.R.layout.simple_list_item_1,
+                  documentList);
+
+          documentListView.setAdapter(adapter);
+
+          return view;
+      }
+
 }
