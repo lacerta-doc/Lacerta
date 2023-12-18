@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.transition.MaterialSharedAxis;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link HomeTopFragment#newInstance} factory method to
@@ -52,15 +54,14 @@ public class HomeTopFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Transition
-        TransitionInflater inflater = TransitionInflater.from(requireContext());
-        setEnterTransition(inflater.inflateTransition(android.R.transition.slide_top));
-        setExitTransition(inflater.inflateTransition(android.R.transition.slide_bottom));
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        } else {
-        }
+
+        MaterialSharedAxis enterTransition = new MaterialSharedAxis(MaterialSharedAxis.Z, true);
+        enterTransition.setDuration(500);
+        setEnterTransition(enterTransition);
+
+        MaterialSharedAxis returnTransition = new MaterialSharedAxis(MaterialSharedAxis.Z, false);
+        returnTransition.setDuration(500);
+        setReturnTransition(returnTransition);
     }
 
     @Override
