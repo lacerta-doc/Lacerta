@@ -59,7 +59,7 @@ public class HomeTopFragment extends Fragment {
         enterTransition.setDuration(500);
         setEnterTransition(enterTransition);
 
-        MaterialSharedAxis returnTransition = new MaterialSharedAxis(MaterialSharedAxis.Z, false);
+        MaterialSharedAxis returnTransition = new MaterialSharedAxis(MaterialSharedAxis.Z, true);
         returnTransition.setDuration(500);
         setReturnTransition(returnTransition);
     }

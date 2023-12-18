@@ -31,20 +31,10 @@ public class MainActivity extends AppCompatActivity {
 
         NavHostFragment navHostFragment = (NavHostFragment) supportFragmentManager.findFragmentById(R.id.nav_host_fragment);
 
-        // Animation
-        if (navHostFragment != null) {
-            MaterialSharedAxis exitTransition = new MaterialSharedAxis(MaterialSharedAxis.Z, true);
-            exitTransition.setDuration(500);
-            navHostFragment.setExitTransition(exitTransition);
-
-            MaterialSharedAxis reenterTransition = new MaterialSharedAxis(MaterialSharedAxis.Z, false);
-            reenterTransition.setDuration(500);
-            navHostFragment.setReenterTransition(reenterTransition);
-        }
-
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav);
 
         NavController navController = navHostFragment.getNavController();
+
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
         Toast.makeText(this, "testMessage", Toast.LENGTH_SHORT).show();
