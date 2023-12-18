@@ -6,6 +6,11 @@
         android:icon="@drawable/outline_developer_mode_24"
         android:title="DebugMenu"/>
 
+    <item
+        android:id="@id/feature_library_navigation"
+        android:icon="@drawable/folder_24px"
+        android:title="Library"/>
+
 
 
 </menu>
