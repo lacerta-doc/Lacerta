@@ -2,13 +2,11 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/feature_library_navigation_graph"
+    android:id="@+id/feature_library_navigation"
     app:startDestination="@id/feature_library_top_fragment">
-
     <fragment
         android:id="@+id/feature_library_top_fragment"
         android:name="one.nem.lacerta.feature.library.LibraryTopFragment"
-        android:label="LibraryTopFragment"
+        android:label="fragment_library_top"
         tools:layout="@layout/fragment_library_top" />
-
 </navigation>
