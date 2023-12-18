@@ -12,8 +12,8 @@
         tools:layout="@layout/fragment_home_top" >
         <action
             android:id="@+id/action_homeTopFragment_pop"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
+            app:enterAnim="@anim/slide_from_left"
+            app:exitAnim="@anim/slide_to_right"
             app:popUpTo="@id/homeTopFragment"
             app:popUpToInclusive="true"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
