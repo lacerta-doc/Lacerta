@@ -8,5 +8,7 @@
 
     <include app:graph="@navigation/feature_library_navigation" />
 
+    <include app:graph="@navigation/feature_home_navigation" />
+
 
 </navigation>
