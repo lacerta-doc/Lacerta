@@ -3,17 +3,35 @@ package one.nem.lacerta.feature.home;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.ArrayList;
+
+import javax.inject.Inject;
+
+import one.nem.lacerta.data.Document;
+import one.nem.lacerta.model.document.DocumentMeta;
+import one.nem.lacerta.model.document.tag.DocumentTag;
+
+
+import dagger.hilt.android.AndroidEntryPoint;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link HomeTopFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+@AndroidEntryPoint
 public class HomeTopFragment extends Fragment {
+
+    @Inject
+    Document document;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -59,6 +77,14 @@ public class HomeTopFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home_top, container, false);
+        View view = inflater.inflate(R.layout.fragment_home_top, container, false);
+
+        ArrayList<DocumentMeta> metas = document.getAllDocumentMetas(100);
+
+        Log.d("docs", Integer.toString(metas.size()));
+
+        return view;
+
     }
+
 }

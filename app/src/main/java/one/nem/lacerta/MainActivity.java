@@ -35,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
         Toast.makeText(this, "testMessage", Toast.LENGTH_SHORT).show();
+
+
     }
 
 }

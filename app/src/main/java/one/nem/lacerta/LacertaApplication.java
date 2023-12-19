@@ -14,5 +14,7 @@ public class LacertaApplication extends Application {
 
         // DynamicColorを有効化
         DynamicColors.applyToActivitiesIfAvailable(this);
+
     }
+
 }
