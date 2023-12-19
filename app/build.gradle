@@ -26,6 +26,13 @@ android {
             applicationIdSuffix ".debug"
             matchingFallbacks = ['release']
         }
+        internal_release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            applicationIdSuffix ".internal"
+            matchingFallbacks = ['release']
+        }
         beta_release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
