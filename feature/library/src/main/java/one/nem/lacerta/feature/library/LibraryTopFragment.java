@@ -65,45 +65,6 @@ public class LibraryTopFragment extends Fragment {
     }
 
 
-    public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.DocumentViewHolder> {
-
-        private List<String> documentList;
-
-        public DocumentAdapter(List<String> documentList) {
-            this.documentList = documentList;
-        }
-
-        @NonNull
-        @Override
-        public DocumentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(android.R.layout.simple_list_item_1, parent, false);
-            return new DocumentViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull DocumentViewHolder holder, int position) {
-            holder.bind(documentList.get(position));
-        }
-
-        @Override
-        public int getItemCount() {
-            return documentList.size();
-        }
-
-        class DocumentViewHolder extends RecyclerView.ViewHolder {
-            private final TextView textView;
-
-            DocumentViewHolder(View itemView) {
-                super(itemView);
-                textView = itemView.findViewById(android.R.id.text1);
-            }
-
-            void bind(String document) {
-                textView.setText(document);
-            }
-        }
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -111,6 +72,9 @@ public class LibraryTopFragment extends Fragment {
 
         // Use view.findViewById instead of findViewById
         RecyclerView documentRecyclerView = view.findViewById(R.id.document_list);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        documentRecyclerView.setLayoutManager(layoutManager);
 
         List<String> documentList = new ArrayList<>();
         documentList.add("Document A");
@@ -122,8 +86,6 @@ public class LibraryTopFragment extends Fragment {
         documentRecyclerView.setAdapter(adapter);
 
 // Use a LinearLayoutManager to specify the layout
-        LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext());
-        documentRecyclerView.setLayoutManager(layoutManager);
         return view;
         }
     }
