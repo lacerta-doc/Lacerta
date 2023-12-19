@@ -102,7 +102,6 @@ public class LibraryTopFragment extends Fragment {
                 textView.setText(document);
             }
         }
-
     }
 
     @Override
@@ -113,23 +112,18 @@ public class LibraryTopFragment extends Fragment {
         // Use view.findViewById instead of findViewById
         RecyclerView documentRecyclerView = view.findViewById(R.id.document_list);
 
+        List<String> documentList = new ArrayList<>();
+        documentList.add("Document A");
+        documentList.add("Document B");
+        documentList.add("Document C");
 
-        if (documentRecyclerView != null) {
-            List<String> documentList = new ArrayList<>();
-            documentList.add("Document A");
-            documentList.add("Document B");
-            documentList.add("Document C");
+// Create and set the adapter
+        DocumentAdapter adapter = new DocumentAdapter(documentList);
+        documentRecyclerView.setAdapter(adapter);
 
-            // Create and set the adapter
-            DocumentAdapter adapter = new DocumentAdapter(documentList);
-            documentRecyclerView.setAdapter(adapter);
-
-            // Use a LinearLayoutManager to specify the layout
-            LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext());
-            documentRecyclerView.setLayoutManager(layoutManager);
-        }
-
+// Use a LinearLayoutManager to specify the layout
+        LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext());
+        documentRecyclerView.setLayoutManager(layoutManager);
         return view;
+        }
     }
-
-}
