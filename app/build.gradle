@@ -18,6 +18,21 @@ android {
     }
 
     buildTypes {
+        debug { // 開発メンバー用
+            debuggable true
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            applicationIdSuffix ".debug"
+            matchingFallbacks = ['release']
+        }
+        beta_release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            applicationIdSuffix ".beta"
+            matchingFallbacks = ['release']
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
