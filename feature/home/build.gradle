@@ -44,4 +44,7 @@ dependencies {
 
     // shared
     implementation project(':shared:ui')
+
+    // DI
+    implementation project(':data')
 }
