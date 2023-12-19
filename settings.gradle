@@ -1,0 +1,33 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.name = "Lacerta"
+include ':app'
+include ':feature:home'
+include ':feature:search'
+include ':feature:library'
+include ':feature:scan'
+include ':feature:common'
+include ':component:scanner'
+include ':component:viewer'
+include ':component:common'
+include ':feature:debug'
+include ':data'
+include ':utils'
+include ':source'
+include ':model'
+include ':processor'
+include ':shared:ui'
+include ':shared:icon'

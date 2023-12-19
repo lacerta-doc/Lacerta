@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@id/feature_home_navigation"
+        android:icon="@drawable/home_24px"
+        android:title="Home"/>
+
+    <item
+        android:id="@id/feature_library_navigation"
+        android:icon="@drawable/folder_24px"
+        android:title="Library"/>
+
+    <item
+        android:id="@id/feature_debug_navigation"
+        android:icon="@drawable/developer_mode_24px"
+        android:title="Debug menu"/>
+
+
+</menu>

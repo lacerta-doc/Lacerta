@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/feature_debug_internal_navigation"
+    app:startDestination="@id/debugMenuTopFragment">
+
+    <fragment
+        android:id="@+id/debugMenuTopFragment"
+        android:name="one.nem.lacerta.feature.debug.DebugMenuTopFragment"
+        android:label="fragment_debug_menu_top"
+        tools:layout="@layout/fragment_debug_menu_top" >
+        <action
+            android:id="@+id/action_debugMenuTopFragment_to_debugMenuMetaDataFragment"
+            app:destination="@id/debugMenuMetaDataFragment" />
+        <action
+            android:id="@+id/action_debugMenuTopFragment_to_debugMenuDocumentTesterTopFragment"
+            app:destination="@id/debugMenuDocumentTesterTopFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/debugMenuMetaDataFragment"
+        android:name="one.nem.lacerta.feature.debug.DebugMenuMetaDataFragment"
+        android:label="fragment_debug_menu_meta_data"
+        tools:layout="@layout/fragment_debug_menu_meta_data" />
+    <fragment
+        android:id="@+id/debugMenuDocumentTesterTopFragment"
+        android:name="one.nem.lacerta.feature.debug.DebugMenuDocumentTesterTopFragment"
+        android:label="fragment_debug_menu_document_tester_top"
+        tools:layout="@layout/fragment_debug_menu_document_tester_top" >
+        <action
+            android:id="@+id/action_debugMenuDocumentTesterTopFragment_to_debugMenuDocumentTesterListFragment"
+            app:destination="@id/debugMenuDocumentTesterListFragment" />
+        <action
+            android:id="@+id/action_debugMenuDocumentTesterTopFragment_to_debugMenuDocumentTesterManageFragment"
+            app:destination="@id/debugMenuDocumentTesterManageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/debugMenuDocumentTesterListFragment"
+        android:name="one.nem.lacerta.feature.debug.DebugMenuDocumentTesterListFragment"
+        android:label="fragment_debug_menu_document_tester_list"
+        tools:layout="@layout/fragment_debug_menu_document_tester_list" />
+    <fragment
+        android:id="@+id/debugMenuDocumentTesterManageFragment"
+        android:name="one.nem.lacerta.feature.debug.DebugMenuDocumentTesterManageFragment"
+        android:label="fragment_debug_menu_document_tester_manage"
+        tools:layout="@layout/fragment_debug_menu_document_tester_manage" />
+</navigation>

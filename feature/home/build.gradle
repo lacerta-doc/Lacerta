@@ -1,0 +1,43 @@
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    namespace 'one.nem.lacerta.feature.home'
+    compileSdk 33
+
+    defaultConfig {
+        minSdk 26
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+
+    implementation libs.androidx.appcompat
+    implementation libs.com.google.android.material
+    testImplementation libs.junit
+    androidTestImplementation libs.androidx.test.ext.junit
+    androidTestImplementation libs.androidx.test.espresso.core
+
+    // Navigation
+    implementation libs.navigation.fragment
+    implementation libs.navigation.ui
+    implementation libs.navigation.dynamic.features.fragment
+
+    // shared
+    implementation project(':shared:ui')
+}

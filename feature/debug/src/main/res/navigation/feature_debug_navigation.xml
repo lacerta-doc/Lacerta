@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/feature_debug_navigation"
+    app:startDestination="@id/debugMenuContainerFragment">
+    <fragment
+        android:id="@+id/debugMenuContainerFragment"
+        android:name="one.nem.lacerta.feature.debug.DebugMenuContainerFragment"
+        android:label="fragment_debug_menu_container"
+        tools:layout="@layout/fragment_debug_menu_container" />
+</navigation>
