@@ -2,13 +2,17 @@ package one.nem.lacerta.feature.library;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,29 +64,72 @@ public class LibraryTopFragment extends Fragment {
         }
     }
 
+
+    public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.DocumentViewHolder> {
+
+        private List<String> documentList;
+
+        public DocumentAdapter(List<String> documentList) {
+            this.documentList = documentList;
+        }
+
+        @NonNull
+        @Override
+        public DocumentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(android.R.layout.simple_list_item_1, parent, false);
+            return new DocumentViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull DocumentViewHolder holder, int position) {
+            holder.bind(documentList.get(position));
+        }
+
+        @Override
+        public int getItemCount() {
+            return documentList.size();
+        }
+
+        class DocumentViewHolder extends RecyclerView.ViewHolder {
+            private final TextView textView;
+
+            DocumentViewHolder(View itemView) {
+                super(itemView);
+                textView = itemView.findViewById(android.R.id.text1);
+            }
+
+            void bind(String document) {
+                textView.setText(document);
+            }
+        }
+
+    }
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_library_top, container, false);
+        View view = inflater.inflate(R.layout.fragment_library_top, container, false);
 
         // Use view.findViewById instead of findViewById
-          ListView documentListView = view.findViewById(R.id.document_list);
-          List<String> documentList = new ArrayList<>();
+        RecyclerView documentRecyclerView = view.findViewById(R.id.document_list);
 
-          documentList.add("Document A");
-          documentList.add("Document B");
-          documentList.add("Document C");
 
-          // レイアウトリソースを指定する（例: simple_list_item_1）
-          ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                   getActivity(), // 修正: requireActivity() ではなく getActivity() を使用
-                  android.R.layout.simple_list_item_1,
-                  documentList);
+        if (documentRecyclerView != null) {
+            List<String> documentList = new ArrayList<>();
+            documentList.add("Document A");
+            documentList.add("Document B");
+            documentList.add("Document C");
 
-          documentListView.setAdapter(adapter);
+            // Create and set the adapter
+            DocumentAdapter adapter = new DocumentAdapter(documentList);
+            documentRecyclerView.setAdapter(adapter);
 
-          return view;
-      }
+            // Use a LinearLayoutManager to specify the layout
+            LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext());
+            documentRecyclerView.setLayoutManager(layoutManager);
+        }
+
+        return view;
+    }
 
 }
