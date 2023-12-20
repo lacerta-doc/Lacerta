@@ -13,6 +13,7 @@ public class LibraryArchiveFragment extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_library_top);
 
+        //ここに入力された内容を表示する機能
         TextView textView = findViewById(R.id.document_list);
 
         textView.setOnClickListener(new View.OnClickListener() {
