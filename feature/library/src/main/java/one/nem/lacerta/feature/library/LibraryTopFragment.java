@@ -87,5 +87,5 @@ public class LibraryTopFragment extends Fragment {
 
 // Use a LinearLayoutManager to specify the layout
         return view;
-        }
     }
+}
