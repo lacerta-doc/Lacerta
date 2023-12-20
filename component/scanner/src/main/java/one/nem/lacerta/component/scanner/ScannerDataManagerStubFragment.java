@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 
@@ -19,10 +18,10 @@ import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ScannerDatabaManagerStubFragment#newInstance} factory method to
+ * Use the {@link ScannerDataManagerStubFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ScannerDatabaManagerStubFragment extends Fragment {
+public class ScannerDataManagerStubFragment extends Fragment {
 
     // Results
     private ArrayList<Bitmap> results = new ArrayList<>();
@@ -38,12 +37,12 @@ public class ScannerDatabaManagerStubFragment extends Fragment {
             }
     );
 
-    public ScannerDatabaManagerStubFragment() {
+    public ScannerDataManagerStubFragment() {
         // Required empty public constructor
     }
     // TODO: Rename and change types and number of parameters
-    public static ScannerDatabaManagerStubFragment newInstance() {
-        ScannerDatabaManagerStubFragment fragment = new ScannerDatabaManagerStubFragment();
+    public static ScannerDataManagerStubFragment newInstance() {
+        ScannerDataManagerStubFragment fragment = new ScannerDataManagerStubFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
