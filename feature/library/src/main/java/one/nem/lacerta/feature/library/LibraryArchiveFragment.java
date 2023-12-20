@@ -33,7 +33,7 @@ public class LibraryArchiveFragment extends AppCompatActivity {
                         // 文字をタップしたときの処理
 
                         // 移動先のアクティビティを指定
-                        Intent intent = new Intent(LibraryArchiveFragment.this, TargetActivity.class);
+                        Intent intent = new Intent(LibraryArchiveFragment.this,  LibraryXFragment.class);
 
                         // データを付加する
                         intent.putExtra("key_name", "value_data");
