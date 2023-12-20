@@ -1,5 +1,6 @@
 package one.nem.lacerta.component.scanner;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -14,6 +15,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ScannerDatabaManagerStubFragment#newInstance} factory method to
@@ -22,7 +25,18 @@ import android.view.ViewGroup;
 public class ScannerDatabaManagerStubFragment extends Fragment {
 
     // Results
-    private Bitmap[] imageBitmaps;
+    private ArrayList<Bitmap> results = new ArrayList<>();
+    private final ActivityResultLauncher<Intent> cameraLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    Intent data = result.getData();
+                    Bundle extras = data.getExtras();
+                    Bitmap imageBitmap = (Bitmap) extras.get("data");
+
+                }
+            }
+    );
 
     public ScannerDatabaManagerStubFragment() {
         // Required empty public constructor
