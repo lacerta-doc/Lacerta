@@ -36,7 +36,6 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/textViewResHeight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -49,7 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="WIdth"
+                android:text="Width"
                 android:textIsSelectable="false"
                 android:textSize="16sp" />
 
