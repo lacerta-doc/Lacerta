@@ -20,8 +20,28 @@ public class LibraryArchiveFragment extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // 文字をタップしたときの処理
-                Intent intent = new Intent(LibraryArchiveFragment.this, LibraryArchiveFragment.class);
-                startActivity(intent);
+
+                // 移動先のアクティビティを指定
+                Intent intent = new Intent(LibraryArchiveFragment.this, LibraryXFragment.class);
+
+                // または、移動先のフラグメントを指定
+                // Intent intent = new Intent(LibraryArchiveFragment.this, TargetFragment.class);
+
+                startActivity(intent);textView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // 文字をタップしたときの処理
+
+                        // 移動先のアクティビティを指定
+                        Intent intent = new Intent(LibraryArchiveFragment.this, TargetActivity.class);
+
+                        // データを付加する
+                        intent.putExtra("key_name", "value_data");
+
+                        startActivity(intent);
+                    }
+                });
+
             }
         });
     }
