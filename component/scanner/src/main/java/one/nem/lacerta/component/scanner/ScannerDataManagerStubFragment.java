@@ -10,6 +10,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,9 +66,14 @@ public class ScannerDataManagerStubFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         view.findViewById(R.id.button_call_camera).setOnClickListener(v -> {
+            Log.d("ScannerDataManagerStubFragment", "button_call_camera clicked");
             Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             if (takePictureIntent.resolveActivity(requireActivity().getPackageManager()) != null) {
+                Log.d("ScannerDataManagerStubFragment", "camera available");
                 cameraLauncher.launch(takePictureIntent);
+            }
+            else {
+                Log.d("ScannerDataManagerStubFragment", "camera not available");
             }
         });
     }
