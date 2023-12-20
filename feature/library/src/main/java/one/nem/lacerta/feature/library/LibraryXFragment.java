@@ -1,11 +1,26 @@
 package one.nem.lacerta.feature.library;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
 import androidx.fragment.app.Fragment;
 
 public class LibraryXFragment extends Fragment {
 
-    // フラグメントが作成された際に呼ばれるメソッド
+    private TextView textView;  // フィールドとして TextView を定義
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_library_file, container, false);
+
+        textView = view.findViewById(R.id.textView);
+
+        return view;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -14,7 +29,10 @@ public class LibraryXFragment extends Fragment {
         if (getArguments() != null) {
             String receivedData = getArguments().getString("key_name");
 
-            // ここで receivedData を使って何か処理を行う
+            // onCreateView メソッドで取得した TextView にデータをセットする
+            if (textView != null) {
+                textView.setText(receivedData);
+            }
         }
     }
 
