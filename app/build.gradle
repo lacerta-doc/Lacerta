@@ -12,11 +12,10 @@ android {
         minSdk 26
         targetSdk 33
 
-        // Develop上では次回のリリースバージョンを指定
         // ベータ, Internal, Release問わず毎回インクリメントする
         // https://developer.android.com/studio/publish/versioning#versioningsettings
-        versionCode 2
-        versionName "0.1 Internal release 2"
+        versionCode 1
+        versionName "0.1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
