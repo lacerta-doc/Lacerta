@@ -68,7 +68,7 @@ public class ScannerDataManagerStubFragment extends Fragment {
         view.findViewById(R.id.button_call_camera).setOnClickListener(v -> {
             Log.d("ScannerDataManagerStubFragment", "button_call_camera clicked");
             Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            if (takePictureIntent.resolveActivity(requireActivity().getPackageManager()) != null) {
+            if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
                 Log.d("ScannerDataManagerStubFragment", "camera available");
                 cameraLauncher.launch(takePictureIntent);
             }
