@@ -71,12 +71,12 @@ public class FileManagerImpl implements FileManager {
     }
 
     @Override
-    public void createDir() {
-
+    public void createDir(String dirName) {
+        currentDir.resolve(dirName).toFile().mkdir(); // TODO-rca: エラーハンドリング
     }
 
     @Override
-    public void removeDir() {
-
+    public void removeDir(String dirName) {
+        currentDir.resolve(dirName).toFile().delete(); // TODO-rca: エラーハンドリング
     }
 }
