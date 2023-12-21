@@ -88,7 +88,7 @@ public class LibraryTopFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         documentRecyclerView.setLayoutManager(layoutManager);
 
-        //ダミーデータを取得
+        //データを取得
         List<DocumentMeta> metas = new ArrayList<>();
 
         metas = document.getAllDocumentMetas(100);
