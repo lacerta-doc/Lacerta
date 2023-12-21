@@ -16,11 +16,10 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_call_camera"
             style="@style/Widget.Material3.Button.IconButton.Outlined"
+            android:id="@+id/button_call_camera"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16px"
             android:layout_weight="1"
             android:text="Call camera" />
 
