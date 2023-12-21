@@ -8,6 +8,9 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 // LibraryArchiveFragment.java
+
+//画面変移用のコード
+//Fragmentへのデータの受け渡し機能
 public class LibraryArchiveFragment extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {

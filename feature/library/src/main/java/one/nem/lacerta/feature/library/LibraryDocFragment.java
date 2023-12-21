@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+//Fragmentにデータを受け渡す機能
 public class LibraryDocFragment extends Fragment {
 
     private TextView textView;  // フィールドとして TextView を定義
