@@ -12,8 +12,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@android:drawable/presence_video_online"
-        android:adjustViewBounds="true"/>
+        tools:srcCompat="@android:drawable/presence_video_online" />
 
     <LinearLayout
         android:layout_width="match_parent"
