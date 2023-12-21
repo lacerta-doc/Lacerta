@@ -10,12 +10,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import one.nem.lacerta.model.document.DocumentMeta;
+
 public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.DocumentViewHolder> {
 
-    private List<String> documentList;
+    private List<DocumentMeta> documentMetas;
 
-    public DocumentAdapter(List<String> documentList) {
-        this.documentList = documentList;
+    public DocumentAdapter(List<DocumentMeta> documentMetas) {
+        this.documentMetas = documentMetas;
     }
 
     @NonNull
@@ -27,12 +29,13 @@ public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.Docume
 
     @Override
     public void onBindViewHolder(@NonNull DocumentViewHolder holder, int position) {
-        holder.title.setText(documentList.get(position));
+        // DocumentMeta から適切な情報を取得してセット
+        holder.title.setText(documentMetas.get(position).getTitle());
     }
 
     @Override
     public int getItemCount() {
-        return documentList.size();
+        return documentMetas.size();
     }
 
     class DocumentViewHolder extends RecyclerView.ViewHolder {
@@ -40,7 +43,7 @@ public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.Docume
 
         DocumentViewHolder(View itemView) {
             super(itemView);
-            title = itemView.findViewById(R.id.debug_menu_item_title);
+            title = itemView.findViewById(R.id.debug_menu_item_title); // 適切な id に変更する
         }
     }
 }

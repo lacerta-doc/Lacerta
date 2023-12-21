@@ -88,20 +88,21 @@ public class LibraryTopFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         documentRecyclerView.setLayoutManager(layoutManager);
 
+        //ダミーデータを取得
         List<DocumentMeta> metas = new ArrayList<>();
 
         metas = document.getAllDocumentMetas(100);
 
         Toast.makeText(getContext(), "Documents: " + Integer.toString(metas.size()), Toast.LENGTH_LONG).show();
 
-
-        List<String> documentList = new ArrayList<>();
-        documentList.add("Document A");
-        documentList.add("Document B");
-        documentList.add("Document C");
+        //仮データを取得
+//        List<String> documentList = new ArrayList<>();
+//        documentList.add("Document A");
+//        documentList.add("Document B");
+//        documentList.add("Document C");
 
 // Create and set the adapter
-        DocumentAdapter adapter = new DocumentAdapter(documentList);
+        DocumentAdapter adapter = new DocumentAdapter(metas);
         documentRecyclerView.setAdapter(adapter);
 
 // Use a LinearLayoutManager to specify the layout
