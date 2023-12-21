@@ -8,15 +8,12 @@ import android.os.Bundle;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -28,7 +25,7 @@ import java.util.ArrayList;
 public class ScannerDataManagerStubFragment extends Fragment {
 
     // Results
-    private ArrayList<CapturedData> results = new ArrayList<>();
+    private ArrayList<Bitmap> results = new ArrayList<>();
     private final ActivityResultLauncher<Intent> cameraLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
@@ -36,8 +33,7 @@ public class ScannerDataManagerStubFragment extends Fragment {
                     Intent data = result.getData();
                     Bundle extras = data.getExtras();
                     Bitmap imageBitmap = (Bitmap) extras.get("data");
-                    // TODO-rca: エラーハンドリング
-                    results.add(new CapturedData("Placeholder", Integer.toString(imageBitmap.getHeight()), Integer.toString(imageBitmap.getWidth()), "Placeholder", imageBitmap));
+                    results.add(imageBitmap);
                 }
             }
     );
@@ -80,69 +76,5 @@ public class ScannerDataManagerStubFragment extends Fragment {
                 Log.d("ScannerDataManagerStubFragment", "camera not available");
             }
         });
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        Log.d("ScannerDataManagerStubFragment", "onResume");
-
-
-    }
-
-    public void updateResults() {
-        Log.d("ScannerDataManagerStubFragment", "updateResults");
-
-        // TODO-rca: エラーハンドリング
-        RecyclerView recyclerView = getView().findViewById(R.id.result_recycler_view);
-
-        recyclerView.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(new ResultAdapter(this.results));
-
-
-    }
-
-    public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ViewHolder> {
-        private final ArrayList<CapturedData> results;
-
-        public ResultAdapter(ArrayList<CapturedData> results) {
-            this.results = results;
-        }
-
-        @Override
-        public ResultAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_scanner_component_manager_stub, parent, false);
-            return new ResultAdapter.ViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(ResultAdapter.ViewHolder holder, int position) {
-            CapturedData result = results.get(position);
-            holder.textViewPath.setText(result.getPath());
-            holder.textViewResolutionHeight.setText(result.getResolutionHeight());
-            holder.textViewResolutionWidth.setText(result.getResolutionWidth());
-            holder.imageView.setImageBitmap(result.getBitmap());
-        }
-
-        @Override
-        public int getItemCount() {
-            return results.size();
-        }
-
-        public class ViewHolder extends RecyclerView.ViewHolder {
-
-            public TextView textViewPath;
-            public TextView textViewResolutionHeight;
-            public TextView textViewResolutionWidth;
-            public ImageView imageView;
-
-            public ViewHolder(View view) {
-                super(view);
-                textViewPath = view.findViewById(R.id.textViewPath);
-                textViewResolutionHeight = view.findViewById(R.id.textViewResHeight);
-                textViewResolutionWidth = view.findViewById(R.id.textViewResWidth);
-                imageView = view.findViewById(R.id.imageViewResult);
-            }
-        }
     }
 }
