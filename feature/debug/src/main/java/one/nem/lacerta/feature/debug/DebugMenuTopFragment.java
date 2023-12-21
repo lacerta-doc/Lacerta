@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+import dagger.hilt.android.AndroidEntryPoint;
 import one.nem.lacerta.feature.debug.common.adapter.DebugMenuListItemAdapter;
 import one.nem.lacerta.feature.debug.common.model.DebugMenuListItem;
 
@@ -20,6 +21,7 @@ import one.nem.lacerta.feature.debug.common.model.DebugMenuListItem;
  * Use the {@link DebugMenuTopFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+@AndroidEntryPoint
 public class DebugMenuTopFragment extends Fragment {
     public DebugMenuTopFragment() {
         // Required empty public constructor
