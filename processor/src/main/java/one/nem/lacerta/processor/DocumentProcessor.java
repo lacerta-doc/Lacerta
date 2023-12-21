@@ -6,6 +6,7 @@ public interface DocumentProcessor {
 
     // ページ操作
     void addNewPageToLast(Bitmap bitmap);
+    void addNewPagesToLast(Bitmap[] bitmaps);
     void addNewPageAfterIndex(Bitmap bitmap, int index);
     void addNewPageBeforeIndex(Bitmap bitmap, int index);
     void removePageAtIndex(int index);
