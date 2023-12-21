@@ -62,7 +62,4 @@ dependencies {
     // Shared
     implementation project(':shared:ui')
 
-    // Scanner
-    implementation project(':component:scanner')
-
 }
