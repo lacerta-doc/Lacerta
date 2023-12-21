@@ -9,6 +9,9 @@ import one.nem.lacerta.model.document.DocumentMeta;
 
 public class DocumentProcessorImpl implements DocumentProcessor{
 
+    private DocumentDetail documentDetail;
+
+
 
     @Override
     public void addNewPageToLast(Bitmap bitmap) {
