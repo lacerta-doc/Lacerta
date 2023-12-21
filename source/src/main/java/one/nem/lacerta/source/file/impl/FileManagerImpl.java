@@ -2,7 +2,11 @@ package one.nem.lacerta.source.file.impl;
 
 import android.graphics.Bitmap;
 
+import java.io.IOException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -54,14 +58,18 @@ public class FileManagerImpl implements FileManager {
     }
 
     @Override
-    public List<String> getDirList() {
-        // currentDirにあるディレクトリの一覧を返す
-        return Arrays.asList(currentDir.toFile().list());
-    }
-
-    @Override
-    public List<String> getFileList() {
-        return null;
+    public List<Path> getList() {
+        List<Path> list = new ArrayList<>();
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(currentDir)) {
+            for (Path entry : stream) {
+                if (Files.isDirectory(entry)) {
+                    list.add(entry);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 
     @Override
