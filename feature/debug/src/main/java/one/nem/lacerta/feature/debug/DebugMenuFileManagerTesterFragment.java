@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import dagger.hilt.android.AndroidEntryPoint;
 import one.nem.lacerta.source.file.FileManager;
 import one.nem.lacerta.source.file.factory.FileManagerFactory;
 
@@ -23,6 +24,7 @@ import javax.inject.Inject;
  * Use the {@link DebugMenuFileManagerTesterFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+@AndroidEntryPoint
 public class DebugMenuFileManagerTesterFragment extends Fragment {
 
     public DebugMenuFileManagerTesterFragment() {
