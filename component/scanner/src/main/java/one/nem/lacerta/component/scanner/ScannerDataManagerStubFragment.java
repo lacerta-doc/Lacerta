@@ -97,7 +97,7 @@ public class ScannerDataManagerStubFragment extends Fragment {
         RecyclerView recyclerView = getView().findViewById(R.id.result_recycler_view);
 
         recyclerView.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(new CaptureResultAdapter(this.results));
+        recyclerView.setAdapter(new ResultAdapter(this.results));
 
 
     }
