@@ -2,10 +2,18 @@ package one.nem.lacerta.source.file;
 
 import android.graphics.Bitmap;
 
+import java.nio.file.Path;
+import java.util.List;
+
 public interface FileManager {
 
-    void initRepoDir();
-    void addImageByIndex(Bitmap bitmap, int index);
-    void deleteImageByIndex(int index);
+    Path getRootDir();
+    void changeDir(String dirName); //cd
+    void backDir(); //cd ..
+    void backRootDir(); //cd /
+    List<String> getDirList(); //ls
+    List<String> getFileList(); //ls
+    void createDir();
+    void removeDir();
 
 }
