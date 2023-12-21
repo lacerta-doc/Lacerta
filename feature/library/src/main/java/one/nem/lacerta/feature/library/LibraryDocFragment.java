@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
-public class LibraryXFragment extends Fragment {
+public class LibraryDocFragment extends Fragment {
 
     private TextView textView;  // フィールドとして TextView を定義
 
@@ -37,8 +37,8 @@ public class LibraryXFragment extends Fragment {
     }
 
     // Factory method for creating a new instance of the fragment
-    public static LibraryXFragment newInstance(String data) {
-        LibraryXFragment fragment = new LibraryXFragment();
+    public static LibraryDocFragment newInstance(String data) {
+        LibraryDocFragment fragment = new LibraryDocFragment();
 
         // フラグメントにデータを渡す
         Bundle args = new Bundle();
