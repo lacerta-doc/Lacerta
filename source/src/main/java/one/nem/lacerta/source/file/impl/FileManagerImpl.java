@@ -3,6 +3,7 @@ package one.nem.lacerta.source.file.impl;
 import android.graphics.Bitmap;
 
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -19,7 +20,12 @@ public class FileManagerImpl implements FileManager {
 
     // Internal Methods
     private Path convertPath(String path) {
-        return null;
+        Path convertedPath = currentDir.resolve(path);
+        if (convertedPath.startsWith(rootDir)) { // 異常なパスの場合はnullを返す // TODO-rca: エラーハンドリング
+            return convertedPath;
+        } else {
+            return null;
+        }
     }
 
     @Inject
@@ -29,27 +35,28 @@ public class FileManagerImpl implements FileManager {
 
     @Override
     public Path getRootDir() {
-        return null;
+        return rootDir;
     }
 
     @Override
     public void changeDir(String dirName) {
-
+        this.currentDir = rootDir.resolve(dirName);
     }
 
     @Override
     public void backDir() {
-
+        this.currentDir = currentDir.getParent();
     }
 
     @Override
     public void backRootDir() {
-
+        this.currentDir = rootDir;
     }
 
     @Override
     public List<String> getDirList() {
-        return null;
+        // currentDirにあるディレクトリの一覧を返す
+        return Arrays.asList(currentDir.toFile().list());
     }
 
     @Override
