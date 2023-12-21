@@ -3,10 +3,12 @@ package one.nem.lacerta.component.scanner;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,15 +38,28 @@ public class ScannerDataManagerStubFragment extends Fragment {
 
     // Results
     private ArrayList<CapturedData> results = new ArrayList<>();
+
+    private Uri photoURI;
+
     private final ActivityResultLauncher<Intent> cameraLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
                 if (result.getResultCode() == Activity.RESULT_OK) {
-                    Intent data = result.getData();
-                    Bundle extras = data.getExtras();
-                    Bitmap imageBitmap = (Bitmap) extras.get("data");
-                    // TODO-rca: エラーハンドリング
-                    results.add(new CapturedData("Placeholder", Integer.toString(imageBitmap.getHeight()), Integer.toString(imageBitmap.getWidth()), "Placeholder", imageBitmap));
+                    try {
+                        if (getActivity() == null) {
+                            Log.d("ScannerDataManagerStubFragment", "getActivity() is null");
+                            return;
+                        }
+                        if (photoURI == null) {
+                            Log.d("ScannerDataManagerStubFragment", "photoURI is null");
+                            Toast.makeText(getActivity(), "photoURI is null", Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                        Bitmap imageBitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), photoURI);
+                        results.add(new CapturedData("Placeholder", Integer.toString(imageBitmap.getHeight()), Integer.toString(imageBitmap.getWidth()), "Placeholder", imageBitmap));
+                    } catch (IOException e) {
+                        Log.e("ScannerDataManagerStubFragment", "Error occurred while reading the file", e);
+                    }
                 }
             }
     );
@@ -81,7 +97,7 @@ public class ScannerDataManagerStubFragment extends Fragment {
             if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
                 File photoFile = null;
                 try {
-                    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+                    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
                     String imageFileName = "JPEG_" + timeStamp + "_";
                     File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
                     photoFile = File.createTempFile(imageFileName, ".jpg", storageDir);
@@ -89,7 +105,8 @@ public class ScannerDataManagerStubFragment extends Fragment {
                     Log.e("ScannerDataManagerStubFragment", "Error occurred while creating the file", ex);
                 }
                 if (photoFile != null) {
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoFile);
+                    photoURI = FileProvider.getUriForFile(getActivity(), "one.nem.lacerta.provider", photoFile);
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                     cameraLauncher.launch(takePictureIntent);
                 }
                 else {
