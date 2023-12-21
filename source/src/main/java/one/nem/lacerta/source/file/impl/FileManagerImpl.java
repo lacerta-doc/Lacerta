@@ -12,6 +12,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedInject;
 import one.nem.lacerta.source.file.FileManager;
 
 public class FileManagerImpl implements FileManager {
@@ -32,9 +34,10 @@ public class FileManagerImpl implements FileManager {
         }
     }
 
-    @Inject
-    public FileManagerImpl(Path rootDir) {
-        // TODO-rca: 未実装
+    @AssistedInject
+    public FileManagerImpl(@Assisted Path rootDir) {
+        this.rootDir = rootDir;
+        this.currentDir = rootDir;
     }
 
     @Override
