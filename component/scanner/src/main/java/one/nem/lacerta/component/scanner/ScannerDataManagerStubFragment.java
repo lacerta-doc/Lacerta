@@ -79,7 +79,6 @@ public class ScannerDataManagerStubFragment extends Fragment {
             else {
                 Log.d("ScannerDataManagerStubFragment", "camera not available");
             }
-            updateResults();
         });
     }
 
@@ -87,7 +86,8 @@ public class ScannerDataManagerStubFragment extends Fragment {
     public void onResume() {
         super.onResume();
         Log.d("ScannerDataManagerStubFragment", "onResume");
-        updateResults();
+
+
     }
 
     public void updateResults() {
