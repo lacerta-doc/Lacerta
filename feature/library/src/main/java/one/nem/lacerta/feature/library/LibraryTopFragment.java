@@ -13,16 +13,28 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
+import one.nem.lacerta.data.Document;
+import one.nem.lacerta.model.document.DocumentMeta;
+import one.nem.lacerta.model.document.tag.DocumentTag;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link LibraryTopFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+@AndroidEntryPoint
 public class LibraryTopFragment extends Fragment {
+
+    @Inject
+    Document document;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -75,6 +87,13 @@ public class LibraryTopFragment extends Fragment {
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         documentRecyclerView.setLayoutManager(layoutManager);
+
+        List<DocumentMeta> metas = new ArrayList<>();
+
+        metas = document.getAllDocumentMetas(100);
+
+        Toast.makeText(getContext(), "Documents: " + Integer.toString(metas.size()), Toast.LENGTH_LONG).show();
+
 
         List<String> documentList = new ArrayList<>();
         documentList.add("Document A");
