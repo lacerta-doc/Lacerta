@@ -4,7 +4,12 @@ import android.graphics.Bitmap;
 
 import one.nem.lacerta.processor.DocumentProcessor;
 
+import one.nem.lacerta.model.document.DocumentDetail;
+import one.nem.lacerta.model.document.DocumentMeta;
+
 public class DocumentProcessorImpl implements DocumentProcessor{
+
+
     @Override
     public void addNewPageToLast(Bitmap bitmap) {
 
