@@ -61,10 +61,8 @@ public class FileManagerImpl implements FileManager {
     public List<Path> getList() {
         List<Path> list = new ArrayList<>();
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(currentDir)) {
-            for (Path entry : stream) {
-                if (Files.isDirectory(entry)) {
-                    list.add(entry);
-                }
+            for (Path entry : stream) { // TODO-rca: エラーハンドリング, 効率化
+                list.add(entry);
             }
         } catch (IOException e) {
             e.printStackTrace();
