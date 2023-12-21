@@ -33,7 +33,7 @@ public class ScannerDatabaManagerStubFragment extends Fragment {
                     Intent data = result.getData();
                     Bundle extras = data.getExtras();
                     Bitmap imageBitmap = (Bitmap) extras.get("data");
-                    results.add(imageBitmap);
+
                 }
             }
     );
