@@ -7,13 +7,14 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+// LibraryArchiveFragment.java
 public class LibraryArchiveFragment extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_library_top);
 
-        //ここに入力された内容を表示する機能
+        // ここに入力された内容を表示する機能
         TextView textView = findViewById(R.id.document_list);
 
         textView.setOnClickListener(new View.OnClickListener() {
@@ -24,24 +25,10 @@ public class LibraryArchiveFragment extends AppCompatActivity {
                 // 移動先のアクティビティを指定
                 Intent intent = new Intent(LibraryArchiveFragment.this, LibraryDocFragment.class);
 
-                // または、移動先のフラグメントを指定
-                // Intent intent = new Intent(LibraryArchiveFragment.this, TargetFragment.class);
+                // データを付加する
+                intent.putExtra("key_name", "value_data");
 
-                startActivity(intent);textView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // 文字をタップしたときの処理
-
-                        // 移動先のアクティビティを指定
-                        Intent intent = new Intent(LibraryArchiveFragment.this,  LibraryDocFragment.class);
-
-                        // データを付加する
-                        intent.putExtra("key_name", "value_data");
-
-                        startActivity(intent);
-                    }
-                });
-
+                startActivity(intent);
             }
         });
     }
