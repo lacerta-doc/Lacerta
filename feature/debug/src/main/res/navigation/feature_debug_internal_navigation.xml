@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_debugMenuTopFragment_to_scannerDataManagerStubFragment"
             app:destination="@id/scannerDataManagerStubFragment" />
+        <action
+            android:id="@+id/action_debugMenuTopFragment_to_debugMenuFileManagerTesterFragment"
+            app:destination="@id/debugMenuFileManagerTesterFragment" />
     </fragment>
     <fragment
         android:id="@+id/debugMenuMetaDataFragment"
@@ -51,4 +54,9 @@
         android:id="@+id/scannerDataManagerStubFragment"
         android:name="one.nem.lacerta.component.scanner.ScannerDataManagerStubFragment"
         android:label="ScannerDataManagerStubFragment" />
+    <fragment
+        android:id="@+id/debugMenuFileManagerTesterFragment"
+        android:name="one.nem.lacerta.feature.debug.DebugMenuFileManagerTesterFragment"
+        android:label="fragment_debug_menu_file_manager_tester"
+        tools:layout="@layout/fragment_debug_menu_file_manager_tester" />
 </navigation>
