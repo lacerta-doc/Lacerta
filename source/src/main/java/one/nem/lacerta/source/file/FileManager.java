@@ -12,7 +12,7 @@ public interface FileManager {
     void backDir(); //cd ..
     void backRootDir(); //cd /
     List<Path> getList();
-    void createDir();
-    void removeDir();
+    void createDir(String dirName);
+    void removeDir(String dirName);
 
 }
