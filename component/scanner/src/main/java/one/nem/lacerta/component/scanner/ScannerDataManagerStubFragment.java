@@ -36,8 +36,6 @@ import java.util.Locale;
  */
 public class ScannerDataManagerStubFragment extends Fragment {
 
-    // TODO-rca: 時間があったらcacheを使うようにする？
-
     // Results
     private ArrayList<CapturedData> results = new ArrayList<>();
 
