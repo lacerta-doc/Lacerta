@@ -102,4 +102,47 @@ public class ScannerDataManagerStubFragment extends Fragment {
 
     }
 
+    public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ViewHolder> {
+        private final ArrayList<CapturedData> results;
+
+        public ResultAdapter(ArrayList<CapturedData> results) {
+            this.results = results;
+        }
+
+        @Override
+        public ResultAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_scanner_component_manager_stub, parent, false);
+            return new ResultAdapter.ViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(ResultAdapter.ViewHolder holder, int position) {
+            CapturedData result = results.get(position);
+            holder.textViewPath.setText(result.getPath());
+            holder.textViewResolutionHeight.setText(result.getResolutionHeight());
+            holder.textViewResolutionWidth.setText(result.getResolutionWidth());
+            holder.imageView.setImageBitmap(result.getBitmap());
+        }
+
+        @Override
+        public int getItemCount() {
+            return results.size();
+        }
+
+        public class ViewHolder extends RecyclerView.ViewHolder {
+
+            public TextView textViewPath;
+            public TextView textViewResolutionHeight;
+            public TextView textViewResolutionWidth;
+            public ImageView imageView;
+
+            public ViewHolder(View view) {
+                super(view);
+                textViewPath = view.findViewById(R.id.textViewPath);
+                textViewResolutionHeight = view.findViewById(R.id.textViewResHeight);
+                textViewResolutionWidth = view.findViewById(R.id.textViewResWidth);
+                imageView = view.findViewById(R.id.imageViewResult);
+            }
+        }
+    }
 }
