@@ -16,7 +16,12 @@ public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.Docume
 
     private List<DocumentMeta> documentMetas;
 
+
     public DocumentAdapter(List<DocumentMeta> documentMetas) {
+        // nullの場合に例外を発生させる
+        if (documentMetas == null) {
+            throw new IllegalArgumentException("DocumentMetas list cannot be null");
+        }
         this.documentMetas = documentMetas;
     }
 
@@ -31,6 +36,11 @@ public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.Docume
     public void onBindViewHolder(@NonNull DocumentViewHolder holder, int position) {
         // DocumentMeta から適切な情報を取得してセット
         holder.title.setText(documentMetas.get(position).getTitle());
+
+        DocumentMeta documentMeta = documentMetas.get(position);
+        if (documentMeta != null) {
+            holder.title.setText(documentMeta.getTitle());
+        }
     }
 
     @Override

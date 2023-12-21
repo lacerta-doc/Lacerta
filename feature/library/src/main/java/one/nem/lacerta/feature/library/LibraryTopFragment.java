@@ -95,12 +95,6 @@ public class LibraryTopFragment extends Fragment {
 
         Toast.makeText(getContext(), "Documents: " + Integer.toString(metas.size()), Toast.LENGTH_LONG).show();
 
-        //仮データを取得
-//        List<String> documentList = new ArrayList<>();
-//        documentList.add("Document A");
-//        documentList.add("Document B");
-//        documentList.add("Document C");
-
 // Create and set the adapter
         DocumentAdapter adapter = new DocumentAdapter(metas);
         documentRecyclerView.setAdapter(adapter);
