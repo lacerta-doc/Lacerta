@@ -10,6 +10,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,7 +19,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -73,8 +79,22 @@ public class ScannerDataManagerStubFragment extends Fragment {
             Log.d("ScannerDataManagerStubFragment", "button_call_camera clicked");
             Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-                Log.d("ScannerDataManagerStubFragment", "camera available");
-                cameraLauncher.launch(takePictureIntent);
+                File photoFile = null;
+                try {
+                    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+                    String imageFileName = "JPEG_" + timeStamp + "_";
+                    File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+                    photoFile = File.createTempFile(imageFileName, ".jpg", storageDir);
+                } catch (IOException ex) {
+                    Log.e("ScannerDataManagerStubFragment", "Error occurred while creating the file", ex);
+                }
+                if (photoFile != null) {
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoFile);
+                    cameraLauncher.launch(takePictureIntent);
+                }
+                else {
+                    Log.d("ScannerDataManagerStubFragment", "photoFile is null");
+                }
             }
             else {
                 Log.d("ScannerDataManagerStubFragment", "camera not available");
