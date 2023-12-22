@@ -89,9 +89,8 @@ public class LibraryTopFragment extends Fragment {
         documentRecyclerView.setLayoutManager(layoutManager);
 
         //データを取得
-        List<DocumentMeta> metas = new ArrayList<>();
 
-        metas = document.getAllDocumentMetas(100);
+        List<DocumentMeta>  metas = document.getAllDocumentMetas(100);
 
         Toast.makeText(getContext(), "Documents: " + Integer.toString(metas.size()), Toast.LENGTH_LONG).show();
 
