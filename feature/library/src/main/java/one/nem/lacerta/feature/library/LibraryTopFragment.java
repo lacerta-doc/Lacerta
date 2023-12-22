@@ -36,6 +36,8 @@ public class LibraryTopFragment extends Fragment {
     @Inject
     Document document;
 
+    private LibraryFolderFragment folderManager;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -74,6 +76,7 @@ public class LibraryTopFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        folderManager = new LibraryFolderFragment();
     }
 
 
@@ -89,8 +92,15 @@ public class LibraryTopFragment extends Fragment {
         documentRecyclerView.setLayoutManager(layoutManager);
 
         //データを取得
+        List<DocumentMeta> metas  = document.getAllDocumentMetas(100);
 
-        List<DocumentMeta>  metas = document.getAllDocumentMetas(100);
+        // フォルダごとにドキュメントを管理する
+        for (DocumentMeta meta : metas) {
+            folderManager.addDocumentToFolder("Default Folder", meta);
+        }
+
+        // 特定のフォルダのドキュメントを取得
+        List<DocumentMeta> folderDocuments = folderManager.getDocumentsInFolder("Default Folder");
 
         Toast.makeText(getContext(), "Documents: " + Integer.toString(metas.size()), Toast.LENGTH_LONG).show();
 
