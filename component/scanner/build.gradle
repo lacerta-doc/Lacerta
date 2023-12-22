@@ -34,4 +34,7 @@ dependencies {
     androidTestImplementation libs.androidx.test.espresso.core
 
     implementation 'com.websitebeaver:documentscanner:1.0.0'
+
+    implementation project(':shared:ui')
+    implementation project(':model')
 }
