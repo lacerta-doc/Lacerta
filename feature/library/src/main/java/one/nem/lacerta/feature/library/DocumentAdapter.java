@@ -19,7 +19,7 @@ public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.Docume
     public DocumentAdapter(List<DocumentMeta> documentMetas) {
         // nullの場合に例外を発生させる
         if (documentMetas == null) {
-            throw new IllegalArgumentException("DocumentMetas list cannot be null");
+            throw new IllegalArgumentException("DocumentMetas list cannot be null or empty");
         }
         this.documentMetas = documentMetas;
     }
