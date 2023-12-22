@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import one.nem.lacerta.model.document.DocumentMeta;
-
+//フォルダ管理機能
 public class LibraryFolderFragment extends Fragment{
 
         private Map<String, List<DocumentMeta>> folderMap;
@@ -25,7 +25,7 @@ public class LibraryFolderFragment extends Fragment{
             List<DocumentMeta> documents = folderMap.get(folderName);
             documents.add(documentMeta);
         }
-
+        //フォルダに関連するドキュメントを取得するためのメソッド
         public List<DocumentMeta> getDocumentsInFolder(String folderName) {
             return folderMap.getOrDefault(folderName, new ArrayList<>());
         }
