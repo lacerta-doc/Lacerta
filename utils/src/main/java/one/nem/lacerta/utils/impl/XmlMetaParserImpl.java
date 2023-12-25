@@ -8,6 +8,7 @@ import java.io.StringReader;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
+import javax.inject.Inject;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -16,6 +17,11 @@ import one.nem.lacerta.model.document.internal.XmlMetaPageModel;
 import one.nem.lacerta.utils.XmlMetaParser;
 
 public class XmlMetaParserImpl implements XmlMetaParser{
+
+    @Inject
+    public XmlMetaParserImpl() {
+    }
+
     @Override
     public XmlMetaModel parse(String xml) {
         try {
