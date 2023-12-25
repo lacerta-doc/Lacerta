@@ -82,4 +82,18 @@ public class FileManagerImpl implements FileManager {
     public void removeDir(String dirName) {
         currentDir.resolve(dirName).toFile().delete(); // TODO-rca: エラーハンドリング
     }
+
+    @Override
+    public void saveBitmap(Path path, Bitmap bitmap) {
+    }
+
+    @Override
+    public Bitmap loadBitmap(Path path) {
+        return null;
+    }
+
+    @Override
+    public void removeBitmap(Path path) {
+
+    }
 }
