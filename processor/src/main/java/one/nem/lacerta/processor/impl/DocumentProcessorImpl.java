@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.util.UUID;
 
 import javax.inject.Inject;
 
@@ -13,21 +14,33 @@ import one.nem.lacerta.model.document.DocumentDetail;
 import one.nem.lacerta.model.document.DocumentMeta;
 
 import one.nem.lacerta.source.file.FileManager;
+import one.nem.lacerta.source.file.factory.FileManagerFactory;
 
 public class DocumentProcessorImpl implements DocumentProcessor{
+
+    // Magic Numbers
+    private static final String DEFAULT_SAVE_DIR = "raw";
 
     private DocumentDetail documentDetail;
 
     // Injection
     @Inject
-    FileManager fileManager;
+    FileManagerFactory fileManagerFactory;
 
     // Internal utils
 
     @Override
     public void addNewPageToLast(Bitmap bitmap) {
         Path path = documentDetail.getPath().getFullPath();
-//        fileManager.saveBitmap(path, bitmap);
+        String fileName = String.format(UUID.randomUUID().toString() + ".png"); // TODO-rca: 対応表をもたせる
+        FileManager fileManager = fileManagerFactory.create(path);
+        if(fileManager.getList().contains(path.resolve(DEFAULT_SAVE_DIR))) {
+            fileManager.changeDir(DEFAULT_SAVE_DIR);
+        } else {
+            fileManager.createDir(DEFAULT_SAVE_DIR);
+            fileManager.changeDir(DEFAULT_SAVE_DIR);
+        }
+        fileManager.saveBitmapAtCurrent(bitmap, fileName);
     }
 
     @Override
