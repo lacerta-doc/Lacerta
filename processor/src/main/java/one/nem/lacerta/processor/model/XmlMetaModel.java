@@ -71,4 +71,35 @@ public class XmlMetaModel {
         this.pages = pages;
     }
 
+    // Public Methods
+
+    public void addPage(XmlMetaPageModel page) {
+        this.pages.add(page);
+    }
+
+    public void addPageAfterIndex(int index, XmlMetaPageModel page) {
+        this.pages.add(index, page);
+
+        //Update index
+        this.updateIndex();
+    }
+
+    public void removePage(XmlMetaPageModel page) {
+        this.pages.remove(page);
+    }
+
+    public void removePageAtIndex(int index) {
+        this.pages.remove(index);
+
+        //Update index
+        this.updateIndex();
+    }
+
+    // Internal Methods
+    private void updateIndex() { // TODO-rca: 効率悪そう
+        for (int i = 0; i < this.pages.size(); i++) {
+            this.pages.get(i).setIndex(i);
+        }
+    }
+
 }
