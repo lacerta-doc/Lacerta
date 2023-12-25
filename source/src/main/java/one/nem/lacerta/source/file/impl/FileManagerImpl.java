@@ -106,17 +106,25 @@ public class FileManagerImpl implements FileManager {
 
     @Override
     public void saveFileAtCurrent(File file) {
-
+        try {
+            Files.copy(file.toPath(), currentDir.resolve(file.getName()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public File getFile(Path path) {
-        return null;
+        // ファイルを取得する
+        return path.toFile();
     }
 
     @Override
     public void removeFile(Path path) {
-
+        // ファイルを削除する
+        if (path.toFile().exists()) {
+            path.toFile().delete(); // Resultを返す？
+        }
     }
 
 }
