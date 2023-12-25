@@ -16,6 +16,8 @@ import one.nem.lacerta.model.document.DocumentMeta;
 import one.nem.lacerta.source.file.FileManager;
 import one.nem.lacerta.source.file.factory.FileManagerFactory;
 
+import one.nem.lacerta.utils.LacertaLogger;
+
 public class DocumentProcessorImpl implements DocumentProcessor{
 
     // Magic Numbers
@@ -26,6 +28,9 @@ public class DocumentProcessorImpl implements DocumentProcessor{
     // Injection
     @Inject
     FileManagerFactory fileManagerFactory;
+
+    @Inject
+    LacertaLogger logger;
 
     // Internal utils
 
