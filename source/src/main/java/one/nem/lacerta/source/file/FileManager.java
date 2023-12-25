@@ -6,6 +6,8 @@ import java.io.File;
 import java.nio.file.Path;
 import java.util.List;
 
+import one.nem.lacerta.source.file.model.XmlMetaModel;
+
 public interface FileManager {
 
     Path getRootDir();
@@ -20,8 +22,7 @@ public interface FileManager {
     Bitmap loadBitmap(Path path);
     void removeBitmap(Path path);
 
-//    void saveFileAtCurrent(File file);
-//    File getFile(Path path);
-//    void removeFile(Path path);
 
+    XmlMetaModel getXmlMeta();
+    void saveXmlMeta(XmlMetaModel xmlMeta);
 }
