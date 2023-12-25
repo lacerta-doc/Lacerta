@@ -78,7 +78,7 @@ public class DebugMenuFileManagerTesterFragment extends Fragment {
             paint.setColor(Color.RED);
             canvas.drawCircle(50, 50, 50, paint);
 
-            fileManager.saveBitmapAtCurrent(bitmap, "test.bmp");
+            fileManager.saveBitmapAtCurrent(bitmap, "test.png");
         });
 
         return view;
