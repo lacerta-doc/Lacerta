@@ -22,7 +22,6 @@ public interface FileManager {
     Bitmap loadBitmap(Path path);
     void removeBitmap(Path path);
 
-
-    XmlMetaModel getXmlMeta();
-    void saveXmlMeta(XmlMetaModel xmlMeta);
+//    XmlMetaModel getXmlMeta();
+//    void saveXmlMeta(XmlMetaModel xmlMeta);
 }
