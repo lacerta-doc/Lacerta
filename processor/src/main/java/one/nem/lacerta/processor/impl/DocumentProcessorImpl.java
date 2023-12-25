@@ -36,12 +36,16 @@ public class DocumentProcessorImpl implements DocumentProcessor{
 
     @Override
     public void addNewPageToLast(Bitmap bitmap) {
+        logger.debug("addNewPageToLast", "called");
         Path path = documentDetail.getPath().getFullPath();
         String fileName = String.format(UUID.randomUUID().toString() + ".png"); // TODO-rca: 対応表をもたせる
+        logger.debug("addNewPageToLast", "fileName: " + fileName);
         FileManager fileManager = fileManagerFactory.create(path);
         if(fileManager.getList().contains(path.resolve(DEFAULT_SAVE_DIR))) {
+            logger.debug("addNewPageToLast", "raw dir found");
             fileManager.changeDir(DEFAULT_SAVE_DIR);
         } else {
+            logger.debug("addNewPageToLast", "raw dir not found");
             fileManager.createDir(DEFAULT_SAVE_DIR);
             fileManager.changeDir(DEFAULT_SAVE_DIR);
         }
