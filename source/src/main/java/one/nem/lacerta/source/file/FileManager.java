@@ -16,7 +16,7 @@ public interface FileManager {
     void createDir(String dirName);
     void removeDir(String dirName);
 
-    void saveBitmap(Path path, Bitmap bitmap);
+    void saveBitmapAtCurrent(Bitmap bitmap, String fileName);
     Bitmap loadBitmap(Path path);
     void removeBitmap(Path path);
 
