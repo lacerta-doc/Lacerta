@@ -18,4 +18,6 @@ public interface DocumentProcessor {
     Bitmap getPageAtIndex(int index);
     int getPageCount();
 
+    void close();
+
 }

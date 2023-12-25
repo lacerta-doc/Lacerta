@@ -77,4 +77,9 @@ public class DocumentProcessorImpl implements DocumentProcessor{
     public int getPageCount() {
         return 0;
     }
+
+    @Override
+    public void close() {
+
+    }
 }
