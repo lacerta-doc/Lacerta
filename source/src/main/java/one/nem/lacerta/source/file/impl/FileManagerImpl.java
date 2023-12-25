@@ -107,7 +107,12 @@ public class FileManagerImpl implements FileManager {
 
     @Override
     public XmlMetaModel getXmlMeta() {
-        return null;
+        if (currentDir.resolve("meta.xml").toFile().exists()) {
+            // TODO-rca: XMLを読み込んで返す
+            return null;
+        } else {
+            return null;
+        }
     }
 
     @Override
