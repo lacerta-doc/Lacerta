@@ -1,5 +1,9 @@
 package one.nem.lacerta.feature.debug;
 
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -14,8 +18,6 @@ import one.nem.lacerta.source.file.FileManager;
 import one.nem.lacerta.source.file.factory.FileManagerFactory;
 
 import one.nem.lacerta.utils.repository.DeviceInfoUtils;
-
-import org.eclipse.jgit.diff.Edit;
 
 import javax.inject.Inject;
 
@@ -63,6 +65,20 @@ public class DebugMenuFileManagerTesterFragment extends Fragment {
 
             FileManager fileManager = fileManagerFactory.create(deviceInfoUtils.getExternalStorageDirectory());
             fileManager.createDir(dirName);
+        });
+
+        view.findViewById(R.id.button_save_item).setOnClickListener(v -> {
+            FileManager fileManager = fileManagerFactory.create(deviceInfoUtils.getExternalStorageDirectory());
+            fileManager.createDir("test");
+            fileManager.changeDir("test");
+            Bitmap bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);
+            // Bitmapに描画処理を行う
+            Canvas canvas = new Canvas(bitmap);
+            Paint paint = new Paint();
+            paint.setColor(Color.RED);
+            canvas.drawCircle(50, 50, 50, paint);
+
+            fileManager.saveBitmapAtCurrent(bitmap, "test.bmp");
         });
 
         return view;
