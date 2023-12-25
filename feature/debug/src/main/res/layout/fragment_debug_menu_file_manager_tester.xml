@@ -31,10 +31,10 @@
             android:text="List item in current" />
 
         <Button
-            android:id="@+id/button_save_list"
+            android:id="@+id/button_save_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Save List item" />
+            android:text="Save Test Image" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
