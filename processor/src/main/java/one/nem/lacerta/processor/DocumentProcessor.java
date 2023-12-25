@@ -19,5 +19,6 @@ public interface DocumentProcessor {
     int getPageCount();
 
     void close();
+    void init();
 
 }

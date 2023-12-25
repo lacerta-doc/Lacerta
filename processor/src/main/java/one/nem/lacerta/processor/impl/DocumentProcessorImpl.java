@@ -32,7 +32,11 @@ public class DocumentProcessorImpl implements DocumentProcessor{
     @Inject
     LacertaLogger logger;
 
-    // Internal utils
+    @Override
+    public void init() {
+        logger.debug("init", "called");
+        // TODO-rca: ドキュメントの初期化処理
+    }
 
     @Override
     public void addNewPageToLast(Bitmap bitmap) {
