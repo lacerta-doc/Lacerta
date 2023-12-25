@@ -20,8 +20,8 @@ public interface FileManager {
     Bitmap loadBitmap(Path path);
     void removeBitmap(Path path);
 
-    void saveFileAtCurrent(File file);
-    File getFile(Path path);
-    void removeFile(Path path);
+//    void saveFileAtCurrent(File file);
+//    File getFile(Path path);
+//    void removeFile(Path path);
 
 }
