@@ -2,11 +2,9 @@ package one.nem.lacerta.source.file;
 
 import android.graphics.Bitmap;
 
-import java.io.File;
 import java.nio.file.Path;
 import java.util.List;
 
-import one.nem.lacerta.source.file.model.XmlMetaModel;
 
 public interface FileManager {
 
@@ -22,6 +20,4 @@ public interface FileManager {
     Bitmap loadBitmap(Path path);
     void removeBitmap(Path path);
 
-//    XmlMetaModel getXmlMeta();
-//    void saveXmlMeta(XmlMetaModel xmlMeta);
 }

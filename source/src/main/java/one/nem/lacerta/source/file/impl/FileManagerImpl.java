@@ -8,15 +8,11 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
-import javax.inject.Inject;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedInject;
 import one.nem.lacerta.source.file.FileManager;
-import one.nem.lacerta.source.file.model.XmlMetaModel;
 
 public class FileManagerImpl implements FileManager {
 
@@ -104,15 +100,5 @@ public class FileManagerImpl implements FileManager {
     public void removeBitmap(Path path) {
 
     }
-
-//    @Override
-//    public XmlMetaModel getXmlMeta() {
-//        return null;
-//    }
-//
-//    @Override
-//    public void saveXmlMeta(XmlMetaModel xmlMeta) {
-//
-//    }
 
 }
