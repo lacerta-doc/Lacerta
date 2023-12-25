@@ -2,7 +2,6 @@ package one.nem.lacerta.processor.impl;
 
 import android.graphics.Bitmap;
 
-import java.io.File;
 import java.nio.file.Path;
 import java.util.UUID;
 
@@ -11,13 +10,15 @@ import javax.inject.Inject;
 import one.nem.lacerta.processor.DocumentProcessor;
 
 import one.nem.lacerta.model.document.DocumentDetail;
-import one.nem.lacerta.model.document.DocumentMeta;
 
-import one.nem.lacerta.processor.model.XmlMetaModel;
+import one.nem.lacerta.model.document.internal.XmlMetaModel;
 import one.nem.lacerta.source.file.FileManager;
 import one.nem.lacerta.source.file.factory.FileManagerFactory;
 
 import one.nem.lacerta.utils.LacertaLogger;
+
+import one.nem.lacerta.utils.XmlMetaParser;
+
 
 public class DocumentProcessorImpl implements DocumentProcessor{
 
@@ -35,11 +36,14 @@ public class DocumentProcessorImpl implements DocumentProcessor{
     @Inject
     LacertaLogger logger;
 
+    @Inject
+    XmlMetaParser xmlMetaParser;
+
     @Override
     public void init() {
         logger.debug("init", "called");
         // XMLメタデータの取得/生成
-
+        FileManager fileManager = fileManagerFactory.create(documentDetail.getPath().getFullPath());
     }
 
     @Override
