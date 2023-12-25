@@ -2,6 +2,7 @@ package one.nem.lacerta.processor.impl;
 
 import android.graphics.Bitmap;
 
+import java.io.File;
 import java.nio.file.Path;
 
 import javax.inject.Inject;
