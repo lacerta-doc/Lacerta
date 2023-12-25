@@ -103,4 +103,20 @@ public class FileManagerImpl implements FileManager {
     public void removeBitmap(Path path) {
 
     }
+
+    @Override
+    public void saveFileAtCurrent(File file) {
+
+    }
+
+    @Override
+    public File getFile(Path path) {
+        return null;
+    }
+
+    @Override
+    public void removeFile(Path path) {
+
+    }
+
 }
