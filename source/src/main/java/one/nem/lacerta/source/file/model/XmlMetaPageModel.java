@@ -1,4 +1,4 @@
-package one.nem.lacerta.processor.model;
+package one.nem.lacerta.source.file.model;
 
 public class XmlMetaPageModel {
 

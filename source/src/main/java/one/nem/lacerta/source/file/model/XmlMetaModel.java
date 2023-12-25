@@ -1,7 +1,6 @@
-package one.nem.lacerta.processor.model;
+package one.nem.lacerta.source.file.model;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class XmlMetaModel {
 
