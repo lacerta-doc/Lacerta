@@ -13,6 +13,7 @@ import one.nem.lacerta.processor.DocumentProcessor;
 import one.nem.lacerta.model.document.DocumentDetail;
 import one.nem.lacerta.model.document.DocumentMeta;
 
+import one.nem.lacerta.processor.model.XmlMetaModel;
 import one.nem.lacerta.source.file.FileManager;
 import one.nem.lacerta.source.file.factory.FileManagerFactory;
 
@@ -25,6 +26,8 @@ public class DocumentProcessorImpl implements DocumentProcessor{
 
     private DocumentDetail documentDetail;
 
+    private XmlMetaModel xmlMetaModel;
+
     // Injection
     @Inject
     FileManagerFactory fileManagerFactory;
@@ -35,7 +38,8 @@ public class DocumentProcessorImpl implements DocumentProcessor{
     @Override
     public void init() {
         logger.debug("init", "called");
-        // TODO-rca: ドキュメントの初期化処理
+        // XMLメタデータの取得/生成
+
     }
 
     @Override
