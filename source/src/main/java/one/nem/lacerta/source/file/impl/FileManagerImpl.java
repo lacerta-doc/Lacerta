@@ -2,6 +2,7 @@ package one.nem.lacerta.source.file.impl;
 
 import android.graphics.Bitmap;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -85,6 +86,7 @@ public class FileManagerImpl implements FileManager {
 
     @Override
     public void saveBitmap(Path path, Bitmap bitmap) {
+
     }
 
     @Override
@@ -95,5 +97,17 @@ public class FileManagerImpl implements FileManager {
     @Override
     public void removeBitmap(Path path) {
 
+    }
+
+    private void saveFile(File file) {
+        // Internal
+    }
+
+    private void loadFile(File file) {
+        // Internal
+    }
+
+    private void removeFile(File file) {
+        // Internal
     }
 }
