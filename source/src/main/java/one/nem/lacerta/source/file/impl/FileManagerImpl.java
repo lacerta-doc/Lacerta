@@ -85,8 +85,12 @@ public class FileManagerImpl implements FileManager {
     }
 
     @Override
-    public void saveBitmapAtCurrent(Bitmap bitmap, String fileName) {
-        this.currentDir
+    public void saveBitmapAtCurrent(Bitmap bitmap, String fileName) { // TODO-rca: ファイル形式を変更できるようにする？
+        try {
+            Files.write(currentDir.resolve(fileName), bitmap.toString().getBytes()); // TODO-rca: エラーハンドリング
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
