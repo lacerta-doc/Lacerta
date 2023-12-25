@@ -2,7 +2,9 @@ package one.nem.lacerta.processor.impl;
 
 import android.graphics.Bitmap;
 
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import javax.inject.Inject;
@@ -44,6 +46,34 @@ public class DocumentProcessorImpl implements DocumentProcessor{
         logger.debug("init", "called");
         // XMLメタデータの取得/生成
         FileManager fileManager = fileManagerFactory.create(documentDetail.getPath().getFullPath());
+        if(fileManager.getList().contains(documentDetail.getPath().getFullPath().resolve("meta.xml"))) {
+            logger.debug("init", "meta.xml found");
+            try {
+                xmlMetaModel = xmlMetaParser.parse(new String(Files.readAllBytes(documentDetail.getPath().getFullPath().resolve("meta.xml"))));
+                logger.debug("init", "parsed");
+            } catch (Exception e) {
+                logger.debug("init", "parse failed");
+                e.printStackTrace();
+            }
+        } else {
+            logger.debug("init", "meta.xml not found");
+            // Create new
+            xmlMetaModel = new XmlMetaModel();
+            xmlMetaModel.setTitle(this.documentDetail.getMeta().getTitle());
+            xmlMetaModel.setAuthor(this.documentDetail.getAuthor());
+            xmlMetaModel.setDescription("");
+            xmlMetaModel.setDefaultBranch("master");
+            xmlMetaModel.setPages(new ArrayList<>());
+
+            // Save
+            try {
+                Files.write(documentDetail.getPath().getFullPath().resolve("meta.xml"), xmlMetaParser.serialize(xmlMetaModel).getBytes());
+                logger.debug("init", "saved");
+            } catch (Exception e) {
+                logger.debug("init", "save failed");
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
