@@ -55,6 +55,8 @@ public class ScannerDataManagerStubFragment extends Fragment {
 
     private Uri photoURI;
 
+    private DocumentDetail documentDetail;
+
     @Inject
     DocumentProcessorFactory documentProcessorFactory;
 
@@ -142,7 +144,6 @@ public class ScannerDataManagerStubFragment extends Fragment {
         view.findViewById(R.id.button_create_documnent).setOnClickListener(v -> {
             Log.d("ScannerDataManagerStubFragment", "button_create_documnent clicked");
             Toast.makeText(getActivity(), "button_create_documnent clicked", Toast.LENGTH_LONG).show();
-
 
         });
 
