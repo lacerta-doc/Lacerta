@@ -34,17 +34,17 @@ public class DocumentProcessorImpl implements DocumentProcessor{
     private XmlMetaModel xmlMetaModel;
 
     // Injection
-    @Inject
-    FileManagerFactory fileManagerFactory;
+    private FileManagerFactory fileManagerFactory;
 
-    @Inject
-    LacertaLogger logger;
+    private LacertaLogger logger;
 
-    @Inject
-    XmlMetaParser xmlMetaParser;
+    private XmlMetaParser xmlMetaParser;
 
     @AssistedInject
-    public DocumentProcessorImpl(@Assisted DocumentDetail documentDetail) {
+    public DocumentProcessorImpl(FileManagerFactory fileManagerFactory, LacertaLogger logger, XmlMetaParser xmlMetaParser, @Assisted DocumentDetail documentDetail) {
+        this.fileManagerFactory = fileManagerFactory;
+        this.logger = logger;
+        this.xmlMetaParser = xmlMetaParser;
         if (documentDetail == null) {
             throw new IllegalArgumentException("documentDetail must not be null");
         }
