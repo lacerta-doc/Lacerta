@@ -39,6 +39,8 @@ import one.nem.lacerta.model.document.DocumentMeta;
 import one.nem.lacerta.processor.DocumentProcessor;
 import one.nem.lacerta.processor.factory.DocumentProcessorFactory;
 
+import one.nem.lacerta.utils.LacertaLogger;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ScannerDataManagerStubFragment#newInstance} factory method to
@@ -55,6 +57,9 @@ public class ScannerDataManagerStubFragment extends Fragment {
 
     @Inject
     DocumentProcessorFactory documentProcessorFactory;
+
+    @Inject
+    LacertaLogger logger;
 
     private final ActivityResultLauncher<Intent> cameraLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -154,10 +159,15 @@ public class ScannerDataManagerStubFragment extends Fragment {
         String id = UUID.randomUUID().toString();
 
         Toast.makeText(getActivity(), "Generated id: " + id, Toast.LENGTH_LONG).show();
+        logger.debug("CreateSample", "Generated id: " + id);
 
         DocumentMeta meta = new DocumentMeta(
                 id,
                 "Sample" + DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(LocalDateTime.now()),
+                new Date(),
+                new Date());
+
+        return new DocumentDetail(meta, null, "SampleAuthor", "SampleDefaultBranch");
     }
 
     @Override
