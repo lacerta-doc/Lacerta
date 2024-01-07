@@ -11,6 +11,7 @@
         android:id="@+id/action_button_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:weightSum="2"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,6 +25,15 @@
             android:layout_margin="16px"
             android:layout_weight="1"
             android:text="Call camera" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_init_document_processor"
+            style="@style/Widget.Material3.Button.IconButton.Filled"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16px"
+            android:layout_weight="1"
+            android:text="Init proc" />
 
     </LinearLayout>
 
