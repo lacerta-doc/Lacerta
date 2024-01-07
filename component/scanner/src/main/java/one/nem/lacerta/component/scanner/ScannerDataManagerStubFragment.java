@@ -120,6 +120,11 @@ public class ScannerDataManagerStubFragment extends Fragment {
             }
             updateResults();
         });
+
+        view.findViewById(R.id.button_init_document_processor).setOnClickListener(v -> {
+            Log.d("ScannerDataManagerStubFragment", "button_init_document_processor clicked");
+            // TODO-rca: ここでDocumentProcessorを初期化する
+        });
     }
 
     @Override
