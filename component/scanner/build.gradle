@@ -37,4 +37,6 @@ dependencies {
 
     implementation project(':shared:ui')
     implementation project(':model')
+
+    implementation project(':processor')
 }
