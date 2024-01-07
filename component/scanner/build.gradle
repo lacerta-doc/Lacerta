@@ -33,6 +33,10 @@ dependencies {
     androidTestImplementation libs.androidx.test.ext.junit
     androidTestImplementation libs.androidx.test.espresso.core
 
+    // Hilt (DI)
+    implementation libs.com.google.dagger.hilt.android
+    annotationProcessor libs.com.google.dagger.hilt.compiler
+
     implementation 'com.websitebeaver:documentscanner:1.0.0'
 
     implementation project(':shared:ui')
