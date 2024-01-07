@@ -29,6 +29,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+import one.nem.lacerta.processor.DocumentProcessor;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ScannerDataManagerStubFragment#newInstance} factory method to
@@ -123,6 +125,7 @@ public class ScannerDataManagerStubFragment extends Fragment {
 
         view.findViewById(R.id.button_init_document_processor).setOnClickListener(v -> {
             Log.d("ScannerDataManagerStubFragment", "button_init_document_processor clicked");
+            Toast.makeText(getActivity(), "button_init_document_processor clicked", Toast.LENGTH_LONG).show();
             // TODO-rca: ここでDocumentProcessorを初期化する
         });
     }
