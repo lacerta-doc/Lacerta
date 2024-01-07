@@ -145,13 +145,15 @@ public class ScannerDataManagerStubFragment extends Fragment {
             Log.d("ScannerDataManagerStubFragment", "button_create_documnent clicked");
             Toast.makeText(getActivity(), "button_create_documnent clicked", Toast.LENGTH_LONG).show();
 
+            this.documentDetail = createSampleDocumentDetail();
+
         });
 
         view.findViewById(R.id.button_init_document_processor).setOnClickListener(v -> {
             Log.d("ScannerDataManagerStubFragment", "button_init_document_processor clicked");
             Toast.makeText(getActivity(), "button_init_document_processor clicked", Toast.LENGTH_LONG).show();
             // TODO-rca: ここでDocumentProcessorを初期化する
-            DocumentProcessor documentProcessor = documentProcessorFactory.create();
+//            DocumentProcessor documentProcessor = documentProcessorFactory.create();
         });
     }
 
@@ -160,7 +162,7 @@ public class ScannerDataManagerStubFragment extends Fragment {
         String id = UUID.randomUUID().toString();
 
         Toast.makeText(getActivity(), "Generated id: " + id, Toast.LENGTH_LONG).show();
-        logger.debug("CreateSample", "Generated id: " + id);
+        //logger.debug("CreateSample", "Generated id: " + id);
 
         DocumentMeta meta = new DocumentMeta(
                 id,
