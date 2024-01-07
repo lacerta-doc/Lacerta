@@ -153,7 +153,11 @@ public class ScannerDataManagerStubFragment extends Fragment {
             Log.d("ScannerDataManagerStubFragment", "button_init_document_processor clicked");
             Toast.makeText(getActivity(), "button_init_document_processor clicked", Toast.LENGTH_LONG).show();
             // TODO-rca: ここでDocumentProcessorを初期化する
-//            DocumentProcessor documentProcessor = documentProcessorFactory.create();
+            if (this.documentDetail == null) {
+                Toast.makeText(getActivity(), "documentDetail is null", Toast.LENGTH_LONG).show();
+                return;
+            }
+            DocumentProcessor documentProcessor = documentProcessorFactory.create(this.documentDetail);
         });
     }
 

@@ -45,6 +45,9 @@ public class DocumentProcessorImpl implements DocumentProcessor{
 
     @AssistedInject
     public DocumentProcessorImpl(@Assisted DocumentDetail documentDetail) {
+        if (documentDetail == null) {
+            throw new IllegalArgumentException("documentDetail must not be null");
+        }
         this.documentDetail = documentDetail;
     }
 
