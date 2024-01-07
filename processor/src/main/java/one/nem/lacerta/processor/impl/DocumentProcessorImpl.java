@@ -9,6 +9,8 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 
+import dagger.assisted.Assisted;
+import dagger.assisted.AssistedInject;
 import one.nem.lacerta.processor.DocumentProcessor;
 
 import one.nem.lacerta.model.document.DocumentDetail;
@@ -40,6 +42,11 @@ public class DocumentProcessorImpl implements DocumentProcessor{
 
     @Inject
     XmlMetaParser xmlMetaParser;
+
+    @AssistedInject
+    public DocumentProcessorImpl(@Assisted DocumentDetail documentDetail) {
+        this.documentDetail = documentDetail;
+    }
 
     @Override
     public void init() {
