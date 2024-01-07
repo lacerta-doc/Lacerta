@@ -29,7 +29,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+import javax.inject.Inject;
+
 import one.nem.lacerta.processor.DocumentProcessor;
+import one.nem.lacerta.processor.factory.DocumentProcessorFactory;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -44,6 +47,9 @@ public class ScannerDataManagerStubFragment extends Fragment {
     private ArrayList<CapturedData> results = new ArrayList<>();
 
     private Uri photoURI;
+
+    @Inject
+    DocumentProcessorFactory documentProcessorFactory;
 
     private final ActivityResultLauncher<Intent> cameraLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -123,10 +129,17 @@ public class ScannerDataManagerStubFragment extends Fragment {
             updateResults();
         });
 
+        view.findViewById(R.id.button_create_documnent).setOnClickListener(v -> {
+            Log.d("ScannerDataManagerStubFragment", "button_create_documnent clicked");
+            Toast.makeText(getActivity(), "button_create_documnent clicked", Toast.LENGTH_LONG).show();
+            // TODO-rca: ここでDocumentを作成する
+        });
+
         view.findViewById(R.id.button_init_document_processor).setOnClickListener(v -> {
             Log.d("ScannerDataManagerStubFragment", "button_init_document_processor clicked");
             Toast.makeText(getActivity(), "button_init_document_processor clicked", Toast.LENGTH_LONG).show();
             // TODO-rca: ここでDocumentProcessorを初期化する
+            DocumentProcessor documentProcessor = documentProcessorFactory.create();
         });
     }
 
