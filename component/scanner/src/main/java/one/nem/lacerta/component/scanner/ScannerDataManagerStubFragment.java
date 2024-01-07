@@ -25,13 +25,17 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.UUID;
 
 import javax.inject.Inject;
 
 import one.nem.lacerta.model.document.DocumentDetail;
+import one.nem.lacerta.model.document.DocumentMeta;
 import one.nem.lacerta.processor.DocumentProcessor;
 import one.nem.lacerta.processor.factory.DocumentProcessorFactory;
 
@@ -146,8 +150,14 @@ public class ScannerDataManagerStubFragment extends Fragment {
     }
 
     public DocumentDetail createSampleDocumentDetail() {
-        DocumentDetail documentDetail = new DocumentDetail();
-        return documentDetail;
+
+        String id = UUID.randomUUID().toString();
+
+        Toast.makeText(getActivity(), "Generated id: " + id, Toast.LENGTH_LONG).show();
+
+        DocumentMeta meta = new DocumentMeta(
+                id,
+                "Sample" + DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(LocalDateTime.now()),
     }
 
     @Override
