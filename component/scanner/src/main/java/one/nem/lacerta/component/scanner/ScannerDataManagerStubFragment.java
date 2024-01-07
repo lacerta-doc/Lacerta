@@ -31,6 +31,7 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
+import one.nem.lacerta.model.document.DocumentDetail;
 import one.nem.lacerta.processor.DocumentProcessor;
 import one.nem.lacerta.processor.factory.DocumentProcessorFactory;
 
@@ -132,7 +133,8 @@ public class ScannerDataManagerStubFragment extends Fragment {
         view.findViewById(R.id.button_create_documnent).setOnClickListener(v -> {
             Log.d("ScannerDataManagerStubFragment", "button_create_documnent clicked");
             Toast.makeText(getActivity(), "button_create_documnent clicked", Toast.LENGTH_LONG).show();
-            // TODO-rca: ここでDocumentを作成する
+
+
         });
 
         view.findViewById(R.id.button_init_document_processor).setOnClickListener(v -> {
@@ -141,6 +143,11 @@ public class ScannerDataManagerStubFragment extends Fragment {
             // TODO-rca: ここでDocumentProcessorを初期化する
             DocumentProcessor documentProcessor = documentProcessorFactory.create();
         });
+    }
+
+    public DocumentDetail createSampleDocumentDetail() {
+        DocumentDetail documentDetail = new DocumentDetail();
+        return documentDetail;
     }
 
     @Override
