@@ -1,7 +1,5 @@
 package one.nem.lacerta.utils;
 
-import one.nem.lacerta.utils.model.KeyValueLog;
-
 public interface LacertaLogger {
 
     void info(String tag, String message);
@@ -11,7 +9,4 @@ public interface LacertaLogger {
     void trace(String tag, String message);
     void fatal(String tag, String message);
 
-    String buildMessageByObject(KeyValueLog... logs);
-    // With name
-    String buildMessageByObject(String name, KeyValueLog... logs);
 }
