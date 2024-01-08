@@ -51,7 +51,7 @@ public class DocumentProcessorImpl implements DocumentProcessor{
     public void init() {
         logger.debug("init", "called");
         // Init Variables
-        this.documentRootPath = documentDetail.getPath().getFullPath();
+        this.documentRootPath = this.documentDetail.getPath().getFullPath();
         logger.debug("init", "documentRootPath: " + this.documentRootPath);
 
         this.fileManager = fileManagerFactory.create(this.documentRootPath); //Initialize FileManager
@@ -75,10 +75,10 @@ public class DocumentProcessorImpl implements DocumentProcessor{
             logger.debug("init", "meta.xml not found");
             xmlMetaModel = new XmlMetaModel();
 
-            xmlMetaModel.setTitle(documentDetail.getMeta().getTitle());
-            xmlMetaModel.setAuthor(documentDetail.getAuthor());
+            xmlMetaModel.setTitle(this.documentDetail.getMeta().getTitle());
+            xmlMetaModel.setAuthor(this.documentDetail.getAuthor());
             xmlMetaModel.setDescription(""); // FIXME-rca:
-            xmlMetaModel.setDefaultBranch(documentDetail.getDefaultBranch());
+            xmlMetaModel.setDefaultBranch(this.documentDetail.getDefaultBranch());
             xmlMetaModel.setPages(new ArrayList<>());
 
             try {
