@@ -9,6 +9,7 @@ import java.nio.file.Path;
 import java.util.List;
 
 
+/** @noinspection unused*/
 public interface FileManager {
 
     Path getRootDir();
