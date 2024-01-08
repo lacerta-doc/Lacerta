@@ -186,6 +186,8 @@ public class ScannerDataManagerStubFragment extends Fragment {
             }
 
             this.documentProcessor.addNewPagesToLast(bitmaps);
+
+            this.documentProcessor.close();
         });
     }
 
