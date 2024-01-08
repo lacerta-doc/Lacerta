@@ -55,38 +55,42 @@ public class DocumentProcessorImpl implements DocumentProcessor{
     @Override
     public void init() {
         logger.debug("init", "called");
-        // XMLメタデータの取得/生成
-        FileManager fileManager = fileManagerFactory.create(documentDetail.getPath().getFullPath());
-        if(documentDetail.getPath().getFullPath().resolve("meta.xml").toFile().exists()) {
+        Path path = documentDetail.getPath().getFullPath();
+        logger.debug("init", "path: " + path.toString());
+
+        FileManager fileManager = fileManagerFactory.create(path); //Initialize FileManager
+
+        fileManager.changeDir(path);
+        fileManager.autoCreateToCurrentDir();
+
+        // rawディレクトリInit
+        fileManager.autoCreateDir(DEFAULT_SAVE_DIR);
+
+        // xmlファイルの読み込み
+        if (fileManager.isExist("meta.xml")) {
             logger.debug("init", "meta.xml found");
             try {
-                xmlMetaModel = xmlMetaParser.parse(new String(Files.readAllBytes(documentDetail.getPath().getFullPath().resolve("meta.xml"))));
-                logger.debug("init", "parsed");
+                xmlMetaModel = xmlMetaParser.parse(fileManager.loadText("meta.xml"));
             } catch (Exception e) {
-                logger.debug("init", "parse failed");
+                logger.debug("init", "meta.xml parse failed");
                 e.printStackTrace();
             }
         } else {
             logger.debug("init", "meta.xml not found");
-            // Create new
             xmlMetaModel = new XmlMetaModel();
-            xmlMetaModel.setTitle(this.documentDetail.getMeta().getTitle());
-            xmlMetaModel.setAuthor(this.documentDetail.getAuthor());
-            xmlMetaModel.setDescription("");
-            xmlMetaModel.setDefaultBranch("master");
+
+            xmlMetaModel.setTitle(documentDetail.getMeta().getTitle());
+            xmlMetaModel.setAuthor(documentDetail.getAuthor());
+            xmlMetaModel.setDescription(""); // FIXME-rca:
+            xmlMetaModel.setDefaultBranch(documentDetail.getDefaultBranch());
             xmlMetaModel.setPages(new ArrayList<>());
 
-            // Save
             try {
-                // ファイルの新規作成を行う
-                File file = documentDetail.getPath().getFullPath().resolve("meta.xml").toFile();
-                file.createNewFile();
-
-                // ファイルに書き込む
-                Files.write(documentDetail.getPath().getFullPath().resolve("meta.xml"), xmlMetaParser.serialize(xmlMetaModel).getBytes());
-                logger.debug("init", "saved");
+                fileManager.createFile("meta.xml");
+                fileManager.saveText(xmlMetaParser.serialize(xmlMetaModel), "meta.xml");
+                logger.info("init", "meta.xml created");
             } catch (Exception e) {
-                logger.debug("init", "save failed");
+                logger.debug("init", "meta.xml create failed");
                 e.printStackTrace();
             }
         }
