@@ -80,27 +80,32 @@ public class FileManagerImpl implements FileManager {
     @Override
     public void createDir(String dirName) {
         //ディレクトリ作成
+        logger.debug("createDir", "called");
         currentDir.resolve(dirName).toFile().mkdir(); // TODO-rca: エラーハンドリング
     }
 
     @Override
     public void removeDir(String dirName) {
+        logger.debug("removeDir", "called");
         currentDir.resolve(dirName).toFile().delete(); // TODO-rca: エラーハンドリング
     }
 
     @Override
     public File createFile(String fileName) {
+        logger.debug("createFile", "called");
         return currentDir.resolve(fileName).toFile();
     }
 
     @Override
     public void removeFile(String fileName) {
+        logger.debug("removeFile", "called");
         currentDir.resolve(fileName).toFile().delete(); // TODO-rca: エラーハンドリング
     }
 
 
     @Override
     public void saveBitmapAtCurrent(Bitmap bitmap, String fileName) { // TODO-rca: ファイル形式を変更できるようにする？
+        logger.debug("saveBitmapAtCurrent", "called");
         try {
             File file = currentDir.resolve(fileName).toFile();
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, Files.newOutputStream(file.toPath()));
