@@ -11,7 +11,7 @@ public interface LacertaLogger {
     void trace(String tag, String message);
     void fatal(String tag, String message);
 
-    String buildKVMessage(KeyValueLog... logs);
+    String buildMessageByObject(KeyValueLog... logs);
     // With name
-    String buildKVMessage(String name, KeyValueLog... logs);
+    String buildMessageByObject(String name, KeyValueLog... logs);
 }
