@@ -65,4 +65,7 @@ dependencies {
     // Scanner
     implementation project(':component:scanner')
 
+    // Processor
+    implementation project(':processor')
+
 }

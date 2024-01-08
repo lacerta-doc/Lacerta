@@ -11,6 +11,7 @@
         android:id="@+id/action_button_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:weightSum="2"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,11 +20,63 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_call_camera"
             style="@style/Widget.Material3.Button.IconButton.Filled"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16px"
             android:layout_weight="1"
             android:text="Call camera" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/init_button_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/action_button_container">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_create_documnent"
+            style="@style/Widget.Material3.Button.IconButton.Filled"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16px"
+            android:layout_weight="1"
+            android:text="Create Doc Obj" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_init_document_processor"
+            style="@style/Widget.Material3.Button.IconButton.Filled"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16px"
+            android:layout_weight="1"
+            android:text="Init Processor" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/doc_button_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:weightSum="2"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/init_button_container">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_add_page"
+            style="@style/Widget.Material3.Button.IconButton.Filled"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16px"
+            android:layout_weight="1"
+            android:text="Add page to last" />
 
     </LinearLayout>
 
@@ -35,6 +88,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/action_button_container" />
+        app:layout_constraintTop_toBottomOf="@id/doc_button_container" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

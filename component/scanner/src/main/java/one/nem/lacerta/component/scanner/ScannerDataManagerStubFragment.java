@@ -25,15 +25,32 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.UUID;
+
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
+import one.nem.lacerta.model.document.DocumentDetail;
+import one.nem.lacerta.model.document.DocumentMeta;
+import one.nem.lacerta.model.document.path.DocumentPath;
+import one.nem.lacerta.processor.DocumentProcessor;
+import one.nem.lacerta.processor.factory.DocumentProcessorFactory;
+
+import one.nem.lacerta.utils.LacertaLogger;
+
+import one.nem.lacerta.utils.repository.DeviceInfoUtils;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ScannerDataManagerStubFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+@AndroidEntryPoint
 public class ScannerDataManagerStubFragment extends Fragment {
 
     // TODO-rca: 時間があったらcacheを使うようにする？
@@ -42,6 +59,19 @@ public class ScannerDataManagerStubFragment extends Fragment {
     private ArrayList<CapturedData> results = new ArrayList<>();
 
     private Uri photoURI;
+
+    private DocumentDetail documentDetail;
+
+    private DocumentProcessor documentProcessor;
+
+    @Inject
+    DocumentProcessorFactory documentProcessorFactory;
+
+    @Inject
+    LacertaLogger logger;
+
+    @Inject
+    DeviceInfoUtils deviceInfoUtils;
 
     private final ActivityResultLauncher<Intent> cameraLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -120,6 +150,65 @@ public class ScannerDataManagerStubFragment extends Fragment {
             }
             updateResults();
         });
+
+        view.findViewById(R.id.button_create_documnent).setOnClickListener(v -> {
+            Log.d("ScannerDataManagerStubFragment", "button_create_documnent clicked");
+            Toast.makeText(getActivity(), "button_create_documnent clicked", Toast.LENGTH_LONG).show();
+
+            this.documentDetail = createSampleDocumentDetail();
+
+        });
+
+        view.findViewById(R.id.button_init_document_processor).setOnClickListener(v -> {
+            Log.d("ScannerDataManagerStubFragment", "button_init_document_processor clicked");
+            Toast.makeText(getActivity(), "button_init_document_processor clicked", Toast.LENGTH_LONG).show();
+            // TODO-rca: ここでDocumentProcessorを初期化する
+            if (this.documentDetail == null) {
+                Toast.makeText(getActivity(), "documentDetail is null", Toast.LENGTH_LONG).show();
+                return;
+            }
+            this.documentProcessor = documentProcessorFactory.create(this.documentDetail);
+            Toast.makeText(getActivity(), "documentProcessor created", Toast.LENGTH_LONG).show();
+            this.documentProcessor.init();
+            Toast.makeText(getActivity(), "documentProcessor initialized", Toast.LENGTH_LONG).show();
+        });
+
+        view.findViewById(R.id.button_add_page).setOnClickListener(v -> {
+            Log.d("ScannerDataManagerStubFragment", "button_add_page clicked");
+            Toast.makeText(getActivity(), "button_add_page clicked", Toast.LENGTH_LONG).show();
+            if (this.documentProcessor == null) {
+                Toast.makeText(getActivity(), "documentProcessor is null", Toast.LENGTH_LONG).show();
+                return;
+            }
+            Bitmap[] bitmaps = new Bitmap[results.size()];
+            for (int i = 0; i < results.size(); i++) {
+                bitmaps[i] = results.get(i).getBitmap();
+            }
+
+            this.documentProcessor.addNewPagesToLast(bitmaps);
+
+            this.documentProcessor.close();
+        });
+    }
+
+    public DocumentDetail createSampleDocumentDetail() {
+
+        String id = UUID.randomUUID().toString();
+
+        Toast.makeText(getActivity(), "Generated id: " + id, Toast.LENGTH_LONG).show();
+        //logger.debug("CreateSample", "Generated id: " + id);
+
+        DocumentMeta meta = new DocumentMeta(
+                id,
+                "Sample" + DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(LocalDateTime.now()),
+                new Date(),
+                new Date());
+
+        DocumentPath path = new DocumentPath(
+                deviceInfoUtils.getExternalStorageDirectoryString(),
+                "Sample" + DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(LocalDateTime.now()));
+
+        return new DocumentDetail(meta, path, "SampleAuthor", "SampleDefaultBranch");
     }
 
     @Override

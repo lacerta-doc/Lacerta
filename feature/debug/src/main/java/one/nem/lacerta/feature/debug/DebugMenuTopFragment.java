@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+import dagger.hilt.android.AndroidEntryPoint;
 import one.nem.lacerta.feature.debug.common.adapter.DebugMenuListItemAdapter;
 import one.nem.lacerta.feature.debug.common.model.DebugMenuListItem;
 
@@ -20,6 +21,7 @@ import one.nem.lacerta.feature.debug.common.model.DebugMenuListItem;
  * Use the {@link DebugMenuTopFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+@AndroidEntryPoint
 public class DebugMenuTopFragment extends Fragment {
     public DebugMenuTopFragment() {
         // Required empty public constructor
@@ -49,6 +51,7 @@ public class DebugMenuTopFragment extends Fragment {
         debugMenuListItems.add(new DebugMenuListItem("Meta Data", "View meta data", R.id.action_debugMenuTopFragment_to_debugMenuMetaDataFragment, true));
         debugMenuListItems.add(new DebugMenuListItem("Document Tester", "placeholder", R.id.action_debugMenuTopFragment_to_debugMenuDocumentTesterTopFragment, true));
         debugMenuListItems.add(new DebugMenuListItem("Scanner", "placeholder", R.id.action_debugMenuTopFragment_to_scannerDataManagerStubFragment, true));
+        debugMenuListItems.add(new DebugMenuListItem("File Manager", "placeholder", R.id.action_debugMenuTopFragment_to_debugMenuFileManagerTesterFragment, true));
 
         DebugMenuListItemAdapter adapter = new DebugMenuListItemAdapter(debugMenuListItems);
         recyclerView.setAdapter(adapter);

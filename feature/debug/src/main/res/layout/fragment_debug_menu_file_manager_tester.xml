@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DebugMenuFileManagerTesterFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/edit_text_dir_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/button_create_directory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Create dir" />
+        <Button
+            android:id="@+id/button_dir_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="List item in current" />
+
+        <Button
+            android:id="@+id/button_save_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Save Test Image" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
