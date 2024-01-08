@@ -16,6 +16,7 @@ import java.util.List;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedInject;
@@ -230,13 +231,16 @@ public class FileManagerImpl implements FileManager {
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(document);
             File file = createFile(fileName);
-
+            StreamResult result = new StreamResult(file);
+            transformer.transform(source, result);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     @Override
     public void saveDocument(Document document, Path path) {
-
+        // TODO-rca 実装する
     }
 
     @Override
