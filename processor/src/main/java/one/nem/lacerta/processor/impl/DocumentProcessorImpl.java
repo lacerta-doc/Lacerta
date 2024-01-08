@@ -106,7 +106,10 @@ public class DocumentProcessorImpl implements DocumentProcessor{
 
     @Override
     public void addNewPagesToLast(Bitmap[] bitmaps) {
-
+        logger.debug("addNewPagesToLast(List)", "called");
+        for(Bitmap bitmap : bitmaps) {
+            addNewPageToLast(bitmap);
+        } // TODO-rca: 保存処理をまとめて行う？
     }
 
     @Override
