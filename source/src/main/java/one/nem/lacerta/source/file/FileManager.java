@@ -24,6 +24,8 @@ public interface FileManager {
 
     void autoCreateDir(Path path);
 
+    void autoCreateToCurrentDir();
+
     void saveBitmapAtCurrent(Bitmap bitmap, String fileName);
     Bitmap loadBitmap(Path path);
     void removeBitmap(Path path);

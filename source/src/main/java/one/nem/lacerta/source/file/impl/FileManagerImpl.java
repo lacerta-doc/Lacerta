@@ -127,7 +127,8 @@ public class FileManagerImpl implements FileManager {
         }
     }
 
-    public void autoGenerateToCurrentDir() {
+    @Override
+    public void autoCreateToCurrentDir() {
         logger.debug("autoGenerateToCurrentDir", "called");
         autoCreateDir(currentDir);
     }
