@@ -168,6 +168,9 @@ public class ScannerDataManagerStubFragment extends Fragment {
                 return;
             }
             this.documentProcessor = documentProcessorFactory.create(this.documentDetail);
+            Toast.makeText(getActivity(), "documentProcessor created", Toast.LENGTH_LONG).show();
+            this.documentProcessor.init();
+            Toast.makeText(getActivity(), "documentProcessor initialized", Toast.LENGTH_LONG).show();
         });
     }
 
