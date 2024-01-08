@@ -23,12 +23,8 @@ public class XmlMetaParserImpl implements XmlMetaParser{
     }
 
     @Override
-    public XmlMetaModel parse(String xml) {
+    public XmlMetaModel deserialize(Document document) {
         try {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document document = builder.parse(new InputSource(new StringReader(xml)));
-
             Element rootElement = document.getDocumentElement();
 
             XmlMetaModel meta = new XmlMetaModel();
@@ -53,11 +49,10 @@ public class XmlMetaParserImpl implements XmlMetaParser{
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null; // TODO-rca: 例外
+        return null;
     }
-
     @Override
-    public String serialize(XmlMetaModel meta) {
+    public Document serialize(XmlMetaModel meta) {
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
@@ -82,13 +77,12 @@ public class XmlMetaParserImpl implements XmlMetaParser{
 
             document.appendChild(rootElement);
 
-            return document.toString();
+            return document;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null; // TODO-rca: 例外
+        return null;
     }
-
     // Internal Methods
     private Element appendElement(Document document, Element rootElement, String name, String textContent) {
         Element element = document.createElement(name);
