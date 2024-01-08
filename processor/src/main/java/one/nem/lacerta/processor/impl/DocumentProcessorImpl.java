@@ -29,14 +29,14 @@ public class DocumentProcessorImpl implements DocumentProcessor{
 
     // Magic Numbers
     private static final String DEFAULT_SAVE_DIR = "raw";
-    private DocumentDetail documentDetail;
+    private final DocumentDetail documentDetail;
     private XmlMetaModel xmlMetaModel;
     private Path documentRootPath;
 
     // Injection
-    private FileManagerFactory fileManagerFactory;
-    private LacertaLogger logger;
-    private XmlMetaParser xmlMetaParser;
+    private final FileManagerFactory fileManagerFactory;
+    private final LacertaLogger logger;
+    private final XmlMetaParser xmlMetaParser;
     @AssistedInject
     public DocumentProcessorImpl(FileManagerFactory fileManagerFactory, LacertaLogger logger, XmlMetaParser xmlMetaParser, @Assisted DocumentDetail documentDetail) {
         this.fileManagerFactory = fileManagerFactory;
