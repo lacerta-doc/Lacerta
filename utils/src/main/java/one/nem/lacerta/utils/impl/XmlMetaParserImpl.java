@@ -50,7 +50,8 @@ public class XmlMetaParserImpl implements XmlMetaParser{
 
             return meta;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("deserialize", "something wrong");
+            logger.trace("deserialize", e.getMessage());
         }
         return null;
     }
@@ -83,7 +84,8 @@ public class XmlMetaParserImpl implements XmlMetaParser{
 
             return document;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("serialize", "something wrong");
+            logger.trace("serialize", e.getMessage());
         }
         return null;
     }
