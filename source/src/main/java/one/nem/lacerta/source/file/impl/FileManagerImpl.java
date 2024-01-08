@@ -151,7 +151,7 @@ public class FileManagerImpl implements FileManager {
     }
 
     @Override
-    public String loadText(String fileName) {
+    public String loadText(String fileName) { // TODO-rca: 統合
         try(FileInputStream fileInputStream = new FileInputStream(currentDir.resolve(fileName).toFile())) {
             byte[] bytes = new byte[fileInputStream.available()];
             fileInputStream.read(bytes); // TODO-rca: エラーハンドリング
@@ -172,6 +172,17 @@ public class FileManagerImpl implements FileManager {
             e.printStackTrace();
             return null;
         }
+    }
+
+    @Override
+    public void saveText(String text, String fileName) {
+        createFile(fileName);
+
+    }
+
+    @Override
+    public void saveText(String text, Path path) {
+
     }
 
     @Override
