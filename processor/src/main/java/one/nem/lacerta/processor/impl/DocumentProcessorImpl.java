@@ -115,7 +115,7 @@ public class DocumentProcessorImpl implements DocumentProcessor{
 
         // Update meta
         XmlMetaPageModel page = new XmlMetaPageModel();
-        page.setIndex(xmlMetaModel.getPages().size());
+        page.setIndex(xmlMetaModel.getPages().size() + 1);
         page.setFilename(filename);
         xmlMetaModel.addPage(page);
     }
