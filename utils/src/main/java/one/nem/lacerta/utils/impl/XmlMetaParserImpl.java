@@ -26,6 +26,7 @@ public class XmlMetaParserImpl implements XmlMetaParser{
 
     @Override
     public XmlMetaModel deserialize(Document document) {
+        logger.debug("deserialize", "called");
         try {
             Element rootElement = document.getDocumentElement();
 
@@ -55,6 +56,7 @@ public class XmlMetaParserImpl implements XmlMetaParser{
     }
     @Override
     public Document serialize(XmlMetaModel meta) {
+        logger.debug("serialize", "called");
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
