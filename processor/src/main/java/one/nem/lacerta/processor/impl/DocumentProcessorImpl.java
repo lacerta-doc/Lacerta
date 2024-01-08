@@ -31,6 +31,7 @@ public class DocumentProcessorImpl implements DocumentProcessor{
     private static final String DEFAULT_SAVE_DIR = "raw";
     private DocumentDetail documentDetail;
     private XmlMetaModel xmlMetaModel;
+    private Path documentRootPath;
 
     // Injection
     private FileManagerFactory fileManagerFactory;
@@ -50,13 +51,12 @@ public class DocumentProcessorImpl implements DocumentProcessor{
     @Override
     public void init() {
         logger.debug("init", "called");
-        Path path = documentDetail.getPath().getFullPath();
-        logger.debug("init", "path: " + path.toString());
+        // Init Variables
+        this.documentRootPath = documentDetail.getPath().getFullPath();
 
-        FileManager fileManager = fileManagerFactory.create(path); //Initialize FileManager
+        FileManager fileManager = fileManagerFactory.create(this.documentRootPath); //Initialize FileManager
 
-        fileManager.changeDir(path);
-        fileManager.autoCreateToCurrentDir();
+        fileManager.autoCreateDir(this.documentRootPath);
 
         // rawディレクトリInit
         fileManager.autoCreateDir(DEFAULT_SAVE_DIR);
@@ -92,11 +92,10 @@ public class DocumentProcessorImpl implements DocumentProcessor{
     @Override
     public void addNewPageToLast(Bitmap bitmap) {
         logger.debug("addNewPageToLast", "called");
-        Path path = documentDetail.getPath().getFullPath();
         String fileName = String.format(UUID.randomUUID().toString() + ".png"); // TODO-rca: 対応表をもたせる
         logger.debug("addNewPageToLast", "fileName: " + fileName);
-        FileManager fileManager = fileManagerFactory.create(path);
-        if(fileManager.getList().contains(path.resolve(DEFAULT_SAVE_DIR))) {
+        FileManager fileManager = fileManagerFactory.create(this.documentRootPath);
+        if(fileManager.getList().contains(this.documentRootPath.resolve(DEFAULT_SAVE_DIR))) {
             logger.debug("addNewPageToLast", "raw dir found");
             fileManager.changeDir(DEFAULT_SAVE_DIR);
         } else {
