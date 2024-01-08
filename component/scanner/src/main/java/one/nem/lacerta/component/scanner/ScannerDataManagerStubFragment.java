@@ -37,10 +37,13 @@ import javax.inject.Inject;
 import dagger.hilt.android.AndroidEntryPoint;
 import one.nem.lacerta.model.document.DocumentDetail;
 import one.nem.lacerta.model.document.DocumentMeta;
+import one.nem.lacerta.model.document.path.DocumentPath;
 import one.nem.lacerta.processor.DocumentProcessor;
 import one.nem.lacerta.processor.factory.DocumentProcessorFactory;
 
 import one.nem.lacerta.utils.LacertaLogger;
+
+import one.nem.lacerta.utils.repository.DeviceInfoUtils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -66,6 +69,9 @@ public class ScannerDataManagerStubFragment extends Fragment {
 
     @Inject
     LacertaLogger logger;
+
+    @Inject
+    DeviceInfoUtils deviceInfoUtils;
 
     private final ActivityResultLauncher<Intent> cameraLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -178,7 +184,11 @@ public class ScannerDataManagerStubFragment extends Fragment {
                 new Date(),
                 new Date());
 
-        return new DocumentDetail(meta, null, "SampleAuthor", "SampleDefaultBranch");
+        DocumentPath path = new DocumentPath(
+                deviceInfoUtils.getExternalStorageDirectoryString(),
+                "Sample" + DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(LocalDateTime.now()));
+
+        return new DocumentDetail(meta, path, "SampleAuthor", "SampleDefaultBranch");
     }
 
     @Override
