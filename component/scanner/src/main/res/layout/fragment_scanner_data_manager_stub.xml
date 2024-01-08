@@ -59,6 +59,27 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/doc_button_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:weightSum="2"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/init_button_container">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_add_page"
+            style="@style/Widget.Material3.Button.IconButton.Filled"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16px"
+            android:layout_weight="1"
+            android:text="Add page to last" />
+
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/result_recycler_view"
         android:layout_width="match_parent"
@@ -67,6 +88,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/init_button_container" />
+        app:layout_constraintTop_toBottomOf="@id/doc_button_container" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
