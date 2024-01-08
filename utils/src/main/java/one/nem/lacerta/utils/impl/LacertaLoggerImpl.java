@@ -44,7 +44,7 @@ public class LacertaLoggerImpl implements LacertaLogger{
     }
 
     @Override
-    public String buildMessageByObject(KeyValueLog... logs) {
+    public String buildKVMessage(KeyValueLog... logs) {
         StringBuilder builder = new StringBuilder();
         for (KeyValueLog log : logs) {
             builder.append(log.getKey());
@@ -56,7 +56,7 @@ public class LacertaLoggerImpl implements LacertaLogger{
     }
 
     @Override
-    public String buildMessageByObject(String name, KeyValueLog... logs) {
+    public String buildKVMessage(String name, KeyValueLog... logs) {
         StringBuilder builder = new StringBuilder();
         builder.append(name);
         builder.append("\n");
