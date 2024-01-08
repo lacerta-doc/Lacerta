@@ -2,6 +2,7 @@ package one.nem.lacerta.processor.impl;
 
 import android.graphics.Bitmap;
 
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -56,7 +57,7 @@ public class DocumentProcessorImpl implements DocumentProcessor{
         logger.debug("init", "called");
         // XMLメタデータの取得/生成
         FileManager fileManager = fileManagerFactory.create(documentDetail.getPath().getFullPath());
-        if(fileManager.getList().contains(documentDetail.getPath().getFullPath().resolve("meta.xml"))) {
+        if(documentDetail.getPath().getFullPath().resolve("meta.xml").toFile().exists()) {
             logger.debug("init", "meta.xml found");
             try {
                 xmlMetaModel = xmlMetaParser.parse(new String(Files.readAllBytes(documentDetail.getPath().getFullPath().resolve("meta.xml"))));
@@ -77,6 +78,11 @@ public class DocumentProcessorImpl implements DocumentProcessor{
 
             // Save
             try {
+                // ファイルの新規作成を行う
+                File file = documentDetail.getPath().getFullPath().resolve("meta.xml").toFile();
+                file.createNewFile();
+
+                // ファイルに書き込む
                 Files.write(documentDetail.getPath().getFullPath().resolve("meta.xml"), xmlMetaParser.serialize(xmlMetaModel).getBytes());
                 logger.debug("init", "saved");
             } catch (Exception e) {
