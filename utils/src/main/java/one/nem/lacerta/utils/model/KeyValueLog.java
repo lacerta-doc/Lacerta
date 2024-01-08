@@ -1,4 +1,4 @@
-package one.nem.lacerta.model;
+package one.nem.lacerta.utils.model;
 
 public class KeyValueLog {
 
