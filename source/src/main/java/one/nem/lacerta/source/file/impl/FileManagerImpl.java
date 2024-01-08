@@ -175,14 +175,46 @@ public class FileManagerImpl implements FileManager {
     }
 
     @Override
-    public void saveText(String text, String fileName) {
-        createFile(fileName);
+    public void saveText(String text, String fileName) { // TODO-rca: リファクタリング // TODO-rca: 統合
+        if (isExist(fileName)) {
+            logger.debug("saveText", "file already exists");
+            // Overwrite
+            try {
+                Files.write(currentDir.resolve(fileName), text.getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            try {
+                Files.createFile(currentDir.resolve(fileName));
+                Files.write(currentDir.resolve(fileName), text.getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
     }
 
     @Override
     public void saveText(String text, Path path) {
-
+        if (isExist(path)) {
+            logger.debug("saveText", "file already exists");
+            // Overwrite
+            try {
+                Files.write(path, text.getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            try {
+                Files.createFile(path);
+                Files.write(path, text.getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
