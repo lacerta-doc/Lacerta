@@ -34,6 +34,7 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 
+import dagger.hilt.android.AndroidEntryPoint;
 import one.nem.lacerta.model.document.DocumentDetail;
 import one.nem.lacerta.model.document.DocumentMeta;
 import one.nem.lacerta.processor.DocumentProcessor;
@@ -46,6 +47,7 @@ import one.nem.lacerta.utils.LacertaLogger;
  * Use the {@link ScannerDataManagerStubFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+@AndroidEntryPoint
 public class ScannerDataManagerStubFragment extends Fragment {
 
     // TODO-rca: 時間があったらcacheを使うようにする？
