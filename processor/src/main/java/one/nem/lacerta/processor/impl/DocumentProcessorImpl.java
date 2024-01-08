@@ -163,6 +163,8 @@ public class DocumentProcessorImpl implements DocumentProcessor{
     public void close() {
         logger.debug("close", "called");
         // TODO-rca: ここでxmlファイルを保存する
+        this.fileManager.backRootDir();
+
         try {
             this.fileManager.saveDocument(xmlMetaParser.serialize(xmlMetaModel), "meta.xml");
             logger.debug("close", "meta.xml saved");
