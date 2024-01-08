@@ -70,7 +70,7 @@ public class DocumentProcessorImpl implements DocumentProcessor{
         if (fileManager.isExist("meta.xml")) {
             logger.debug("init", "meta.xml found");
             try {
-//                xmlMetaModel = xmlMetaParser.parse(fileManager.loadText("meta.xml"));
+                xmlMetaModel = xmlMetaParser.deserialize(fileManager.loadDocument("meta.xml"));
             } catch (Exception e) {
                 logger.debug("init", "meta.xml parse failed");
                 e.printStackTrace();
@@ -85,14 +85,12 @@ public class DocumentProcessorImpl implements DocumentProcessor{
             xmlMetaModel.setDefaultBranch(documentDetail.getDefaultBranch());
             xmlMetaModel.setPages(new ArrayList<>());
 
-//            try {
-//                fileManager.createFile("meta.xml");
-//                fileManager.saveText(xmlMetaParser.serialize(xmlMetaModel), "meta.xml");
-//                logger.info("init", "meta.xml created");
-//            } catch (Exception e) {
-//                logger.debug("init", "meta.xml create failed");
-//                e.printStackTrace();
-//            }
+            try {
+                fileManager.saveDocument(xmlMetaParser.serialize(xmlMetaModel), "meta.xml");
+            } catch (Exception e) {
+                logger.debug("init", "meta.xml save failed");
+                e.printStackTrace();
+            }
         }
     }
 
