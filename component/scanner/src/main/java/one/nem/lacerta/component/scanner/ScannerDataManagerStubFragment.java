@@ -180,10 +180,12 @@ public class ScannerDataManagerStubFragment extends Fragment {
                 Toast.makeText(getActivity(), "documentProcessor is null", Toast.LENGTH_LONG).show();
                 return;
             }
-
-            for (CapturedData capturedData : this.results) {
-                this.documentProcessor.addNewPageToLast(capturedData.getBitmap());
+            Bitmap[] bitmaps = new Bitmap[results.size()];
+            for (int i = 0; i < results.size(); i++) {
+                bitmaps[i] = results.get(i).getBitmap();
             }
+
+            this.documentProcessor.addNewPagesToLast(bitmaps);
         });
     }
 
