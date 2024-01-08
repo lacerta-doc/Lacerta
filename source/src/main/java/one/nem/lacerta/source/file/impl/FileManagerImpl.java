@@ -131,6 +131,7 @@ public class FileManagerImpl implements FileManager {
     public void autoCreateToCurrentDir() {
         logger.debug("autoGenerateToCurrentDir", "called");
         if (isExist(currentDir)) {
+            logger.debug("autoGenerateToCurrentDir", "currentDir already exists");
             return;
         }
         else {
