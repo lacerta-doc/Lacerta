@@ -127,6 +127,11 @@ public class FileManagerImpl implements FileManager {
         }
     }
 
+    public void autoGenerateToCurrentDir() {
+        logger.debug("autoGenerateToCurrentDir", "called");
+        autoCreateDir(currentDir);
+    }
+
 
     @Override
     public void saveBitmapAtCurrent(Bitmap bitmap, String fileName) { // TODO-rca: ファイル形式を変更できるようにする？
