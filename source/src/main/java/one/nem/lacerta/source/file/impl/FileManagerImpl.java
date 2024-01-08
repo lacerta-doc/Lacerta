@@ -14,6 +14,8 @@ import dagger.assisted.Assisted;
 import dagger.assisted.AssistedInject;
 import one.nem.lacerta.source.file.FileManager;
 
+import one.nem.lacerta.utils.LacertaLogger;
+
 public class FileManagerImpl implements FileManager {
 
     // RootDir
@@ -32,8 +34,12 @@ public class FileManagerImpl implements FileManager {
         }
     }
 
+    // Injection
+    private LacertaLogger logger;
+
     @AssistedInject
-    public FileManagerImpl(@Assisted Path rootDir) {
+    public FileManagerImpl(LacertaLogger logger, @Assisted Path rootDir) {
+        this.logger = logger;
         this.rootDir = rootDir;
         this.currentDir = rootDir;
     }
@@ -73,6 +79,7 @@ public class FileManagerImpl implements FileManager {
 
     @Override
     public void createDir(String dirName) {
+        //ディレクトリ作成
         currentDir.resolve(dirName).toFile().mkdir(); // TODO-rca: エラーハンドリング
     }
 
@@ -80,6 +87,17 @@ public class FileManagerImpl implements FileManager {
     public void removeDir(String dirName) {
         currentDir.resolve(dirName).toFile().delete(); // TODO-rca: エラーハンドリング
     }
+
+    @Override
+    public File createFile(String fileName) {
+        return currentDir.resolve(fileName).toFile();
+    }
+
+    @Override
+    public void removeFile(String fileName) {
+        currentDir.resolve(fileName).toFile().delete(); // TODO-rca: エラーハンドリング
+    }
+
 
     @Override
     public void saveBitmapAtCurrent(Bitmap bitmap, String fileName) { // TODO-rca: ファイル形式を変更できるようにする？

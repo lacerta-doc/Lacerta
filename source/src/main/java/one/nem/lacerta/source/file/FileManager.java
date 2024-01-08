@@ -2,6 +2,7 @@ package one.nem.lacerta.source.file;
 
 import android.graphics.Bitmap;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -15,6 +16,9 @@ public interface FileManager {
     List<Path> getList();
     void createDir(String dirName);
     void removeDir(String dirName);
+
+    File createFile(String fileName);
+    void removeFile(String fileName);
 
     void saveBitmapAtCurrent(Bitmap bitmap, String fileName);
     Bitmap loadBitmap(Path path);
