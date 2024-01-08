@@ -53,8 +53,10 @@ public class DocumentProcessorImpl implements DocumentProcessor{
         logger.debug("init", "called");
         // Init Variables
         this.documentRootPath = documentDetail.getPath().getFullPath();
+        logger.debug("init", "documentRootPath: " + this.documentRootPath);
 
         FileManager fileManager = fileManagerFactory.create(this.documentRootPath); //Initialize FileManager
+        logger.debug("init", "fileManager created");
 
         fileManager.autoCreateDir(this.documentRootPath);
 
@@ -68,7 +70,7 @@ public class DocumentProcessorImpl implements DocumentProcessor{
                 xmlMetaModel = xmlMetaParser.deserialize(fileManager.loadDocument("meta.xml"));
             } catch (Exception e) {
                 logger.debug("init", "meta.xml parse failed");
-                e.printStackTrace();
+                logger.trace("init", e.getMessage());
             }
         } else {
             logger.debug("init", "meta.xml not found");
@@ -82,11 +84,14 @@ public class DocumentProcessorImpl implements DocumentProcessor{
 
             try {
                 fileManager.saveDocument(xmlMetaParser.serialize(xmlMetaModel), "meta.xml");
+                logger.debug("init", "meta.xml saved");
             } catch (Exception e) {
-                logger.debug("init", "meta.xml save failed");
-                e.printStackTrace();
+                logger.error("init", "meta.xml save failed");
+                logger.trace("init", e.getMessage());
             }
         }
+
+        logger.info("init", "finished");
     }
 
     @Override
