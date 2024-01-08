@@ -130,7 +130,16 @@ public class FileManagerImpl implements FileManager {
     @Override
     public void autoCreateToCurrentDir() {
         logger.debug("autoGenerateToCurrentDir", "called");
-        autoCreateDir(currentDir);
+        if (isExist(currentDir)) {
+            return;
+        }
+        else {
+            try {
+                Files.createDirectories(currentDir);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 
