@@ -60,6 +60,11 @@ public class FileManagerImpl implements FileManager {
     }
 
     @Override
+    public Path getCurrentDir() {
+        return currentDir;
+    }
+
+    @Override
     public void changeDir(String dirName) {
         this.currentDir = rootDir.resolve(dirName);
     }

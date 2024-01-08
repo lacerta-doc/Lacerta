@@ -13,6 +13,8 @@ import java.util.List;
 public interface FileManager {
 
     Path getRootDir();
+    Path getCurrentDir();
+
     void changeDir(String dirName); //cd
     void changeDir(Path path); //cd
     void backDir(); //cd ..
