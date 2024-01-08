@@ -161,6 +161,15 @@ public class DocumentProcessorImpl implements DocumentProcessor{
 
     @Override
     public void close() {
-
+        logger.debug("close", "called");
+        // TODO-rca: ここでxmlファイルを保存する
+        try {
+            this.fileManager.saveDocument(xmlMetaParser.serialize(xmlMetaModel), "meta.xml");
+            logger.debug("close", "meta.xml saved");
+        } catch (Exception e) {
+            logger.error("close", "meta.xml save failed");
+            logger.trace("close", e.getMessage());
+        }
+        logger.info("close", "finished");
     }
 }
