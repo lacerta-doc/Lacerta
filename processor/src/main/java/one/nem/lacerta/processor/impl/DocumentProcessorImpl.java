@@ -25,9 +25,12 @@ public class DocumentProcessorImpl implements DocumentProcessor{
 
     // Magic Numbers
     private static final String DEFAULT_SAVE_DIR = "raw";
+
+    // Variables
     private final DocumentDetail documentDetail;
     private XmlMetaModel xmlMetaModel;
     private Path documentRootPath;
+    private FileManager fileManager;
 
     // Injection
     private final FileManagerFactory fileManagerFactory;
@@ -51,19 +54,19 @@ public class DocumentProcessorImpl implements DocumentProcessor{
         this.documentRootPath = documentDetail.getPath().getFullPath();
         logger.debug("init", "documentRootPath: " + this.documentRootPath);
 
-        FileManager fileManager = fileManagerFactory.create(this.documentRootPath); //Initialize FileManager
+        this.fileManager = fileManagerFactory.create(this.documentRootPath); //Initialize FileManager
         logger.debug("init", "fileManager created");
 
-        fileManager.autoCreateDir(this.documentRootPath);
+        this.fileManager.autoCreateDir(this.documentRootPath);
 
         // rawディレクトリInit
-        fileManager.autoCreateDir(DEFAULT_SAVE_DIR);
+        this.fileManager.autoCreateDir(DEFAULT_SAVE_DIR);
 
         // xmlファイルの読み込み
         if (fileManager.isExist("meta.xml")) {
             logger.debug("init", "meta.xml found");
             try {
-                xmlMetaModel = xmlMetaParser.deserialize(fileManager.loadDocument("meta.xml"));
+                xmlMetaModel = xmlMetaParser.deserialize(this.fileManager.loadDocument("meta.xml"));
             } catch (Exception e) {
                 logger.debug("init", "meta.xml parse failed");
                 logger.trace("init", e.getMessage());
@@ -79,7 +82,7 @@ public class DocumentProcessorImpl implements DocumentProcessor{
             xmlMetaModel.setPages(new ArrayList<>());
 
             try {
-                fileManager.saveDocument(xmlMetaParser.serialize(xmlMetaModel), "meta.xml");
+                this.fileManager.saveDocument(xmlMetaParser.serialize(xmlMetaModel), "meta.xml");
                 logger.debug("init", "meta.xml saved");
             } catch (Exception e) {
                 logger.error("init", "meta.xml save failed");
