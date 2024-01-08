@@ -100,7 +100,15 @@ public class DocumentProcessorImpl implements DocumentProcessor{
         String filename = UUID.randomUUID().toString() + ".png"; // TODO-rca: 拡張子を動的にする
 
         // FileManager
-        this.fileManager.autoCreateDir(DEFAULT_SAVE_DIR);
+        if (this.fileManager.getCurrentDir().equals(this.documentRootPath.resolve(DEFAULT_SAVE_DIR))) { // TODO-rca: 効率化
+            logger.debug("addNewPageToLast", "currentDir is documentRootPath");
+        } else {
+            logger.debug("addNewPageToLast", "currentDir is not documentRootPath");
+            this.fileManager.backRootDir();
+            this.fileManager.autoCreateDir(DEFAULT_SAVE_DIR);
+            this.fileManager.changeDir(DEFAULT_SAVE_DIR);
+        }
+        logger.debug("addNewPageToLast", "DirInit finished");
 
         // Save file
         this.fileManager.saveBitmapAtCurrent(bitmap, filename);
@@ -114,10 +122,11 @@ public class DocumentProcessorImpl implements DocumentProcessor{
 
     @Override
     public void addNewPagesToLast(Bitmap[] bitmaps) {
-        logger.debug("addNewPagesToLast(List)", "called");
-        for(Bitmap bitmap : bitmaps) {
+        logger.debug("addNewPagesToLast", "called");
+
+        for (Bitmap bitmap : bitmaps) {
             addNewPageToLast(bitmap);
-        } // TODO-rca: 保存処理をまとめて行う？
+        } // TODO-rca: 効率悪いので改善する
     }
 
     @Override
