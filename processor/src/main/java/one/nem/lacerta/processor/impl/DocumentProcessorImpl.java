@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedInject;
+import one.nem.lacerta.model.document.internal.XmlMetaPageModel;
 import one.nem.lacerta.processor.DocumentProcessor;
 
 import one.nem.lacerta.model.document.DocumentDetail;
@@ -96,18 +97,19 @@ public class DocumentProcessorImpl implements DocumentProcessor{
     @Override
     public void addNewPageToLast(Bitmap bitmap) {
         logger.debug("addNewPageToLast", "called");
-        String fileName = String.format(UUID.randomUUID().toString() + ".png"); // TODO-rca: 対応表をもたせる
-        logger.debug("addNewPageToLast", "fileName: " + fileName);
-        FileManager fileManager = fileManagerFactory.create(this.documentRootPath);
-        if(fileManager.getList().contains(this.documentRootPath.resolve(DEFAULT_SAVE_DIR))) {
-            logger.debug("addNewPageToLast", "raw dir found");
-            fileManager.changeDir(DEFAULT_SAVE_DIR);
-        } else {
-            logger.debug("addNewPageToLast", "raw dir not found");
-            fileManager.createDir(DEFAULT_SAVE_DIR);
-            fileManager.changeDir(DEFAULT_SAVE_DIR);
-        }
-        fileManager.saveBitmapAtCurrent(bitmap, fileName);
+        String filename = UUID.randomUUID().toString() + ".png"; // TODO-rca: 拡張子を動的にする
+
+        // FileManager
+        this.fileManager.autoCreateDir(DEFAULT_SAVE_DIR);
+
+        // Save file
+        this.fileManager.saveBitmapAtCurrent(bitmap, filename);
+
+        // Update meta
+        XmlMetaPageModel page = new XmlMetaPageModel();
+        page.setIndex(xmlMetaModel.getPages().size());
+        page.setFilename(filename);
+        xmlMetaModel.addPage(page);
     }
 
     @Override
