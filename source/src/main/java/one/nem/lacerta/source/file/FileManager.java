@@ -26,6 +26,9 @@ public interface FileManager {
     File getFile(String fileName);
     File getFile(Path path);
 
+    String loadText(String fileName);
+    String loadText(Path path);
+
     boolean isExist(Path path);
     boolean isExist(String fileName);
 

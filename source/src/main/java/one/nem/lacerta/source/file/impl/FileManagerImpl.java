@@ -3,6 +3,7 @@ package one.nem.lacerta.source.file.impl;
 import android.graphics.Bitmap;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -147,6 +148,30 @@ public class FileManagerImpl implements FileManager {
     public File getFile(Path path) {
         logger.debug("getFile", "called");
         return path.toFile();
+    }
+
+    @Override
+    public String loadText(String fileName) {
+        try(FileInputStream fileInputStream = new FileInputStream(currentDir.resolve(fileName).toFile())) {
+            byte[] bytes = new byte[fileInputStream.available()];
+            fileInputStream.read(bytes); // TODO-rca: エラーハンドリング
+            return new String(bytes);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public String loadText(Path path) {
+        try(FileInputStream fileInputStream = new FileInputStream(path.toFile())) {
+            byte[] bytes = new byte[fileInputStream.available()];
+            fileInputStream.read(bytes); // TODO-rca: エラーハンドリング
+            return new String(bytes);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
