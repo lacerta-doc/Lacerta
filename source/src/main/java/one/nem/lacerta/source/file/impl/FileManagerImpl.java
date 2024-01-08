@@ -103,10 +103,27 @@ public class FileManagerImpl implements FileManager {
     }
 
     @Override
+    public void createDir(Path path) {
+        logger.debug("createDir", "called");
+        try {
+            Files.createDirectory(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void removeDir(String dirName) {
         logger.debug("removeDir", "called");
         currentDir.resolve(dirName).toFile().delete(); // TODO-rca: エラーハンドリング
     }
+
+    @Override
+    public void removeDir(Path path) {
+        logger.debug("removeDir", "called");
+        path.toFile().delete(); // TODO-rca: エラーハンドリング
+    }
+
 
     @Override
     public File createFile(String fileName) {
@@ -138,6 +155,18 @@ public class FileManagerImpl implements FileManager {
         if (!Files.exists(path)) {
             try {
                 Files.createDirectories(path);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void autoCreateDir(String dirName) {
+        logger.debug("autoCreateDir", "called");
+        if (!Files.exists(currentDir.resolve(dirName))) {
+            try {
+                Files.createDirectories(currentDir.resolve(dirName));
             } catch (IOException e) {
                 e.printStackTrace();
             }

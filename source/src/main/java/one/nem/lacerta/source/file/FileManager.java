@@ -16,7 +16,9 @@ public interface FileManager {
     void backRootDir(); //cd /
     List<Path> getList();
     void createDir(String dirName);
+    void createDir(Path path);
     void removeDir(String dirName);
+    void removeDir(Path path);
 
     File createFile(String fileName);
     void removeFile(String fileName);
@@ -25,6 +27,7 @@ public interface FileManager {
     boolean isExist(String fileName);
 
     void autoCreateDir(Path path);
+    void autoCreateDir(String dirName);
 
     void autoCreateToCurrentDir();
 
