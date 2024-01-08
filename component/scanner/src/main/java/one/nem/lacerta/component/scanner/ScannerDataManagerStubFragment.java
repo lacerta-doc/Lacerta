@@ -59,6 +59,8 @@ public class ScannerDataManagerStubFragment extends Fragment {
 
     private DocumentDetail documentDetail;
 
+    private DocumentProcessor documentProcessor;
+
     @Inject
     DocumentProcessorFactory documentProcessorFactory;
 
