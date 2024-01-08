@@ -82,13 +82,12 @@ public class FileManagerImpl implements FileManager {
         //ディレクトリ作成
         logger.debug("createDir", "called");
 
-        Path dir = currentDir.resolve(dirName);
-        if (!Files.exists(dir)) {
-            try {
-                Files.createDirectories(dir);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        Path path = currentDir.resolve(dirName);
+        logger.debug("createDir", "path: " + path);
+        try {
+            Files.createDirectory(path);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -108,6 +107,24 @@ public class FileManagerImpl implements FileManager {
     public void removeFile(String fileName) {
         logger.debug("removeFile", "called");
         currentDir.resolve(fileName).toFile().delete(); // TODO-rca: エラーハンドリング
+    }
+
+    @Override
+    public boolean isExist(Path path) {
+        logger.debug("isExist", "called");
+        return Files.exists(path);
+    }
+
+    @Override
+    public void autoCreateDir(Path path) {
+        logger.debug("autoCreateDir", "called");
+        if (!Files.exists(path)) {
+            try {
+                Files.createDirectories(path);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 
