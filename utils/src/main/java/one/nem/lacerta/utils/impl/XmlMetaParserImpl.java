@@ -13,7 +13,12 @@ import one.nem.lacerta.model.document.internal.XmlMetaModel;
 import one.nem.lacerta.model.document.internal.XmlMetaPageModel;
 import one.nem.lacerta.utils.XmlMetaParser;
 
+import one.nem.lacerta.utils.LacertaLogger;
+
 public class XmlMetaParserImpl implements XmlMetaParser{
+
+    @Inject
+    LacertaLogger logger;
 
     @Inject
     public XmlMetaParserImpl() {
