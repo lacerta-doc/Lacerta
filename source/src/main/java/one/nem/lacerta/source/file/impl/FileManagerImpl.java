@@ -81,7 +81,15 @@ public class FileManagerImpl implements FileManager {
     public void createDir(String dirName) {
         //ディレクトリ作成
         logger.debug("createDir", "called");
-        currentDir.resolve(dirName).toFile().mkdir(); // TODO-rca: エラーハンドリング
+
+        Path dir = currentDir.resolve(dirName);
+        if (!Files.exists(dir)) {
+            try {
+                Files.createDirectories(dir);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
