@@ -172,6 +172,19 @@ public class ScannerDataManagerStubFragment extends Fragment {
             this.documentProcessor.init();
             Toast.makeText(getActivity(), "documentProcessor initialized", Toast.LENGTH_LONG).show();
         });
+
+        view.findViewById(R.id.button_add_page).setOnClickListener(v -> {
+            Log.d("ScannerDataManagerStubFragment", "button_add_page clicked");
+            Toast.makeText(getActivity(), "button_add_page clicked", Toast.LENGTH_LONG).show();
+            if (this.documentProcessor == null) {
+                Toast.makeText(getActivity(), "documentProcessor is null", Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            for (CapturedData capturedData : this.results) {
+                this.documentProcessor.addNewPageToLast(capturedData.getBitmap());
+            }
+        });
     }
 
     public DocumentDetail createSampleDocumentDetail() {
