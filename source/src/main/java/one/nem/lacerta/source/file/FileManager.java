@@ -23,6 +23,9 @@ public interface FileManager {
     File createFile(String fileName);
     void removeFile(String fileName);
 
+    File getFile(String fileName);
+    File getFile(Path path);
+
     boolean isExist(Path path);
     boolean isExist(String fileName);
 

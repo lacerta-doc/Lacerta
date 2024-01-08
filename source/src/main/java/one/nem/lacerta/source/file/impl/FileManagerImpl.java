@@ -138,6 +138,18 @@ public class FileManagerImpl implements FileManager {
     }
 
     @Override
+    public File getFile(String fileName) {
+        logger.debug("getFile", "called");
+        return currentDir.resolve(fileName).toFile();
+    }
+
+    @Override
+    public File getFile(Path path) {
+        logger.debug("getFile", "called");
+        return path.toFile();
+    }
+
+    @Override
     public boolean isExist(Path path) {
         logger.debug("isExist", "called");
         return Files.exists(path);
