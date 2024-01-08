@@ -2,13 +2,9 @@ package one.nem.lacerta.processor.impl;
 
 import android.graphics.Bitmap;
 
-import java.io.File;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.UUID;
-
-import javax.inject.Inject;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedInject;
