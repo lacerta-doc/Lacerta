@@ -2,6 +2,8 @@ package one.nem.lacerta.source.file;
 
 import android.graphics.Bitmap;
 
+import org.w3c.dom.Document;
+
 import java.io.File;
 import java.nio.file.Path;
 import java.util.List;
@@ -31,6 +33,9 @@ public interface FileManager {
 
     void saveText(String text, String fileName);
     void saveText(String text, Path path);
+
+    void saveDocument(Document document, String fileName);
+    void saveDocument(Document document, Path path);
 
     boolean isExist(Path path);
     boolean isExist(String fileName);

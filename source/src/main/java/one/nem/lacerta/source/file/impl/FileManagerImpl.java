@@ -2,6 +2,8 @@ package one.nem.lacerta.source.file.impl;
 
 import android.graphics.Bitmap;
 
+import org.w3c.dom.Document;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -10,6 +12,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedInject;
@@ -215,6 +221,22 @@ public class FileManagerImpl implements FileManager {
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    public void saveDocument(Document document, String fileName) {
+        try {
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource source = new DOMSource(document);
+            File file = createFile(fileName);
+
+        }
+    }
+
+    @Override
+    public void saveDocument(Document document, Path path) {
+
     }
 
     @Override
