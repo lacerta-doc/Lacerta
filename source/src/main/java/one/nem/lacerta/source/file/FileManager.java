@@ -11,6 +11,7 @@ public interface FileManager {
 
     Path getRootDir();
     void changeDir(String dirName); //cd
+    void changeDir(Path path); //cd
     void backDir(); //cd ..
     void backRootDir(); //cd /
     List<Path> getList();
