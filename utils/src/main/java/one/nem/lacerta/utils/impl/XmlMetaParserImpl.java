@@ -2,10 +2,7 @@ package one.nem.lacerta.utils.impl;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.xml.sax.InputSource;
 
-import java.io.StringReader;
-import java.nio.file.Path;
 import java.util.ArrayList;
 
 import javax.inject.Inject;
