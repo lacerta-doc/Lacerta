@@ -55,6 +55,17 @@ public class FileManagerImpl implements FileManager {
     }
 
     @Override
+    public void changeDir(Path path) {
+        if (path.startsWith(rootDir)) {
+            this.currentDir = path;
+        }
+        else {
+            logger.debug("changeDir", "invalid path: " + path);
+            // TODO-rca: 例外を投げる
+        }
+    }
+
+    @Override
     public void backDir() {
         this.currentDir = currentDir.getParent();
     }
@@ -113,6 +124,12 @@ public class FileManagerImpl implements FileManager {
     public boolean isExist(Path path) {
         logger.debug("isExist", "called");
         return Files.exists(path);
+    }
+
+    @Override
+    public boolean isExist(String fileName) {
+        logger.debug("isExist", "called");
+        return Files.exists(currentDir.resolve(fileName));
     }
 
     @Override

@@ -22,6 +22,7 @@ public interface FileManager {
     void removeFile(String fileName);
 
     boolean isExist(Path path);
+    boolean isExist(String fileName);
 
     void autoCreateDir(Path path);
 
