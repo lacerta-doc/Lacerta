@@ -20,6 +20,10 @@ public interface FileManager {
     File createFile(String fileName);
     void removeFile(String fileName);
 
+    boolean isExist(Path path);
+
+    void autoCreateDir(Path path);
+
     void saveBitmapAtCurrent(Bitmap bitmap, String fileName);
     Bitmap loadBitmap(Path path);
     void removeBitmap(Path path);
