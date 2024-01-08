@@ -13,6 +13,8 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -241,6 +243,26 @@ public class FileManagerImpl implements FileManager {
     @Override
     public void saveDocument(Document document, Path path) {
         // TODO-rca 実装する
+    }
+
+    @Override
+    public Document loadDocument(String fileName) {
+        try {
+            File file = getFile(fileName);
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(file);
+            return document;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public Document loadDocument(Path path) {
+        // TODO-rca 実装する
+        return null;
     }
 
     @Override

@@ -37,6 +37,10 @@ public interface FileManager {
     void saveDocument(Document document, String fileName);
     void saveDocument(Document document, Path path);
 
+    Document loadDocument(String fileName);
+    Document loadDocument(Path path);
+
+
     boolean isExist(Path path);
     boolean isExist(String fileName);
 
