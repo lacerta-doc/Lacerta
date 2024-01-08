@@ -81,10 +81,9 @@ public class XmlMetaParserImpl implements XmlMetaParser{
         return null;
     }
     // Internal Methods
-    private Element appendElement(Document document, Element rootElement, String name, String textContent) {
+    private void appendElement(Document document, Element rootElement, String name, String textContent) {
         Element element = document.createElement(name);
         element.setTextContent(textContent);
         rootElement.appendChild(element);
-        return element;
     }
 }
