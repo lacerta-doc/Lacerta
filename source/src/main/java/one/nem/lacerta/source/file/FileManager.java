@@ -16,7 +16,7 @@ public interface FileManager {
 
     File getFileRef();
     boolean isExist(String name) throws IOException;
-    boolean isExist() throws IOException;
+    boolean isExist();
     boolean isDirectory();
     boolean isFile();
     boolean isWritable();
