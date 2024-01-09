@@ -78,12 +78,22 @@ public class FileManagerImpl implements FileManager {
 
     @Override
     public boolean isDirectory() {
-        return false;
+        if (this.isExist()) {
+            File file = this.path.toFile();
+            return file.isDirectory();
+        } else {
+            return false;
+        }
     }
 
     @Override
     public boolean isFile() {
-        return false;
+        if (this.isExist()) {
+            File file = this.path.toFile();
+            return file.isFile();
+        } else {
+            return false;
+        }
     }
 
     @Override
