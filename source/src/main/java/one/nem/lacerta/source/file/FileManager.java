@@ -35,6 +35,8 @@ public interface FileManager {
     // Create
     FileManager createFile() throws IOException;
     FileManager createFile(String fileName) throws IOException;
+    FileManager createFileIfNotExist() throws IOException;
+    FileManager createFileIfNotExist(String fileName) throws IOException;
     FileManager createDirectory() throws IOException;
     FileManager createDirectory(String directoryName) throws IOException;
     FileManager createDirectoryIfNotExist() throws IOException;

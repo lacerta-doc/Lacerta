@@ -191,6 +191,20 @@ public class FileManagerImpl implements FileManager {
     }
 
     @Override
+    public FileManager createFileIfNotExist() throws IOException {
+        if (!this.isExist()) {
+            this.createFile();
+        }
+        return this;
+    }
+
+    @Override
+    public FileManager createFileIfNotExist(String fileName) throws IOException {
+        this.resolve(fileName);
+        return this.createFileIfNotExist();
+    }
+
+    @Override
     public FileManager createDirectory() throws IOException {
         try {
             if (this.autoCreateParent) { // configとして管理する必要はないかも？
@@ -237,6 +251,7 @@ public class FileManagerImpl implements FileManager {
             transformer.transform(source, result);
         } catch (Exception e) {
             logger.error("saveXmlInternal", e.getMessage());
+            e.printStackTrace();
             throw new IOException("Failed to save xml");
         }
     }
