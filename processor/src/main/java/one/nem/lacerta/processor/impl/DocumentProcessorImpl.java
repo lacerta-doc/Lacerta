@@ -102,11 +102,10 @@ public class DocumentProcessorImpl implements DocumentProcessor{
 
         XmlMetaPageModel xmlMetaPageModel = new XmlMetaPageModel();
         xmlMetaPageModel.setFilename(filename);
-        xmlMetaPageModel.setIndex(xmlMetaModel.getPages().size() + 1);
         xmlMetaModel.getPages().add(xmlMetaPageModel);
 
         logger.info("addNewPageToLast", "finished");
-        logger.info("addNewPageToLast", "filename: " + filename + ", index: " + xmlMetaPageModel.getIndex());
+        logger.info("addNewPageToLast", "filename: " + filename);
     }
 
     @Override
@@ -118,19 +117,6 @@ public class DocumentProcessorImpl implements DocumentProcessor{
         } // TODO-rca: 効率悪いので改善する
     }
 
-    // Internal
-    // Indexを振り直す
-    private ArrayList<XmlMetaPageModel> reIndexPages(ArrayList<XmlMetaPageModel> pages) {
-        logger.debug("reIndexPages", "called"); // TODO-rca: 効率化
-        ArrayList<XmlMetaPageModel> newPages = new ArrayList<>();
-        for (int i = 0; i < pages.size(); i++) {
-            XmlMetaPageModel xmlMetaPageModel = pages.get(i);
-            xmlMetaPageModel.setIndex(i + 1);
-            newPages.add(xmlMetaPageModel);
-        }
-        return newPages;
-    }
-
     @Override
     public void addNewPageAfterIndex(Bitmap bitmap, int index) throws Exception {
         logger.debug("addNewPageAfterIndex", "called");
@@ -140,9 +126,7 @@ public class DocumentProcessorImpl implements DocumentProcessor{
 
         XmlMetaPageModel xmlMetaPageModel = new XmlMetaPageModel();
         xmlMetaPageModel.setFilename(filename);
-        xmlMetaPageModel.setIndex(index + 1);
         xmlMetaModel.getPages().add(index, xmlMetaPageModel);
-        xmlMetaModel.setPages(reIndexPages(xmlMetaModel.getPages()));
     }
 
     @Override
@@ -154,9 +138,7 @@ public class DocumentProcessorImpl implements DocumentProcessor{
 
         XmlMetaPageModel xmlMetaPageModel = new XmlMetaPageModel();
         xmlMetaPageModel.setFilename(filename);
-        xmlMetaPageModel.setIndex(index);
         xmlMetaModel.getPages().add(index - 1, xmlMetaPageModel);
-        xmlMetaModel.setPages(reIndexPages(xmlMetaModel.getPages()));
     }
 
     @Override
