@@ -21,6 +21,9 @@ public interface FileManager {
     boolean isReadable();
     Document readXml();
 
+    // Get current instance
+    FileManager getCurrentInstance();
+
     // Configure
     FileManager enableAutoCreateParent();
     FileManager disableRootDirCheck();
@@ -28,4 +31,24 @@ public interface FileManager {
     FileManager setRootDir(Path rootDir);
     FileManager setPath(Path path);
     FileManager resolve(String path) throws IOException;
+
+    // Save
+    // XML
+    FileManager saveXml(Document document, String fileName) throws IOException;
+    FileManager saveXml(Document document) throws IOException;
+
+    // Bitmap
+    FileManager saveBitmap(Bitmap bitmap, String fileName) throws IOException; // TODO-rca: パラメータに対応させる
+    FileManager saveBitmap(Bitmap bitmap) throws IOException; // TODO-rca: パラメータに対応させる
+
+
+    // Load
+    // XML
+    Document loadXml(String fileName) throws IOException;
+    Document loadXml() throws IOException;
+
+    // Bitmap
+    Bitmap loadBitmap(String fileName) throws IOException;
+    Bitmap loadBitmap() throws IOException;
+
 }
