@@ -185,6 +185,15 @@ public class FileManagerImpl implements FileManager {
             throw new IOException("Failed to save xml");
         }
     }
+    private void saveBitmapInternal(Bitmap bitmap) throws IOException {
+        try {
+            File file = this.path.toFile();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, Files.newOutputStream(file.toPath()));
+        } catch (Exception e) {
+            logger.error("saveBitmapInternal", e.getMessage());
+            throw new IOException("Failed to save bitmap");
+        }
+    }
 
     @Override
     public void saveXml(Document document, String fileName) throws IOException {
