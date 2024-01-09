@@ -153,22 +153,22 @@ public class FileManagerImpl implements FileManager {
 
     @Override
     public FileManager setRootDir(Path rootDir) {
-        this.rootDir = rootDir;
-        return this;
+        return this.newInstance(rootDir, this.path, this.autoCreateParent, this.disableRootDirCheck);
     }
 
     @Override
     public FileManager setPath(Path path) {
+        Path resolvedPath;
         if (this.disableRootDirCheck) {
-            this.path = path;
+            resolvedPath = path;
         } else {
             if (path.startsWith(this.rootDir)) {
-                this.path = path;
+                resolvedPath = path;
             } else {
                 throw new IllegalArgumentException("path must be in rootDir");
             }
         }
-        return this;
+        return this.newInstance(this.rootDir, resolvedPath, this.autoCreateParent, this.disableRootDirCheck);
     }
 
     @Override
