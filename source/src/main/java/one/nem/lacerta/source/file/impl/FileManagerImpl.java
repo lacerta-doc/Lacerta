@@ -211,14 +211,27 @@ public class FileManagerImpl implements FileManager {
         this.saveBitmapInternal(bitmap);
     }
 
+    // Internal
+    private Document loadXmlInternal() throws IOException {
+        try {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            return builder.parse(Files.newInputStream(this.path.toFile().toPath()));
+        } catch (Exception e) {
+            logger.error("loadXmlInternal", e.getMessage());
+            throw new IOException("Failed to load xml");
+        }
+    }
+
     @Override
     public Document loadXml(String fileName) throws IOException {
-        return null;
+        this.resolve(fileName);
+        return this.loadXmlInternal();
     }
 
     @Override
     public Document loadXml() throws IOException {
-        return null;
+        return this.loadXmlInternal();
     }
 
     @Override
