@@ -14,7 +14,7 @@ import java.util.List;
 public interface FileManager {
 
     File getFileRef();
-    boolean isExist();
+    boolean isExist(String name) throws IOException;
     boolean isDirectory();
     boolean isFile();
     boolean isWritable();
