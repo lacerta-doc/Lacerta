@@ -123,7 +123,7 @@ public class FileManagerImpl implements FileManager {
 
     @Override
     public FileManager getCurrentInstance() {
-        return null;
+        return this;
     }
 
     @Override
