@@ -167,12 +167,19 @@ public class FileManagerImpl implements FileManager {
 
     @Override
     public FileManager createFile() throws IOException {
-        return null;
+        try {
+            Files.createFile(this.path);
+        } catch (Exception e) {
+            logger.error("createFile", e.getMessage());
+            throw new IOException("Failed to create file");
+        }
+        return this;
     }
 
     @Override
-    public FileManager createFile(String fileName) throws IOException {
-        return null;
+    public FileManager createFile(String fileName) throws IOException { // pathが書き換わってしまうのは想像できない挙動かも？
+        this.resolve(fileName);
+        return this.createFile();
     }
 
     @Override
