@@ -174,7 +174,9 @@ public class FileManagerImpl implements FileManager {
     public FileManager createFile() throws IOException {
         try {
             if (this.autoCreateParent) {
-                Files.createDirectories(this.path.getParent());
+                if (!this.path.getParent().toFile().exists()) {
+                    Files.createDirectories(this.path.getParent());
+                }
             }
             Files.createFile(this.path);
         } catch (Exception e) {
