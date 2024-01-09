@@ -143,12 +143,20 @@ public class DocumentProcessorImpl implements DocumentProcessor{
         xmlMetaPageModel.setIndex(index + 1);
         xmlMetaModel.getPages().add(index, xmlMetaPageModel);
         xmlMetaModel.setPages(reIndexPages(xmlMetaModel.getPages()));
-
     }
 
     @Override
-    public void addNewPageBeforeIndex(Bitmap bitmap, int index) {
+    public void addNewPageBeforeIndex(Bitmap bitmap, int index) throws Exception {
+        logger.debug("addNewPageBeforeIndex", "called");
+        String filename = UUID.randomUUID().toString() + ".png"; // TODO-rca: 拡張子を動的にする
 
+        this.fileManager.getNewInstance().createDirectoryIfNotExist(DEFAULT_SAVE_DIR).resolve(DEFAULT_SAVE_DIR).saveBitmap(bitmap, filename);
+
+        XmlMetaPageModel xmlMetaPageModel = new XmlMetaPageModel();
+        xmlMetaPageModel.setFilename(filename);
+        xmlMetaPageModel.setIndex(index);
+        xmlMetaModel.getPages().add(index - 1, xmlMetaPageModel);
+        xmlMetaModel.setPages(reIndexPages(xmlMetaModel.getPages()));
     }
 
     @Override
