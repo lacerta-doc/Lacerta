@@ -72,7 +72,8 @@ public class FileManagerImpl implements FileManager {
 
     @Override
     public boolean isExist() {
-        return false;
+        File file = this.path.toFile();
+        return file.exists();
     }
 
     @Override
