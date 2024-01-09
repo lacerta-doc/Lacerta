@@ -1,6 +1,7 @@
 package one.nem.lacerta.source.file.impl;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 import org.w3c.dom.Document;
 
@@ -222,6 +223,14 @@ public class FileManagerImpl implements FileManager {
             throw new IOException("Failed to load xml");
         }
     }
+    private Bitmap loadBitmapInternal() throws IOException {
+        try {
+            return BitmapFactory.decodeFile(this.path.toString());
+        } catch (Exception e) {
+            logger.error("loadBitmapInternal", e.getMessage());
+            throw new IOException("Failed to load bitmap");
+        }
+    }
 
     @Override
     public Document loadXml(String fileName) throws IOException {
@@ -236,11 +245,12 @@ public class FileManagerImpl implements FileManager {
 
     @Override
     public Bitmap loadBitmap(String fileName) throws IOException {
-        return null;
+        this.resolve(fileName);
+        return this.loadBitmapInternal();
     }
 
     @Override
     public Bitmap loadBitmap() throws IOException {
-        return null;
+        return this.loadBitmapInternal();
     }
 }
