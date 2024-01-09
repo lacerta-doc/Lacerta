@@ -107,7 +107,11 @@ public class FileManagerImpl implements FileManager {
 
     @Override
     public FileManager setPath(Path path) {
-        return null;
+        if (path.startsWith(this.rootDir)) {
+            this.path = path;
+        } else {
+            // placeholder
+        }
     }
 
     @Override
