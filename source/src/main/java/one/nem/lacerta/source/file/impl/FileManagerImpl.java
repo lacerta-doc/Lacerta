@@ -184,12 +184,19 @@ public class FileManagerImpl implements FileManager {
 
     @Override
     public FileManager createDirectory() throws IOException {
-        return null;
+        try {
+            Files.createDirectory(this.path);
+        } catch (Exception e) {
+            logger.error("createDirectory", e.getMessage());
+            throw new IOException("Failed to create directory");
+        }
+        return this;
     }
 
     @Override
     public FileManager createDirectory(String directoryName) throws IOException {
-        return null;
+        this.resolve(directoryName);
+        return this.createDirectory();
     }
 
     // Internal
