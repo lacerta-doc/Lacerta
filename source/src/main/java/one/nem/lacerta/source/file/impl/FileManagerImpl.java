@@ -188,10 +188,13 @@ public class FileManagerImpl implements FileManager {
 
     @Override
     public void saveXml(Document document, String fileName) throws IOException {
+        this.resolve(fileName);
+        this.saveXmlInternal(document);
     }
 
     @Override
     public void saveXml(Document document) throws IOException {
+        this.saveXmlInternal(document);
     }
 
     @Override
