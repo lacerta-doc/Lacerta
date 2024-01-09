@@ -12,5 +12,15 @@ import java.util.List;
 /** @noinspection unused*/
 public interface FileManager {
 
+    File getFileRef();
+    boolean isExist();
+    boolean isDirectory();
+    boolean isFile();
+    boolean isWritable();
+    boolean isReadable();
+    Document readXml();
 
+    FileManager setRootDir(Path rootDir);
+    FileManager setPath(Path path);
+    FileManager setPath(String path);
 }
