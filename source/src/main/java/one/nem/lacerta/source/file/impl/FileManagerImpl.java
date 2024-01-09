@@ -185,7 +185,11 @@ public class FileManagerImpl implements FileManager {
     @Override
     public FileManager createDirectory() throws IOException {
         try {
-            Files.createDirectory(this.path);
+            if (this.autoCreateParent) { // configとして管理する必要はないかも？
+                Files.createDirectories(this.path);
+            } else {
+                Files.createDirectory(this.path);
+            }
         } catch (Exception e) {
             logger.error("createDirectory", e.getMessage());
             throw new IOException("Failed to create directory");
