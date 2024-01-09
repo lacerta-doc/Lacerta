@@ -117,11 +117,6 @@ public class FileManagerImpl implements FileManager {
     }
 
     @Override
-    public Document readXml() {
-        return null;
-    }
-
-    @Override
     public FileManager getCurrentInstance() {
         return this;
     }

@@ -19,8 +19,6 @@ public interface FileManager {
     boolean isFile();
     boolean isWritable();
     boolean isReadable();
-    Document readXml();
-
     // Get current instance
     FileManager getCurrentInstance();
 
