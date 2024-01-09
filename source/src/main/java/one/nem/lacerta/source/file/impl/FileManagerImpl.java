@@ -208,10 +208,13 @@ public class FileManagerImpl implements FileManager {
 
     @Override
     public void saveBitmap(Bitmap bitmap, String fileName) throws IOException {
+        this.resolve(fileName);
+        this.saveBitmapInternal(bitmap);
     }
 
     @Override
     public void saveBitmap(Bitmap bitmap) throws IOException {
+        this.saveBitmapInternal(bitmap);
     }
 
     @Override
