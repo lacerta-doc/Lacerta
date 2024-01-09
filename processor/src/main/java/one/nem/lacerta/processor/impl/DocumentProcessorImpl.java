@@ -148,18 +148,16 @@ public class DocumentProcessorImpl implements DocumentProcessor{
     }
 
     @Override
-    public void close() {
+    public void close() throws Exception{
         logger.debug("close", "called");
-        // TODO-rca: ここでxmlファイルを保存する
-        this.fileManager.backRootDir();
-
-        try {
-            this.fileManager.saveDocument(xmlMetaParser.serialize(xmlMetaModel), "meta.xml");
-            logger.debug("close", "meta.xml saved");
-        } catch (Exception e) {
-            logger.error("close", "meta.xml save failed");
-            logger.trace("close", e.getMessage());
+        if (this.fileManager.isExist("meta.xml")) {
+            try {
+                this.fileManager.createFile("meta.xml").saveXml(xmlMetaParser.serialize(xmlMetaModel));
+                logger.debug("close", "meta.xml saved");
+            } catch (Exception e) {
+                logger.error("close", "meta.xml save failed");
+                logger.trace("close", e.getMessage());
+            }
         }
-        logger.info("close", "finished");
     }
 }

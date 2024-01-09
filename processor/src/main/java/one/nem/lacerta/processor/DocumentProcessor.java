@@ -18,7 +18,7 @@ public interface DocumentProcessor {
     Bitmap getPageAtIndex(int index);
     int getPageCount();
 
-    void close();
+    void close() throws Exception;
     void init() throws Exception; // TODO-rca: 例外処理
 
 }
