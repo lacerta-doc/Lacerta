@@ -203,6 +203,16 @@ public class FileManagerImpl implements FileManager {
         return this.createDirectory();
     }
 
+    @Override
+    public FileManager createDirectoryIfNotExist() throws IOException {
+        return null;
+    }
+
+    @Override
+    public FileManager createDirectoryIfNotExist(String directoryName) throws IOException {
+        return null;
+    }
+
     // Internal
     private void saveXmlInternal(Document document) throws IOException {
         try {

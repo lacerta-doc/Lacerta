@@ -6,6 +6,7 @@ import org.w3c.dom.Document;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -35,6 +36,8 @@ public interface FileManager {
     FileManager createFile(String fileName) throws IOException;
     FileManager createDirectory() throws IOException;
     FileManager createDirectory(String directoryName) throws IOException;
+    FileManager createDirectoryIfNotExist() throws IOException;
+    FileManager createDirectoryIfNotExist(String directoryName) throws IOException;
 
     // Save
     // XML
