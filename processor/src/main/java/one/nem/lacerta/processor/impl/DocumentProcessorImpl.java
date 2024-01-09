@@ -56,10 +56,13 @@ public class DocumentProcessorImpl implements DocumentProcessor{
         logger.debug("init", "documentRootPath: " + this.documentRootPath);
 
         this.fileManager = fileManagerFactory.create(this.documentRootPath).enableAutoCreateParent(); //Initialize FileManager
+
+        FileManager initFileManager = this.fileManager.getNewInstance();
+
         logger.debug("init", "fileManager created");
 
         // xmlファイルの読み込み
-        if (fileManager.isExist("meta.xml")) {
+        if (initFileManager.isExist("meta.xml")) {
             logger.debug("init", "meta.xml found");
             try {
                 this.xmlMetaModel = xmlMetaParser.deserialize(this.fileManager.loadXml("meta.xml"));
@@ -79,7 +82,7 @@ public class DocumentProcessorImpl implements DocumentProcessor{
             xmlMetaModel.setPages(new ArrayList<>());
 
             try {
-                this.fileManager.createFile("meta.xml").saveXml(xmlMetaParser.serialize(xmlMetaModel));
+                initFileManager.createFileIfNotExist("meta.xml").saveXml(xmlMetaParser.serialize(xmlMetaModel), "meta.xml");
                 logger.debug("init", "meta.xml saved");
             } catch (Exception e) {
                 logger.error("init", "meta.xml save failed");
@@ -148,14 +151,12 @@ public class DocumentProcessorImpl implements DocumentProcessor{
     @Override
     public void close() throws Exception{
         logger.debug("close", "called");
-        if (this.fileManager.isExist("meta.xml")) {
-            try {
-                this.fileManager.createFile("meta.xml").saveXml(xmlMetaParser.serialize(xmlMetaModel));
-                logger.debug("close", "meta.xml saved");
-            } catch (Exception e) {
-                logger.error("close", "meta.xml save failed");
-                logger.trace("close", e.getMessage());
-            }
+        try {
+            this.fileManager.createFileIfNotExist("meta.xml").saveXml(xmlMetaParser.serialize(xmlMetaModel), "meta.xml");
+            logger.debug("close", "meta.xml saved");
+        } catch (Exception e) {
+            logger.error("close", "meta.xml save failed");
+            logger.trace("close", e.getMessage());
         }
     }
 }
