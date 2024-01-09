@@ -30,6 +30,12 @@ public interface FileManager {
     FileManager setPath(Path path);
     FileManager resolve(String path) throws IOException;
 
+    // Create
+    FileManager createFile() throws IOException;
+    FileManager createFile(String fileName) throws IOException;
+    FileManager createDirectory() throws IOException;
+    FileManager createDirectory(String directoryName) throws IOException;
+
     // Save
     // XML
     void saveXml(Document document, String fileName) throws IOException;
