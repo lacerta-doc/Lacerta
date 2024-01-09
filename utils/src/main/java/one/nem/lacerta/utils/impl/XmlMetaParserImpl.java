@@ -41,7 +41,6 @@ public class XmlMetaParserImpl implements XmlMetaParser{
             for(int i = 0; i < rootElement.getElementsByTagName("pages").getLength(); i++) {
                 Element pageElement = (Element) rootElement.getElementsByTagName("page").item(i);
                 XmlMetaPageModel page = new XmlMetaPageModel();
-                page.setIndex(Integer.parseInt(pageElement.getElementsByTagName("index").item(0).getTextContent()));
                 page.setFilename(pageElement.getElementsByTagName("filename").item(0).getTextContent());
                 pages.add(page);
             }
@@ -73,7 +72,6 @@ public class XmlMetaParserImpl implements XmlMetaParser{
             Element pagesElement = document.createElement("pages");
             for(XmlMetaPageModel page : meta.getPages()) {
                 Element pageElement = document.createElement("page");
-                appendElement(document, pageElement, "index", String.valueOf(page.getIndex()));
                 appendElement(document, pageElement, "filename", page.getFilename());
                 pagesElement.appendChild(pageElement);
             }
