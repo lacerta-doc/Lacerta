@@ -95,9 +95,9 @@ public class DocumentProcessorImpl implements DocumentProcessor{
         logger.debug("addNewPageToLast", "called");
         String filename = UUID.randomUUID().toString() + ".png"; // TODO-rca: 拡張子を動的にする
 
-        FileManager rawFileManager = fileManager.resolve(DEFAULT_SAVE_DIR).createDirectoryIfNotExist().getCurrentInstance();
+        FileManager imageFileManager = fileManager.getNewInstance().createDirectoryIfNotExist(DEFAULT_SAVE_DIR).resolve(DEFAULT_SAVE_DIR);
 
-        rawFileManager.saveBitmap(bitmap, filename);
+        imageFileManager.saveBitmap(bitmap, filename);
 
         XmlMetaPageModel xmlMetaPageModel = new XmlMetaPageModel();
         xmlMetaPageModel.setFilename(filename);
