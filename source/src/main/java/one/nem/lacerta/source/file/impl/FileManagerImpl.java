@@ -173,6 +173,9 @@ public class FileManagerImpl implements FileManager {
     @Override
     public FileManager createFile() throws IOException {
         try {
+            if (this.autoCreateParent) {
+                Files.createDirectories(this.path.getParent());
+            }
             Files.createFile(this.path);
         } catch (Exception e) {
             logger.error("createFile", e.getMessage());
