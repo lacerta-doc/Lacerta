@@ -34,12 +34,12 @@ public interface FileManager {
 
     // Save
     // XML
-    FileManager saveXml(Document document, String fileName) throws IOException;
-    FileManager saveXml(Document document) throws IOException;
+    void saveXml(Document document, String fileName) throws IOException;
+    void saveXml(Document document) throws IOException;
 
     // Bitmap
-    FileManager saveBitmap(Bitmap bitmap, String fileName) throws IOException; // TODO-rca: パラメータに対応させる
-    FileManager saveBitmap(Bitmap bitmap) throws IOException; // TODO-rca: パラメータに対応させる
+    void saveBitmap(Bitmap bitmap, String fileName) throws IOException; // TODO-rca: パラメータに対応させる
+    void saveBitmap(Bitmap bitmap) throws IOException; // TODO-rca: パラメータに対応させる
 
 
     // Load

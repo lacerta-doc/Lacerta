@@ -187,22 +187,22 @@ public class FileManagerImpl implements FileManager {
     }
 
     @Override
-    public FileManager saveXml(Document document, String fileName) throws IOException {
+    public void saveXml(Document document, String fileName) throws IOException {
         return null;
     }
 
     @Override
-    public FileManager saveXml(Document document) throws IOException {
+    public void saveXml(Document document) throws IOException {
         return null;
     }
 
     @Override
-    public FileManager saveBitmap(Bitmap bitmap, String fileName) throws IOException {
+    public void saveBitmap(Bitmap bitmap, String fileName) throws IOException {
         return null;
     }
 
     @Override
-    public FileManager saveBitmap(Bitmap bitmap) throws IOException {
+    public void saveBitmap(Bitmap bitmap) throws IOException {
         return null;
     }
 
