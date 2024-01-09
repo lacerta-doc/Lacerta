@@ -27,4 +27,5 @@ public interface FileManager {
     FileManager setRootDir(Path rootDir);
     FileManager setPath(Path path);
     FileManager setPath(String path);
+    FileManager resolve(String path);
 }

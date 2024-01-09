@@ -65,7 +65,6 @@ public class FileManagerImpl implements FileManager {
         return resolvedPath;
     }
 
-
     @Override
     public File getFileRef() {
         return null;
@@ -119,17 +118,30 @@ public class FileManagerImpl implements FileManager {
 
     @Override
     public FileManager setPath(Path path) {
-        if (path.startsWith(this.rootDir)) {
+        if (this.disableRootDirCheck) {
             this.path = path;
         } else {
-            if (this.autoCreate) {
-
+            if (path.startsWith(this.rootDir)) {
+                this.path = path;
+            } else {
+                throw new IllegalArgumentException("path must be in rootDir");
             }
         }
+        return this;
     }
 
     @Override
     public FileManager setPath(String path) {
         return null;
     }
+
+    @Override
+    public FileManager resolve(String path) {
+        try {
+            this.path = resolveStringPath(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
