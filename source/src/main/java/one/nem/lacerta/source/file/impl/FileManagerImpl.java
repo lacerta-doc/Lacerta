@@ -68,7 +68,11 @@ public class FileManagerImpl implements FileManager {
 
     @Override
     public File getFileRef() {
-        return null;
+        if (this.isExist()) {
+            return this.path.toFile();
+        } else {
+            return null;
+        }
     }
 
     @Override
