@@ -33,7 +33,7 @@ public class FileManagerImpl implements FileManager {
 
 
     // Injection
-    private LacertaLogger logger;
+    private final LacertaLogger logger;
 
     @AssistedInject
     public FileManagerImpl(LacertaLogger logger, @Assisted Path rootDir) {
