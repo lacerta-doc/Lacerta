@@ -169,7 +169,12 @@ public class ScannerDataManagerStubFragment extends Fragment {
             }
             this.documentProcessor = documentProcessorFactory.create(this.documentDetail);
             Toast.makeText(getActivity(), "documentProcessor created", Toast.LENGTH_LONG).show();
-            this.documentProcessor.init();
+            try {
+                this.documentProcessor.init();
+            } catch (Exception e) {
+                Toast.makeText(getActivity(), "Error occurred while initializing documentProcessor", Toast.LENGTH_LONG).show();
+                Log.e("ScannerDataManagerStubFragment", "Error occurred while initializing documentProcessor", e);
+            }
             Toast.makeText(getActivity(), "documentProcessor initialized", Toast.LENGTH_LONG).show();
         });
 
