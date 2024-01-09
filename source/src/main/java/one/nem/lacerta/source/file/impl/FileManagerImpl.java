@@ -52,7 +52,7 @@ public class FileManagerImpl implements FileManager {
     // Internal
     private Path resolveStringPath(String path) throws IOException{
         String[] pathArray = path.split("/");
-        Path resolvedPath = this.rootDir;
+        Path resolvedPath = this.path;
         for (String pathPart : pathArray) {
             if (pathPart.equals("..")) {
                 resolvedPath = resolvedPath.getParent();
@@ -71,6 +71,7 @@ public class FileManagerImpl implements FileManager {
 
     private FileManager newInstance(Path rootDir, Path path, boolean autoCreateParent, boolean disableRootDirCheck) {
         logger.debug("newInstance", "Generating new instance");
+        logger.debug("newInstance", "Path: " + path);
         return new FileManagerImpl(this.logger, rootDir, path, autoCreateParent, disableRootDirCheck);
     }
 
@@ -173,6 +174,7 @@ public class FileManagerImpl implements FileManager {
                 throw new IllegalArgumentException("path must be in rootDir");
             }
         }
+        logger.debug("setPath", "resolvedPath: " + resolvedPath);
         return this.newInstance(this.rootDir, resolvedPath, this.autoCreateParent, this.disableRootDirCheck);
     }
 
@@ -292,6 +294,7 @@ public class FileManagerImpl implements FileManager {
     }
     private void saveBitmapInternal(Bitmap bitmap, Path path) throws IOException {
         try {
+            logger.debug("saveBitmapInternal", "path: " + path);
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, Files.newOutputStream(path));
         } catch (Exception e) {
             logger.error("saveBitmapInternal", e.getMessage());
