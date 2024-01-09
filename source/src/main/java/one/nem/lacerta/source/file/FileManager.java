@@ -22,6 +22,7 @@ public interface FileManager {
 
     // Configure
     FileManager enableAutoCreate();
+    FileManager disableRootDirCheck();
 
     FileManager setRootDir(Path rootDir);
     FileManager setPath(Path path);

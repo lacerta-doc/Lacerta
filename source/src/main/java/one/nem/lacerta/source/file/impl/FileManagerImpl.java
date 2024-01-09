@@ -33,6 +33,7 @@ public class FileManagerImpl implements FileManager {
     private Path rootDir;
     private Path path;
     private boolean autoCreate = false;
+    private boolean disableRootDirCheck = false;
 
 
     // Injection
@@ -116,7 +117,9 @@ public class FileManagerImpl implements FileManager {
         if (path.startsWith(this.rootDir)) {
             this.path = path;
         } else {
-            // placeholder
+            if (this.autoCreate) {
+
+            }
         }
     }
 
