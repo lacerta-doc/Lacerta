@@ -62,7 +62,8 @@ public class DocumentProcessorImpl implements DocumentProcessor{
         if (fileManager.isExist("meta.xml")) {
             logger.debug("init", "meta.xml found");
             try {
-                xmlMetaModel = xmlMetaParser.deserialize(this.fileManager.loadDocument("meta.xml"));
+                this.xmlMetaModel = xmlMetaParser.deserialize(this.fileManager.loadXml("meta.xml"));
+                logger.debug("init", "meta.xml parsed");
             } catch (Exception e) {
                 logger.debug("init", "meta.xml parse failed");
                 logger.trace("init", e.getMessage());
@@ -78,7 +79,7 @@ public class DocumentProcessorImpl implements DocumentProcessor{
             xmlMetaModel.setPages(new ArrayList<>());
 
             try {
-                this.fileManager.saveDocument(xmlMetaParser.serialize(xmlMetaModel), "meta.xml");
+                this.fileManager.createFile("meta.xml").saveXml(xmlMetaParser.serialize(xmlMetaModel));
                 logger.debug("init", "meta.xml saved");
             } catch (Exception e) {
                 logger.error("init", "meta.xml save failed");
@@ -90,33 +91,15 @@ public class DocumentProcessorImpl implements DocumentProcessor{
     }
 
     @Override
-    public void addNewPageToLast(Bitmap bitmap) {
+    public void addNewPageToLast(Bitmap bitmap) throws Exception{
         logger.debug("addNewPageToLast", "called");
         String filename = UUID.randomUUID().toString() + ".png"; // TODO-rca: 拡張子を動的にする
 
-        // FileManager
-        if (this.fileManager.getCurrentDir().equals(this.documentRootPath.resolve(DEFAULT_SAVE_DIR))) { // TODO-rca: 効率化
-            logger.debug("addNewPageToLast", "currentDir is documentRootPath");
-        } else {
-            logger.debug("addNewPageToLast", "currentDir is not documentRootPath");
-            this.fileManager.backRootDir();
-            this.fileManager.autoCreateDir(DEFAULT_SAVE_DIR);
-            this.fileManager.changeDir(DEFAULT_SAVE_DIR);
-        }
-        logger.debug("addNewPageToLast", "DirInit finished");
-
-        // Save file
-        this.fileManager.saveBitmapAtCurrent(bitmap, filename);
-
-        // Update meta
-        XmlMetaPageModel page = new XmlMetaPageModel();
-        page.setIndex(xmlMetaModel.getPages().size() + 1);
-        page.setFilename(filename);
-        xmlMetaModel.addPage(page);
+        this.fileManager.resolve(DEFAULT_SAVE_DIR).createDirectory();
     }
 
     @Override
-    public void addNewPagesToLast(Bitmap[] bitmaps) {
+    public void addNewPagesToLast(Bitmap[] bitmaps) throws Exception{
         logger.debug("addNewPagesToLast", "called");
 
         for (Bitmap bitmap : bitmaps) {
