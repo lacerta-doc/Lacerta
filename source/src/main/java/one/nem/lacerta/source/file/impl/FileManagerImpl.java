@@ -170,6 +170,23 @@ public class FileManagerImpl implements FileManager {
         return this.setPath(resolvedPath);
     }
 
+    // Internal
+    private void saveXmlInternal(Document document, String fileName) throws IOException {
+        try {
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource source = new DOMSource(document);
+
+            File file = this.path.resolve(fileName).toFile();
+            StreamResult result = new StreamResult(file);
+
+            transformer.transform(source, result);
+        } catch (Exception e) {
+            logger.error("saveXmlInternal", e.getMessage());
+            throw new IOException("Failed to save xml");
+        }
+    }
+
     @Override
     public FileManager saveXml(Document document, String fileName) throws IOException {
         return null;
