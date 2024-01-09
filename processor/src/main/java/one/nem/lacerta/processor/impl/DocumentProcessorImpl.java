@@ -55,7 +55,7 @@ public class DocumentProcessorImpl implements DocumentProcessor{
         this.documentRootPath = this.documentDetail.getPath().getFullPath();
         logger.debug("init", "documentRootPath: " + this.documentRootPath);
 
-        this.fileManager = fileManagerFactory.create(this.documentRootPath); //Initialize FileManager
+        this.fileManager = fileManagerFactory.create(this.documentRootPath).enableAutoCreateParent(); //Initialize FileManager
         logger.debug("init", "fileManager created");
 
         // xmlファイルの読み込み
