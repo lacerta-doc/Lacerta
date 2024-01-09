@@ -187,8 +187,7 @@ public class FileManagerImpl implements FileManager {
     }
     private void saveBitmapInternal(Bitmap bitmap) throws IOException {
         try {
-            File file = this.path.toFile();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, Files.newOutputStream(file.toPath()));
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, Files.newOutputStream(this.path));
         } catch (Exception e) {
             logger.error("saveBitmapInternal", e.getMessage());
             throw new IOException("Failed to save bitmap");
