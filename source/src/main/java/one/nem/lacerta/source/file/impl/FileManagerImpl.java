@@ -131,11 +131,6 @@ public class FileManagerImpl implements FileManager {
     }
 
     @Override
-    public FileManager setPath(String path) {
-        return null;
-    }
-
-    @Override
     public FileManager resolve(String path) {
         try {
             this.path = resolveStringPath(path);
