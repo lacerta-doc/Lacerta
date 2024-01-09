@@ -5,8 +5,8 @@ import android.graphics.Bitmap;
 public interface DocumentProcessor {
 
     // ページ操作
-    void addNewPageToLast(Bitmap bitmap);
-    void addNewPagesToLast(Bitmap[] bitmaps);
+    void addNewPageToLast(Bitmap bitmap) throws Exception;
+    void addNewPagesToLast(Bitmap[] bitmaps) throws Exception;
     void addNewPageAfterIndex(Bitmap bitmap, int index);
     void addNewPageBeforeIndex(Bitmap bitmap, int index);
     void removePageAtIndex(int index);
@@ -18,7 +18,7 @@ public interface DocumentProcessor {
     Bitmap getPageAtIndex(int index);
     int getPageCount();
 
-    void close();
-    void init();
+    void close() throws Exception;
+    void init() throws Exception; // TODO-rca: 例外処理
 
 }

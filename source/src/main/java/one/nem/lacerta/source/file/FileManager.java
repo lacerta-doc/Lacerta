@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 import org.w3c.dom.Document;
 
 import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Field;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -12,48 +14,52 @@ import java.util.List;
 /** @noinspection unused*/
 public interface FileManager {
 
-    Path getRootDir();
-    Path getCurrentDir();
+    File getFileRef();
+    boolean isExist(String name) throws IOException;
+    boolean isExist();
+    boolean isDirectory();
+    boolean isFile();
+    boolean isWritable();
+    boolean isReadable();
+    // Get current instance
+    FileManager getCurrentInstance();
+    FileManager getNewInstance();
 
-    void changeDir(String dirName); //cd
-    void changeDir(Path path); //cd
-    void backDir(); //cd ..
-    void backRootDir(); //cd /
-    List<Path> getList();
-    void createDir(String dirName);
-    void createDir(Path path);
-    void removeDir(String dirName);
-    void removeDir(Path path);
+    // Configure
+    FileManager enableAutoCreateParent();
+    FileManager disableRootDirCheck();
 
-    File createFile(String fileName);
-    void removeFile(String fileName);
+    FileManager setRootDir(Path rootDir);
+    FileManager setPath(Path path);
+    FileManager resolve(String path) throws IOException;
 
-    File getFile(String fileName);
-    File getFile(Path path);
+    // Create
+    FileManager createFile() throws IOException;
+    FileManager createFile(String fileName) throws IOException;
+    FileManager createFileIfNotExist() throws IOException;
+    FileManager createFileIfNotExist(String fileName) throws IOException;
+    FileManager createDirectory() throws IOException;
+    FileManager createDirectory(String directoryName) throws IOException;
+    FileManager createDirectoryIfNotExist() throws IOException;
+    FileManager createDirectoryIfNotExist(String directoryName) throws IOException;
 
-    String loadText(String fileName);
-    String loadText(Path path);
+    // Save
+    // XML
+    void saveXml(Document document, String fileName) throws IOException;
+    void saveXml(Document document) throws IOException;
 
-    void saveText(String text, String fileName);
-    void saveText(String text, Path path);
-
-    void saveDocument(Document document, String fileName);
-    void saveDocument(Document document, Path path);
-
-    Document loadDocument(String fileName);
-    Document loadDocument(Path path);
+    // Bitmap
+    void saveBitmap(Bitmap bitmap, String fileName) throws IOException; // TODO-rca: パラメータに対応させる
+    void saveBitmap(Bitmap bitmap) throws IOException; // TODO-rca: パラメータに対応させる
 
 
-    boolean isExist(Path path);
-    boolean isExist(String fileName);
+    // Load
+    // XML
+    Document loadXml(String fileName) throws IOException;
+    Document loadXml() throws IOException;
 
-    void autoCreateDir(Path path);
-    void autoCreateDir(String dirName);
-
-    void autoCreateToCurrentDir();
-
-    void saveBitmapAtCurrent(Bitmap bitmap, String fileName);
-    Bitmap loadBitmap(Path path);
-    void removeBitmap(Path path);
+    // Bitmap
+    Bitmap loadBitmap(String fileName) throws IOException;
+    Bitmap loadBitmap() throws IOException;
 
 }

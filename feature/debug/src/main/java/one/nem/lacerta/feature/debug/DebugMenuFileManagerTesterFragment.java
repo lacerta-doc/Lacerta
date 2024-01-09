@@ -63,46 +63,46 @@ public class DebugMenuFileManagerTesterFragment extends Fragment {
             EditText editText = view.findViewById(R.id.edit_text_dir_name);
             String dirName = editText.getText().toString();
 
-            FileManager fileManager = fileManagerFactory.create(deviceInfoUtils.getExternalStorageDirectory());
-            fileManager.createDir(dirName);
+//            FileManager fileManager = fileManagerFactory.create(deviceInfoUtils.getExternalStorageDirectory());
+//            fileManager.createDir(dirName);
         });
 
         view.findViewById(R.id.button_save_item).setOnClickListener(v -> {
-            FileManager fileManager = fileManagerFactory.create(deviceInfoUtils.getExternalStorageDirectory());
-            fileManager.createDir("test");
-            fileManager.changeDir("test");
-            Bitmap bitmap = Bitmap.createBitmap(1000, 1000, Bitmap.Config.ARGB_8888);
-            // Bitmapに描画処理を行う
-            Canvas canvas = new Canvas(bitmap);
-            // 大きな山の形状を作成
-            android.graphics.Path bigMountainPath = new android.graphics.Path();
-            bigMountainPath.moveTo(100, 800); // 左下の開始点
-            bigMountainPath.lineTo(500, 300); // 頂点
-            bigMountainPath.lineTo(900, 800); // 右下
-            bigMountainPath.close(); // パスを閉じる
-
-            // 山の描画設定
-            Paint mountainPaint = new Paint();
-            mountainPaint.setColor(Color.GREEN);
-            mountainPaint.setStyle(Paint.Style.FILL);
-
-            // 大きな山を描画
-            canvas.drawPath(bigMountainPath, mountainPaint);
-
-            // 小さな山の形状を作成
-            android.graphics.Path smallMountainPath = new android.graphics.Path();
-            smallMountainPath.moveTo(400, 800); // 左下の開始点
-            smallMountainPath.lineTo(650, 400); // 頂点
-            smallMountainPath.lineTo(900, 800); // 右下
-            smallMountainPath.close(); // パスを閉じる
-
-            Paint smallMountainPaint = new Paint();
-            smallMountainPaint.setColor(Color.parseColor("#006e54"));
-            smallMountainPaint.setStyle(Paint.Style.FILL);
-
-            // 小さな山を描画
-            canvas.drawPath(smallMountainPath, smallMountainPaint);
-            fileManager.saveBitmapAtCurrent(bitmap, "test.png");
+//            FileManager fileManager = fileManagerFactory.create(deviceInfoUtils.getExternalStorageDirectory());
+//            fileManager.createDir("test");
+//            fileManager.changeDir("test");
+//            Bitmap bitmap = Bitmap.createBitmap(1000, 1000, Bitmap.Config.ARGB_8888);
+//            // Bitmapに描画処理を行う
+//            Canvas canvas = new Canvas(bitmap);
+//            // 大きな山の形状を作成
+//            android.graphics.Path bigMountainPath = new android.graphics.Path();
+//            bigMountainPath.moveTo(100, 800); // 左下の開始点
+//            bigMountainPath.lineTo(500, 300); // 頂点
+//            bigMountainPath.lineTo(900, 800); // 右下
+//            bigMountainPath.close(); // パスを閉じる
+//
+//            // 山の描画設定
+//            Paint mountainPaint = new Paint();
+//            mountainPaint.setColor(Color.GREEN);
+//            mountainPaint.setStyle(Paint.Style.FILL);
+//
+//            // 大きな山を描画
+//            canvas.drawPath(bigMountainPath, mountainPaint);
+//
+//            // 小さな山の形状を作成
+//            android.graphics.Path smallMountainPath = new android.graphics.Path();
+//            smallMountainPath.moveTo(400, 800); // 左下の開始点
+//            smallMountainPath.lineTo(650, 400); // 頂点
+//            smallMountainPath.lineTo(900, 800); // 右下
+//            smallMountainPath.close(); // パスを閉じる
+//
+//            Paint smallMountainPaint = new Paint();
+//            smallMountainPaint.setColor(Color.parseColor("#006e54"));
+//            smallMountainPaint.setStyle(Paint.Style.FILL);
+//
+//            // 小さな山を描画
+//            canvas.drawPath(smallMountainPath, smallMountainPaint);
+//            fileManager.saveBitmapAtCurrent(bitmap, "test.png");
         });
 
         return view;

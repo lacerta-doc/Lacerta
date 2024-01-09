@@ -49,25 +49,24 @@ public class DocumentProcessorImpl implements DocumentProcessor{
     }
 
     @Override
-    public void init() {
+    public void init() throws Exception{
         logger.debug("init", "called");
         // Init Variables
         this.documentRootPath = this.documentDetail.getPath().getFullPath();
         logger.debug("init", "documentRootPath: " + this.documentRootPath);
 
-        this.fileManager = fileManagerFactory.create(this.documentRootPath); //Initialize FileManager
+        this.fileManager = fileManagerFactory.create(this.documentRootPath).enableAutoCreateParent(); //Initialize FileManager
+
+        FileManager initFileManager = this.fileManager.getNewInstance();
+
         logger.debug("init", "fileManager created");
 
-        this.fileManager.autoCreateDir(this.documentRootPath);
-
-        // rawディレクトリInit
-        this.fileManager.autoCreateDir(DEFAULT_SAVE_DIR);
-
         // xmlファイルの読み込み
-        if (fileManager.isExist("meta.xml")) {
+        if (initFileManager.isExist("meta.xml")) {
             logger.debug("init", "meta.xml found");
             try {
-                xmlMetaModel = xmlMetaParser.deserialize(this.fileManager.loadDocument("meta.xml"));
+                this.xmlMetaModel = xmlMetaParser.deserialize(this.fileManager.loadXml("meta.xml"));
+                logger.debug("init", "meta.xml parsed");
             } catch (Exception e) {
                 logger.debug("init", "meta.xml parse failed");
                 logger.trace("init", e.getMessage());
@@ -83,7 +82,7 @@ public class DocumentProcessorImpl implements DocumentProcessor{
             xmlMetaModel.setPages(new ArrayList<>());
 
             try {
-                this.fileManager.saveDocument(xmlMetaParser.serialize(xmlMetaModel), "meta.xml");
+                initFileManager.createFileIfNotExist("meta.xml").saveXml(xmlMetaParser.serialize(xmlMetaModel), "meta.xml");
                 logger.debug("init", "meta.xml saved");
             } catch (Exception e) {
                 logger.error("init", "meta.xml save failed");
@@ -95,33 +94,23 @@ public class DocumentProcessorImpl implements DocumentProcessor{
     }
 
     @Override
-    public void addNewPageToLast(Bitmap bitmap) {
+    public void addNewPageToLast(Bitmap bitmap) throws Exception{
         logger.debug("addNewPageToLast", "called");
         String filename = UUID.randomUUID().toString() + ".png"; // TODO-rca: 拡張子を動的にする
 
-        // FileManager
-        if (this.fileManager.getCurrentDir().equals(this.documentRootPath.resolve(DEFAULT_SAVE_DIR))) { // TODO-rca: 効率化
-            logger.debug("addNewPageToLast", "currentDir is documentRootPath");
-        } else {
-            logger.debug("addNewPageToLast", "currentDir is not documentRootPath");
-            this.fileManager.backRootDir();
-            this.fileManager.autoCreateDir(DEFAULT_SAVE_DIR);
-            this.fileManager.changeDir(DEFAULT_SAVE_DIR);
-        }
-        logger.debug("addNewPageToLast", "DirInit finished");
+        this.fileManager.getNewInstance().createDirectoryIfNotExist(DEFAULT_SAVE_DIR).resolve(DEFAULT_SAVE_DIR).saveBitmap(bitmap, filename);
 
-        // Save file
-        this.fileManager.saveBitmapAtCurrent(bitmap, filename);
+        XmlMetaPageModel xmlMetaPageModel = new XmlMetaPageModel();
+        xmlMetaPageModel.setFilename(filename);
+        xmlMetaPageModel.setIndex(xmlMetaModel.getPages().size() + 1);
+        xmlMetaModel.getPages().add(xmlMetaPageModel);
 
-        // Update meta
-        XmlMetaPageModel page = new XmlMetaPageModel();
-        page.setIndex(xmlMetaModel.getPages().size() + 1);
-        page.setFilename(filename);
-        xmlMetaModel.addPage(page);
+        logger.info("addNewPageToLast", "finished");
+        logger.info("addNewPageToLast", "filename: " + filename + ", index: " + xmlMetaPageModel.getIndex());
     }
 
     @Override
-    public void addNewPagesToLast(Bitmap[] bitmaps) {
+    public void addNewPagesToLast(Bitmap[] bitmaps) throws Exception{
         logger.debug("addNewPagesToLast", "called");
 
         for (Bitmap bitmap : bitmaps) {
@@ -160,18 +149,14 @@ public class DocumentProcessorImpl implements DocumentProcessor{
     }
 
     @Override
-    public void close() {
+    public void close() throws Exception{
         logger.debug("close", "called");
-        // TODO-rca: ここでxmlファイルを保存する
-        this.fileManager.backRootDir();
-
         try {
-            this.fileManager.saveDocument(xmlMetaParser.serialize(xmlMetaModel), "meta.xml");
+            this.fileManager.getNewInstance().createFileIfNotExist("meta.xml").saveXml(xmlMetaParser.serialize(xmlMetaModel), "meta.xml");
             logger.debug("close", "meta.xml saved");
         } catch (Exception e) {
             logger.error("close", "meta.xml save failed");
             logger.trace("close", e.getMessage());
         }
-        logger.info("close", "finished");
     }
 }

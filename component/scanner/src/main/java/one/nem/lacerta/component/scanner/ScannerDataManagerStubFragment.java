@@ -169,7 +169,12 @@ public class ScannerDataManagerStubFragment extends Fragment {
             }
             this.documentProcessor = documentProcessorFactory.create(this.documentDetail);
             Toast.makeText(getActivity(), "documentProcessor created", Toast.LENGTH_LONG).show();
-            this.documentProcessor.init();
+            try {
+                this.documentProcessor.init();
+            } catch (Exception e) {
+                Toast.makeText(getActivity(), "Error occurred while initializing documentProcessor", Toast.LENGTH_LONG).show();
+                Log.e("ScannerDataManagerStubFragment", "Error occurred while initializing documentProcessor", e);
+            }
             Toast.makeText(getActivity(), "documentProcessor initialized", Toast.LENGTH_LONG).show();
         });
 
@@ -185,9 +190,21 @@ public class ScannerDataManagerStubFragment extends Fragment {
                 bitmaps[i] = results.get(i).getBitmap();
             }
 
-            this.documentProcessor.addNewPagesToLast(bitmaps);
+            try {
+                this.documentProcessor.addNewPagesToLast(bitmaps);
+            } catch (Exception e) {
+                Toast.makeText(getActivity(), "Error occurred while adding pages", Toast.LENGTH_LONG).show();
+                Log.e("ScannerDataManagerStubFragment", "Error occurred while adding pages", e);
+            }
 
-            this.documentProcessor.close();
+            Toast.makeText(getActivity(), "pages added", Toast.LENGTH_LONG).show();
+
+            try {
+                this.documentProcessor.close();
+            } catch (Exception e) {
+                Toast.makeText(getActivity(), "Error occurred while closing documentProcessor", Toast.LENGTH_LONG).show();
+                Log.e("ScannerDataManagerStubFragment", "Error occurred while closing documentProcessor", e);
+            }
         });
     }
 

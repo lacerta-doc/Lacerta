@@ -1,17 +1,14 @@
 package one.nem.lacerta.source.file.impl;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 import org.w3c.dom.Document;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -28,320 +25,340 @@ import one.nem.lacerta.utils.LacertaLogger;
 
 public class FileManagerImpl implements FileManager {
 
-    // RootDir
+    // variables
     private Path rootDir;
+    private Path path;
+    private boolean autoCreateParent = false;
+    private boolean disableRootDirCheck = false;
 
-    // CurrentDir
-    private Path currentDir;
 
-    // Internal Methods
-    private Path convertPath(String path) {
-        Path convertedPath = currentDir.resolve(path);
-        if (convertedPath.startsWith(rootDir)) { // 異常なパスの場合はnullを返す // TODO-rca: エラーハンドリング
-            return convertedPath;
+    // Injection
+    private final LacertaLogger logger;
+    @AssistedInject
+    public FileManagerImpl(LacertaLogger logger, @Assisted Path rootDir) {
+        this.logger = logger;
+        this.rootDir = rootDir;
+    }
+
+    // for generate new instance
+    public FileManagerImpl(LacertaLogger logger, Path rootDir, Path path, boolean autoCreateParent, boolean disableRootDirCheck) {
+        this.logger = logger;
+        this.rootDir = rootDir;
+        this.path = path;
+        this.autoCreateParent = autoCreateParent;
+        this.disableRootDirCheck = disableRootDirCheck;
+    }
+
+    // Internal
+    private Path resolveStringPath(String path) throws IOException{
+        String[] pathArray = path.split("/");
+        Path resolvedPath = this.path;
+        for (String pathPart : pathArray) {
+            if (pathPart.equals("..")) {
+                resolvedPath = resolvedPath.getParent();
+                continue;
+            }
+
+            try {
+                resolvedPath = resolvedPath.resolve(pathPart);
+            } catch (Exception e) {
+                throw new IOException("Invalid path: " + path);
+            }
+        }
+        logger.debug("resolveStringPath", "resolvedPath: " + resolvedPath);
+        return resolvedPath;
+    }
+
+    private FileManager newInstance(Path rootDir, Path path, boolean autoCreateParent, boolean disableRootDirCheck) {
+        logger.debug("newInstance", "Generating new instance");
+        logger.debug("newInstance", "Path: " + path);
+        return new FileManagerImpl(this.logger, rootDir, path, autoCreateParent, disableRootDirCheck);
+    }
+
+    @Override
+    public File getFileRef() {
+        if (this.isExist()) {
+            return this.path.toFile();
         } else {
             return null;
         }
     }
 
-    // Injection
-    private LacertaLogger logger;
-
-    @AssistedInject
-    public FileManagerImpl(LacertaLogger logger, @Assisted Path rootDir) {
-        this.logger = logger;
-        this.rootDir = rootDir;
-        this.currentDir = rootDir;
+    @Override
+    public boolean isExist(String name) throws IOException {
+        Path resolvedPath = this.resolveStringPath(name);
+        return Files.exists(resolvedPath);
     }
 
     @Override
-    public Path getRootDir() {
-        return rootDir;
+    public boolean isExist(){
+        return Files.exists(this.path);
     }
 
     @Override
-    public Path getCurrentDir() {
-        return currentDir;
-    }
-
-    @Override
-    public void changeDir(String dirName) {
-        this.currentDir = rootDir.resolve(dirName);
-    }
-
-    @Override
-    public void changeDir(Path path) {
-        if (path.startsWith(rootDir)) {
-            this.currentDir = path;
-        }
-        else {
-            logger.debug("changeDir", "invalid path: " + path);
-            // TODO-rca: 例外を投げる
+    public boolean isDirectory() {
+        if (this.isExist()) {
+            File file = this.path.toFile();
+            return file.isDirectory();
+        } else {
+            return false;
         }
     }
 
     @Override
-    public void backDir() {
-        this.currentDir = currentDir.getParent();
+    public boolean isFile() {
+        if (this.isExist()) {
+            File file = this.path.toFile();
+            return file.isFile();
+        } else {
+            return false;
+        }
     }
 
     @Override
-    public void backRootDir() {
-        this.currentDir = rootDir;
+    public boolean isReadable() {
+        if (this.isExist()) {
+            File file = this.path.toFile();
+            return file.canRead();
+        } else {
+            return false;
+        }
     }
 
     @Override
-    public List<Path> getList() {
-        List<Path> list = new ArrayList<>();
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(currentDir)) {
-            for (Path entry : stream) { // TODO-rca: エラーハンドリング, 効率化
-                list.add(entry);
+    public boolean isWritable() {
+        if (this.isExist()) {
+            File file = this.path.toFile();
+            return file.canWrite();
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public FileManager getCurrentInstance() {
+        return this;
+    }
+
+    @Override
+    public FileManager getNewInstance() {
+        return this.newInstance(this.rootDir, this.rootDir, this.autoCreateParent, this.disableRootDirCheck);
+    }
+
+    @Override
+    public FileManager enableAutoCreateParent() {
+        this.autoCreateParent = true;
+        return this;
+    }
+
+    @Override
+    public FileManager disableRootDirCheck() {
+        this.disableRootDirCheck = true;
+        return this;
+    }
+
+    @Override
+    public FileManager setRootDir(Path rootDir) {
+        return this.newInstance(rootDir, this.path, this.autoCreateParent, this.disableRootDirCheck);
+    }
+
+    @Override
+    public FileManager setPath(Path path) {
+        Path resolvedPath;
+        if (this.disableRootDirCheck) {
+            resolvedPath = path;
+        } else {
+            if (path.startsWith(this.rootDir)) {
+                resolvedPath = path;
+            } else {
+                throw new IllegalArgumentException("path must be in rootDir");
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-        return list;
+        logger.debug("setPath", "resolvedPath: " + resolvedPath);
+        return this.newInstance(this.rootDir, resolvedPath, this.autoCreateParent, this.disableRootDirCheck);
     }
 
     @Override
-    public void createDir(String dirName) {
-        //ディレクトリ作成
-        logger.debug("createDir", "called");
-
-        Path path = currentDir.resolve(dirName);
-        logger.debug("createDir", "path: " + path);
+    public FileManager resolve(String path) throws IOException{
+        Path resolvedPath;
         try {
-            Files.createDirectory(path);
+            resolvedPath = resolveStringPath(path);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("resolve", e.getMessage());
+            throw new IOException("Invalid path: " + path);
         }
+        return this.setPath(resolvedPath);
     }
 
-    @Override
-    public void createDir(Path path) {
-        logger.debug("createDir", "called");
+    // Internal
+    private void createFileInternal(Path path) throws IOException {
         try {
+            if (this.autoCreateParent) {
+                if (!path.getParent().toFile().exists()) {
+                    Files.createDirectories(path.getParent());
+                }
+            }
+            Files.createFile(path);
+        } catch (Exception e) {
+            logger.error("createFileInternal", e.getMessage());
+            throw new IOException("Failed to create file");
+        }
+    }
+
+    @Override
+    public FileManager createFile() throws IOException {
+        this.createFileInternal(this.path);
+        return this;
+    }
+
+    @Override
+    public FileManager createFile(String fileName) throws IOException { // pathが書き換わってしまうのは想像できない挙動かも？
+        this.createFileInternal(this.resolveStringPath(fileName));
+        return this;
+    }
+
+    @Override
+    public FileManager createFileIfNotExist() throws IOException {
+        if (!this.isExist()) {
+            this.createFile();
+        }
+        return this;
+    }
+
+    @Override
+    public FileManager createFileIfNotExist(String fileName) throws IOException {
+        if (!this.isExist(fileName)) {
+            this.createFile(fileName);
+        }
+        return this;
+    }
+
+    // Internal
+    private void createDirectoryInternal(Path path) throws IOException {
+        try {
+            if (this.autoCreateParent) {
+                if (!path.getParent().toFile().exists()) {
+                    Files.createDirectories(path.getParent());
+                }
+            }
             Files.createDirectory(path);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            logger.error("createDirectoryInternal", e.getMessage());
+            throw new IOException("Failed to create directory");
         }
     }
 
     @Override
-    public void removeDir(String dirName) {
-        logger.debug("removeDir", "called");
-        currentDir.resolve(dirName).toFile().delete(); // TODO-rca: エラーハンドリング
+    public FileManager createDirectory() throws IOException {
+        this.createDirectoryInternal(this.path);
+        return this;
     }
 
     @Override
-    public void removeDir(Path path) {
-        logger.debug("removeDir", "called");
-        path.toFile().delete(); // TODO-rca: エラーハンドリング
-    }
-
-
-    @Override
-    public File createFile(String fileName) {
-        logger.debug("createFile", "called");
-        return currentDir.resolve(fileName).toFile();
+    public FileManager createDirectory(String directoryName) throws IOException {
+        this.createDirectoryInternal(this.resolveStringPath(directoryName));
+        return this;
     }
 
     @Override
-    public void removeFile(String fileName) {
-        logger.debug("removeFile", "called");
-        currentDir.resolve(fileName).toFile().delete(); // TODO-rca: エラーハンドリング
-    }
-
-    @Override
-    public File getFile(String fileName) {
-        logger.debug("getFile", "called");
-        return currentDir.resolve(fileName).toFile();
-    }
-
-    @Override
-    public File getFile(Path path) {
-        logger.debug("getFile", "called");
-        return path.toFile();
-    }
-
-    @Override
-    public String loadText(String fileName) { // TODO-rca: 統合
-        try(FileInputStream fileInputStream = new FileInputStream(currentDir.resolve(fileName).toFile())) {
-            byte[] bytes = new byte[fileInputStream.available()];
-            fileInputStream.read(bytes); // TODO-rca: エラーハンドリング
-            return new String(bytes);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
+    public FileManager createDirectoryIfNotExist() throws IOException {
+        if (!this.isExist()) {
+            this.createDirectory();
         }
+        return this;
     }
 
     @Override
-    public String loadText(Path path) {
-        try(FileInputStream fileInputStream = new FileInputStream(path.toFile())) {
-            byte[] bytes = new byte[fileInputStream.available()];
-            fileInputStream.read(bytes); // TODO-rca: エラーハンドリング
-            return new String(bytes);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
+    public FileManager createDirectoryIfNotExist(String directoryName) throws IOException {
+        if (!this.isExist(directoryName)) {
+            this.createDirectory(directoryName);
         }
+        return this;
     }
 
-    @Override
-    public void saveText(String text, String fileName) { // TODO-rca: リファクタリング // TODO-rca: 統合
-        if (isExist(fileName)) {
-            logger.debug("saveText", "file already exists");
-            // Overwrite
-            try {
-                Files.write(currentDir.resolve(fileName), text.getBytes());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        else {
-            try {
-                Files.createFile(currentDir.resolve(fileName));
-                Files.write(currentDir.resolve(fileName), text.getBytes());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-    }
-
-    @Override
-    public void saveText(String text, Path path) {
-        if (isExist(path)) {
-            logger.debug("saveText", "file already exists");
-            // Overwrite
-            try {
-                Files.write(path, text.getBytes());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        else {
-            try {
-                Files.createFile(path);
-                Files.write(path, text.getBytes());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    @Override
-    public void saveDocument(Document document, String fileName) {
+    // Internal
+    private void saveXmlInternal(Document document, Path path) throws IOException {
         try {
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(document);
-            File file = createFile(fileName);
-            StreamResult result = new StreamResult(file);
+
+            StreamResult result = new StreamResult(path.toFile());
+
             transformer.transform(source, result);
         } catch (Exception e) {
+            logger.error("saveXmlInternal", e.getMessage());
             e.printStackTrace();
+            throw new IOException("Failed to save xml");
+        }
+    }
+    private void saveBitmapInternal(Bitmap bitmap, Path path) throws IOException {
+        try {
+            logger.debug("saveBitmapInternal", "path: " + path);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, Files.newOutputStream(path));
+        } catch (Exception e) {
+            logger.error("saveBitmapInternal", e.getMessage());
+            throw new IOException("Failed to save bitmap");
         }
     }
 
     @Override
-    public void saveDocument(Document document, Path path) {
-        // TODO-rca 実装する
+    public void saveXml(Document document, String fileName) throws IOException {
+        this.saveXmlInternal(document, this.resolveStringPath(fileName));
     }
 
     @Override
-    public Document loadDocument(String fileName) {
+    public void saveXml(Document document) throws IOException {
+        this.saveXmlInternal(document, this.path);
+    }
+
+    @Override
+    public void saveBitmap(Bitmap bitmap, String fileName) throws IOException {
+        this.saveBitmapInternal(bitmap, this.resolveStringPath(fileName));
+    }
+
+    @Override
+    public void saveBitmap(Bitmap bitmap) throws IOException {
+        this.saveBitmapInternal(bitmap, this.path);
+    }
+
+    // Internal
+    private Document loadXmlInternal(Path path) throws IOException {
         try {
-            File file = getFile(fileName);
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
-            Document document = builder.parse(file);
-            return document;
+            return builder.parse(Files.newInputStream(path));
         } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+            logger.error("loadXmlInternal", e.getMessage());
+            throw new IOException("Failed to load xml");
         }
     }
-
-    @Override
-    public Document loadDocument(Path path) {
-        // TODO-rca 実装する
-        return null;
-    }
-
-    @Override
-    public boolean isExist(Path path) {
-        logger.debug("isExist", "called");
-        return Files.exists(path);
-    }
-
-    @Override
-    public boolean isExist(String fileName) {
-        logger.debug("isExist", "called");
-        return Files.exists(currentDir.resolve(fileName));
-    }
-
-    @Override
-    public void autoCreateDir(Path path) {
-        logger.debug("autoCreateDir", "called");
-        if (!Files.exists(path)) {
-            try {
-                Files.createDirectories(path);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    @Override
-    public void autoCreateDir(String dirName) {
-        logger.debug("autoCreateDir", "called");
-        if (!Files.exists(currentDir.resolve(dirName))) {
-            try {
-                Files.createDirectories(currentDir.resolve(dirName));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    @Override
-    public void autoCreateToCurrentDir() {
-        logger.debug("autoGenerateToCurrentDir", "called");
-        if (isExist(currentDir)) {
-            logger.debug("autoGenerateToCurrentDir", "currentDir already exists");
-            return;
-        }
-        else {
-            try {
-                Files.createDirectories(currentDir);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-
-    @Override
-    public void saveBitmapAtCurrent(Bitmap bitmap, String fileName) { // TODO-rca: ファイル形式を変更できるようにする？
-        logger.debug("saveBitmapAtCurrent", "called");
+    private Bitmap loadBitmapInternal(Path path) throws IOException {
         try {
-            File file = currentDir.resolve(fileName).toFile();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, Files.newOutputStream(file.toPath()));
-        } catch (IOException e) {
-            e.printStackTrace();
+            return BitmapFactory.decodeFile(path.toString());
+        } catch (Exception e) {
+            logger.error("loadBitmapInternal", e.getMessage());
+            throw new IOException("Failed to load bitmap");
         }
     }
 
     @Override
-    public Bitmap loadBitmap(Path path) {
-        return null;
+    public Document loadXml(String fileName) throws IOException {
+        return this.loadXmlInternal(this.resolveStringPath(fileName));
     }
 
     @Override
-    public void removeBitmap(Path path) {
-
+    public Document loadXml() throws IOException {
+        return this.loadXmlInternal(this.path);
     }
 
+    @Override
+    public Bitmap loadBitmap(String fileName) throws IOException {
+        return this.loadBitmapInternal(this.resolveStringPath(fileName));
+    }
+
+    @Override
+    public Bitmap loadBitmap() throws IOException {
+        return this.loadBitmapInternal(this.path);
+    }
 }
