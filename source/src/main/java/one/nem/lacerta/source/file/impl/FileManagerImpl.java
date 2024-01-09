@@ -32,6 +32,7 @@ public class FileManagerImpl implements FileManager {
     // variables
     private Path rootDir;
     private Path path;
+    private boolean autoCreate = false;
 
 
     // Injection
@@ -96,6 +97,11 @@ public class FileManagerImpl implements FileManager {
 
     @Override
     public Document readXml() {
+        return null;
+    }
+
+    @Override
+    public FileManager enableAutoCreate() {
         return null;
     }
 

@@ -20,6 +20,9 @@ public interface FileManager {
     boolean isReadable();
     Document readXml();
 
+    // Configure
+    FileManager enableAutoCreate();
+
     FileManager setRootDir(Path rootDir);
     FileManager setPath(Path path);
     FileManager setPath(String path);
