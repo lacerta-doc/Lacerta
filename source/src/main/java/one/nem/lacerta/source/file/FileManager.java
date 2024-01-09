@@ -23,6 +23,7 @@ public interface FileManager {
     boolean isReadable();
     // Get current instance
     FileManager getCurrentInstance();
+    FileManager getNewInstance();
 
     // Configure
     FileManager enableAutoCreateParent();

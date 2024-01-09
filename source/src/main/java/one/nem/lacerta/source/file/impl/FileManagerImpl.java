@@ -140,6 +140,11 @@ public class FileManagerImpl implements FileManager {
     }
 
     @Override
+    public FileManager getNewInstance() {
+        return this.newInstance(this.rootDir, this.rootDir, this.autoCreateParent, this.disableRootDirCheck);
+    }
+
+    @Override
     public FileManager enableAutoCreateParent() {
         this.autoCreateParent = true;
         return this;
