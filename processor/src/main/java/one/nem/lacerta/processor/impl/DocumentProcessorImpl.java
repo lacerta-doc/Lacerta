@@ -50,74 +50,74 @@ public class DocumentProcessorImpl implements DocumentProcessor{
 
     @Override
     public void init() {
-//        logger.debug("init", "called");
-//        // Init Variables
-//        this.documentRootPath = this.documentDetail.getPath().getFullPath();
-//        logger.debug("init", "documentRootPath: " + this.documentRootPath);
-//
-//        this.fileManager = fileManagerFactory.create(this.documentRootPath); //Initialize FileManager
-//        logger.debug("init", "fileManager created");
-//
-//        this.fileManager.autoCreateDir(this.documentRootPath);
-//
-//        // rawディレクトリInit
-//        this.fileManager.autoCreateDir(DEFAULT_SAVE_DIR);
-//
-//        // xmlファイルの読み込み
-//        if (fileManager.isExist("meta.xml")) {
-//            logger.debug("init", "meta.xml found");
-//            try {
-//                xmlMetaModel = xmlMetaParser.deserialize(this.fileManager.loadDocument("meta.xml"));
-//            } catch (Exception e) {
-//                logger.debug("init", "meta.xml parse failed");
-//                logger.trace("init", e.getMessage());
-//            }
-//        } else {
-//            logger.debug("init", "meta.xml not found");
-//            xmlMetaModel = new XmlMetaModel();
-//
-//            xmlMetaModel.setTitle(this.documentDetail.getMeta().getTitle());
-//            xmlMetaModel.setAuthor(this.documentDetail.getAuthor());
-//            xmlMetaModel.setDescription(""); // FIXME-rca:
-//            xmlMetaModel.setDefaultBranch(this.documentDetail.getDefaultBranch());
-//            xmlMetaModel.setPages(new ArrayList<>());
-//
-//            try {
-//                this.fileManager.saveDocument(xmlMetaParser.serialize(xmlMetaModel), "meta.xml");
-//                logger.debug("init", "meta.xml saved");
-//            } catch (Exception e) {
-//                logger.error("init", "meta.xml save failed");
-//                logger.trace("init", e.getMessage());
-//            }
-//        }
-//
-//        logger.info("init", "finished");
+        logger.debug("init", "called");
+        // Init Variables
+        this.documentRootPath = this.documentDetail.getPath().getFullPath();
+        logger.debug("init", "documentRootPath: " + this.documentRootPath);
+
+        this.fileManager = fileManagerFactory.create(this.documentRootPath); //Initialize FileManager
+        logger.debug("init", "fileManager created");
+
+        this.fileManager.autoCreateDir(this.documentRootPath);
+
+        // rawディレクトリInit
+        this.fileManager.autoCreateDir(DEFAULT_SAVE_DIR);
+
+        // xmlファイルの読み込み
+        if (fileManager.isExist("meta.xml")) {
+            logger.debug("init", "meta.xml found");
+            try {
+                xmlMetaModel = xmlMetaParser.deserialize(this.fileManager.loadDocument("meta.xml"));
+            } catch (Exception e) {
+                logger.debug("init", "meta.xml parse failed");
+                logger.trace("init", e.getMessage());
+            }
+        } else {
+            logger.debug("init", "meta.xml not found");
+            xmlMetaModel = new XmlMetaModel();
+
+            xmlMetaModel.setTitle(this.documentDetail.getMeta().getTitle());
+            xmlMetaModel.setAuthor(this.documentDetail.getAuthor());
+            xmlMetaModel.setDescription(""); // FIXME-rca:
+            xmlMetaModel.setDefaultBranch(this.documentDetail.getDefaultBranch());
+            xmlMetaModel.setPages(new ArrayList<>());
+
+            try {
+                this.fileManager.saveDocument(xmlMetaParser.serialize(xmlMetaModel), "meta.xml");
+                logger.debug("init", "meta.xml saved");
+            } catch (Exception e) {
+                logger.error("init", "meta.xml save failed");
+                logger.trace("init", e.getMessage());
+            }
+        }
+
+        logger.info("init", "finished");
     }
 
     @Override
     public void addNewPageToLast(Bitmap bitmap) {
-//        logger.debug("addNewPageToLast", "called");
-//        String filename = UUID.randomUUID().toString() + ".png"; // TODO-rca: 拡張子を動的にする
-//
-//        // FileManager
-//        if (this.fileManager.getCurrentDir().equals(this.documentRootPath.resolve(DEFAULT_SAVE_DIR))) { // TODO-rca: 効率化
-//            logger.debug("addNewPageToLast", "currentDir is documentRootPath");
-//        } else {
-//            logger.debug("addNewPageToLast", "currentDir is not documentRootPath");
-//            this.fileManager.backRootDir();
-//            this.fileManager.autoCreateDir(DEFAULT_SAVE_DIR);
-//            this.fileManager.changeDir(DEFAULT_SAVE_DIR);
-//        }
-//        logger.debug("addNewPageToLast", "DirInit finished");
-//
-//        // Save file
-//        this.fileManager.saveBitmapAtCurrent(bitmap, filename);
-//
-//        // Update meta
-//        XmlMetaPageModel page = new XmlMetaPageModel();
-//        page.setIndex(xmlMetaModel.getPages().size() + 1);
-//        page.setFilename(filename);
-//        xmlMetaModel.addPage(page);
+        logger.debug("addNewPageToLast", "called");
+        String filename = UUID.randomUUID().toString() + ".png"; // TODO-rca: 拡張子を動的にする
+
+        // FileManager
+        if (this.fileManager.getCurrentDir().equals(this.documentRootPath.resolve(DEFAULT_SAVE_DIR))) { // TODO-rca: 効率化
+            logger.debug("addNewPageToLast", "currentDir is documentRootPath");
+        } else {
+            logger.debug("addNewPageToLast", "currentDir is not documentRootPath");
+            this.fileManager.backRootDir();
+            this.fileManager.autoCreateDir(DEFAULT_SAVE_DIR);
+            this.fileManager.changeDir(DEFAULT_SAVE_DIR);
+        }
+        logger.debug("addNewPageToLast", "DirInit finished");
+
+        // Save file
+        this.fileManager.saveBitmapAtCurrent(bitmap, filename);
+
+        // Update meta
+        XmlMetaPageModel page = new XmlMetaPageModel();
+        page.setIndex(xmlMetaModel.getPages().size() + 1);
+        page.setFilename(filename);
+        xmlMetaModel.addPage(page);
     }
 
     @Override
