@@ -88,14 +88,22 @@ public class FileManagerImpl implements FileManager {
 
     @Override
     public boolean isReadable() {
-        File file = this.path.toFile();
-        return file.canRead();
+        if (this.isExist()) {
+            File file = this.path.toFile();
+            return file.canRead();
+        } else {
+            return false;
+        }
     }
 
     @Override
     public boolean isWritable() {
-        File file = this.path.toFile();
-        return file.canWrite();
+        if (this.isExist()) {
+            File file = this.path.toFile();
+            return file.canWrite();
+        } else {
+            return false;
+        }
     }
 
     @Override
