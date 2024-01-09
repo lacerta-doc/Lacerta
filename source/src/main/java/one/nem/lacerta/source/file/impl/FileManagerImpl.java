@@ -34,19 +34,11 @@ public class FileManagerImpl implements FileManager {
 
     // Injection
     private final LacertaLogger logger;
+
     @AssistedInject
     public FileManagerImpl(LacertaLogger logger, @Assisted Path rootDir) {
         this.logger = logger;
         this.rootDir = rootDir;
-    }
-
-    // for generate new instance
-    public FileManagerImpl(LacertaLogger logger, Path rootDir, Path path, boolean autoCreateParent, boolean disableRootDirCheck) {
-        this.logger = logger;
-        this.rootDir = rootDir;
-        this.path = path;
-        this.autoCreateParent = autoCreateParent;
-        this.disableRootDirCheck = disableRootDirCheck;
     }
 
     // Internal
@@ -67,11 +59,6 @@ public class FileManagerImpl implements FileManager {
         }
         logger.debug("resolveStringPath", "resolvedPath: " + resolvedPath);
         return resolvedPath;
-    }
-
-    private FileManager newInstance(Path rootDir, Path path, boolean autoCreateParent, boolean disableRootDirCheck) {
-        logger.debug("newInstance", "Generating new instance");
-        return new FileManagerImpl(this.logger, rootDir, path, autoCreateParent, disableRootDirCheck);
     }
 
     @Override
