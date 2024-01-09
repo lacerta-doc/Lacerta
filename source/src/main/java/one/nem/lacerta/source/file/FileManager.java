@@ -22,7 +22,7 @@ public interface FileManager {
     Document readXml();
 
     // Configure
-    FileManager enableAutoCreate();
+    FileManager enableAutoCreateParent();
     FileManager disableRootDirCheck();
 
     FileManager setRootDir(Path rootDir);

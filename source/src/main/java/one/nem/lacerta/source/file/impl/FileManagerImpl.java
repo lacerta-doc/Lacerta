@@ -32,7 +32,7 @@ public class FileManagerImpl implements FileManager {
     // variables
     private Path rootDir;
     private Path path;
-    private boolean autoCreate = false;
+    private boolean autoCreateParent = false;
     private boolean disableRootDirCheck = false;
 
 
@@ -101,8 +101,8 @@ public class FileManagerImpl implements FileManager {
     }
 
     @Override
-    public FileManager enableAutoCreate() {
-        this.autoCreate = true;
+    public FileManager enableAutoCreateParent() {
+        this.autoCreateParent = true;
         return this;
     }
 
