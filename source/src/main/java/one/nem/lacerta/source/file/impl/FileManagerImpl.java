@@ -171,14 +171,13 @@ public class FileManagerImpl implements FileManager {
     }
 
     // Internal
-    private void saveXmlInternal(Document document, String fileName) throws IOException {
+    private void saveXmlInternal(Document document) throws IOException {
         try {
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(document);
 
-            File file = this.path.resolve(fileName).toFile();
-            StreamResult result = new StreamResult(file);
+            StreamResult result = new StreamResult(this.path.toFile());
 
             transformer.transform(source, result);
         } catch (Exception e) {
