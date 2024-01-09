@@ -7,6 +7,7 @@ import org.w3c.dom.Document;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.DirectoryIteratorException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -28,13 +29,90 @@ import one.nem.lacerta.utils.LacertaLogger;
 
 public class FileManagerImpl implements FileManager {
 
+    // variables
+    private Path rootDir;
+    private Path path;
+
+
     // Injection
     private LacertaLogger logger;
 
     @AssistedInject
     public FileManagerImpl(LacertaLogger logger, @Assisted Path rootDir) {
         this.logger = logger;
+        this.rootDir = rootDir;
+    }
+
+    // Internal
+    private Path resolveStringPath(String path) throws IOException{
+        String[] pathArray = path.split("/");
+        Path resolvedPath = this.rootDir;
+        for (String pathPart : pathArray) {
+            if (pathPart.equals("..")) {
+                resolvedPath = resolvedPath.getParent();
+                continue;
+            }
+
+            try {
+                resolvedPath = resolvedPath.resolve(pathPart);
+            } catch (Exception e) {
+                throw new IOException("Invalid path: " + path);
+                return null;
+            }
+        }
+        logger.debug("resolveStringPath", "resolvedPath: " + resolvedPath);
+        return resolvedPath;
     }
 
 
+    @Override
+    public File getFileRef() {
+        return null;
+    }
+
+    @Override
+    public boolean isExist() {
+        return false;
+    }
+
+    @Override
+    public boolean isDirectory() {
+        return false;
+    }
+
+    @Override
+    public boolean isFile() {
+        return false;
+    }
+
+    @Override
+    public boolean isWritable() {
+        return false;
+    }
+
+    @Override
+    public boolean isReadable() {
+        return false;
+    }
+
+    @Override
+    public Document readXml() {
+        return null;
+    }
+
+    @Override
+    public FileManager setRootDir(Path rootDir) {
+        this.rootDir = rootDir;
+        return this;
+    }
+
+    @Override
+    public FileManager setPath(Path path) {
+        return null;
+    }
+
+    @Override
+    public FileManager setPath(String path) {
+        return null;
+    }
 }
