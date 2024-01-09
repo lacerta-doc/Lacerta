@@ -102,12 +102,14 @@ public class FileManagerImpl implements FileManager {
 
     @Override
     public FileManager enableAutoCreate() {
-        return null;
+        this.autoCreate = true;
+        return this;
     }
 
     @Override
     public FileManager disableRootDirCheck() {
-        return null;
+        this.disableRootDirCheck = true;
+        return this;
     }
 
     @Override
