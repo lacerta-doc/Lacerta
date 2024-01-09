@@ -118,6 +118,19 @@ public class DocumentProcessorImpl implements DocumentProcessor{
         } // TODO-rca: 効率悪いので改善する
     }
 
+    // Internal
+    // Indexを振り直す
+    private ArrayList<XmlMetaPageModel> reIndexPages(ArrayList<XmlMetaPageModel> pages) {
+        logger.debug("reIndexPages", "called"); // TODO-rca: 効率化
+        ArrayList<XmlMetaPageModel> newPages = new ArrayList<>();
+        for (int i = 0; i < pages.size(); i++) {
+            XmlMetaPageModel xmlMetaPageModel = pages.get(i);
+            xmlMetaPageModel.setIndex(i + 1);
+            newPages.add(xmlMetaPageModel);
+        }
+        return newPages;
+    }
+
     @Override
     public void addNewPageAfterIndex(Bitmap bitmap, int index) throws Exception {
         logger.debug("addNewPageAfterIndex", "called");
@@ -129,7 +142,7 @@ public class DocumentProcessorImpl implements DocumentProcessor{
         xmlMetaPageModel.setFilename(filename);
         xmlMetaPageModel.setIndex(index + 1);
         xmlMetaModel.getPages().add(index, xmlMetaPageModel);
-
+        xmlMetaModel.setPages(reIndexPages(xmlMetaModel.getPages()));
 
     }
 
