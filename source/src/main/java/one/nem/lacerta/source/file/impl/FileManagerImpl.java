@@ -122,6 +122,11 @@ public class FileManagerImpl implements FileManager {
     }
 
     @Override
+    public FileManager getCurrentInstance() {
+        return null;
+    }
+
+    @Override
     public FileManager enableAutoCreateParent() {
         this.autoCreateParent = true;
         return this;
@@ -163,5 +168,45 @@ public class FileManagerImpl implements FileManager {
             throw new IOException("Invalid path: " + path);
         }
         return this.setPath(resolvedPath);
+    }
+
+    @Override
+    public FileManager saveXml(Document document, String fileName) throws IOException {
+        return null;
+    }
+
+    @Override
+    public FileManager saveXml(Document document) throws IOException {
+        return null;
+    }
+
+    @Override
+    public FileManager saveBitmap(Bitmap bitmap, String fileName) throws IOException {
+        return null;
+    }
+
+    @Override
+    public FileManager saveBitmap(Bitmap bitmap) throws IOException {
+        return null;
+    }
+
+    @Override
+    public Document loadXml(String fileName) throws IOException {
+        return null;
+    }
+
+    @Override
+    public Document loadXml() throws IOException {
+        return null;
+    }
+
+    @Override
+    public Bitmap loadBitmap(String fileName) throws IOException {
+        return null;
+    }
+
+    @Override
+    public Bitmap loadBitmap() throws IOException {
+        return null;
     }
 }
