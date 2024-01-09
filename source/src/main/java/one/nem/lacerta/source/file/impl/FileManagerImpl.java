@@ -216,7 +216,7 @@ public class FileManagerImpl implements FileManager {
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
-            return builder.parse(Files.newInputStream(this.path.toFile().toPath()));
+            return builder.parse(Files.newInputStream(this.path));
         } catch (Exception e) {
             logger.error("loadXmlInternal", e.getMessage());
             throw new IOException("Failed to load xml");
