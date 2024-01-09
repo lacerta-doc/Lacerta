@@ -107,6 +107,11 @@ public class FileManagerImpl implements FileManager {
     }
 
     @Override
+    public FileManager disableRootDirCheck() {
+        return null;
+    }
+
+    @Override
     public FileManager setRootDir(Path rootDir) {
         this.rootDir = rootDir;
         return this;
