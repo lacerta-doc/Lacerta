@@ -165,6 +165,26 @@ public class FileManagerImpl implements FileManager {
         return this.setPath(resolvedPath);
     }
 
+    @Override
+    public FileManager createFile() throws IOException {
+        return null;
+    }
+
+    @Override
+    public FileManager createFile(String fileName) throws IOException {
+        return null;
+    }
+
+    @Override
+    public FileManager createDirectory() throws IOException {
+        return null;
+    }
+
+    @Override
+    public FileManager createDirectory(String directoryName) throws IOException {
+        return null;
+    }
+
     // Internal
     private void saveXmlInternal(Document document) throws IOException {
         try {
