@@ -131,12 +131,13 @@ public class FileManagerImpl implements FileManager {
     }
 
     @Override
-    public FileManager resolve(String path) {
+    public FileManager resolve(String path) throws IOException{
         try {
             this.path = resolveStringPath(path);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("resolve", e.getMessage());
+            throw new IOException("Invalid path: " + path);
         }
+        return this;
     }
-
 }

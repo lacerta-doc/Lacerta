@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import org.w3c.dom.Document;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -26,5 +27,5 @@ public interface FileManager {
 
     FileManager setRootDir(Path rootDir);
     FileManager setPath(Path path);
-    FileManager resolve(String path);
+    FileManager resolve(String path) throws IOException;
 }
