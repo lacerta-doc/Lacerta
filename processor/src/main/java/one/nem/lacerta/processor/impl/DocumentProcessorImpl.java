@@ -152,7 +152,7 @@ public class DocumentProcessorImpl implements DocumentProcessor{
     public void close() throws Exception{
         logger.debug("close", "called");
         try {
-            this.fileManager.createFileIfNotExist("meta.xml").saveXml(xmlMetaParser.serialize(xmlMetaModel), "meta.xml");
+            this.fileManager.getNewInstance().createFileIfNotExist("meta.xml").saveXml(xmlMetaParser.serialize(xmlMetaModel), "meta.xml");
             logger.debug("close", "meta.xml saved");
         } catch (Exception e) {
             logger.error("close", "meta.xml save failed");
