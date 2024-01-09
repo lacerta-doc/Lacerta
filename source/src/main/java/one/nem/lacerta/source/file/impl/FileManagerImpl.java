@@ -210,12 +210,16 @@ public class FileManagerImpl implements FileManager {
 
     @Override
     public FileManager createDirectoryIfNotExist() throws IOException {
-        return null;
+        if (!this.isExist()) {
+            this.createDirectory();
+        }
+        return this;
     }
 
     @Override
     public FileManager createDirectoryIfNotExist(String directoryName) throws IOException {
-        return null;
+        this.resolve(directoryName);
+        return this.createDirectoryIfNotExist();
     }
 
     // Internal
