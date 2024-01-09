@@ -183,26 +183,31 @@ public class FileManagerImpl implements FileManager {
         return this.setPath(resolvedPath);
     }
 
-    @Override
-    public FileManager createFile() throws IOException {
+    // Internal
+    private void createFileInternal(Path path) throws IOException {
         try {
             if (this.autoCreateParent) {
-                if (!this.path.getParent().toFile().exists()) {
-                    Files.createDirectories(this.path.getParent());
+                if (!path.getParent().toFile().exists()) {
+                    Files.createDirectories(path.getParent());
                 }
             }
-            Files.createFile(this.path);
+            Files.createFile(path);
         } catch (Exception e) {
-            logger.error("createFile", e.getMessage());
+            logger.error("createFileInternal", e.getMessage());
             throw new IOException("Failed to create file");
         }
+    }
+
+    @Override
+    public FileManager createFile() throws IOException {
+        this.createFileInternal(this.path);
         return this;
     }
 
     @Override
     public FileManager createFile(String fileName) throws IOException { // pathが書き換わってしまうのは想像できない挙動かも？
-        this.resolve(fileName);
-        return this.createFile();
+        this.createFileInternal(this.resolveStringPath(fileName));
+        return this;
     }
 
     @Override
@@ -215,29 +220,37 @@ public class FileManagerImpl implements FileManager {
 
     @Override
     public FileManager createFileIfNotExist(String fileName) throws IOException {
-        this.resolve(fileName);
-        return this.createFileIfNotExist();
+        if (!this.isExist(fileName)) {
+            this.createFile(fileName);
+        }
+        return this;
+    }
+
+    // Internal
+    private void createDirectoryInternal(Path path) throws IOException {
+        try {
+            if (this.autoCreateParent) {
+                if (!path.getParent().toFile().exists()) {
+                    Files.createDirectories(path.getParent());
+                }
+            }
+            Files.createDirectory(path);
+        } catch (Exception e) {
+            logger.error("createDirectoryInternal", e.getMessage());
+            throw new IOException("Failed to create directory");
+        }
     }
 
     @Override
     public FileManager createDirectory() throws IOException {
-        try {
-            if (this.autoCreateParent) { // configとして管理する必要はないかも？
-                Files.createDirectories(this.path);
-            } else {
-                Files.createDirectory(this.path);
-            }
-        } catch (Exception e) {
-            logger.error("createDirectory", e.getMessage());
-            throw new IOException("Failed to create directory");
-        }
+        this.createDirectoryInternal(this.path);
         return this;
     }
 
     @Override
     public FileManager createDirectory(String directoryName) throws IOException {
-        this.resolve(directoryName);
-        return this.createDirectory();
+        this.createDirectoryInternal(this.resolveStringPath(directoryName));
+        return this;
     }
 
     @Override
@@ -250,18 +263,20 @@ public class FileManagerImpl implements FileManager {
 
     @Override
     public FileManager createDirectoryIfNotExist(String directoryName) throws IOException {
-        this.resolve(directoryName);
-        return this.createDirectoryIfNotExist();
+        if (!this.isExist(directoryName)) {
+            this.createDirectory(directoryName);
+        }
+        return this;
     }
 
     // Internal
-    private void saveXmlInternal(Document document) throws IOException {
+    private void saveXmlInternal(Document document, Path path) throws IOException {
         try {
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(document);
 
-            StreamResult result = new StreamResult(this.path.toFile());
+            StreamResult result = new StreamResult(path.toFile());
 
             transformer.transform(source, result);
         } catch (Exception e) {
@@ -270,9 +285,9 @@ public class FileManagerImpl implements FileManager {
             throw new IOException("Failed to save xml");
         }
     }
-    private void saveBitmapInternal(Bitmap bitmap) throws IOException {
+    private void saveBitmapInternal(Bitmap bitmap, Path path) throws IOException {
         try {
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, Files.newOutputStream(this.path));
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, Files.newOutputStream(path));
         } catch (Exception e) {
             logger.error("saveBitmapInternal", e.getMessage());
             throw new IOException("Failed to save bitmap");
@@ -281,40 +296,38 @@ public class FileManagerImpl implements FileManager {
 
     @Override
     public void saveXml(Document document, String fileName) throws IOException {
-        this.resolve(fileName);
-        this.saveXmlInternal(document);
+        this.saveXmlInternal(document, this.resolveStringPath(fileName));
     }
 
     @Override
     public void saveXml(Document document) throws IOException {
-        this.saveXmlInternal(document);
+        this.saveXmlInternal(document, this.path);
     }
 
     @Override
     public void saveBitmap(Bitmap bitmap, String fileName) throws IOException {
-        this.resolve(fileName);
-        this.saveBitmapInternal(bitmap);
+        this.saveBitmapInternal(bitmap, this.resolveStringPath(fileName));
     }
 
     @Override
     public void saveBitmap(Bitmap bitmap) throws IOException {
-        this.saveBitmapInternal(bitmap);
+        this.saveBitmapInternal(bitmap, this.path);
     }
 
     // Internal
-    private Document loadXmlInternal() throws IOException {
+    private Document loadXmlInternal(Path path) throws IOException {
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
-            return builder.parse(Files.newInputStream(this.path));
+            return builder.parse(Files.newInputStream(path));
         } catch (Exception e) {
             logger.error("loadXmlInternal", e.getMessage());
             throw new IOException("Failed to load xml");
         }
     }
-    private Bitmap loadBitmapInternal() throws IOException {
+    private Bitmap loadBitmapInternal(Path path) throws IOException {
         try {
-            return BitmapFactory.decodeFile(this.path.toString());
+            return BitmapFactory.decodeFile(path.toString());
         } catch (Exception e) {
             logger.error("loadBitmapInternal", e.getMessage());
             throw new IOException("Failed to load bitmap");
@@ -323,23 +336,21 @@ public class FileManagerImpl implements FileManager {
 
     @Override
     public Document loadXml(String fileName) throws IOException {
-        this.resolve(fileName);
-        return this.loadXmlInternal();
+        return this.loadXmlInternal(this.resolveStringPath(fileName));
     }
 
     @Override
     public Document loadXml() throws IOException {
-        return this.loadXmlInternal();
+        return this.loadXmlInternal(this.path);
     }
 
     @Override
     public Bitmap loadBitmap(String fileName) throws IOException {
-        this.resolve(fileName);
-        return this.loadBitmapInternal();
+        return this.loadBitmapInternal(this.resolveStringPath(fileName));
     }
 
     @Override
     public Bitmap loadBitmap() throws IOException {
-        return this.loadBitmapInternal();
+        return this.loadBitmapInternal(this.path);
     }
 }
