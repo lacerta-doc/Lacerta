@@ -49,7 +49,7 @@ public class DocumentProcessorImpl implements DocumentProcessor{
     }
 
     @Override
-    public void init() {
+    public void init() throws Exception{
         logger.debug("init", "called");
         // Init Variables
         this.documentRootPath = this.documentDetail.getPath().getFullPath();
@@ -57,11 +57,6 @@ public class DocumentProcessorImpl implements DocumentProcessor{
 
         this.fileManager = fileManagerFactory.create(this.documentRootPath); //Initialize FileManager
         logger.debug("init", "fileManager created");
-
-        this.fileManager.autoCreateDir(this.documentRootPath);
-
-        // rawディレクトリInit
-        this.fileManager.autoCreateDir(DEFAULT_SAVE_DIR);
 
         // xmlファイルの読み込み
         if (fileManager.isExist("meta.xml")) {
