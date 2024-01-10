@@ -48,7 +48,6 @@ public class DebugMenuTopFragment extends Fragment {
         recyclerView.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(getContext()));
         List<DebugMenuListItem> debugMenuListItems = new ArrayList<>();
 
-        debugMenuListItems.add(new DebugMenuListItem("Meta Data", "View meta data", R.id.action_debugMenuTopFragment_to_debugMenuMetaDataFragment, true));
         debugMenuListItems.add(new DebugMenuListItem("Document Tester", "placeholder", R.id.action_debugMenuTopFragment_to_debugMenuDocumentTesterTopFragment, true));
         debugMenuListItems.add(new DebugMenuListItem("Scanner", "placeholder", R.id.action_debugMenuTopFragment_to_scannerDataManagerStubFragment, true));
 
