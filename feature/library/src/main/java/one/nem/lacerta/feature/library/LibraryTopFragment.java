@@ -82,18 +82,21 @@ public class LibraryTopFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // レイアウトファイル（fragment_library_top.xml）をインフレートしてビューを作成
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_library_top, container, false);
 
+        // レイアウトファイル内のRecyclerView要素を取得
         // Use view.findViewById instead of findViewById
         RecyclerView documentRecyclerView = view.findViewById(R.id.document_list);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         documentRecyclerView.setLayoutManager(layoutManager);
 
-        //データを取得
+        // ドキュメントのメタデータを取得
         List<DocumentMeta> metas  = document.getAllDocumentMetas(100);
 
+        // ドキュメントをデフォルトフォルダに追加
         // フォルダごとにドキュメントを管理する
         for (DocumentMeta meta : metas) {
             folderManager.addDocumentToFolder("Default Folder", meta);
@@ -102,6 +105,7 @@ public class LibraryTopFragment extends Fragment {
         // 特定のフォルダのドキュメントを取得
         List<DocumentMeta> folderDocuments = folderManager.getDocumentsInFolder("Default Folder");
 
+        // トーストメッセージでドキュメントの数を表示
         Toast.makeText(getContext(), "Documents: " + Integer.toString(metas.size()), Toast.LENGTH_LONG).show();
 
 // Create and set the adapter
