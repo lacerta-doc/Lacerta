@@ -4,17 +4,23 @@ import android.graphics.drawable.Drawable;
 
 public class ListItem {
 
+    // Properties
+
     String title;
     String description;
-    Drawable icon;
+    ListItemType itemType;
     String itemId;
 
-    public ListItem(String title, String description, Drawable icon, String itemId) {
+    // Constructor
+
+    public ListItem(String title, String description, ListItemType itemType, String itemId) {
         this.title = title;
         this.description = description;
-        this.icon = icon;
+        this.itemType = itemType;
         this.itemId = itemId;
     }
+
+    // Getter
 
     public String getTitle() {
         return title;
@@ -24,8 +30,8 @@ public class ListItem {
         return description;
     }
 
-    public Drawable getIcon() {
-        return icon;
+    public ListItemType getItemType() {
+        return itemType;
     }
 
     public String getItemId() {
