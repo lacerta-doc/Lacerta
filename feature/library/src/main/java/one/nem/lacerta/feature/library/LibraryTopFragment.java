@@ -106,7 +106,7 @@ public class LibraryTopFragment extends Fragment {
         List<DocumentMeta> folderDocuments = folderManager.getDocumentsInFolder("Default Folder");
 
         // トーストメッセージでドキュメントの数を表示
-        Toast.makeText(getContext(), "Documents: " + Integer.toString(metas.size()), Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(), "ドキュメント数: " + Integer.toString(metas.size()), Toast.LENGTH_LONG).show();
 
 // Create and set the adapter
         DocumentAdapter adapter = new DocumentAdapter(metas);
