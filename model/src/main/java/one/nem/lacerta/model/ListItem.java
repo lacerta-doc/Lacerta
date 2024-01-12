@@ -20,6 +20,10 @@ public class ListItem {
         this.itemId = itemId;
     }
 
+    public ListItem() {
+        // Empty constructor
+    }
+
     // Getter
 
     public String getTitle() {
