@@ -23,14 +23,14 @@ import javax.inject.Inject;
  */
 public class LacertaLibraryStubImpl implements LacertaLibrary {
 
-    @Inject
     LacertaLogger logger;
 
     Faker faker;
 
     @Inject
-    public LacertaLibraryStubImpl() {
+    public LacertaLibraryStubImpl(LacertaLogger logger) {
         faker = new Faker(); // Init Faker
+        this.logger = logger;
         logger.debug("LibraryStub", "Initialized");
     }
 

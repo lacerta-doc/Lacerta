@@ -8,6 +8,7 @@ import dagger.hilt.migration.DisableInstallInCheck;
 
 import one.nem.lacerta.data.LacertaLibrary;
 import one.nem.lacerta.data.impl.LacertaLibraryStubImpl;
+import one.nem.lacerta.utils.LacertaLogger;
 
 @Module
 // Fragmentにinstall
