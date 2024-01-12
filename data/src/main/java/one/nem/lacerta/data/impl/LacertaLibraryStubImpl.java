@@ -10,8 +10,10 @@ import one.nem.lacerta.model.document.DocumentMeta;
 import one.nem.lacerta.model.document.path.DocumentPath;
 import one.nem.lacerta.utils.LacertaLogger;
 
+import com.github.javafaker.DateAndTime;
 import com.github.javafaker.Faker;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.UUID;
@@ -84,14 +86,14 @@ public class LacertaLibraryStubImpl implements LacertaLibrary {
         if (itemType == ListItemType.ITEM_TYPE_FOLDER) {
             ListItem listItem = new ListItem();
             listItem.setTitle("FakeFolder" + faker.number().digits(3));
-            listItem.setDescription("Updated at " + faker.date().toString());
+            listItem.setDescription("Updated at " + DateFormat.getDateTimeInstance().format(faker.date().birthday()));
             listItem.setItemType(ListItemType.ITEM_TYPE_FOLDER);
             listItem.setItemId(UUID.randomUUID().toString());
             return listItem;
         } else if (itemType == ListItemType.ITEM_TYPE_DOCUMENT) {
             ListItem listItem = new ListItem();
             listItem.setTitle("FakeDocument" + faker.book().title());
-            listItem.setDescription("Updated at " + faker.date().toString());
+            listItem.setDescription("Updated at " + DateFormat.getDateTimeInstance().format(faker.date().birthday()));
             listItem.setItemType(ListItemType.ITEM_TYPE_DOCUMENT);
             listItem.setItemId(UUID.randomUUID().toString());
             return listItem;
