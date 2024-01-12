@@ -18,6 +18,9 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 
+/**
+ * LacertaLibraryのスタブ実装
+ */
 public class LacertaLibraryStubImpl implements LacertaLibrary {
 
     @Inject
@@ -135,36 +138,77 @@ public class LacertaLibraryStubImpl implements LacertaLibrary {
         documentDetail.setRepository(null); // TODO-rca: なんとかする
         return documentDetail;
     }
+
+    /**
+     * 履歴ページを取得する
+     * @param limit 取得するアイテム数
+     * @return ページオブジェクト
+     */
     @Override
     public LibraryItemPage getRecentDocument(int limit) {
         return getRecentDocumentPage(limit);
     }
 
+    /**
+     * 履歴ページを取得する
+     * @param limit 取得するアイテム数
+     * @param offset 取得するアイテムのオフセット
+     * @return ページオブジェクト
+     */
     @Override
     public LibraryItemPage getRecentDocument(int limit, int offset) {
         return getRecentDocumentPage(limit);
     }
 
+    /**
+     * ライブラリページを取得する
+     * @param limit 取得するアイテム数
+     * @return ページオブジェクト
+     */
     @Override
     public LibraryItemPage getLibraryPage(int limit) {
         return generateStubLibraryItemPage(limit, null);
     }
 
+    /**
+     * ライブラリページを取得する
+     * @param limit 取得するアイテム数
+     * @param offset 取得するアイテムのオフセット
+     * @return ページオブジェクト
+     */
     @Override
     public LibraryItemPage getLibraryPage(int limit, int offset) {
         return generateStubLibraryItemPage(limit, null);
     }
 
+    /**
+     * ライブラリページを取得する
+     * @param pageId ページID
+     * @param limit 取得するアイテム数
+     * @return ページオブジェクト
+     */
     @Override
     public LibraryItemPage getLibraryPage(String pageId, int limit) {
         return generateStubLibraryItemPage(limit, pageId);
     }
 
+    /**
+     * ライブラリページを取得する
+     * @param pageId ページID
+     * @param limit 取得するアイテム数
+     * @param offset 取得するアイテムのオフセット
+     * @return ページオブジェクト
+     */
     @Override
     public LibraryItemPage getLibraryPage(String pageId, int limit, int offset) {
         return generateStubLibraryItemPage(limit, pageId);
     }
 
+    /**
+     * ドキュメント詳細を取得する
+     * @param id ドキュメントID
+     * @return ドキュメント詳細オブジェクト
+     */
     @Override
     public DocumentDetail getDocumentDetailById(String id) throws IllegalArgumentException {
         return generateStubDocumentDetail(id);
