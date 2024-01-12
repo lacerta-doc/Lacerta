@@ -2,13 +2,13 @@ package one.nem.lacerta.model;
 
 import java.util.ArrayList;
 
-public class LibraryItemList {
+public class LibraryItemPage {
 
     String pageTitle;
     String pageId;
     ArrayList<ListItem> listItems;
 
-    public LibraryItemList(String pageTitle, String pageId, ArrayList<ListItem> listItems) {
+    public LibraryItemPage(String pageTitle, String pageId, ArrayList<ListItem> listItems) {
         this.pageTitle = pageTitle;
         this.pageId = pageId;
         this.listItems = listItems;
