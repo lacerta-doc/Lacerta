@@ -38,4 +38,22 @@ public class ListItem {
         return itemId;
     }
 
+    // Setter
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setItemType(ListItemType itemType) {
+        this.itemType = itemType;
+    }
+
+    public void setItemId(String itemId) {
+        this.itemId = itemId;
+    }
+
 }
