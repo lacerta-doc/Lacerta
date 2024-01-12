@@ -94,7 +94,7 @@ public class LibraryTopFragment extends Fragment {
         documentRecyclerView.setLayoutManager(layoutManager);
 
         // ドキュメントのメタデータを取得
-        List<DocumentMeta> metas  = document.getAllDocumentMetas(100);
+        List<DocumentMeta> metas = document.getAllDocumentMetas(100);
 
         // ドキュメントをデフォルトフォルダに追加
         // フォルダごとにドキュメントを管理する
