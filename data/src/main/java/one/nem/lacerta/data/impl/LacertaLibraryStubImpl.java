@@ -28,6 +28,7 @@ public class LacertaLibraryStubImpl implements LacertaLibrary {
 
     Faker faker;
 
+    @Inject
     public LacertaLibraryStubImpl() {
         faker = new Faker(); // Init Faker
         logger.debug("LibraryStub", "Initialized");
