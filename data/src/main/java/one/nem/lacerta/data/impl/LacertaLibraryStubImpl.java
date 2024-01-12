@@ -115,9 +115,9 @@ public class LacertaLibraryStubImpl implements LacertaLibrary {
         return libraryItemPage;
     }
 
-    private DocumentDetail generateStubDocumentDetail() {
+    private DocumentDetail generateStubDocumentDetail(String id) {
         DocumentMeta documentMeta = new DocumentMeta();
-        documentMeta.setId(UUID.randomUUID().toString());
+        documentMeta.setId(id);
         documentMeta.setTitle("FakeDocument" + faker.book().title());
         documentMeta.setCreatedAt(faker.date().birthday());
         documentMeta.setUpdatedAt(faker.date().birthday()); // TODO-rca: 更新日のほうが古くなることがあるのでなんとかする？
