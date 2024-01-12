@@ -6,6 +6,8 @@ import one.nem.lacerta.model.ListItem;
 import one.nem.lacerta.model.ListItemType;
 import one.nem.lacerta.model.document.DocumentDetail;
 
+import one.nem.lacerta.model.document.DocumentMeta;
+import one.nem.lacerta.model.document.path.DocumentPath;
 import one.nem.lacerta.utils.LacertaLogger;
 
 import com.github.javafaker.Faker;
@@ -113,6 +115,21 @@ public class LacertaLibraryStubImpl implements LacertaLibrary {
         return libraryItemPage;
     }
 
+    private DocumentDetail generateStubDocumentDetail() {
+        DocumentMeta documentMeta = new DocumentMeta();
+        documentMeta.setId(UUID.randomUUID().toString());
+        documentMeta.setTitle("FakeDocument" + faker.book().title());
+        documentMeta.setCreatedAt(faker.date().birthday());
+        documentMeta.setUpdatedAt(faker.date().birthday()); // TODO-rca: 更新日のほうが古くなることがあるのでなんとかする？
+        ArrayList<String> tagIds = new ArrayList<>();
+
+        DocumentDetail documentDetail = new DocumentDetail();
+        documentDetail.setMeta(documentMeta);
+        documentDetail.setPath(null); // TODO-rca: なんとかする
+        documentDetail.setAuthor(faker.name().fullName());
+        documentDetail.setRepository(null); // TODO-rca: なんとかする
+        return documentDetail;
+    }
     @Override
     public LibraryItemPage getRecentDocument(int limit) {
         return getRecentDocumentPage(limit);
