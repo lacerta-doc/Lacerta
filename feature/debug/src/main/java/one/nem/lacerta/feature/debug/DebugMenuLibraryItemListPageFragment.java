@@ -57,7 +57,7 @@ public class DebugMenuLibraryItemListPageFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_debug_menu_library_item_list_page, container, false);
 
-        LibraryItemPage libraryItemPage = lacertaLibrary.getLibraryPage(10);
+        LibraryItemPage libraryItemPage = lacertaLibrary.getRecentDocument(10);
         for (ListItem listItem : libraryItemPage.getListItems()) {
             System.out.println(listItem.getTitle());
         }
