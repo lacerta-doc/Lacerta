@@ -5,17 +5,19 @@ import java.util.ArrayList;
 import one.nem.lacerta.model.ListItem;
 import one.nem.lacerta.model.ListItemType;
 
+import one.nem.lacerta.model.LibraryItemList;
+
 public interface LacertaLibrary {
 
     // Get History
 
-    ArrayList<ListItem> getRecentDocument(int limit);
-    ArrayList<ListItem> getRecentDocument(int limit, int offset);
-    ArrayList<ListItem> getRecentDocument(int limit, int offset, ListItemType type);
+    LibraryItemList getRecentDocument(int limit);
+    LibraryItemList getRecentDocument(int limit, int offset);
+    LibraryItemList getRecentDocument(int limit, int offset, ListItemType type);
 
     // Get List
 
-    ArrayList<ListItem> getDocumentList(int limit);
+    LibraryItemList getDocumentList(int limit);
 
 
 }
