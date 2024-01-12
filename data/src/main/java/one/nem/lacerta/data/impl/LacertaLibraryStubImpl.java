@@ -115,12 +115,12 @@ public class LacertaLibraryStubImpl implements LacertaLibrary {
 
     @Override
     public LibraryItemPage getRecentDocument(int limit) {
-        return null;
+        return getRecentDocumentPage(limit);
     }
 
     @Override
     public LibraryItemPage getRecentDocument(int limit, int offset) {
-        return null;
+        return getRecentDocumentPage(limit);
     }
 
     @Override
