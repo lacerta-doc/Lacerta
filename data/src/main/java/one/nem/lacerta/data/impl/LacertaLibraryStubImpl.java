@@ -115,7 +115,12 @@ public class LacertaLibraryStubImpl implements LacertaLibrary {
         return libraryItemPage;
     }
 
-    private DocumentDetail generateStubDocumentDetail(String id) {
+    private DocumentDetail generateStubDocumentDetail(String id) throws IllegalArgumentException {
+
+        if (Objects.isNull(id)) {
+            throw new IllegalArgumentException("id is null");
+        }
+
         DocumentMeta documentMeta = new DocumentMeta();
         documentMeta.setId(id);
         documentMeta.setTitle("FakeDocument" + faker.book().title());
@@ -161,7 +166,7 @@ public class LacertaLibraryStubImpl implements LacertaLibrary {
     }
 
     @Override
-    public DocumentDetail getDocumentDetailById(String id) {
-        return null;
+    public DocumentDetail getDocumentDetailById(String id) throws IllegalArgumentException {
+        return generateStubDocumentDetail(id);
     }
 }
