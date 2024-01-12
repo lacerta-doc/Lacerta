@@ -94,6 +94,25 @@ public class LacertaLibraryStubImpl implements LacertaLibrary {
         }
     }
 
+    private LibraryItemPage getRecentDocumentPage(int limit) {
+        int itemTotal = faker.number().numberBetween(1, limit);
+        ArrayList<ListItem> listItems = new ArrayList<>();
+        for (int i = 0; i < itemTotal; i++) {
+            listItems.add(generateStubListItem(ListItemType.ITEM_TYPE_DOCUMENT));
+        }
+        // DescriptionからDateを抽出して新しい順にソート
+        listItems.sort((a, b) -> {
+            String aDate = a.getDescription().substring(11);
+            String bDate = b.getDescription().substring(11);
+            return bDate.compareTo(aDate);
+        });
+        LibraryItemPage libraryItemPage = new LibraryItemPage();
+        libraryItemPage.setListItems(listItems);
+        libraryItemPage.setPageId(UUID.randomUUID().toString());
+        libraryItemPage.setPageTitle("RecentDocument");
+        return libraryItemPage;
+    }
+
     @Override
     public LibraryItemPage getRecentDocument(int limit) {
         return null;
