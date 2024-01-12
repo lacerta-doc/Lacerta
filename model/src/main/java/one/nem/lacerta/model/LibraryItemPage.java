@@ -25,4 +25,17 @@ public class LibraryItemPage {
     public ArrayList<ListItem> getListItems() {
         return listItems;
     }
+
+    public void setPageTitle(String pageTitle) {
+        this.pageTitle = pageTitle;
+    }
+
+    public void setPageId(String pageId) {
+        this.pageId = pageId;
+    }
+
+    public void setListItems(ArrayList<ListItem> listItems) {
+        this.listItems = listItems;
+    }
+
 }
