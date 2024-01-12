@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.AnimatorRes;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -62,11 +63,9 @@ public class DebugMenuLibraryItemListPageFragment extends Fragment {
         }
 
         RecyclerView recyclerView = view.findViewById(R.id.item_recycler_view);
+        recyclerView.setAdapter(new ItemAdapter(libraryItemPage.getListItems()));
 
-        ArrayList<ListItem> listItems = libraryItemPage.getListItems();
-
-        ItemAdapter itemAdapter = new ItemAdapter(listItems);
-        recyclerView.setAdapter(itemAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         return view;
     }
