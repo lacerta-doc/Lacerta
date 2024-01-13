@@ -22,6 +22,12 @@ public class LacertaSearchStubImpl implements LacertaSearch {
         this.logger = logger;
     }
 
+    /**
+     * 検索
+     * @param query 検索クエリ
+     * @param limit 最大取得件数
+     * @return 検索結果
+     */
     @Override
     public ArrayList<ListItem> autoSearch(String query, int limit) {
         logger.debug("SearchStub", "autoSearch");
@@ -29,6 +35,13 @@ public class LacertaSearchStubImpl implements LacertaSearch {
         return library.getLibraryPage(limit).getListItems();
     }
 
+    /**
+     * 検索
+     * @param query 検索クエリ
+     * @param limit 最大取得件数
+     * @param offset オフセット
+     * @return 検索結果
+     */
     @Override
     public ArrayList<ListItem> autoSearch(String query, int limit, int offset) {
         logger.debug("SearchStub", "autoSearch");
