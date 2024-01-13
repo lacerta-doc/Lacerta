@@ -3,10 +3,14 @@ package one.nem.lacerta.source.database.entity;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
 import java.util.Date;
 
+import one.nem.lacerta.source.database.common.DateTypeConverter;
+
 @Entity(tableName = "vcs_log")
+@TypeConverters({DateTypeConverter.class})
 public class VcsLogEntity {
 
     /**
