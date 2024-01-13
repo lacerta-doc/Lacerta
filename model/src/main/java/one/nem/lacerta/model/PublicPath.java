@@ -6,6 +6,11 @@ import java.util.List;
 public class PublicPath {
     /*
      * ユーザーが扱うパス(内部パスの代替)
+     * (時間がないのでInjectされることは考慮しない)
+     *
+     * TODO-rca:
+     *  - こわれたパスを検知する
+     *  - バリデーション
      */
 
     List<String> path = new ArrayList<String>();
@@ -38,6 +43,18 @@ public class PublicPath {
         for (String p : path) {
             resolveInternal(p);
         }
+        return this;
+    }
+
+    public PublicPath resolve(PublicPath path) {
+        for (String p : path.getPath()) {
+            resolveInternal(p);
+        }
+        return this;
+    }
+
+    public PublicPath parent() {
+        this.path.remove(this.path.size() - 1);
         return this;
     }
 
