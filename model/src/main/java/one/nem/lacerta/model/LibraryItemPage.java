@@ -8,11 +8,19 @@ public class LibraryItemPage {
     String pageId;
     ArrayList<ListItem> listItems;
 
+    // Constructor
+
     public LibraryItemPage(String pageTitle, String pageId, ArrayList<ListItem> listItems) {
         this.pageTitle = pageTitle;
         this.pageId = pageId;
         this.listItems = listItems;
     }
+
+    public LibraryItemPage() {
+        // Empty constructor
+    }
+
+    // Getter
 
     public String getPageTitle() {
         return pageTitle;
@@ -25,4 +33,19 @@ public class LibraryItemPage {
     public ArrayList<ListItem> getListItems() {
         return listItems;
     }
+
+    // Setter
+
+    public void setPageTitle(String pageTitle) {
+        this.pageTitle = pageTitle;
+    }
+
+    public void setPageId(String pageId) {
+        this.pageId = pageId;
+    }
+
+    public void setListItems(ArrayList<ListItem> listItems) {
+        this.listItems = listItems;
+    }
+
 }
