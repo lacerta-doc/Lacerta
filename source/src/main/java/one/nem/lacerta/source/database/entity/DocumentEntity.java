@@ -40,4 +40,7 @@ public class DocumentEntity {
 
     @ColumnInfo(name = "tag_ids")
     public List<String> tagIds; // タグ
+
+    @ColumnInfo(name = "public_path")
+    public String publicPath; // 公開パス
 }
