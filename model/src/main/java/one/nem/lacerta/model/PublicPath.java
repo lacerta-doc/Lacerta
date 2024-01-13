@@ -21,18 +21,22 @@ public class PublicPath {
         this.path.add(path);
     }
 
-    public PublicPath resolve(String path) {
+    private void resolveInternal(String path) {
         if (path.equals("..")) {
             this.path.remove(this.path.size() - 1);
         } else {
             add(path);
         }
+    }
+
+    public PublicPath resolve(String path) {
+        resolveInternal(path);
         return this;
     }
 
     public PublicPath resolve(List<String> path) {
         for (String p : path) {
-            resolve(p);
+            resolveInternal(p);
         }
         return this;
     }
