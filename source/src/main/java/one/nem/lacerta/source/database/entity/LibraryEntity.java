@@ -16,8 +16,7 @@ public class LibraryEntity {
     @NonNull
     public String id; // ドキュメントID
 
-    @ColumnInfo(name = "root_path")
-    public String rootPath; // rootのパス
+    // TODO-rca: 廃止？
 
     @ColumnInfo(name = "path")
     public String path; // パス
