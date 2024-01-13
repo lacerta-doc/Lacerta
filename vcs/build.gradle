@@ -37,6 +37,8 @@ dependencies {
     implementation libs.com.google.dagger.hilt.android
     annotationProcessor libs.com.google.dagger.hilt.compiler
 
-    // 型
     implementation project(':model')
+    implementation project(':source')
+    implementation project(':utils')
+
 }
