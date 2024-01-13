@@ -2,7 +2,6 @@ package one.nem.lacerta.model.search;
 
 public enum SearchType {
 
-    AUTO("auto"),
     TITLE("title"),
     DESCRIPTION("description"),
     TAG("tag"),
