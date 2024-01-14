@@ -176,6 +176,22 @@ public class DocumentMeta {
     }
 
     /**
+     * PublicPathを設定する
+     * @param path PublicPath
+     */
+    public void setPath(PublicPath path) {
+        this.path = path;
+    }
+
+    /**
+     * ドキュメントの作者(String)を設定する
+     * @param author ドキュメントの作者
+     */
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    /**
      * updatedAtを現在時刻に設定する
      */
     public void setUpdatedAtNow() {
