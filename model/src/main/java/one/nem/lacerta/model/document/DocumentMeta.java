@@ -1,6 +1,8 @@
 package one.nem.lacerta.model.document;
 
 import java.util.ArrayList;
+
+import one.nem.lacerta.model.PublicPath;
 import one.nem.lacerta.model.document.tag.DocumentTag;
 import java.util.Date;
 import java.util.List;
@@ -34,6 +36,12 @@ public class DocumentMeta {
      * ドキュメントのタグ(DocumentTagインスタンスのリスト)
      */
     List<DocumentTag> tags;
+
+    PublicPath path;
+
+    String author;
+
+    String defaultBranch;
 
     // Constructor
     public DocumentMeta() {
