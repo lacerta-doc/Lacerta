@@ -35,7 +35,6 @@ public class DebugMenuVcsGeneralFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -47,6 +46,10 @@ public class DebugMenuVcsGeneralFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(getContext()));
         List<DebugMenuListItem> debugMenuListItems = new ArrayList<>();
+
+        debugMenuListItems.add(new DebugMenuListItem("General Action", "placeholder", R.id.action_debugMenuVcsGeneralFragment_to_debugMenuVcsGeneralActionFragment, true));
+        debugMenuListItems.add(new DebugMenuListItem("Log Record", "placeholder", R.id.action_debugMenuVcsGeneralFragment_to_debugMenuVcsLogRecordFragment, true));
+        debugMenuListItems.add(new DebugMenuListItem("Rev Record", "placeholder", R.id.action_debugMenuVcsGeneralFragment_to_debugMenuVcsRevRecordFragment, true));
 
         DebugMenuListItemAdapter adapter = new DebugMenuListItemAdapter(debugMenuListItems);
         recyclerView.setAdapter(adapter);
