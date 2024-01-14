@@ -21,4 +21,7 @@ public class LibraryEntity {
     @ColumnInfo(name = "path")
     public String path; // パス
 
+    @ColumnInfo(name = "root_path")
+    public String rootPath; // ルートパス
+
 }
