@@ -45,5 +45,8 @@ public class LacertaVcsImpl implements LacertaVcs {
     @Override
     public void printLog() {
         logger.debug(TAG, "printLog");
+        database.vcsLogDao().findAll().forEach(vcsLog -> {
+            logger.debug(TAG, vcsLog.id);
+        });
     }
 }
