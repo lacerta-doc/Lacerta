@@ -18,20 +18,12 @@ public class DocumentDetail {
      */
     DocumentMeta meta;
 
-    /**
-     * ドキュメントのデフォルトブランチ(String)
-     */
-    String defaultBranch;
-
-    Repository repository;
-
     // Constructor
     public DocumentDetail() {
     }
 
-    public DocumentDetail(DocumentMeta meta, String defaultBranch) {
+    public DocumentDetail(DocumentMeta meta) {
         this.meta = meta;
-        this.defaultBranch = defaultBranch;
     }
 
     // Getter
@@ -43,21 +35,6 @@ public class DocumentDetail {
         return meta;
     }
 
-    /**
-     * ドキュメントのデフォルトブランチ(String)を取得する
-     */
-    public String getDefaultBranch() {
-        return defaultBranch;
-    }
-
-    /**
-     * ドキュメントのリポジトリを取得する
-     */
-    public Repository getRepository() {
-        return repository;
-    }
-
-
     // Setter
 
     /**
@@ -66,21 +43,6 @@ public class DocumentDetail {
      */
     public void setMeta(DocumentMeta meta) {
         this.meta = meta;
-    }
-
-    /**
-     * ドキュメントのデフォルトブランチ(String)を設定する
-     * @param defaultBranch ドキュメントのデフォルトブランチ
-     */
-    public void setDefaultBranch(String defaultBranch) {
-        this.defaultBranch = defaultBranch;
-    }
-
-    /**
-     * ドキュメントのリポジトリを設定する
-     */
-    public void setRepository(Repository repository) {
-        this.repository = repository;
     }
 
 }
