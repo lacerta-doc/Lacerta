@@ -5,6 +5,8 @@ public enum ActionType {
     INSERT_PAGE("insert_page"),
     UPDATE_PAGE("update_page"),
     DELETE_PAGE("delete_page"),
+
+    // TODO-rca: 実装----------------------------------------
     UPDATE_PAGE_ORDER("update_page_order"),
     INSERT_PAGE_CONTENT("insert_page_content"),
     UPDATE_PAGE_CONTENT("update_page_content"),
@@ -13,6 +15,8 @@ public enum ActionType {
     CREATE_BRANCH("create_branch"),
     DROP_BRANCH("drop_branch"),
     REBASE_BRANCH("rebase_branch"),
+
+    // -----------------------------------------------------
 
     CREATE_DOCUMENT("create_document"),
     DROP_DOCUMENT("drop_document"),
