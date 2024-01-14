@@ -112,6 +112,27 @@ public class DocumentMeta {
         return tagIds;
     }
 
+    /**
+     * PublicPathを取得する
+     */
+    public PublicPath getPath() {
+        return path;
+    }
+
+    /**
+     * ドキュメントの作者(String)を取得する
+     */
+    public String getAuthor() {
+        return author;
+    }
+
+    /**
+     * ドキュメントのデフォルトブランチ(String)を取得する
+     */
+    public String getDefaultBranch() {
+        return defaultBranch;
+    }
+
     // Setter
 
     /**
