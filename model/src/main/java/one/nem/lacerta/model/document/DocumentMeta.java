@@ -44,41 +44,24 @@ public class DocumentMeta {
     String defaultBranch;
 
     // Constructor
+
     public DocumentMeta() {
     }
 
-    public DocumentMeta(String id, String title, Date updatedAt, Date createdAt, List<DocumentTag> tags) { // With all
-        this.id = id;
+    public DocumentMeta(String title, List<DocumentTag> tags, String author, String defaultBranch) {
+        this.id = UUID.randomUUID().toString();
         this.title = title;
-        this.updatedAt = updatedAt;
-        this.createdAt = createdAt;
         this.tags = tags;
+        this.author = author;
+        this.defaultBranch = defaultBranch;
     }
 
-    public DocumentMeta(String id, String title, Date updatedAt, Date createdAt) { // Without tags
+    public DocumentMeta(String id, String title, List<DocumentTag> tags, String author, String defaultBranch) {
         this.id = id;
         this.title = title;
-        this.updatedAt = updatedAt;
-        this.createdAt = createdAt;
-        this.tags = new ArrayList<>();
-    }
-
-    public DocumentMeta(String id, String title) { // Without tags, updatedAt, createdAt
-        this.id = id;
-        this.title = title;
-        // 現在時刻を設定
-        this.updatedAt = new Date();
-        this.createdAt = new Date();
-        this.tags = new ArrayList<>();
-    }
-
-    public DocumentMeta(String title) { // title only
-        this.id = UUID.randomUUID().toString(); // 新規作成時想定なのでコンストラクタで生成してしまう(使う人が楽なので)
-        this.title = title;
-        // 現在時刻を設定
-        this.updatedAt = new Date();
-        this.createdAt = new Date();
-        this.tags = new ArrayList<>();
+        this.tags = tags;
+        this.author = author;
+        this.defaultBranch = defaultBranch;
     }
 
     // Getter
