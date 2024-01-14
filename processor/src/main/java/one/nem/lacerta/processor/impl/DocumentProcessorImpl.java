@@ -94,7 +94,7 @@ public class DocumentProcessorImpl implements DocumentProcessor{
     }
 
     @Override
-    public void addNewPageAfterIndex(Bitmap bitmap, int index) throws Exception {
+    public void addNewPageAtIndex(Bitmap bitmap, int index) throws Exception {
         logger.debug("addNewPageAfterIndex", "called");
         String filename = UUID.randomUUID().toString() + ".png"; // TODO-rca: 拡張子を動的にする
 
@@ -106,22 +106,6 @@ public class DocumentProcessorImpl implements DocumentProcessor{
         this.documentDetail.getPages().add(index + 1, page);
 
         lacertaVcs.insertPage(index + 1, filename);
-    }
-
-    @Override
-    public void addNewPageBeforeIndex(Bitmap bitmap, int index) throws Exception {
-        logger.debug("addNewPageBeforeIndex", "called");
-        String filename = UUID.randomUUID().toString() + ".png"; // TODO-rca: 拡張子を動的にする
-
-        this.fileManager.getNewInstance().createDirectoryIfNotExist(DEFAULT_SAVE_DIR).resolve(DEFAULT_SAVE_DIR).saveBitmap(bitmap, filename);
-
-        Page page = new Page();
-        page.setFileName(filename);
-        page.setBitmap(bitmap);
-        this.documentDetail.getPages().add(index, page);
-
-        lacertaVcs.insertPage(index, filename);
-
     }
 
     @Override
