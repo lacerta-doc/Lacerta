@@ -8,22 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import javax.inject.Inject;
-
-import dagger.hilt.android.AndroidEntryPoint;
-import one.nem.lacerta.source.database.LacertaDatabase;
-
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link DebugMenuVcsLogRecordFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-@AndroidEntryPoint
 public class DebugMenuVcsLogRecordFragment extends Fragment {
-
-    @Inject
-    LacertaDatabase database;
-
 
     public DebugMenuVcsLogRecordFragment() {
         // Required empty public constructor
