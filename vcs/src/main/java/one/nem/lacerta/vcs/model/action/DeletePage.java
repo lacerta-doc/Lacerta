@@ -1,4 +1,4 @@
-package one.nem.lacerta.vcs.model.action.common;
+package one.nem.lacerta.vcs.model.action;
 
 public class DeletePage {
 
