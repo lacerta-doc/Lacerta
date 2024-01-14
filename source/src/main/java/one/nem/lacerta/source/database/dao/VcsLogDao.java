@@ -1,7 +1,39 @@
 package one.nem.lacerta.source.database.dao;
 
 import androidx.room.Dao;
+import androidx.room.Insert;
+import androidx.room.Query;
+
+import java.util.List;
+
+import one.nem.lacerta.source.database.entity.VcsLogEntity;
 
 @Dao
 public interface VcsLogDao {
+
+    // Select
+    @Query("SELECT * FROM vcs_log WHERE id = :id")
+    VcsLogEntity findById(String id);
+
+    @Query("SELECT * FROM vcs_log")
+    List<VcsLogEntity> findAll();
+
+    @Query("SELECT * FROM vcs_log WHERE id IN (:ids)")
+    List<VcsLogEntity> findByIds(List<String> ids);
+
+    @Query("SELECT * FROM vcs_log WHERE document_id = :documentId")
+    List<VcsLogEntity> findByDocumentId(String documentId);
+
+    // Insert
+
+    @Insert
+    void insertAll(VcsLogEntity... vcsLogs);
+
+    @Insert
+    void insertAll(List<VcsLogEntity> vcsLogs);
+
+    @Insert
+    void insert(VcsLogEntity vcsLog);
+
+    // TODO-rca: Update, Deleteが必要か検討
 }
