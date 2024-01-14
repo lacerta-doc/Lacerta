@@ -1,10 +1,13 @@
 package one.nem.lacerta.vcs.impl;
 
+import java.util.UUID;
+
 import javax.inject.Inject;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedInject;
 import one.nem.lacerta.source.database.LacertaDatabase;
+import one.nem.lacerta.source.database.entity.VcsLogEntity;
 import one.nem.lacerta.utils.LacertaLogger;
 import one.nem.lacerta.vcs.LacertaVcs;
 
@@ -34,7 +37,14 @@ public class LacertaVcsImpl implements LacertaVcs {
 
     @Override
     public void insertPage(int index, String fileName) {
-
+        logger.debug(TAG, "insertPage");
+        VcsLogEntity vcsLogEntity = new VcsLogEntity();
+        vcsLogEntity.id = UUID.randomUUID().toString();
+        vcsLogEntity.documentId = documentId;
+        vcsLogEntity.branchName = "master";
+        vcsLogEntity.createdAt = new java.util.Date();
+        vcsLogEntity.action = "placeholder";
+        database.vcsLogDao().insert(vcsLogEntity);
     }
 
     @Override
