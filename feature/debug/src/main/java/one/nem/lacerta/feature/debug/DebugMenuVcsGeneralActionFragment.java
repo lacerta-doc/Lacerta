@@ -8,7 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import javax.inject.Inject;
+
 import dagger.hilt.android.AndroidEntryPoint;
+import one.nem.lacerta.vcs.LacertaVcs;
+import one.nem.lacerta.vcs.factory.LacertaVcsFactory;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -18,6 +22,9 @@ import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
 public class DebugMenuVcsGeneralActionFragment extends Fragment {
+
+    @Inject
+    LacertaVcsFactory lacertaVcsFactory;
 
     public DebugMenuVcsGeneralActionFragment() {
         // Required empty public constructor
@@ -42,7 +49,8 @@ public class DebugMenuVcsGeneralActionFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_debug_menu_vcs_general_action, container, false);
 
         view.findViewById(R.id.add_sample_log_rev_button).setOnClickListener(v -> {
-
+            LacertaVcs lacertaVcs = lacertaVcsFactory.create("example_id");
+            lacertaVcs.insertPage(1, "example_id");
         });
 
         return view;
