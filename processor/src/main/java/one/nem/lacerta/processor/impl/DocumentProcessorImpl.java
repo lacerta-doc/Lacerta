@@ -94,7 +94,7 @@ public class DocumentProcessorImpl implements DocumentProcessor{
     }
 
     @Override
-    public void addNewPageAtIndex(Bitmap bitmap, int index) throws Exception {
+    public void insertNewPageAtIndex(Bitmap bitmap, int index) throws Exception {
         logger.debug("addNewPageAfterIndex", "called");
         String filename = UUID.randomUUID().toString() + ".png"; // TODO-rca: 拡張子を動的にする
 
