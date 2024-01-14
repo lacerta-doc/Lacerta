@@ -19,16 +19,6 @@ public class DocumentDetail {
     DocumentMeta meta;
 
     /**
-     * ドキュメントのパス(DocumentPathインスタンス)
-     */
-    DocumentPath path;
-
-    /**
-     * ドキュメントの作者(String)
-     */
-    String author;
-
-    /**
      * ドキュメントのデフォルトブランチ(String)
      */
     String defaultBranch;
@@ -39,10 +29,8 @@ public class DocumentDetail {
     public DocumentDetail() {
     }
 
-    public DocumentDetail(DocumentMeta meta, DocumentPath path, String author, String defaultBranch) {
+    public DocumentDetail(DocumentMeta meta, String defaultBranch) {
         this.meta = meta;
-        this.path = path;
-        this.author = author;
         this.defaultBranch = defaultBranch;
     }
 
@@ -53,20 +41,6 @@ public class DocumentDetail {
      */
     public DocumentMeta getMeta() {
         return meta;
-    }
-
-    /**
-     * ドキュメントのパス(DocumentPathインスタンス)を取得する
-     */
-    public DocumentPath getPath() {
-        return path;
-    }
-
-    /**
-     * ドキュメントの作者(String)を取得する
-     */
-    public String getAuthor() {
-        return author;
     }
 
     /**
@@ -92,22 +66,6 @@ public class DocumentDetail {
      */
     public void setMeta(DocumentMeta meta) {
         this.meta = meta;
-    }
-
-    /**
-     * ドキュメントのパス(DocumentPathインスタンス)を設定する
-     * @param path DocumentPathインスタンス
-     */
-    public void setPath(DocumentPath path) {
-        this.path =  path;
-    }
-
-    /**
-     * ドキュメントの作者(String)を設定する
-     * @param author ドキュメントの作者
-     */
-    public void setAuthor(String author) {
-        this.author = author;
     }
 
     /**
