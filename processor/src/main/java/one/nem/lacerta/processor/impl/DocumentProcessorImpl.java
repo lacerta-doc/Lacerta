@@ -103,9 +103,9 @@ public class DocumentProcessorImpl implements DocumentProcessor{
         Page page = new Page();
         page.setFileName(filename);
         page.setBitmap(bitmap);
-        this.documentDetail.getPages().add(index + 1, page);
+        this.documentDetail.getPages().add(index, page);
 
-        lacertaVcs.insertPage(index + 1, filename);
+        lacertaVcs.insertPage(index, filename);
     }
 
     @Override
