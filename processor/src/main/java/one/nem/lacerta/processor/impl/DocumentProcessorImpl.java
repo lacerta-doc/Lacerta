@@ -76,6 +76,8 @@ public class DocumentProcessorImpl implements DocumentProcessor{
         page.setBitmap(bitmap);
         this.documentDetail.getPages().add(page);
 
+        lacertaVcs.insertPage(documentDetail.getPages().size(), filename);
+
         this.fileManager.getNewInstance().createDirectoryIfNotExist(DEFAULT_SAVE_DIR).resolve(DEFAULT_SAVE_DIR).saveBitmap(bitmap, filename);
 
         logger.info("addNewPageToLast", "finished");
@@ -102,6 +104,8 @@ public class DocumentProcessorImpl implements DocumentProcessor{
         page.setFileName(filename);
         page.setBitmap(bitmap);
         this.documentDetail.getPages().add(index + 1, page);
+
+        lacertaVcs.insertPage(index + 1, filename);
     }
 
     @Override
@@ -115,6 +119,8 @@ public class DocumentProcessorImpl implements DocumentProcessor{
         page.setFileName(filename);
         page.setBitmap(bitmap);
         this.documentDetail.getPages().add(index, page);
+
+        lacertaVcs.insertPage(index, filename);
 
     }
 
