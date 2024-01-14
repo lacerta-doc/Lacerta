@@ -8,11 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link DebugMenuVcsGeneralActionFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+
+@AndroidEntryPoint
 public class DebugMenuVcsGeneralActionFragment extends Fragment {
 
     public DebugMenuVcsGeneralActionFragment() {
@@ -36,6 +40,10 @@ public class DebugMenuVcsGeneralActionFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_debug_menu_vcs_general_action, container, false);
+
+        view.findViewById(R.id.add_sample_log_rev_button).setOnClickListener(v -> {
+
+        });
 
         return view;
     }
