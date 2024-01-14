@@ -53,6 +53,11 @@ public class LacertaVcsImpl implements LacertaVcs {
     }
 
     @Override
+    public void createDocument(String documentId) {
+
+    }
+
+    @Override
     public void printLog() {
         logger.debug(TAG, "printLog");
         database.vcsLogDao().findAll().forEach(vcsLog -> {
