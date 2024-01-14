@@ -18,5 +18,5 @@ public interface LacertaLibrary {
     LibraryItemPage getLibraryPage(String pageId, int limit, int offset);
 
     // GetDocument
-    DocumentDetail getDocumentDetailById(String id);
+    DocumentDetail getDocumentDetailById(String id); // TODO-rca: Documentに統合する
 }
