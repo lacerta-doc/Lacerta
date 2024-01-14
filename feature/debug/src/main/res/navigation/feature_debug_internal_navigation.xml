@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_debugMenuTopFragment_to_debugMenuLibraryItemListPageFragment"
             app:destination="@id/debugMenuLibraryItemListPageFragment" />
+        <action
+            android:id="@+id/action_debugMenuTopFragment_to_debugMenuVcsGeneralFragment"
+            app:destination="@id/debugMenuVcsGeneralFragment" />
     </fragment>
     <fragment
         android:id="@+id/debugMenuDocumentTesterTopFragment"
@@ -51,4 +54,9 @@
         android:name="one.nem.lacerta.feature.debug.DebugMenuLibraryItemListPageFragment"
         android:label="fragment_debug_menu_library_item_list_page"
         tools:layout="@layout/fragment_debug_menu_library_item_list_page" />
+    <fragment
+        android:id="@+id/debugMenuVcsGeneralFragment"
+        android:name="one.nem.lacerta.feature.debug.DebugMenuVcsGeneralFragment"
+        android:label="fragment_debug_menu_vcs_general"
+        tools:layout="@layout/fragment_debug_menu_vcs_general" />
 </navigation>
