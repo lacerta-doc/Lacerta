@@ -1,6 +1,6 @@
 package one.nem.lacerta.vcs;
 
-public enum ActionTypes {
+public enum ActionType {
 
     INSERT_PAGE("insert_page"),
     UPDATE_PAGE("update_page"),
@@ -21,7 +21,7 @@ public enum ActionTypes {
 
     private final String value;
 
-    ActionTypes(String value) {
+    ActionType(String value) {
         this.value = value;
     }
 
@@ -29,12 +29,12 @@ public enum ActionTypes {
         return value;
     }
 
-    public static ActionTypes fromValue(String value) {
-        for (ActionTypes actionType : ActionTypes.values()) {
+    public static ActionType fromValue(String value) {
+        for (ActionType actionType : ActionType.values()) {
             if (actionType.getValue().equals(value)) {
                 return actionType;
             }
         }
-        return ActionTypes.OTHER;
+        return ActionType.OTHER;
     }
 }
