@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_debugMenuTopFragment_to_debugMenuLibraryItemListPageFragment"
             app:destination="@id/debugMenuLibraryItemListPageFragment" />
+        <action
+            android:id="@+id/action_debugMenuTopFragment_to_debugMenuVcsGeneralFragment"
+            app:destination="@id/debugMenuVcsGeneralFragment" />
     </fragment>
     <fragment
         android:id="@+id/debugMenuDocumentTesterTopFragment"
@@ -51,4 +54,34 @@
         android:name="one.nem.lacerta.feature.debug.DebugMenuLibraryItemListPageFragment"
         android:label="fragment_debug_menu_library_item_list_page"
         tools:layout="@layout/fragment_debug_menu_library_item_list_page" />
+    <fragment
+        android:id="@+id/debugMenuVcsGeneralFragment"
+        android:name="one.nem.lacerta.feature.debug.DebugMenuVcsGeneralFragment"
+        android:label="fragment_debug_menu_vcs_general"
+        tools:layout="@layout/fragment_debug_menu_vcs_general" >
+        <action
+            android:id="@+id/action_debugMenuVcsGeneralFragment_to_debugMenuVcsGeneralActionFragment"
+            app:destination="@id/debugMenuVcsGeneralActionFragment" />
+        <action
+            android:id="@+id/action_debugMenuVcsGeneralFragment_to_debugMenuVcsRevRecordFragment"
+            app:destination="@id/debugMenuVcsRevRecordFragment" />
+        <action
+            android:id="@+id/action_debugMenuVcsGeneralFragment_to_debugMenuVcsLogRecordFragment"
+            app:destination="@id/debugMenuVcsLogRecordFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/debugMenuVcsGeneralActionFragment"
+        android:name="one.nem.lacerta.feature.debug.DebugMenuVcsGeneralActionFragment"
+        android:label="fragment_debug_menu_vcs_general_action"
+        tools:layout="@layout/fragment_debug_menu_vcs_general_action" />
+    <fragment
+        android:id="@+id/debugMenuVcsLogRecordFragment"
+        android:name="one.nem.lacerta.feature.debug.DebugMenuVcsLogRecordFragment"
+        android:label="fragment_debug_menu_vcs_log_record"
+        tools:layout="@layout/fragment_debug_menu_vcs_log_record" />
+    <fragment
+        android:id="@+id/debugMenuVcsRevRecordFragment"
+        android:name="one.nem.lacerta.feature.debug.DebugMenuVcsRevRecordFragment"
+        android:label="fragment_debug_menu_vcs_rev_record"
+        tools:layout="@layout/fragment_debug_menu_vcs_rev_record" />
 </navigation>

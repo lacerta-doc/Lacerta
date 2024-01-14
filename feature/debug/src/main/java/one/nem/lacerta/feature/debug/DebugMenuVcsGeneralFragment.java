@@ -12,22 +12,21 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-import dagger.hilt.android.AndroidEntryPoint;
 import one.nem.lacerta.feature.debug.common.adapter.DebugMenuListItemAdapter;
 import one.nem.lacerta.feature.debug.common.model.DebugMenuListItem;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link DebugMenuTopFragment#newInstance} factory method to
+ * Use the {@link DebugMenuVcsGeneralFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-@AndroidEntryPoint
-public class DebugMenuTopFragment extends Fragment {
-    public DebugMenuTopFragment() {
+public class DebugMenuVcsGeneralFragment extends Fragment {
+    public DebugMenuVcsGeneralFragment() {
         // Required empty public constructor
     }
-    public static DebugMenuTopFragment newInstance() {
-        DebugMenuTopFragment fragment = new DebugMenuTopFragment();
+
+    public static DebugMenuVcsGeneralFragment newInstance() {
+        DebugMenuVcsGeneralFragment fragment = new DebugMenuVcsGeneralFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -42,19 +41,19 @@ public class DebugMenuTopFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_debug_menu_top, container, false);
+        View view = inflater.inflate(R.layout.fragment_debug_menu_vcs_general, container, false);
 
-        RecyclerView recyclerView = view.findViewById(R.id.debug_menu_recycler_view);
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(getContext()));
         List<DebugMenuListItem> debugMenuListItems = new ArrayList<>();
 
-        debugMenuListItems.add(new DebugMenuListItem("Document Tester", "placeholder", R.id.action_debugMenuTopFragment_to_debugMenuDocumentTesterTopFragment, true));
-        debugMenuListItems.add(new DebugMenuListItem("Scanner", "placeholder", R.id.action_debugMenuTopFragment_to_scannerDataManagerStubFragment, true));
-        debugMenuListItems.add(new DebugMenuListItem("Document List", "placeholder", R.id.action_debugMenuTopFragment_to_debugMenuLibraryItemListPageFragment, true));
-        debugMenuListItems.add(new DebugMenuListItem("VCS", "placeholder", R.id.action_debugMenuTopFragment_to_debugMenuVcsGeneralFragment, true));
+        debugMenuListItems.add(new DebugMenuListItem("General Action", "placeholder", R.id.action_debugMenuVcsGeneralFragment_to_debugMenuVcsGeneralActionFragment, true));
+        debugMenuListItems.add(new DebugMenuListItem("Log Record", "placeholder", R.id.action_debugMenuVcsGeneralFragment_to_debugMenuVcsLogRecordFragment, true));
+        debugMenuListItems.add(new DebugMenuListItem("Rev Record", "placeholder", R.id.action_debugMenuVcsGeneralFragment_to_debugMenuVcsRevRecordFragment, true));
 
         DebugMenuListItemAdapter adapter = new DebugMenuListItemAdapter(debugMenuListItems);
         recyclerView.setAdapter(adapter);
+
         return view;
     }
 }

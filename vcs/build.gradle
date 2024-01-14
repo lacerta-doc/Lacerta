@@ -1,10 +1,9 @@
 plugins {
     alias(libs.plugins.com.android.library)
-    id 'com.google.dagger.hilt.android'
 }
 
 android {
-    namespace 'one.nem.lacerta.feature.debug'
+    namespace 'one.nem.lacerta.vcs'
     compileSdk 34
 
     defaultConfig {
@@ -30,45 +29,31 @@ dependencies {
 
     implementation libs.androidx.appcompat
     implementation libs.com.google.android.material
-    implementation libs.androidx.activity
-    implementation libs.androidx.constraintlayout
     testImplementation libs.junit
     androidTestImplementation libs.androidx.test.ext.junit
     androidTestImplementation libs.androidx.test.espresso.core
-
-    // Navigation
-    implementation libs.navigation.fragment
-    implementation libs.navigation.ui
-    implementation libs.navigation.dynamic.features.fragment
 
     // Hilt (DI)
     implementation libs.com.google.dagger.hilt.android
     annotationProcessor libs.com.google.dagger.hilt.compiler
 
-    // JGit
-    implementation 'org.eclipse.jgit:org.eclipse.jgit:6.8.0.202311291450-r'
-
-    // 内部モジュール
-    // data
-    implementation project(':data')
-
-    // Debug
+    implementation project(':model')
     implementation project(':source')
     implementation project(':utils')
 
-    // 型
-    implementation project(':model')
+    // Jackson
+    // TODO-rca: バージョンカタログにうつす
 
-    // Shared
-    implementation project(':shared:ui')
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.16.1'
 
-    // Scanner
-    implementation project(':component:scanner')
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.16.1'
 
-    // Processor
-    implementation project(':processor')
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.16.1'
 
-    // LacertaVcs
-    implementation project(':vcs')
-
+    // Room
+    implementation libs.androidx.room.runtime
+    annotationProcessor libs.androidx.room.compiler
 }
