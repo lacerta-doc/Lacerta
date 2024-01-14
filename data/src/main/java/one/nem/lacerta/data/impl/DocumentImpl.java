@@ -18,11 +18,36 @@ import one.nem.lacerta.source.database.entity.DocumentEntity;
 import one.nem.lacerta.source.database.entity.LibraryEntity;
 import one.nem.lacerta.source.database.entity.TagEntity;
 
+import one.nem.lacerta.source.file.factory.FileManagerFactory;
 import one.nem.lacerta.source.jgit.JGitRepository;
+import one.nem.lacerta.utils.LacertaLogger;
+import one.nem.lacerta.utils.XmlMetaParser;
 import one.nem.lacerta.utils.repository.DeviceInfoUtils;
 
 
 public class DocumentImpl implements Document {
+
+    String TAG = getClass().getSimpleName();
+
+    @Inject
+    LacertaLogger logger;
+
+    @Inject
+    LacertaDatabase database;
+
+
+    @Inject
+    public DocumentImpl() {
+        // Init
+        logger.debug(TAG, "called");
+    }
+
+
+    // Internal methods
+    private DocumentDetail createDocumentDetail(DocumentEntity documentEntity) {
+
+        return detail;
+    }
 
     @Override
     public DocumentDetail createDocument(DocumentMeta meta) {
