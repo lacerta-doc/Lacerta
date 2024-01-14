@@ -1,12 +1,15 @@
 package one.nem.lacerta.data.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import javax.inject.Inject;
 
 import one.nem.lacerta.data.Document;
 
+import one.nem.lacerta.model.PublicPath;
 import one.nem.lacerta.model.document.DocumentMeta;
 import one.nem.lacerta.model.document.DocumentDetail;
 
@@ -18,11 +21,14 @@ import one.nem.lacerta.source.database.entity.DocumentEntity;
 import one.nem.lacerta.source.database.entity.LibraryEntity;
 import one.nem.lacerta.source.database.entity.TagEntity;
 
+import one.nem.lacerta.source.database.entity.VcsLogEntity;
+import one.nem.lacerta.vcs.ActionType;
 import one.nem.lacerta.source.file.factory.FileManagerFactory;
 import one.nem.lacerta.source.jgit.JGitRepository;
 import one.nem.lacerta.utils.LacertaLogger;
 import one.nem.lacerta.utils.XmlMetaParser;
 import one.nem.lacerta.utils.repository.DeviceInfoUtils;
+import one.nem.lacerta.vcs.LacertaVcs;
 
 
 public class DocumentImpl implements Document {
@@ -35,6 +41,9 @@ public class DocumentImpl implements Document {
     @Inject
     LacertaDatabase database;
 
+    @Inject
+    LacertaVcs vcs;
+
 
     @Inject
     public DocumentImpl() {
@@ -43,20 +52,45 @@ public class DocumentImpl implements Document {
     }
 
 
-    // Internal methods
-    private DocumentDetail createDocumentDetail(DocumentEntity documentEntity) {
+    @Override
+    public DocumentDetail createDocument(DocumentMeta meta) {
+        DocumentDetail detail = new DocumentDetail();
+        detail.setMeta(meta);
+        detail.setPages(new ArrayList<>());
+
+        // TODO-rca: UIスレッドから追い出す
+
+        // Create DocumentEntity
+        DocumentEntity documentEntity = new DocumentEntity();
+        documentEntity.id = meta.getId();
+        documentEntity.title = meta.getTitle();
+        documentEntity.author = meta.getAuthor();
+        documentEntity.defaultBranch = meta.getDefaultBranch();
+        documentEntity.updatedAt = meta.getUpdatedAt();
+        documentEntity.createdAt = meta.getCreatedAt();
+        documentEntity.publicPath = meta.getPath().getStringPath();
+        documentEntity.tagIds = meta.getTagIds();
+
+        database.documentDao().insert(documentEntity);
+
+        // Vcs
+        vcs.createDocument(meta.getId());
 
         return detail;
     }
 
     @Override
-    public DocumentDetail createDocument(DocumentMeta meta) {
-        return null;
-    }
-
-    @Override
     public DocumentDetail createDocument() {
-        return null;
+        DocumentMeta meta = new DocumentMeta();
+        meta.setId(UUID.randomUUID().toString());
+        meta.setTitle("New Document");
+        meta.setAuthor("author");
+        meta.setDefaultBranch("master");
+        meta.setUpdatedAt(new Date());
+        meta.setCreatedAt(new Date());
+        meta.setPath(new PublicPath().getRoot()); // TODO-rca: 2回インスタンスを生成していて無駄なのでなんとかする
+        meta.setTags(new ArrayList<>());
+        return createDocument(meta);
     }
 
     @Override
