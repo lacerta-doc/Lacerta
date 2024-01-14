@@ -7,6 +7,8 @@ public class Page {
     String fileName;
     Bitmap bitmap;
 
+    // Constructor
+
     public Page() {
     }
 
@@ -15,6 +17,8 @@ public class Page {
         this.bitmap = bitmap;
     }
 
+    // Getter
+
     public String getFileName() {
         return fileName;
     }
@@ -22,6 +26,8 @@ public class Page {
     public Bitmap getBitmap() {
         return bitmap;
     }
+
+    // Setter
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
