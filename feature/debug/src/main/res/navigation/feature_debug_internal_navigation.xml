@@ -58,5 +58,14 @@
         android:id="@+id/debugMenuVcsGeneralFragment"
         android:name="one.nem.lacerta.feature.debug.DebugMenuVcsGeneralFragment"
         android:label="fragment_debug_menu_vcs_general"
-        tools:layout="@layout/fragment_debug_menu_vcs_general" />
+        tools:layout="@layout/fragment_debug_menu_vcs_general" >
+        <action
+            android:id="@+id/action_debugMenuVcsGeneralFragment_to_debugMenuVcsGeneralActionFragment"
+            app:destination="@id/debugMenuVcsGeneralActionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/debugMenuVcsGeneralActionFragment"
+        android:name="one.nem.lacerta.feature.debug.DebugMenuVcsGeneralActionFragment"
+        android:label="fragment_debug_menu_vcs_general_action"
+        tools:layout="@layout/fragment_debug_menu_vcs_general_action" />
 </navigation>
