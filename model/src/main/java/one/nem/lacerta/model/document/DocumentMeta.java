@@ -11,7 +11,7 @@ import java.util.UUID;
 /**
  * ドキュメントのメタデータ
  */
-public class DocumentMeta {
+public class DocumentMeta { // TODO-rca: JavaDoc対応
     /**
      * ドキュメントのID(String)
      */
