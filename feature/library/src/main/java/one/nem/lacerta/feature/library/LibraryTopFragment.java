@@ -33,8 +33,8 @@ import one.nem.lacerta.model.document.tag.DocumentTag;
 @AndroidEntryPoint
 public class LibraryTopFragment extends Fragment {
 
-    @Inject
-    Document document;
+//    @Inject
+//    Document document;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
