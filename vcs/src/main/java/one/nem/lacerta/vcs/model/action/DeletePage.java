@@ -1,6 +1,8 @@
 package one.nem.lacerta.vcs.model.action;
 
-public class DeletePage {
+import one.nem.lacerta.vcs.model.action.common.ActionBase;
+
+public class DeletePage extends ActionBase {
 
         private int index;
 

@@ -1,6 +1,8 @@
 package one.nem.lacerta.vcs.model.action;
 
-public class UpdatePage {
+import one.nem.lacerta.vcs.model.action.common.ActionBase;
+
+public class UpdatePage extends ActionBase {
 
     private int index;
     private String fileName;
