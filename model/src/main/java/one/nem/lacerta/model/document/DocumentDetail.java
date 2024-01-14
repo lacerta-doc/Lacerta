@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.util.Date;
 
 import one.nem.lacerta.model.document.path.DocumentPath;
+import one.nem.lacerta.model.PublicPath;
 import one.nem.lacerta.model.document.DocumentMeta;
 
 /**
@@ -19,9 +20,9 @@ public class DocumentDetail {
     DocumentMeta meta;
 
     /**
-     * ドキュメントのパス(DocumentPathインスタンス)
+     * ユーザーが扱うパス
      */
-    DocumentPath path;
+    PublicPath publicPath;
 
     /**
      * ドキュメントの作者(String)
@@ -39,9 +40,9 @@ public class DocumentDetail {
     public DocumentDetail() {
     }
 
-    public DocumentDetail(DocumentMeta meta, DocumentPath path, String author, String defaultBranch) {
+    public DocumentDetail(DocumentMeta meta, PublicPath publicPath, String author, String defaultBranch) {
         this.meta = meta;
-        this.path = path;
+        this.publicPath = publicPath;
         this.author = author;
         this.defaultBranch = defaultBranch;
     }
@@ -56,10 +57,10 @@ public class DocumentDetail {
     }
 
     /**
-     * ドキュメントのパス(DocumentPathインスタンス)を取得する
+     * ユーザーが扱うパスを取得する
      */
-    public DocumentPath getPath() {
-        return path;
+    public PublicPath getPublicPath() {
+        return publicPath;
     }
 
     /**
@@ -95,11 +96,11 @@ public class DocumentDetail {
     }
 
     /**
-     * ドキュメントのパス(DocumentPathインスタンス)を設定する
-     * @param path DocumentPathインスタンス
+     * ユーザーが扱うパスを設定する
+     * @param publicPath ユーザーが扱うパス
      */
-    public void setPath(DocumentPath path) {
-        this.path =  path;
+    public void setPublicPath(PublicPath publicPath) {
+        this.publicPath = publicPath;
     }
 
     /**
