@@ -123,109 +123,110 @@ public class ScannerDataManagerStubFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        view.findViewById(R.id.button_call_camera).setOnClickListener(v -> {
-            Log.d("ScannerDataManagerStubFragment", "button_call_camera clicked");
-            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-                File photoFile = null;
-                try {
-                    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
-                    String imageFileName = "JPEG_" + timeStamp + "_";
-                    File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-                    photoFile = File.createTempFile(imageFileName, ".jpg", storageDir);
-                } catch (IOException ex) {
-                    Log.e("ScannerDataManagerStubFragment", "Error occurred while creating the file", ex);
-                }
-                if (photoFile != null) {
-                    photoURI = FileProvider.getUriForFile(getActivity(), "one.nem.lacerta.provider", photoFile);
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                    cameraLauncher.launch(takePictureIntent);
-                }
-                else {
-                    Log.d("ScannerDataManagerStubFragment", "photoFile is null");
-                }
-            }
-            else {
-                Log.d("ScannerDataManagerStubFragment", "camera not available");
-            }
-            updateResults();
-        });
-
-        view.findViewById(R.id.button_create_documnent).setOnClickListener(v -> {
-            Log.d("ScannerDataManagerStubFragment", "button_create_documnent clicked");
-            Toast.makeText(getActivity(), "button_create_documnent clicked", Toast.LENGTH_LONG).show();
-
-            this.documentDetail = createSampleDocumentDetail();
-
-        });
-
-        view.findViewById(R.id.button_init_document_processor).setOnClickListener(v -> {
-            Log.d("ScannerDataManagerStubFragment", "button_init_document_processor clicked");
-            Toast.makeText(getActivity(), "button_init_document_processor clicked", Toast.LENGTH_LONG).show();
-            // TODO-rca: ここでDocumentProcessorを初期化する
-            if (this.documentDetail == null) {
-                Toast.makeText(getActivity(), "documentDetail is null", Toast.LENGTH_LONG).show();
-                return;
-            }
-            this.documentProcessor = documentProcessorFactory.create(this.documentDetail);
-            Toast.makeText(getActivity(), "documentProcessor created", Toast.LENGTH_LONG).show();
-            try {
-                this.documentProcessor.init();
-            } catch (Exception e) {
-                Toast.makeText(getActivity(), "Error occurred while initializing documentProcessor", Toast.LENGTH_LONG).show();
-                Log.e("ScannerDataManagerStubFragment", "Error occurred while initializing documentProcessor", e);
-            }
-            Toast.makeText(getActivity(), "documentProcessor initialized", Toast.LENGTH_LONG).show();
-        });
-
-        view.findViewById(R.id.button_add_page).setOnClickListener(v -> {
-            Log.d("ScannerDataManagerStubFragment", "button_add_page clicked");
-            Toast.makeText(getActivity(), "button_add_page clicked", Toast.LENGTH_LONG).show();
-            if (this.documentProcessor == null) {
-                Toast.makeText(getActivity(), "documentProcessor is null", Toast.LENGTH_LONG).show();
-                return;
-            }
-            Bitmap[] bitmaps = new Bitmap[results.size()];
-            for (int i = 0; i < results.size(); i++) {
-                bitmaps[i] = results.get(i).getBitmap();
-            }
-
-            try {
-                this.documentProcessor.addNewPagesToLast(bitmaps);
-            } catch (Exception e) {
-                Toast.makeText(getActivity(), "Error occurred while adding pages", Toast.LENGTH_LONG).show();
-                Log.e("ScannerDataManagerStubFragment", "Error occurred while adding pages", e);
-            }
-
-            Toast.makeText(getActivity(), "pages added", Toast.LENGTH_LONG).show();
-
-            try {
-                this.documentProcessor.close();
-            } catch (Exception e) {
-                Toast.makeText(getActivity(), "Error occurred while closing documentProcessor", Toast.LENGTH_LONG).show();
-                Log.e("ScannerDataManagerStubFragment", "Error occurred while closing documentProcessor", e);
-            }
-        });
+//        view.findViewById(R.id.button_call_camera).setOnClickListener(v -> {
+//            Log.d("ScannerDataManagerStubFragment", "button_call_camera clicked");
+//            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//            if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+//                File photoFile = null;
+//                try {
+//                    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
+//                    String imageFileName = "JPEG_" + timeStamp + "_";
+//                    File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+//                    photoFile = File.createTempFile(imageFileName, ".jpg", storageDir);
+//                } catch (IOException ex) {
+//                    Log.e("ScannerDataManagerStubFragment", "Error occurred while creating the file", ex);
+//                }
+//                if (photoFile != null) {
+//                    photoURI = FileProvider.getUriForFile(getActivity(), "one.nem.lacerta.provider", photoFile);
+//                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+//                    cameraLauncher.launch(takePictureIntent);
+//                }
+//                else {
+//                    Log.d("ScannerDataManagerStubFragment", "photoFile is null");
+//                }
+//            }
+//            else {
+//                Log.d("ScannerDataManagerStubFragment", "camera not available");
+//            }
+//            updateResults();
+//        });
+//
+//        view.findViewById(R.id.button_create_documnent).setOnClickListener(v -> {
+//            Log.d("ScannerDataManagerStubFragment", "button_create_documnent clicked");
+//            Toast.makeText(getActivity(), "button_create_documnent clicked", Toast.LENGTH_LONG).show();
+//
+//            this.documentDetail = createSampleDocumentDetail();
+//
+//        });
+//
+//        view.findViewById(R.id.button_init_document_processor).setOnClickListener(v -> {
+//            Log.d("ScannerDataManagerStubFragment", "button_init_document_processor clicked");
+//            Toast.makeText(getActivity(), "button_init_document_processor clicked", Toast.LENGTH_LONG).show();
+//            // TODO-rca: ここでDocumentProcessorを初期化する
+//            if (this.documentDetail == null) {
+//                Toast.makeText(getActivity(), "documentDetail is null", Toast.LENGTH_LONG).show();
+//                return;
+//            }
+//            this.documentProcessor = documentProcessorFactory.create(this.documentDetail);
+//            Toast.makeText(getActivity(), "documentProcessor created", Toast.LENGTH_LONG).show();
+//            try {
+//                this.documentProcessor.init();
+//            } catch (Exception e) {
+//                Toast.makeText(getActivity(), "Error occurred while initializing documentProcessor", Toast.LENGTH_LONG).show();
+//                Log.e("ScannerDataManagerStubFragment", "Error occurred while initializing documentProcessor", e);
+//            }
+//            Toast.makeText(getActivity(), "documentProcessor initialized", Toast.LENGTH_LONG).show();
+//        });
+//
+//        view.findViewById(R.id.button_add_page).setOnClickListener(v -> {
+//            Log.d("ScannerDataManagerStubFragment", "button_add_page clicked");
+//            Toast.makeText(getActivity(), "button_add_page clicked", Toast.LENGTH_LONG).show();
+//            if (this.documentProcessor == null) {
+//                Toast.makeText(getActivity(), "documentProcessor is null", Toast.LENGTH_LONG).show();
+//                return;
+//            }
+//            Bitmap[] bitmaps = new Bitmap[results.size()];
+//            for (int i = 0; i < results.size(); i++) {
+//                bitmaps[i] = results.get(i).getBitmap();
+//            }
+//
+//            try {
+//                this.documentProcessor.addNewPagesToLast(bitmaps);
+//            } catch (Exception e) {
+//                Toast.makeText(getActivity(), "Error occurred while adding pages", Toast.LENGTH_LONG).show();
+//                Log.e("ScannerDataManagerStubFragment", "Error occurred while adding pages", e);
+//            }
+//
+//            Toast.makeText(getActivity(), "pages added", Toast.LENGTH_LONG).show();
+//
+//            try {
+//                this.documentProcessor.close();
+//            } catch (Exception e) {
+//                Toast.makeText(getActivity(), "Error occurred while closing documentProcessor", Toast.LENGTH_LONG).show();
+//                Log.e("ScannerDataManagerStubFragment", "Error occurred while closing documentProcessor", e);
+//            }
+//        });
     }
 
     public DocumentDetail createSampleDocumentDetail() {
-
-        String id = UUID.randomUUID().toString();
-
-        Toast.makeText(getActivity(), "Generated id: " + id, Toast.LENGTH_LONG).show();
-        //logger.debug("CreateSample", "Generated id: " + id);
-
-        DocumentMeta meta = new DocumentMeta(
-                id,
-                "Sample" + DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(LocalDateTime.now()),
-                new Date(),
-                new Date());
-
-        DocumentPath path = new DocumentPath(
-                deviceInfoUtils.getExternalStorageDirectoryString(),
-                "Sample" + DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(LocalDateTime.now()));
-
-        return new DocumentDetail(meta, path, "SampleAuthor", "SampleDefaultBranch");
+//
+//        String id = UUID.randomUUID().toString();
+//
+//        Toast.makeText(getActivity(), "Generated id: " + id, Toast.LENGTH_LONG).show();
+//        //logger.debug("CreateSample", "Generated id: " + id);
+//
+//        DocumentMeta meta = new DocumentMeta(
+//                id,
+//                "Sample" + DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(LocalDateTime.now()),
+//                new Date(),
+//                new Date());
+//
+//        DocumentPath path = new DocumentPath(
+//                deviceInfoUtils.getExternalStorageDirectoryString(),
+//                "Sample" + DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(LocalDateTime.now()));
+//
+//        return new DocumentDetail(meta, path, "SampleAuthor", "SampleDefaultBranch");
+        return null;
     }
 
     @Override
