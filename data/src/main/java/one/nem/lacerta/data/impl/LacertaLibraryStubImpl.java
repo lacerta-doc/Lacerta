@@ -136,9 +136,9 @@ public class LacertaLibraryStubImpl implements LacertaLibrary {
 
         DocumentDetail documentDetail = new DocumentDetail();
         documentDetail.setMeta(documentMeta);
-        documentDetail.setPath(null); // TODO-rca: なんとかする
-        documentDetail.setAuthor(faker.name().fullName());
-        documentDetail.setRepository(null); // TODO-rca: なんとかする
+//        documentDetail.setPath(null); // TODO-rca: なんとかする
+//        documentDetail.setAuthor(faker.name().fullName());
+//        documentDetail.setRepository(null); // TODO-rca: なんとかする
         return documentDetail;
     }
 
