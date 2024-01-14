@@ -2,6 +2,8 @@ package one.nem.lacerta.processor;
 
 import android.graphics.Bitmap;
 
+import one.nem.lacerta.model.document.DocumentDetail;
+
 public interface DocumentProcessor {
 
     // ページ操作
@@ -18,7 +20,7 @@ public interface DocumentProcessor {
     Bitmap getPageAtIndex(int index);
     int getPageCount();
 
-    void close() throws Exception;
+    DocumentDetail getDocumentDetail();
     void init() throws Exception; // TODO-rca: 例外処理
 
 }
