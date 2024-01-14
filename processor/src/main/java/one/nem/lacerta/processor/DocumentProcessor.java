@@ -21,6 +21,4 @@ public interface DocumentProcessor {
     int getPageCount();
 
     DocumentDetail getDocumentDetail();
-    void init() throws Exception; // TODO-rca: 例外処理
-
 }

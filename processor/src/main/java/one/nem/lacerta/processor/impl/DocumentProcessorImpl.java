@@ -24,6 +24,8 @@ import one.nem.lacerta.utils.LacertaLogger;
 
 import one.nem.lacerta.utils.XmlMetaParser;
 import one.nem.lacerta.utils.repository.DeviceInfoUtils;
+import one.nem.lacerta.vcs.LacertaVcs;
+import one.nem.lacerta.vcs.factory.LacertaVcsFactory;
 
 
 public class DocumentProcessorImpl implements DocumentProcessor{
@@ -36,37 +38,33 @@ public class DocumentProcessorImpl implements DocumentProcessor{
     private XmlMetaModel xmlMetaModel;
     private Path documentRootPath;
     private FileManager fileManager;
+    private LacertaVcs lacertaVcs;
 
     // Injection
     private final FileManagerFactory fileManagerFactory;
     private final LacertaLogger logger;
     private final XmlMetaParser xmlMetaParser;
-
+    private final LacertaVcsFactory lacertaVcsFactory;
     private final DeviceInfoUtils deviceInfoUtils;
     @AssistedInject
-    public DocumentProcessorImpl(FileManagerFactory fileManagerFactory, LacertaLogger logger, XmlMetaParser xmlMetaParser, DeviceInfoUtils deviceInfoUtils, @Assisted DocumentDetail documentDetail) {
+    public DocumentProcessorImpl(FileManagerFactory fileManagerFactory, LacertaLogger logger, XmlMetaParser xmlMetaParser, LacertaVcsFactory lacertaVcsFactory, DeviceInfoUtils deviceInfoUtils, @Assisted DocumentDetail documentDetail) {
         this.fileManagerFactory = fileManagerFactory;
         this.logger = logger;
         this.xmlMetaParser = xmlMetaParser;
         if (documentDetail == null) {
             throw new IllegalArgumentException("documentDetail must not be null");
         }
+        this.lacertaVcsFactory = lacertaVcsFactory;
         this.documentDetail = documentDetail;
         this.deviceInfoUtils = deviceInfoUtils;
-    }
 
-    @Override
-    public void init() throws Exception{
-        logger.debug("init", "called");
-        // Init Variables
+        // Init
         this.documentRootPath = deviceInfoUtils.getExternalStorageDirectory().resolve(this.documentDetail.getMeta().getId());
         logger.debug("init", "documentRootPath: " + this.documentRootPath);
-
         this.fileManager = fileManagerFactory.create(this.documentRootPath).enableAutoCreateParent(); //Initialize FileManager
-
-
-        logger.debug("init", "fileManager created");
+        this.lacertaVcs = lacertaVcsFactory.create(this.documentDetail.getMeta().getId());
     }
+
 
     @Override
     public void addNewPageToLast(Bitmap bitmap) throws Exception{
