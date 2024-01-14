@@ -10,16 +10,17 @@ import android.view.ViewGroup;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link DebugMenuMetaDataFragment#newInstance} factory method to
+ * Use the {@link DebugMenuVcsLogRecordFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DebugMenuMetaDataFragment extends Fragment {
-    public DebugMenuMetaDataFragment() {
+public class DebugMenuVcsLogRecordFragment extends Fragment {
+
+    public DebugMenuVcsLogRecordFragment() {
         // Required empty public constructor
     }
 
-    public static DebugMenuMetaDataFragment newInstance() {
-        DebugMenuMetaDataFragment fragment = new DebugMenuMetaDataFragment();
+    public static DebugMenuVcsLogRecordFragment newInstance() {
+        DebugMenuVcsLogRecordFragment fragment = new DebugMenuVcsLogRecordFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -34,6 +35,8 @@ public class DebugMenuMetaDataFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_debug_menu_meta_data, container, false);
+        View view = inflater.inflate(R.layout.fragment_debug_menu_vcs_log_record, container, false);
+
+        return view;
     }
 }

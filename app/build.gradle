@@ -11,13 +11,35 @@ android {
         applicationId "one.nem.lacerta"
         minSdk 26
         targetSdk 33
+
+        // ベータ, Internal, Release問わず毎回インクリメントする
+        // https://developer.android.com/studio/publish/versioning#versioningsettings
         versionCode 1
-        versionName "1.0"
+        versionName "0.1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
+        debug { // 開発メンバー用
+            debuggable true
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            matchingFallbacks = ['release']
+        }
+        internal_release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            matchingFallbacks = ['release']
+        }
+        beta_release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            matchingFallbacks = ['release']
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'

@@ -20,6 +20,8 @@ public class LacertaDatabaseModule {
                 LacertaDatabase.class,
                 "lacerta.db")
                 .allowMainThreadQueries() // Debug
+                .fallbackToDestructiveMigration() // Debug Only: マイグレーションがない場合などにデータベースを再生成する
+                .fallbackToDestructiveMigrationOnDowngrade() // Debug Only: マイグレーションがない場合などにデータベースを再生成する
                 .build();
     }
 }

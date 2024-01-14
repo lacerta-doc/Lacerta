@@ -5,7 +5,7 @@ import androidx.room.TypeConverter;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class TagArrayListConverter {
+public class ArrayListConverter {
 
     @TypeConverter
     public static ArrayList<String> fromString(String value) {

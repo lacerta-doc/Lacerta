@@ -32,4 +32,16 @@ dependencies {
     testImplementation libs.junit
     androidTestImplementation libs.androidx.test.ext.junit
     androidTestImplementation libs.androidx.test.espresso.core
+
+    // DI
+    implementation libs.com.google.dagger.hilt.android
+    annotationProcessor libs.com.google.dagger.hilt.compiler
+
+    // JGit
+    implementation 'org.eclipse.jgit:org.eclipse.jgit:6.8.0.202311291450-r'
+
+    implementation project(':model')
+    implementation project(':source')
+    implementation project(':utils')
+    implementation project(':data')
 }

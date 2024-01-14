@@ -8,7 +8,6 @@ import androidx.room.TypeConverter;
 import androidx.room.TypeConverters;
 
 import one.nem.lacerta.source.database.common.DateTypeConverter;
-import one.nem.lacerta.source.database.common.TagArrayListConverter;
 import one.nem.lacerta.source.database.common.TagListConverter;
 
 import java.util.ArrayList;
@@ -40,4 +39,7 @@ public class DocumentEntity {
 
     @ColumnInfo(name = "tag_ids")
     public List<String> tagIds; // タグ
+
+    @ColumnInfo(name = "public_path")
+    public String publicPath; // 公開パス
 }
