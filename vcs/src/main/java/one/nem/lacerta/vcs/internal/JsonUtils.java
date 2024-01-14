@@ -44,12 +44,22 @@ public class JsonUtils {
         throw new IllegalArgumentException("Unknown object type");
     }
 
-
-    public static <T> T fromJson(String json, ActionType actionType, Class<T> clazz) {
-        return null;
+    public static Object fromJson(String json, ActionType actionType) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            switch (actionType) {
+                case INSERT_PAGE:
+                    return mapper.readValue(json, InsertPage.class);
+                case UPDATE_PAGE:
+                    return mapper.readValue(json, UpdatePage.class);
+                case DELETE_PAGE:
+                    return mapper.readValue(json, DeletePage.class);
+                default:
+                    throw new IllegalArgumentException("Unknown action type");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
-
-    // Internal methods
-
 
 }
