@@ -3,10 +3,17 @@ package one.nem.lacerta.feature.debug;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import one.nem.lacerta.feature.debug.common.adapter.DebugMenuListItemAdapter;
+import one.nem.lacerta.feature.debug.common.model.DebugMenuListItem;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,6 +42,15 @@ public class DebugMenuVcsGeneralFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_debug_menu_vcs_general, container, false);
+        View view = inflater.inflate(R.layout.fragment_debug_menu_vcs_general, container, false);
+
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(getContext()));
+        List<DebugMenuListItem> debugMenuListItems = new ArrayList<>();
+
+        DebugMenuListItemAdapter adapter = new DebugMenuListItemAdapter(debugMenuListItems);
+        recyclerView.setAdapter(adapter);
+
+        return view;
     }
 }
