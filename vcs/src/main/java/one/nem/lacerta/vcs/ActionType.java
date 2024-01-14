@@ -20,7 +20,11 @@ public enum ActionType {
 
     CREATE_DOCUMENT("create_document"),
     DROP_DOCUMENT("drop_document"),
+
+    // TODO-rca: 実装----------------------------------------
     UPDATE_DOCUMENT_META("update_document_meta"),
+    // -----------------------------------------------------
+
     OTHER("other");
 
     private final String value;
