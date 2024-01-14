@@ -39,6 +39,7 @@ public class DocumentDebugImpl implements DocumentDebug{
 
         libraryEntity.id = meta.getId();
         libraryEntity.path = "Placeholder";
+        libraryEntity.rootPath = "Placeholder";
 
         database.documentDao().insert(documentEntity);
         database.libraryDao().insert(libraryEntity);
