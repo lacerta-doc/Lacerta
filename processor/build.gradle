@@ -44,4 +44,5 @@ dependencies {
     implementation project(':source')
     implementation project(':utils')
     implementation project(':data')
+    implementation project(':vcs')
 }
