@@ -64,6 +64,27 @@ public class DocumentMeta {
         this.defaultBranch = defaultBranch;
     }
 
+    public DocumentMeta(String id, String title, Date updatedAt, Date createdAt, List<DocumentTag> tags, String author, String defaultBranch) {
+        this.id = id;
+        this.title = title;
+        this.updatedAt = updatedAt;
+        this.createdAt = createdAt;
+        this.tags = tags;
+        this.author = author;
+        this.defaultBranch = defaultBranch;
+    }
+
+    public DocumentMeta(String id, String title, Date updatedAt, Date createdAt, List<DocumentTag> tags, PublicPath path, String author, String defaultBranch) {
+        this.id = id;
+        this.title = title;
+        this.updatedAt = updatedAt;
+        this.createdAt = createdAt;
+        this.tags = tags;
+        this.path = path;
+        this.author = author;
+        this.defaultBranch = defaultBranch;
+    }
+
     // Getter
 
     /**
