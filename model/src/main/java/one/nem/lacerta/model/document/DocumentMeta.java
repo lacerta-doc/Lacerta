@@ -213,6 +213,14 @@ public class DocumentMeta { // TODO-rca: JavaDoc対応
     }
 
     /**
+     * ドキュメントのデフォルトブランチ(String)を設定する
+     * @param defaultBranch ドキュメントのデフォルトブランチ
+     */
+    public void setDefaultBranch(String defaultBranch) {
+        this.defaultBranch = defaultBranch;
+    }
+
+    /**
      * updatedAtを現在時刻に設定する
      */
     public void setUpdatedAtNow() {
