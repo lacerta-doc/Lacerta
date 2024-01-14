@@ -116,7 +116,6 @@ public class DocumentImpl implements Document{
 
         documentDetail.setMeta(documentMeta);
         documentDetail.setAuthor(documentEntity.author);
-        documentDetail.setPath(documentPath);
         documentDetail.setDefaultBranch(documentEntity.defaultBranch);
 
         return documentDetail;
@@ -133,7 +132,6 @@ public class DocumentImpl implements Document{
 
         documentDetail.setMeta(meta);
         documentDetail.setAuthor("author"); // TODO-rca: SharedPrefを扱う機能を作ってそこから取得するようにする or Gitの設定を参照するようにする
-        documentDetail.setPath(new DocumentPath(deviceInfoUtils.getExternalStorageDirectoryString(), meta.getId()));
         documentDetail.setDefaultBranch("master"); // TODO-rca: SharedPrefを扱う機能を作ってそこから取得するようにする？
 
         return documentDetail;
