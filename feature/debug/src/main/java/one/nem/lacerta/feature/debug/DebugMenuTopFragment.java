@@ -51,6 +51,7 @@ public class DebugMenuTopFragment extends Fragment {
         debugMenuListItems.add(new DebugMenuListItem("Document Tester", "placeholder", R.id.action_debugMenuTopFragment_to_debugMenuDocumentTesterTopFragment, true));
         debugMenuListItems.add(new DebugMenuListItem("Scanner", "placeholder", R.id.action_debugMenuTopFragment_to_scannerDataManagerStubFragment, true));
         debugMenuListItems.add(new DebugMenuListItem("Document List", "placeholder", R.id.action_debugMenuTopFragment_to_debugMenuLibraryItemListPageFragment, true));
+        debugMenuListItems.add(new DebugMenuListItem("VCS", "placeholder", R.id.action_debugMenuTopFragment_to_debugMenuVcsGeneralFragment, true));
 
         DebugMenuListItemAdapter adapter = new DebugMenuListItemAdapter(debugMenuListItems);
         recyclerView.setAdapter(adapter);
