@@ -31,24 +31,7 @@ public class ScannerManagerFragment extends Fragment {
     @Inject
     LacertaVcsFactory vcsFactory;
 
-    DocumentScanner documentScanner = new DocumentScanner(
-            requireActivity(),
-            (croppedImage) -> {
-                // TODO-rca: 画像を保存する
-                return null;
-            },
-            (error) -> {
-                // TODO-rca: エラー処理
-                return null;
-            },
-            () -> {
-                // TODO-rca: キャンセル処理
-                return null;
-            },
-            null,
-            null,
-            null
-    );
+    DocumentScanner documentScanner;
 
     private static final boolean DEFAULT_SINGLE_PAGE = false;
     private boolean singlePage;
@@ -79,6 +62,25 @@ public class ScannerManagerFragment extends Fragment {
         if (getArguments() != null) {
             singlePage = getArguments().getBoolean("singlePage", DEFAULT_SINGLE_PAGE);
         }
+
+        documentScanner = new DocumentScanner(
+                requireActivity(),
+                (croppedImage) -> {
+                    // TODO-rca: 画像を保存する
+                    return null;
+                },
+                (error) -> {
+                    // TODO-rca: エラー処理
+                    return null;
+                },
+                () -> {
+                    // TODO-rca: キャンセル処理
+                    return null;
+                },
+                null,
+                null,
+                null
+        );
     }
 
     @Override
@@ -87,11 +89,11 @@ public class ScannerManagerFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_scanner_manager, container, false);
 
-        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT
-        );
-        view.setLayoutParams(layoutParams);
+//        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(
+//                ViewGroup.LayoutParams.MATCH_PARENT,
+//                ViewGroup.LayoutParams.MATCH_PARENT
+//        );
+//        view.setLayoutParams(layoutParams);
 
         return view;
     }
@@ -104,7 +106,9 @@ public class ScannerManagerFragment extends Fragment {
         logger.debug(TAG, "called");
 
         view.findViewById(R.id.button_start_scan).setOnClickListener(v -> {
-            documentScanner.startScan();
+            if (documentScanner != null) {
+                documentScanner.startScan();
+            }
         });
     }
 }
