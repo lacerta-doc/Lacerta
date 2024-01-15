@@ -46,4 +46,6 @@ dependencies {
     implementation project(':processor')
 
     implementation project(':utils')
+
+    implementation project(':vcs')
 }
