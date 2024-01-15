@@ -8,12 +8,45 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ScannerManagerFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.websitebeaver.documentscanner.DocumentScanner;
+
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
+import one.nem.lacerta.utils.LacertaLogger;
+import one.nem.lacerta.vcs.LacertaVcs;
+import one.nem.lacerta.vcs.factory.LacertaVcsFactory;
+
+
+@AndroidEntryPoint
 public class ScannerManagerFragment extends Fragment {
+
+    String TAG = getClass().getSimpleName();
+
+    @Inject
+    LacertaLogger logger;
+
+    @Inject
+    LacertaVcsFactory vcsFactory;
+
+    DocumentScanner documentScanner = new DocumentScanner(
+            getActivity(),
+            (croppedImage) -> {
+                // TODO-rca: 画像を保存する
+                return null;
+            },
+            (error) -> {
+                // TODO-rca: エラー処理
+                return null;
+            },
+            () -> {
+                // TODO-rca: キャンセル処理
+                return null;
+            },
+            null,
+            null,
+            null
+    );
 
     private static final boolean DEFAULT_SINGLE_PAGE = false;
     private boolean singlePage;
@@ -49,8 +82,11 @@ public class ScannerManagerFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        view.findViewById(R.id.button_start_scan).setOnClickListener(v -> {
+        // Init
+        logger.debug(TAG, "called");
 
+        view.findViewById(R.id.button_start_scan).setOnClickListener(v -> {
+            documentScanner.startScan();
         });
     }
 }
