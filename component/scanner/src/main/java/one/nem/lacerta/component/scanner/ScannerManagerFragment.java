@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 
 import com.websitebeaver.documentscanner.DocumentScanner;
 
+import java.util.Objects;
+
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -30,7 +32,7 @@ public class ScannerManagerFragment extends Fragment {
     LacertaVcsFactory vcsFactory;
 
     DocumentScanner documentScanner = new DocumentScanner(
-            getActivity(),
+            requireActivity(),
             (croppedImage) -> {
                 // TODO-rca: 画像を保存する
                 return null;
@@ -55,10 +57,18 @@ public class ScannerManagerFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static ScannerManagerFragment newInstance(boolean singlePage) {
+//    public static ScannerManagerFragment newInstance(boolean singlePage) {
+//        ScannerManagerFragment fragment = new ScannerManagerFragment();
+//        Bundle args = new Bundle();
+//        args.putBoolean("singlePage", singlePage);
+//        fragment.setArguments(args);
+//        return fragment;
+//    }
+
+    public static ScannerManagerFragment newInstance() {
         ScannerManagerFragment fragment = new ScannerManagerFragment();
         Bundle args = new Bundle();
-        args.putBoolean("singlePage", singlePage);
+        args.putBoolean("singlePage", DEFAULT_SINGLE_PAGE);
         fragment.setArguments(args);
         return fragment;
     }
@@ -75,7 +85,15 @@ public class ScannerManagerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_scanner_manager, container, false);
+        View view = inflater.inflate(R.layout.fragment_scanner_manager, container, false);
+
+        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+        );
+        view.setLayoutParams(layoutParams);
+
+        return view;
     }
 
     @Override
