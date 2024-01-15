@@ -124,4 +124,19 @@ public class LibraryTopFragment extends Fragment {
 // Use a LinearLayoutManager to specify the layout
         return view;
     }
+    // DocumentMetaリストをLibraryItemPageに変換するユーティリティメソッド
+    private ArrayList<ListItem> convertToLibraryItems(List<DocumentMeta> metas) {
+        ArrayList<ListItem> libraryItems = new ArrayList<>();
+        for (DocumentMeta meta : metas) {
+            // ListItemの作成と設定
+            ListItem listItem = new ListItem();
+            listItem.setTitle(meta.getTitle());
+            listItem.setDescription(meta.getTitle());
+            // 他の必要な情報もListItemに設定する
+
+            // ListItemをリストに追加
+            libraryItems.add(listItem);
+        }
+        return libraryItems;
+    }
 }
