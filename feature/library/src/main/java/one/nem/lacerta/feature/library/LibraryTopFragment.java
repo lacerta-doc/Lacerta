@@ -26,6 +26,10 @@ import one.nem.lacerta.model.document.DocumentMeta;
 import one.nem.lacerta.model.document.tag.DocumentTag;
 
 import one.nem.lacerta.data.LacertaLibrary;
+import one.nem.lacerta.model.LibraryItemPage;
+import one.nem.lacerta.model.ListItem;
+import one.nem.lacerta.model.ListItemType;
+
 
 /**
  * A simple {@link Fragment} subclass.
