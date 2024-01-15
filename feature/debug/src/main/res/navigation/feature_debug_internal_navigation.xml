@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_debugMenuTopFragment_to_debugMenuVcsGeneralFragment"
             app:destination="@id/debugMenuVcsGeneralFragment" />
+        <action
+            android:id="@+id/action_debugMenuTopFragment_to_scannerManagerFragment"
+            app:destination="@id/scannerManagerFragment" />
     </fragment>
     <fragment
         android:id="@+id/debugMenuDocumentTesterTopFragment"
@@ -68,4 +71,8 @@
         android:name="one.nem.lacerta.feature.debug.DebugMenuVcsRevRecordFragment"
         android:label="fragment_debug_menu_vcs_rev_record"
         tools:layout="@layout/fragment_debug_menu_vcs_rev_record" />
+    <fragment
+        android:id="@+id/scannerManagerFragment"
+        android:name="one.nem.lacerta.component.scanner.ScannerManagerFragment"
+        android:label="ScannerManagerFragment" />
 </navigation>
