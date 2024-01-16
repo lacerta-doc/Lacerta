@@ -101,10 +101,12 @@ public class ScannerManagerActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.action_save_new) {
             // 新ドキュメントとして保存
             Toast.makeText(this, "保存処理", Toast.LENGTH_SHORT).show();
+            saveNewDocument();
             return true;
         } else if (item.getItemId() == R.id.action_insert_exist) {
             // 既存ドキュメントに挿入
             Toast.makeText(this, "挿入処理", Toast.LENGTH_SHORT).show();
+            insertToExistDocument();
             return true;
         } else if (item.getItemId() == android.R.id.home) {
             finish();
@@ -132,6 +134,16 @@ public class ScannerManagerActivity extends AppCompatActivity {
             this.croppedImages = resultImages;
         }
 
+    }
+
+    private void saveNewDocument() {
+        logger.debug(TAG, "saveNewDocument");
+        // TODO-rca: 実装
+    }
+
+    private void insertToExistDocument() {
+        logger.debug(TAG, "insertToExistDocument");
+        // TODO-rca: 実装
     }
 
     private void updateResultView(ArrayList<Bitmap> resultImages) {
