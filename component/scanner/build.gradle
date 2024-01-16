@@ -50,4 +50,6 @@ dependencies {
     implementation project(':utils')
 
     implementation project(':vcs')
+
+    implementation project(':data')
 }
