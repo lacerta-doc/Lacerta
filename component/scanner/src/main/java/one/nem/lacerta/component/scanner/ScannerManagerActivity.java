@@ -21,6 +21,7 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.websitebeaver.documentscanner.DocumentScanner;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -79,6 +80,7 @@ public class ScannerManagerActivity extends AppCompatActivity {
 
         MaterialToolbar toolbar = findViewById(R.id.top_toolbar);
         setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         documentScanner.startScan();
         // Init
@@ -101,6 +103,9 @@ public class ScannerManagerActivity extends AppCompatActivity {
         } else if (item.getItemId() == R.id.action_save) {
             // TODO-rca: 保存処理
             Toast.makeText(this, "保存処理", Toast.LENGTH_SHORT).show();
+            return true;
+        } else if (item.getItemId() == android.R.id.home) {
+            finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
