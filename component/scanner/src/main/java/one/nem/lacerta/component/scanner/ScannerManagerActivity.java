@@ -98,12 +98,13 @@ public class ScannerManagerActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
-        if (item.getItemId() == R.id.action_close) {
-            finish();
-            return true;
-        } else if (item.getItemId() == R.id.action_save) {
-            // TODO-rca: 保存処理
+        if (item.getItemId() == R.id.action_save_new) {
+            // 新ドキュメントとして保存
             Toast.makeText(this, "保存処理", Toast.LENGTH_SHORT).show();
+            return true;
+        } else if (item.getItemId() == R.id.action_insert_exist) {
+            // 既存ドキュメントに挿入
+            Toast.makeText(this, "挿入処理", Toast.LENGTH_SHORT).show();
             return true;
         } else if (item.getItemId() == android.R.id.home) {
             finish();
