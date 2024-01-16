@@ -48,6 +48,17 @@ public class DocumentMeta { // TODO-rca: JavaDoc対応
     public DocumentMeta() {
     }
 
+    public DocumentMeta(String title) {
+        this.id = UUID.randomUUID().toString();
+        this.title = title;
+        this.tags = new ArrayList<>();
+        this.author = ""; // TODO-rca: 作者のデフォルト値を設定できるようにする
+        this.defaultBranch = "main"; // TODO-rca: デフォルトブランチのデフォルト値を設定できるようにする
+        this.path = new PublicPath().getRoot();
+        this.updatedAt = new Date();
+        this.createdAt = new Date();
+    }
+
     public DocumentMeta(String title, List<DocumentTag> tags, String author, String defaultBranch) {
         this.id = UUID.randomUUID().toString();
         this.title = title;
