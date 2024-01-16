@@ -17,6 +17,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.websitebeaver.documentscanner.DocumentScanner;
 
 import java.util.ArrayList;
@@ -76,11 +77,33 @@ public class ScannerManagerActivity extends AppCompatActivity {
             return insets;
         });
 
+        MaterialToolbar toolbar = findViewById(R.id.top_toolbar);
+        setSupportActionBar(toolbar);
+
         documentScanner.startScan();
         // Init
 
         this.view = findViewById(R.id.main); // TODO-rca:なんとかする
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(android.view.Menu menu) {
+        getMenuInflater().inflate(R.menu.scanner_result_toolbar, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(android.view.MenuItem item) {
+        if (item.getItemId() == R.id.action_close) {
+            finish();
+            return true;
+        } else if (item.getItemId() == R.id.action_save) {
+            // TODO-rca: 保存処理
+            Toast.makeText(this, "保存処理", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void processResult(ArrayList<Bitmap> resultImages) {
