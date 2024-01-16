@@ -2,23 +2,27 @@ package one.nem.lacerta.data.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
-
 import java.util.UUID;
 
+// Hilt
 import javax.inject.Inject;
 
+// Lacerta/data
 import one.nem.lacerta.data.Document;
 
+// Lacerta/model
 import one.nem.lacerta.model.PublicPath;
 import one.nem.lacerta.model.document.DocumentMeta;
 import one.nem.lacerta.model.document.DocumentDetail;
 
+// Lacerta/source
 import one.nem.lacerta.source.database.LacertaDatabase;
-
 import one.nem.lacerta.source.database.entity.DocumentEntity;
 
+// Lacerta/utils
 import one.nem.lacerta.utils.LacertaLogger;
 
+// Lacerta/vcs
 import one.nem.lacerta.vcs.LacertaVcs;
 
 
