@@ -44,6 +44,11 @@ public class LacertaLoggerImpl implements LacertaLogger{
     }
 
     @Override
+    public void e_code(String errorId) {
+        Log.e("ErrorReport", "An error occurred. Searchable error ID: " + errorId);
+    }
+
+    @Override
     public String buildKVMessage(KeyValueLog... logs) {
         StringBuilder builder = new StringBuilder();
         for (KeyValueLog log : logs) {
