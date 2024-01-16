@@ -24,6 +24,7 @@ import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import one.nem.lacerta.data.Document;
+import one.nem.lacerta.data.impl.LacertaLibraryImpl;
 import one.nem.lacerta.model.document.DocumentMeta;
 import one.nem.lacerta.model.document.tag.DocumentTag;
 
@@ -105,43 +106,39 @@ public class LibraryTopFragment extends Fragment {
         documentRecyclerView.setLayoutManager(layoutManager);
 
         try {
+            LacertaLibrary lacertaLibrary = new LacertaLibraryImpl();
             // ドキュメントのメタデータを取得
-            List<ListItem> metas = (List<ListItem>) LacertaLibrary.getLibraryPage(100);
+            LibraryItemPage libraryItemPage = lacertaLibrary.getLibraryPage(100);
 
 
-            if (metas != null) {
+            if (libraryItemPage != null) {
                 // ドキュメントのメタデータが取得できた場合の処理
-                LibraryItemPage libraryItemPage = new LibraryItemPage("Page Title", "Page ID", convertToLibraryItems(metas));
+                List<ListItem> metas = libraryItemPage.getListItems();
 
+                // ドキュメントをデフォルトフォルダに追加
+                // フォルダごとにドキュメントを管理する
+                for (ListItem meta : metas) {
+                    folderManager.addDocumentToFolder("Default Folder", meta);
+                }
 
-            // ドキュメントをデフォルトフォルダに追加
-            // フォルダごとにドキュメントを管理する
-            for (ListItem meta : metas) {
-                folderManager.addDocumentToFolder("Default Folder", meta);
-            }
+                // 特定のフォルダのドキュメントを取得
+                List<ListItem> folderDocuments = folderManager.getDocumentInFolder("Default Folder");
 
+                // トーストメッセージでドキュメントの数を表示
+                Toast.makeText(getActivity(), "ドキュメント数: " + Integer.toString(metas.size()), Toast.LENGTH_LONG).show();
 
-            // 特定のフォルダのドキュメントを取得
-            List<ListItem> folderDocuments = folderManager.getDocumentInFolder("Default Folder");
-
-            // トーストメッセージでドキュメントの数を表示
-            Toast.makeText(getContext(), "ドキュメント数: " + Integer.toString(metas.size()), Toast.LENGTH_LONG).show();
-
-//LibraryItemPageを使用してadapterを設定
-            DocumentAdapter adapter = new DocumentAdapter(libraryItemPage.getListItems());
-            documentRecyclerView.setAdapter(adapter);
-
+                // LibraryItemPageを使用してadapterを設定
+                DocumentAdapter adapter = new DocumentAdapter((ArrayList<ListItem>) metas);
+                documentRecyclerView.setAdapter(adapter);
             } else {
                 // ドキュメントのメタデータが null の場合の処理
                 Toast.makeText(getContext(), "ドキュメントメタデータが取得できませんでした", Toast.LENGTH_LONG).show();
             }
-
         } catch (Exception e) {
             // 例外処理
             e.printStackTrace();
         }
 // Use a LinearLayoutManager to specify the layout
-        return view;
-    }
-
+            return view;
+        }
 }
