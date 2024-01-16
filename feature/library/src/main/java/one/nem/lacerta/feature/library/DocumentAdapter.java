@@ -8,15 +8,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import one.nem.lacerta.model.ListItem;
 import one.nem.lacerta.model.document.DocumentMeta;
 
 public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.DocumentViewHolder> {
 
-    private List<DocumentMeta> documentMetas;
+    private ArrayList<ListItem> documentMetas;
 
-    public DocumentAdapter(List<DocumentMeta> documentMetas) {
+    public DocumentAdapter(ArrayList<ListItem> documentMetas) {
         // nullの場合に例外を発生させる
         if (documentMetas == null) {
             throw new IllegalArgumentException("DocumentMetas list cannot be null or empty");
@@ -33,7 +35,7 @@ public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.Docume
 
     @Override
     public void onBindViewHolder(@NonNull DocumentViewHolder holder, int position) {
-        DocumentMeta documentMeta = documentMetas.get(position);
+        ListItem documentMeta = documentMetas.get(position);
         if (documentMeta != null) {
             holder.title.setText(documentMeta.getTitle());
         }

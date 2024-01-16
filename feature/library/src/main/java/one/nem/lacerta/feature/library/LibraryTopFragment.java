@@ -1,5 +1,7 @@
 package one.nem.lacerta.feature.library;
 
+import static one.nem.lacerta.feature.library.LibraryUtils.convertToLibraryItems;
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -117,14 +119,13 @@ public class LibraryTopFragment extends Fragment {
         // トーストメッセージでドキュメントの数を表示
         Toast.makeText(getContext(), "ドキュメント数: " + Integer.toString(metas.size()), Toast.LENGTH_LONG).show();
 
-// Create and set the adapter
-        DocumentAdapter adapter = new DocumentAdapter(metas);
+//LibraryItemPageを使用してadapterを設定
+        LibraryItemPage libraryItemPage = new LibraryItemPage("Page Title", "Page ID", convertToLibraryItems(metas));
+        DocumentAdapter adapter = new DocumentAdapter(libraryItemPage.getListItems());
         documentRecyclerView.setAdapter(adapter);
 
 // Use a LinearLayoutManager to specify the layout
         return view;
     }
-    private ArrayList<ListItem> convertToLibraryItems(List<DocumentMeta> metas) {
-        return LibraryUtils.convertToLibraryItems(metas);
-    }
+
 }
