@@ -3,12 +3,10 @@ package one.nem.lacerta.processor.impl;
 import android.graphics.Bitmap;
 
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.UUID;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedInject;
-import one.nem.lacerta.model.document.internal.XmlMetaPageModel;
 import one.nem.lacerta.processor.DocumentProcessor;
 
 import one.nem.lacerta.model.document.DocumentDetail;
