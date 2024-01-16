@@ -1,5 +1,6 @@
 package one.nem.lacerta.component.scanner;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.websitebeaver.documentscanner.DocumentScanner;
+import com.websitebeaver.documentscanner.DocumentScannerActivity;
 
 import java.util.Objects;
 
@@ -30,8 +32,6 @@ public class ScannerManagerFragment extends Fragment {
 
     @Inject
     LacertaVcsFactory vcsFactory;
-
-    DocumentScanner documentScanner;
 
     private static final boolean DEFAULT_SINGLE_PAGE = false;
     private boolean singlePage;
@@ -62,25 +62,6 @@ public class ScannerManagerFragment extends Fragment {
         if (getArguments() != null) {
             singlePage = getArguments().getBoolean("singlePage", DEFAULT_SINGLE_PAGE);
         }
-
-        documentScanner = new DocumentScanner(
-                requireActivity(),
-                (croppedImage) -> {
-                    // TODO-rca: 画像を保存する
-                    return null;
-                },
-                (error) -> {
-                    // TODO-rca: エラー処理
-                    return null;
-                },
-                () -> {
-                    // TODO-rca: キャンセル処理
-                    return null;
-                },
-                null,
-                null,
-                null
-        );
     }
 
     @Override
@@ -105,10 +86,10 @@ public class ScannerManagerFragment extends Fragment {
         // Init
         logger.debug(TAG, "called");
 
-        view.findViewById(R.id.button_start_scan).setOnClickListener(v -> {
-            if (documentScanner != null) {
-                documentScanner.startScan();
-            }
+        view.findViewById(R.id.button_intent_scanner_manager_activity).setOnClickListener(v -> {
+            // DocumentScannerActivityを起動する
+            Intent intent = new Intent(requireActivity().getApplicationContext(), ScannerManagerActivity.class);
+            startActivity(intent);
         });
     }
 }
