@@ -1,8 +1,11 @@
 package one.nem.lacerta.component.scanner;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.AnimatorRes;
@@ -13,6 +16,8 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.websitebeaver.documentscanner.DocumentScanner;
 
+import java.util.ArrayList;
+
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -21,15 +26,23 @@ import one.nem.lacerta.utils.LacertaLogger;
 @AndroidEntryPoint
 public class ScannerManagerActivity extends AppCompatActivity {
 
+    String TAG = "ScannerManagerActivity";
+
     @Inject
     LacertaLogger logger;
+
+    // Variables
+    private ArrayList<Bitmap> resultImages = new ArrayList<>();
 
     View view;
 
     DocumentScanner documentScanner = new DocumentScanner(
             this,
             (croppedImageResults) -> {
-                // display the first cropped image
+                for (String result : croppedImageResults) {
+                    this.resultImages.add(BitmapFactory.decodeFile(result));
+                }
+                initResultView();
                 return null;
             },
             (errorMessage) -> {
@@ -67,9 +80,16 @@ public class ScannerManagerActivity extends AppCompatActivity {
 
     private void initResultView() {
         if (this.view == null) {
-
+            logger.debug(TAG, "initResultView: view is null");
             return;
         }
+
+        // Log pt
+        logger.debug(TAG, "Total images: " + this.resultImages.size());
+
+        LinearLayout resultContainer = view.findViewById(R.id.result_list_container);
+
+        // ImageButtonを追加する
     }
 
 }
