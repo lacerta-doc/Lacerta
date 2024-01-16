@@ -32,10 +32,7 @@ public class XmlMetaParserImpl implements XmlMetaParser{
 
             XmlMetaModel meta = new XmlMetaModel();
 
-            meta.setTitle(rootElement.getElementsByTagName("title").item(0).getTextContent());
-            meta.setAuthor(rootElement.getElementsByTagName("author").item(0).getTextContent());
-            meta.setDescription(rootElement.getElementsByTagName("description").item(0).getTextContent());
-            meta.setDefaultBranch(rootElement.getElementsByTagName("defaultBranch").item(0).getTextContent());
+            meta.setRevisionId(rootElement.getElementsByTagName("revisionId").item(0).getTextContent());
 
             ArrayList<XmlMetaPageModel> pages = new ArrayList<>();
             for(int i = 0; i < rootElement.getElementsByTagName("pages").getLength(); i++) {
@@ -64,10 +61,7 @@ public class XmlMetaParserImpl implements XmlMetaParser{
 
             Element rootElement = document.createElement("meta");
 
-            appendElement(document, rootElement, "title", meta.getTitle());
-            appendElement(document, rootElement, "author", meta.getAuthor());
-            appendElement(document, rootElement, "description", meta.getDescription());
-            appendElement(document, rootElement, "defaultBranch", meta.getDefaultBranch());
+            appendElement(document, rootElement, "revisionId", meta.getRevisionId());
 
             Element pagesElement = document.createElement("pages");
             for(XmlMetaPageModel page : meta.getPages()) {

@@ -47,8 +47,8 @@ public class DebugMenuDocumentTesterTopFragment extends Fragment {
 
         List<DebugMenuListItem> debugMenuDocTesterListItems = new ArrayList<>();
 
-        debugMenuDocTesterListItems.add(new DebugMenuListItem("DocumentListFragment", "DocumentListFragment", R.id.action_debugMenuDocumentTesterTopFragment_to_debugMenuDocumentTesterListFragment, true));
-        debugMenuDocTesterListItems.add(new DebugMenuListItem("DocumentManagerFragment", "DocumentManagerFragment", R.id.action_debugMenuDocumentTesterTopFragment_to_debugMenuDocumentTesterManageFragment, true));
+//        debugMenuDocTesterListItems.add(new DebugMenuListItem("DocumentListFragment", "DocumentListFragment", R.id.action_debugMenuDocumentTesterTopFragment_to_debugMenuDocumentTesterListFragment, true));
+//        debugMenuDocTesterListItems.add(new DebugMenuListItem("DocumentManagerFragment", "DocumentManagerFragment", R.id.action_debugMenuDocumentTesterTopFragment_to_debugMenuDocumentTesterManageFragment, true));
 
 
         DebugMenuListItemAdapter adapter = new DebugMenuListItemAdapter(debugMenuDocTesterListItems);

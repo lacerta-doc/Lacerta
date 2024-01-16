@@ -14,12 +14,18 @@ import one.nem.lacerta.processor.DocumentProcessor;
 import one.nem.lacerta.model.document.DocumentDetail;
 
 import one.nem.lacerta.model.document.internal.XmlMetaModel;
+
+import one.nem.lacerta.model.document.page.Page;
+
 import one.nem.lacerta.source.file.FileManager;
 import one.nem.lacerta.source.file.factory.FileManagerFactory;
 
 import one.nem.lacerta.utils.LacertaLogger;
 
 import one.nem.lacerta.utils.XmlMetaParser;
+import one.nem.lacerta.utils.repository.DeviceInfoUtils;
+import one.nem.lacerta.vcs.LacertaVcs;
+import one.nem.lacerta.vcs.factory.LacertaVcsFactory;
 
 
 public class DocumentProcessorImpl implements DocumentProcessor{
@@ -32,77 +38,47 @@ public class DocumentProcessorImpl implements DocumentProcessor{
     private XmlMetaModel xmlMetaModel;
     private Path documentRootPath;
     private FileManager fileManager;
+    private LacertaVcs lacertaVcs;
 
     // Injection
     private final FileManagerFactory fileManagerFactory;
     private final LacertaLogger logger;
     private final XmlMetaParser xmlMetaParser;
+    private final LacertaVcsFactory lacertaVcsFactory;
+    private final DeviceInfoUtils deviceInfoUtils;
     @AssistedInject
-    public DocumentProcessorImpl(FileManagerFactory fileManagerFactory, LacertaLogger logger, XmlMetaParser xmlMetaParser, @Assisted DocumentDetail documentDetail) {
+    public DocumentProcessorImpl(FileManagerFactory fileManagerFactory, LacertaLogger logger, XmlMetaParser xmlMetaParser, LacertaVcsFactory lacertaVcsFactory, DeviceInfoUtils deviceInfoUtils, @Assisted DocumentDetail documentDetail) {
         this.fileManagerFactory = fileManagerFactory;
         this.logger = logger;
         this.xmlMetaParser = xmlMetaParser;
         if (documentDetail == null) {
             throw new IllegalArgumentException("documentDetail must not be null");
         }
+        this.lacertaVcsFactory = lacertaVcsFactory;
         this.documentDetail = documentDetail;
-    }
+        this.deviceInfoUtils = deviceInfoUtils;
 
-    @Override
-    public void init() throws Exception{
-        logger.debug("init", "called");
-        // Init Variables
-        this.documentRootPath = this.documentDetail.getPath().getFullPath();
+        // Init
+        this.documentRootPath = deviceInfoUtils.getExternalStorageDirectory().resolve(this.documentDetail.getMeta().getId());
         logger.debug("init", "documentRootPath: " + this.documentRootPath);
-
         this.fileManager = fileManagerFactory.create(this.documentRootPath).enableAutoCreateParent(); //Initialize FileManager
-
-        FileManager initFileManager = this.fileManager.getNewInstance();
-
-        logger.debug("init", "fileManager created");
-
-        // xmlファイルの読み込み
-        if (initFileManager.isExist("meta.xml")) {
-            logger.debug("init", "meta.xml found");
-            try {
-                this.xmlMetaModel = xmlMetaParser.deserialize(this.fileManager.loadXml("meta.xml"));
-                logger.debug("init", "meta.xml parsed");
-            } catch (Exception e) {
-                logger.debug("init", "meta.xml parse failed");
-                logger.trace("init", e.getMessage());
-            }
-        } else {
-            logger.debug("init", "meta.xml not found");
-            xmlMetaModel = new XmlMetaModel();
-
-            xmlMetaModel.setTitle(this.documentDetail.getMeta().getTitle());
-            xmlMetaModel.setAuthor(this.documentDetail.getAuthor());
-            xmlMetaModel.setDescription(""); // FIXME-rca:
-            xmlMetaModel.setDefaultBranch(this.documentDetail.getDefaultBranch());
-            xmlMetaModel.setPages(new ArrayList<>());
-
-            try {
-                initFileManager.createFileIfNotExist("meta.xml").saveXml(xmlMetaParser.serialize(xmlMetaModel), "meta.xml");
-                logger.debug("init", "meta.xml saved");
-            } catch (Exception e) {
-                logger.error("init", "meta.xml save failed");
-                logger.trace("init", e.getMessage());
-            }
-        }
-
-        logger.info("init", "finished");
+        this.lacertaVcs = lacertaVcsFactory.create(this.documentDetail.getMeta().getId());
     }
+
 
     @Override
     public void addNewPageToLast(Bitmap bitmap) throws Exception{
         logger.debug("addNewPageToLast", "called");
         String filename = UUID.randomUUID().toString() + ".png"; // TODO-rca: 拡張子を動的にする
 
-        this.fileManager.getNewInstance().createDirectoryIfNotExist(DEFAULT_SAVE_DIR).resolve(DEFAULT_SAVE_DIR).saveBitmap(bitmap, filename);
+        Page page = new Page();
+        page.setFileName(filename);
+        page.setBitmap(bitmap);
+        this.documentDetail.getPages().add(page);
 
-        XmlMetaPageModel xmlMetaPageModel = new XmlMetaPageModel();
-        xmlMetaPageModel.setFilename(filename);
-        xmlMetaModel.getPages().add(xmlMetaPageModel);
+        lacertaVcs.insertPage(documentDetail.getPages().size(), filename);
+
+        this.fileManager.getNewInstance().createDirectoryIfNotExist(DEFAULT_SAVE_DIR).resolve(DEFAULT_SAVE_DIR).saveBitmap(bitmap, filename);
 
         logger.info("addNewPageToLast", "finished");
         logger.info("addNewPageToLast", "filename: " + filename);
@@ -118,27 +94,18 @@ public class DocumentProcessorImpl implements DocumentProcessor{
     }
 
     @Override
-    public void addNewPageAfterIndex(Bitmap bitmap, int index) throws Exception {
+    public void insertPageAtIndex(Bitmap bitmap, int index) throws Exception {
         logger.debug("addNewPageAfterIndex", "called");
         String filename = UUID.randomUUID().toString() + ".png"; // TODO-rca: 拡張子を動的にする
 
         this.fileManager.getNewInstance().createDirectoryIfNotExist(DEFAULT_SAVE_DIR).resolve(DEFAULT_SAVE_DIR).saveBitmap(bitmap, filename);
 
-        XmlMetaPageModel xmlMetaPageModel = new XmlMetaPageModel();
-        xmlMetaPageModel.setFilename(filename);
-        xmlMetaModel.getPages().add(index, xmlMetaPageModel);
-    }
+        Page page = new Page();
+        page.setFileName(filename);
+        page.setBitmap(bitmap);
+        this.documentDetail.getPages().add(index, page);
 
-    @Override
-    public void addNewPageBeforeIndex(Bitmap bitmap, int index) throws Exception {
-        logger.debug("addNewPageBeforeIndex", "called");
-        String filename = UUID.randomUUID().toString() + ".png"; // TODO-rca: 拡張子を動的にする
-
-        this.fileManager.getNewInstance().createDirectoryIfNotExist(DEFAULT_SAVE_DIR).resolve(DEFAULT_SAVE_DIR).saveBitmap(bitmap, filename);
-
-        XmlMetaPageModel xmlMetaPageModel = new XmlMetaPageModel();
-        xmlMetaPageModel.setFilename(filename);
-        xmlMetaModel.getPages().add(index - 1, xmlMetaPageModel);
+        lacertaVcs.insertPage(index, filename);
     }
 
     @Override
@@ -162,14 +129,7 @@ public class DocumentProcessorImpl implements DocumentProcessor{
     }
 
     @Override
-    public void close() throws Exception{
-        logger.debug("close", "called");
-        try {
-            this.fileManager.getNewInstance().createFileIfNotExist("meta.xml").saveXml(xmlMetaParser.serialize(xmlMetaModel), "meta.xml");
-            logger.debug("close", "meta.xml saved");
-        } catch (Exception e) {
-            logger.error("close", "meta.xml save failed");
-            logger.trace("close", e.getMessage());
-        }
+    public DocumentDetail getDocumentDetail() {
+        return this.documentDetail;
     }
 }

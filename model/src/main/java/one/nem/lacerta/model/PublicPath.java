@@ -65,4 +65,10 @@ public class PublicPath {
     public String getStringPath() {
         return String.join("/", path);
     }
+
+    public PublicPath getRoot() {
+        PublicPath root = new PublicPath();
+        root.add("/");
+        return root;
+    }
 }

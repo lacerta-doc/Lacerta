@@ -13,34 +13,13 @@ import one.nem.lacerta.model.document.tag.DocumentTag;
  */
 public interface Document {
 
-    ArrayList<DocumentMeta> getAllDocumentMetas(int limit);
+    DocumentDetail createDocument(DocumentMeta meta);
 
-    ArrayList<DocumentMeta> getAllDocumentMetas(int limit, int offset);
+    DocumentDetail createDocument();
 
-    /**
-     * 更新の新しいドキュメントから順に並べてlimit件取得する
-     * @param limit 取得する上限数
-     */
-    ArrayList<DocumentMeta> getRecentDocumentMetas(int limit);
+    void deleteDocument(String documentId);
 
-    /**
-     * 更新の新しいドキュメントから順に並べてoffset位置からlimit件取得する
-     * @param limit 取得する上限数
-     * @param offset 取得するオフセット
-     */
-    ArrayList<DocumentMeta> getRecentDocumentMetas(int limit, int offset);
+    void updateDocument(DocumentMeta meta, DocumentDetail detail);
 
-    /**
-     * ドキュメントIDからDocumentDetailを取得する
-     * @param id ドキュメントID
-     */
-    DocumentDetail getDocumentDetail(String id);
-
-    /**
-     * DocumentMetaからDocumentDetailを取得する
-     * @param meta DocumentMeta
-     */
-    DocumentDetail getDocumentDetailByMeta(DocumentMeta meta); // 簡単に使えるように
-
-    DocumentDetail createDocumentByMeta(DocumentMeta meta);
+    DocumentDetail getDocument(String documentId);
 }

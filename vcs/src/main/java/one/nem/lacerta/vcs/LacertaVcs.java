@@ -9,6 +9,8 @@ public interface LacertaVcs {
 
     public void deletePage(int index);
 
+    public void createDocument(String documentId);
+
     // debug
     public void printLog();
 

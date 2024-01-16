@@ -1,6 +1,8 @@
 package one.nem.lacerta.model.document;
 
 import java.util.ArrayList;
+
+import one.nem.lacerta.model.PublicPath;
 import one.nem.lacerta.model.document.tag.DocumentTag;
 import java.util.Date;
 import java.util.List;
@@ -9,7 +11,7 @@ import java.util.UUID;
 /**
  * ドキュメントのメタデータ
  */
-public class DocumentMeta {
+public class DocumentMeta { // TODO-rca: JavaDoc対応
     /**
      * ドキュメントのID(String)
      */
@@ -35,42 +37,52 @@ public class DocumentMeta {
      */
     List<DocumentTag> tags;
 
+    PublicPath path;
+
+    String author;
+
+    String defaultBranch;
+
     // Constructor
+
     public DocumentMeta() {
     }
 
-    public DocumentMeta(String id, String title, Date updatedAt, Date createdAt, List<DocumentTag> tags) { // With all
+    public DocumentMeta(String title, List<DocumentTag> tags, String author, String defaultBranch) {
+        this.id = UUID.randomUUID().toString();
+        this.title = title;
+        this.tags = tags;
+        this.author = author;
+        this.defaultBranch = defaultBranch;
+    }
+
+    public DocumentMeta(String id, String title, List<DocumentTag> tags, String author, String defaultBranch) {
+        this.id = id;
+        this.title = title;
+        this.tags = tags;
+        this.author = author;
+        this.defaultBranch = defaultBranch;
+    }
+
+    public DocumentMeta(String id, String title, Date updatedAt, Date createdAt, List<DocumentTag> tags, String author, String defaultBranch) {
         this.id = id;
         this.title = title;
         this.updatedAt = updatedAt;
         this.createdAt = createdAt;
         this.tags = tags;
+        this.author = author;
+        this.defaultBranch = defaultBranch;
     }
 
-    public DocumentMeta(String id, String title, Date updatedAt, Date createdAt) { // Without tags
+    public DocumentMeta(String id, String title, Date updatedAt, Date createdAt, List<DocumentTag> tags, PublicPath path, String author, String defaultBranch) {
         this.id = id;
         this.title = title;
         this.updatedAt = updatedAt;
         this.createdAt = createdAt;
-        this.tags = new ArrayList<>();
-    }
-
-    public DocumentMeta(String id, String title) { // Without tags, updatedAt, createdAt
-        this.id = id;
-        this.title = title;
-        // 現在時刻を設定
-        this.updatedAt = new Date();
-        this.createdAt = new Date();
-        this.tags = new ArrayList<>();
-    }
-
-    public DocumentMeta(String title) { // title only
-        this.id = UUID.randomUUID().toString(); // 新規作成時想定なのでコンストラクタで生成してしまう(使う人が楽なので)
-        this.title = title;
-        // 現在時刻を設定
-        this.updatedAt = new Date();
-        this.createdAt = new Date();
-        this.tags = new ArrayList<>();
+        this.tags = tags;
+        this.path = path;
+        this.author = author;
+        this.defaultBranch = defaultBranch;
     }
 
     // Getter
@@ -121,6 +133,27 @@ public class DocumentMeta {
         return tagIds;
     }
 
+    /**
+     * PublicPathを取得する
+     */
+    public PublicPath getPath() {
+        return path;
+    }
+
+    /**
+     * ドキュメントの作者(String)を取得する
+     */
+    public String getAuthor() {
+        return author;
+    }
+
+    /**
+     * ドキュメントのデフォルトブランチ(String)を取得する
+     */
+    public String getDefaultBranch() {
+        return defaultBranch;
+    }
+
     // Setter
 
     /**
@@ -161,6 +194,30 @@ public class DocumentMeta {
      */
     public void setTags(List<DocumentTag> tags) {
         this.tags = tags;
+    }
+
+    /**
+     * PublicPathを設定する
+     * @param path PublicPath
+     */
+    public void setPath(PublicPath path) {
+        this.path = path;
+    }
+
+    /**
+     * ドキュメントの作者(String)を設定する
+     * @param author ドキュメントの作者
+     */
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    /**
+     * ドキュメントのデフォルトブランチ(String)を設定する
+     * @param defaultBranch ドキュメントのデフォルトブランチ
+     */
+    public void setDefaultBranch(String defaultBranch) {
+        this.defaultBranch = defaultBranch;
     }
 
     /**

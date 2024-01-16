@@ -33,8 +33,8 @@ import one.nem.lacerta.model.document.tag.DocumentTag;
 @AndroidEntryPoint
 public class LibraryTopFragment extends Fragment {
 
-    @Inject
-    Document document;
+//    @Inject
+//    Document document;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -90,13 +90,13 @@ public class LibraryTopFragment extends Fragment {
 
         //データを取得
 
-        List<DocumentMeta>  metas = document.getAllDocumentMetas(100);
+//        List<DocumentMeta>  metas = document.getAllDocumentMetas(100);
 
-        Toast.makeText(getContext(), "Documents: " + Integer.toString(metas.size()), Toast.LENGTH_LONG).show();
+//        Toast.makeText(getContext(), "Documents: " + Integer.toString(metas.size()), Toast.LENGTH_LONG).show();
 
 // Create and set the adapter
-        DocumentAdapter adapter = new DocumentAdapter(metas);
-        documentRecyclerView.setAdapter(adapter);
+//        DocumentAdapter adapter = new DocumentAdapter(metas);
+//        documentRecyclerView.setAdapter(adapter);
 
 // Use a LinearLayoutManager to specify the layout
         return view;
