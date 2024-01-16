@@ -26,6 +26,7 @@ import java.util.Objects;
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
+import one.nem.lacerta.model.document.DocumentMeta;
 import one.nem.lacerta.utils.LacertaLogger;
 import one.nem.lacerta.data.Document;
 
@@ -143,7 +144,8 @@ public class ScannerManagerActivity extends AppCompatActivity {
 
     private void saveNewDocument() {
         logger.debug(TAG, "saveNewDocument");
-
+        DocumentMeta documentMeta = new DocumentMeta("Untitled"); // TODO-rca: デフォルトタイトルを指定できるようにする
+        document.createDocument(documentMeta);
     }
 
     private void insertToExistDocument() {
