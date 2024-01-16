@@ -108,6 +108,7 @@ public class ScannerManagerActivity extends AppCompatActivity {
         logger.debug(TAG, "updateResultView");
 
         LinearLayout resultView = findViewById(R.id.result_list_container);
+        ImageView selectedImage = findViewById(R.id.selected_image);
         resultView.removeAllViews();
 
         for (Bitmap resultImage : resultImages) {
@@ -116,7 +117,7 @@ public class ScannerManagerActivity extends AppCompatActivity {
             imageView.setImageBitmap(resultImage);
             imageView.setOnClickListener(v -> {
                 // タッチされた画像をプレビューに設定します。
-//                selectedImage.setImageBitmap(resultImage);
+                selectedImage.setImageBitmap(resultImage);
                 // すべての画像の選択状態を解除します。
                 for (int i = 0; i < resultView.getChildCount(); i++) {
                     View child = resultView.getChildAt(i).findViewById(R.id.result_image);
