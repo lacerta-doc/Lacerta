@@ -137,6 +137,7 @@ public class LibraryTopFragment extends Fragment {
         } catch (Exception e) {
             // 例外処理
             e.printStackTrace();
+            Toast.makeText(getContext(), "エラーが発生しました: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
 // Use a LinearLayoutManager to specify the layout
             return view;
