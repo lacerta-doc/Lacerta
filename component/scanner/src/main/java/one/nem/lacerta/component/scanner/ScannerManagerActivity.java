@@ -144,14 +144,14 @@ public class ScannerManagerActivity extends AppCompatActivity {
             ImageView imageView = resultImageView.findViewById(R.id.result_image);
             imageView.setImageBitmap(resultImage);
             imageView.setOnClickListener(v -> {
-                // タッチされた画像をプレビューに設定します。
+
                 selectedImage.setImageBitmap(resultImage);
-                // すべての画像の選択状態を解除します。
+
                 for (int i = 0; i < resultView.getChildCount(); i++) {
                     View child = resultView.getChildAt(i).findViewById(R.id.result_image);
                     child.setSelected(false);
                 }
-                // タッチされた画像を選択状態にします。
+
                 v.setSelected(true);
             });
 
