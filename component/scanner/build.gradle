@@ -30,6 +30,8 @@ dependencies {
 
     implementation libs.androidx.appcompat
     implementation libs.com.google.android.material
+    implementation libs.androidx.activity
+    implementation libs.androidx.constraintlayout
     testImplementation libs.junit
     androidTestImplementation libs.androidx.test.ext.junit
     androidTestImplementation libs.androidx.test.espresso.core
@@ -46,4 +48,8 @@ dependencies {
     implementation project(':processor')
 
     implementation project(':utils')
+
+    implementation project(':vcs')
+
+    implementation project(':data')
 }
