@@ -36,8 +36,8 @@ public class DocumentImpl implements Document {
     @Inject
     LacertaDatabase database;
 
-    @Inject
-    LacertaVcs vcs;
+//    @Inject
+//    LacertaVcs vcs;
 
 
     @Inject
@@ -69,7 +69,7 @@ public class DocumentImpl implements Document {
         database.documentDao().insert(documentEntity);
 
         // Vcs
-        vcs.createDocument(meta.getId());
+//        vcs.createDocument(meta.getId());
 
         return detail;
     }
