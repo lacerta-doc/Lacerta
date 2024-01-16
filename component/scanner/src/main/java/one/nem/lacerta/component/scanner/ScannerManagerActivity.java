@@ -27,6 +27,7 @@ import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import one.nem.lacerta.utils.LacertaLogger;
+import one.nem.lacerta.data.Document;
 
 @AndroidEntryPoint
 public class ScannerManagerActivity extends AppCompatActivity {
@@ -35,6 +36,10 @@ public class ScannerManagerActivity extends AppCompatActivity {
 
     @Inject
     LacertaLogger logger;
+
+    @Inject
+    Document document;
+
 
     // Variables
     private ArrayList<Bitmap> croppedImages = new ArrayList<>();
@@ -138,7 +143,7 @@ public class ScannerManagerActivity extends AppCompatActivity {
 
     private void saveNewDocument() {
         logger.debug(TAG, "saveNewDocument");
-        // TODO-rca: 実装
+
     }
 
     private void insertToExistDocument() {
