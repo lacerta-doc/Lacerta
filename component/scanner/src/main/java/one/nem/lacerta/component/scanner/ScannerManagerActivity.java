@@ -54,17 +54,18 @@ public class ScannerManagerActivity extends AppCompatActivity {
             },
             (errorMessage) -> {
                 // an error happened
-                Log.v("documentscannerlogs", errorMessage);
+                logger.error(TAG, "Error: " + errorMessage);
+                logger.e_code("543a230e-cb9a-47a2-8131-3beecfe1c458");
                 return null;
             },
             () -> {
                 // user canceled document scan
-                Log.v("documentscannerlogs", "User canceled document scan");
+                logger.debug(TAG, "User canceled document scan");
                 return null;
             },
             null,
             null,
-            5
+            null
     );
 
     @Override
@@ -118,7 +119,7 @@ public class ScannerManagerActivity extends AppCompatActivity {
             logger.debug(TAG, "resultImages(arg) is empty");
             if (this.croppedImages.isEmpty()) {
                 logger.debug(TAG, "this.resultImages is empty");
-                logger.error(TAG, "error code: 398f4ca7-06f4-43c4-a153-e2ba5bbdb92b"); // TODO-rca: Loggerに組み込む？
+                logger.e_code("7cb0584e-74ef-48ec-848a-c4d14e75e15a");
                 // TODO-rca: なんかする
             } else {
                 logger.debug(TAG, "this.resultImages is not empty");
