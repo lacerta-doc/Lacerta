@@ -8,7 +8,7 @@ import one.nem.lacerta.model.document.DocumentMeta;
 //ListItemとTopを結びつけるためのクラス
 public class LibraryUtils {
 
-        public static ArrayList<ListItem> convertToLibraryItems(List<DocumentMeta> metas) {
+        public static ArrayList<ListItem> convertToLibraryItems(List<ListItem> metas) {
             ArrayList<ListItem> libraryItems = new ArrayList<>();
             for (DocumentMeta meta : metas) {
                 ListItem listItem = new ListItem();
