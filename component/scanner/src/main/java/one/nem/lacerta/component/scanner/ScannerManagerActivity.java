@@ -2,6 +2,7 @@ package one.nem.lacerta.component.scanner;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.AnimatorRes;
@@ -15,9 +16,15 @@ import com.websitebeaver.documentscanner.DocumentScanner;
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
+import one.nem.lacerta.utils.LacertaLogger;
 
 @AndroidEntryPoint
 public class ScannerManagerActivity extends AppCompatActivity {
+
+    @Inject
+    LacertaLogger logger;
+
+    View view;
 
     DocumentScanner documentScanner = new DocumentScanner(
             this,
@@ -54,6 +61,15 @@ public class ScannerManagerActivity extends AppCompatActivity {
         documentScanner.startScan();
         // Init
 
+        this.view = findViewById(R.id.main); // TODO-rca:なんとかする
+
+    }
+
+    private void initResultView() {
+        if (this.view == null) {
+
+            return;
+        }
     }
 
 }
