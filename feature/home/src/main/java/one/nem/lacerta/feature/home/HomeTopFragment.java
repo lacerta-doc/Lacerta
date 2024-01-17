@@ -1,26 +1,25 @@
 package one.nem.lacerta.feature.home;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
+import dagger.hilt.android.AndroidEntryPoint;
 import one.nem.lacerta.data.Document;
 import one.nem.lacerta.model.document.DocumentMeta;
-import one.nem.lacerta.model.document.tag.DocumentTag;
 
 
-import dagger.hilt.android.AndroidEntryPoint;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,6 +31,11 @@ public class HomeTopFragment extends Fragment {
 
     @Inject
     Document document;
+
+
+
+
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -64,12 +68,15 @@ public class HomeTopFragment extends Fragment {
         return fragment;
     }
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+
+
         }
     }
 
@@ -79,12 +86,38 @@ public class HomeTopFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home_top, container, false);
 
-        ArrayList<DocumentMeta> metas = document.getAllDocumentMetas(100);
+        List<DocumentMeta> metas = document.getAllDocumentMetas(100);
 
         Log.d("docs", Integer.toString(metas.size()));
 
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        MyAdapter myAdapter = new MyAdapter(metas);
+
+        recyclerView.setAdapter(myAdapter);
+
         return view;
 
-    }
+
+        }
+String pageTitle;
+    String pageId;
+    ArrayList listItems;
+
+    String title;
+    String description;
+
+    String itemId;
+
+
 
 }
+
+
+
+
+
+
+

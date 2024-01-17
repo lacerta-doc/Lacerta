@@ -43,4 +43,8 @@ public interface Document {
     DocumentDetail getDocumentDetailByMeta(DocumentMeta meta); // 簡単に使えるように
 
     DocumentDetail createDocumentByMeta(DocumentMeta meta);
+
+    Object getDocumentDetail();
+
+    ArrayList<DocumentDetail> getAllDocumentDetail(int i);
 }

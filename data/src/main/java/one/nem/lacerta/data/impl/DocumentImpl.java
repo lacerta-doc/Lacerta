@@ -138,4 +138,14 @@ public class DocumentImpl implements Document{
 
         return documentDetail;
     }
+
+    @Override
+    public Object getDocumentDetail() {
+        return null;
+    }
+
+    @Override
+    public ArrayList<DocumentDetail> getAllDocumentDetail(int i) {
+        return null;
+    }
 }

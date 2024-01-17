@@ -30,6 +30,8 @@ dependencies {
 
     implementation libs.androidx.appcompat
     implementation libs.com.google.android.material
+    implementation project(path: ':feature:debug')
+    implementation project(path: ':utils')
     testImplementation libs.junit
     androidTestImplementation libs.androidx.test.ext.junit
     androidTestImplementation libs.androidx.test.espresso.core
