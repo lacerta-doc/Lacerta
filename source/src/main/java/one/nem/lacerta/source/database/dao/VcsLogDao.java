@@ -3,6 +3,7 @@ package one.nem.lacerta.source.database.dao;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import java.util.List;
 
@@ -43,5 +44,12 @@ public interface VcsLogDao {
     @Insert
     void insert(VcsLogEntity vcsLog);
 
-    // TODO-rca: Update, Deleteが必要か検討
+    @Update
+    void update(VcsLogEntity vcsLog);
+
+    @Update
+    void updateAll(VcsLogEntity... vcsLogs);
+
+    @Update
+    void updateAll(List<VcsLogEntity> vcsLogs);
 }
