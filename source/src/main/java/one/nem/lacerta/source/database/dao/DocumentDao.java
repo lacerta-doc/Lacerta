@@ -28,9 +28,8 @@ public interface DocumentDao {
     @Query("SELECT * FROM Document WHERE id IN (:ids)")
     List<DocumentEntity> findByIds(List<String> ids);
 
-    @Query("SELECT * FROM Document WHERE public_path = :publicPath")
-    DocumentEntity findByPublicPath(String publicPath);
-
+    @Query("SELECT * FROM Document WHERE public_path = :publicPath LIMIT :limit")
+    List<DocumentEntity> findByPublicPathWithLimit(String publicPath, int limit);
 
     // Insert
     @Insert
