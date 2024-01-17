@@ -13,11 +13,13 @@ import java.util.List;
 
 import one.nem.lacerta.model.ListItem;
 import one.nem.lacerta.model.document.DocumentMeta;
+
 //RecyclerView 用のアダプタークラス
 //アダプターはリストのデータを管理し、それを RecyclerView に表示する
 public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.DocumentViewHolder> {
-   // アダプターが保持するデータ
+    // アダプターが保持するデータ
     private ArrayList<ListItem> documentMetas;
+
     //documentMetas アダプターが表示するデータ
     public DocumentAdapter(ArrayList<ListItem> documentMetas) {
         // nullの場合でも例外を発生させないよう修正

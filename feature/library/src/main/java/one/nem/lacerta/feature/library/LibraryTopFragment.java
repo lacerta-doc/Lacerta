@@ -140,6 +140,6 @@ public class LibraryTopFragment extends Fragment {
             e.printStackTrace();
             Toast.makeText(getContext(), "エラーが発生しました: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
-            return view;
-        }
+        return view;
+    }
 }
