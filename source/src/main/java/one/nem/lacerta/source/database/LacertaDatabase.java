@@ -17,7 +17,7 @@ import one.nem.lacerta.source.database.dao.LibraryDao;
 import one.nem.lacerta.source.database.dao.VcsRevDao;
 import one.nem.lacerta.source.database.dao.VcsLogDao;
 
-@Database(entities = {TagEntity.class, DocumentEntity.class, LibraryEntity.class, VcsRevEntity.class, VcsLogEntity.class}, version = 2)
+@Database(entities = {TagEntity.class, DocumentEntity.class, LibraryEntity.class, VcsRevEntity.class, VcsLogEntity.class}, version = 3)
 public abstract class LacertaDatabase extends RoomDatabase {
     public abstract TagDao tagDao();
     public abstract DocumentDao documentDao();
