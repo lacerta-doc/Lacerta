@@ -101,9 +101,6 @@ public class LibraryTopFragment extends Fragment {
         // Use view.findViewById instead of findViewById
         RecyclerView documentRecyclerView = view.findViewById(R.id.document_list);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        documentRecyclerView.setLayoutManager(layoutManager);
-
         try {
             LacertaLibrary lacertaLibrary = new LacertaLibraryImpl();
             // ドキュメントのメタデータを取得
@@ -126,9 +123,14 @@ public class LibraryTopFragment extends Fragment {
                 // トーストメッセージでドキュメントの数を表示
                 Toast.makeText(getActivity(), "ドキュメント数: " + Integer.toString(metas.size()), Toast.LENGTH_LONG).show();
 
+                LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+                documentRecyclerView.setLayoutManager(layoutManager);
+
                 // LibraryItemPageを使用してadapterを設定
                 DocumentAdapter adapter = new DocumentAdapter((ArrayList<ListItem>) metas);
                 documentRecyclerView.setAdapter(adapter);
+                //RecyclerView の再描画
+                documentRecyclerView.invalidate();
             } else {
                 // ドキュメントのメタデータが null の場合の処理
                 Toast.makeText(getContext(), "ドキュメントメタデータが取得できませんでした", Toast.LENGTH_LONG).show();
