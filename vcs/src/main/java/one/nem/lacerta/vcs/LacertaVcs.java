@@ -17,4 +17,6 @@ public interface LacertaVcs {
     // debug
     public void printLog();
 
+    public void printRev();
+
 }

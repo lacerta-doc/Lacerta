@@ -88,6 +88,7 @@ public class LacertaVcsImpl implements LacertaVcs {
     @Override
     public void generateRevisionAtCurrent(String message) {
         logger.debug(TAG, "generateRevisionAtCurrent");
+        // TODO-rca: ブランチを考慮する
 
         ArrayList<VcsLogEntity> vcsLogEntities = getNonIncludedVcsLogEntities();
 
@@ -109,6 +110,7 @@ public class LacertaVcsImpl implements LacertaVcs {
         setIncludedVcsLogEntities(vcsLogEntities);
 
         logger.debug(TAG, "generateRevisionAtCurrent finished");
+        logger.debug(TAG, "New revision inserted: " + vcsRevEntity.id);
     }
 
     @Override
@@ -116,6 +118,14 @@ public class LacertaVcsImpl implements LacertaVcs {
         logger.debug(TAG, "printLog");
         database.vcsLogDao().findAll().forEach(vcsLog -> {
             logger.debug(TAG, vcsLog.id);
+        });
+    }
+
+    @Override
+    public void printRev() {
+        logger.debug(TAG, "printRev");
+        database.vcsRevDao().findAll().forEach(vcsRev -> {
+            logger.debug(TAG, vcsRev.id);
         });
     }
 }
