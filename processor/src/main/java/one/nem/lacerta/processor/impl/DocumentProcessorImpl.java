@@ -3,27 +3,30 @@ package one.nem.lacerta.processor.impl;
 import android.graphics.Bitmap;
 
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.UUID;
 
+// Hilt
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedInject;
-import one.nem.lacerta.model.document.internal.XmlMetaPageModel;
-import one.nem.lacerta.processor.DocumentProcessor;
 
+// Lacerta/model
 import one.nem.lacerta.model.document.DocumentDetail;
-
 import one.nem.lacerta.model.document.internal.XmlMetaModel;
-
 import one.nem.lacerta.model.document.page.Page;
 
+// Lacerta/processor
+import one.nem.lacerta.processor.DocumentProcessor;
+
+// Lacerta/source
 import one.nem.lacerta.source.file.FileManager;
 import one.nem.lacerta.source.file.factory.FileManagerFactory;
 
+// Lacerta/utils
 import one.nem.lacerta.utils.LacertaLogger;
-
 import one.nem.lacerta.utils.XmlMetaParser;
 import one.nem.lacerta.utils.repository.DeviceInfoUtils;
+
+// Lacerta/vcs
 import one.nem.lacerta.vcs.LacertaVcs;
 import one.nem.lacerta.vcs.factory.LacertaVcsFactory;
 
