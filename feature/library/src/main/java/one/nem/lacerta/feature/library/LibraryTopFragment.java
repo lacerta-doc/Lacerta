@@ -103,6 +103,7 @@ public class LibraryTopFragment extends Fragment {
 
         try {
             LacertaLibrary lacertaLibrary = new LacertaLibraryImpl();
+            // Dagger Hiltを使用して依存性を注入
             // ドキュメントのメタデータを取得
             LibraryItemPage libraryItemPage = lacertaLibrary.getLibraryPage(100);
 
@@ -123,6 +124,7 @@ public class LibraryTopFragment extends Fragment {
                 // トーストメッセージでドキュメントの数を表示
                 Toast.makeText(getActivity(), "ドキュメント数: " + Integer.toString(metas.size()), Toast.LENGTH_LONG).show();
 
+                // RecyclerViewのレイアウトマネージャーを設定
                 LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
                 documentRecyclerView.setLayoutManager(layoutManager);
 
