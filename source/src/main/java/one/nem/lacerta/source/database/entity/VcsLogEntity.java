@@ -45,4 +45,10 @@ public class VcsLogEntity {
      */
     @ColumnInfo(name = "action")
     public String action;
+
+    /**
+     * Revに含まれてるかどうか
+     */
+    @ColumnInfo(name = "is_included")
+    public boolean isIncluded;
 }
