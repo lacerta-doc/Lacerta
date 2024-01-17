@@ -41,6 +41,9 @@ dependencies {
     // JGit
     implementation 'org.eclipse.jgit:org.eclipse.jgit:6.8.0.202311291450-r'
 
+    // Java Faker
+    implementation 'com.github.javafaker:javafaker:1.0.2'
+
     // Room
     implementation libs.androidx.room.runtime
     annotationProcessor libs.androidx.room.compiler
@@ -53,4 +56,6 @@ dependencies {
 
     // データソースモジュール
     implementation project(':source')
+
+    implementation project(':vcs')
 }

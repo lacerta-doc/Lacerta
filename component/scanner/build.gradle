@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.com.android.library)
+    id 'com.google.dagger.hilt.android'
 }
 
 android {
@@ -29,9 +30,26 @@ dependencies {
 
     implementation libs.androidx.appcompat
     implementation libs.com.google.android.material
+    implementation libs.androidx.activity
+    implementation libs.androidx.constraintlayout
     testImplementation libs.junit
     androidTestImplementation libs.androidx.test.ext.junit
     androidTestImplementation libs.androidx.test.espresso.core
 
+    // Hilt (DI)
+    implementation libs.com.google.dagger.hilt.android
+    annotationProcessor libs.com.google.dagger.hilt.compiler
+
     implementation 'com.websitebeaver:documentscanner:1.0.0'
+
+    implementation project(':shared:ui')
+    implementation project(':model')
+
+    implementation project(':processor')
+
+    implementation project(':utils')
+
+    implementation project(':vcs')
+
+    implementation project(':data')
 }

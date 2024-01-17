@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.library'
+    id 'com.google.dagger.hilt.android'
 }
 
 android {
@@ -29,6 +30,8 @@ dependencies {
 
     implementation libs.androidx.appcompat
     implementation libs.com.google.android.material
+    implementation 'androidx.navigation:navigation-fragment:2.7.5'
+    implementation 'androidx.navigation:navigation-ui:2.7.5'
     testImplementation libs.junit
     androidTestImplementation libs.androidx.test.ext.junit
     androidTestImplementation libs.androidx.test.espresso.core
@@ -37,5 +40,16 @@ dependencies {
     implementation libs.navigation.fragment
     implementation libs.navigation.ui
     implementation libs.navigation.dynamic.features.fragment
+
+    // Hilt (DI)
+    implementation libs.com.google.dagger.hilt.android
+    annotationProcessor libs.com.google.dagger.hilt.compiler
+
+    implementation project(':shared:ui')
+
+    implementation project(':model')
+
+    implementation project(':data')
+
 
 }

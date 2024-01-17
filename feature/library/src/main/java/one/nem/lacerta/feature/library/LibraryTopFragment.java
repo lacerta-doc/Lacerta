@@ -2,11 +2,28 @@ package one.nem.lacerta.feature.library;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
+import one.nem.lacerta.data.Document;
+import one.nem.lacerta.model.document.DocumentMeta;
+import one.nem.lacerta.model.document.tag.DocumentTag;
 
 
 
@@ -15,7 +32,11 @@ import android.view.ViewGroup;
  * Use the {@link LibraryTopFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+@AndroidEntryPoint
 public class LibraryTopFragment extends Fragment {
+
+//    @Inject
+//    Document document;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -57,10 +78,29 @@ public class LibraryTopFragment extends Fragment {
         }
     }
 
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_library_top, container, false);
+        View view = inflater.inflate(R.layout.fragment_library_top, container, false);
+
+        // Use view.findViewById instead of findViewById
+        RecyclerView documentRecyclerView = view.findViewById(R.id.document_list);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        documentRecyclerView.setLayoutManager(layoutManager);
+
+        //データを取得
+
+//        List<DocumentMeta>  metas = document.getAllDocumentMetas(100);
+
+//        Toast.makeText(getContext(), "Documents: " + Integer.toString(metas.size()), Toast.LENGTH_LONG).show();
+
+// Create and set the adapter
+//        DocumentAdapter adapter = new DocumentAdapter(metas);
+//        documentRecyclerView.setAdapter(adapter);
+
+// Use a LinearLayoutManager to specify the layout
+        return view;
     }
 }

@@ -1,151 +1,105 @@
 package one.nem.lacerta.data.impl;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
+import java.util.UUID;
 
+// Hilt
 import javax.inject.Inject;
 
+// Lacerta/data
 import one.nem.lacerta.data.Document;
 
+// Lacerta/model
+import one.nem.lacerta.model.PublicPath;
 import one.nem.lacerta.model.document.DocumentMeta;
 import one.nem.lacerta.model.document.DocumentDetail;
 
-import one.nem.lacerta.model.document.path.DocumentPath;
-import one.nem.lacerta.model.document.tag.DocumentTag;
+// Lacerta/source
 import one.nem.lacerta.source.database.LacertaDatabase;
-
 import one.nem.lacerta.source.database.entity.DocumentEntity;
-import one.nem.lacerta.source.database.entity.LibraryEntity;
-import one.nem.lacerta.source.database.entity.TagEntity;
 
-import one.nem.lacerta.source.jgit.JGitRepository;
-import one.nem.lacerta.utils.repository.DeviceInfoUtils;
+// Lacerta/utils
+import one.nem.lacerta.utils.LacertaLogger;
+
+// Lacerta/vcs
+import one.nem.lacerta.vcs.LacertaVcs;
 
 
-public class DocumentImpl implements Document{
+public class DocumentImpl implements Document {
 
-    private LacertaDatabase database;
-
-    @Inject
-    public DocumentImpl(LacertaDatabase database) {
-        this.database = database;
-    }
+    String TAG = getClass().getSimpleName();
 
     @Inject
-    JGitRepository jGitRepository;
+    LacertaLogger logger;
 
     @Inject
-    DeviceInfoUtils deviceInfoUtils;
+    LacertaDatabase database;
+
+//    @Inject
+//    LacertaVcs vcs;
+
+
+    @Inject
+    public DocumentImpl() {
+        // Init
+        logger.debug(TAG, "called");
+    }
+
 
     @Override
-    public ArrayList<DocumentMeta> getAllDocumentMetas(int limit) {
-        ArrayList<DocumentMeta> documentMetas = new ArrayList<>();
-        List<DocumentEntity> documentEntities = database.documentDao().getAllWithLimit(limit);
+    public DocumentDetail createDocument(DocumentMeta meta) {
+        DocumentDetail detail = new DocumentDetail();
+        detail.setMeta(meta);
+        detail.setPages(new ArrayList<>());
 
-        for (DocumentEntity documentEntity : documentEntities) {
-            // タグ取得
-            // TODO-rca: 切り出すべきかも？
-            List<TagEntity> tagEntities = database.tagDao().findByIds(documentEntity.tagIds);
-            ArrayList<DocumentTag> documentTags = new ArrayList<>();
-            for (TagEntity tagEntity : tagEntities) {
-                documentTags.add(new DocumentTag(tagEntity.id, tagEntity.tagName, tagEntity.color));
-            }
+        // TODO-rca: UIスレッドから追い出す
 
-            // 組み立て処理
-            // 可読性が終わるのでコンストラクタはつかわないほうがいいかも？
-            DocumentMeta documentMeta = new DocumentMeta();
-            documentMeta.setId(documentEntity.id);
-            documentMeta.setTitle(documentEntity.title);
-            documentMeta.setCreatedAt(documentEntity.createdAt);
-            documentMeta.setUpdatedAt(documentEntity.updatedAt);
-            documentMeta.setTags(documentTags);
+        // Create DocumentEntity
+        DocumentEntity documentEntity = new DocumentEntity();
+        documentEntity.id = meta.getId();
+        documentEntity.title = meta.getTitle();
+        documentEntity.author = meta.getAuthor();
+        documentEntity.defaultBranch = meta.getDefaultBranch();
+        documentEntity.updatedAt = meta.getUpdatedAt();
+        documentEntity.createdAt = meta.getCreatedAt();
+        documentEntity.publicPath = meta.getPath().getStringPath();
+        documentEntity.tagIds = meta.getTagIds();
 
-            documentMetas.add(documentMeta);
-        }
+        database.documentDao().insert(documentEntity);
 
-        return documentMetas;
+        // Vcs
+//        vcs.createDocument(meta.getId());
+
+        return detail;
     }
 
     @Override
-    public ArrayList<DocumentMeta> getAllDocumentMetas(int limit, int offset) {
-        return null; // TODO-rca: 実装する
+    public DocumentDetail createDocument() {
+        DocumentMeta meta = new DocumentMeta();
+        meta.setId(UUID.randomUUID().toString());
+        meta.setTitle("New Document");
+        meta.setAuthor("author");
+        meta.setDefaultBranch("master");
+        meta.setUpdatedAt(new Date());
+        meta.setCreatedAt(new Date());
+        meta.setPath(new PublicPath().getRoot()); // TODO-rca: 2回インスタンスを生成していて無駄なのでなんとかする
+        meta.setTags(new ArrayList<>());
+        return createDocument(meta);
     }
 
     @Override
-    public ArrayList<DocumentMeta> getRecentDocumentMetas(int limit) {
-//        ArrayList<DocumentMeta> documentMetas = new ArrayList<>();
-//        database.documentDao().
-        // TODO-rca: 履歴取得するDao実装する
-        return null;
+    public void deleteDocument(String documentId) {
+
     }
 
     @Override
-    public ArrayList<DocumentMeta> getRecentDocumentMetas(int limit, int offset) {
-        return null;
+    public void updateDocument(DocumentMeta meta, DocumentDetail detail) {
+
     }
 
     @Override
-    public DocumentDetail getDocumentDetail(String id) {
-        DocumentDetail documentDetail = new DocumentDetail();
-        DocumentEntity documentEntity = database.documentDao().findById(id);
-
-        // タグ取得
-        // TODO-rca: 切り出すべきかも？
-        List<TagEntity> tagEntities = database.tagDao().findByIds(documentEntity.tagIds);
-        ArrayList<DocumentTag> documentTags = new ArrayList<>();
-        for (TagEntity tagEntity : tagEntities) {
-            documentTags.add(new DocumentTag(tagEntity.id, tagEntity.tagName, tagEntity.color));
-        }
-
-        // パス取得
-        // TODO-rca: 切り出すべきかも？
-        LibraryEntity libraryEntity = database.libraryDao().findById(id);
-        DocumentPath documentPath = new DocumentPath(libraryEntity.rootPath, libraryEntity.path);
-
-        // リポジトリ取得
-        documentDetail.setRepository(jGitRepository.getRepository(id)); // TODO-rca: エラーハンドリング
-
-        // 組み立て処理
-        // 可読性が終わるのでコンストラクタはつかわないほうがいいかも？
-        DocumentMeta documentMeta = new DocumentMeta();
-        documentMeta.setId(documentEntity.id);
-        documentMeta.setTitle(documentEntity.title);
-        documentMeta.setCreatedAt(documentEntity.createdAt);
-        documentMeta.setUpdatedAt(documentEntity.updatedAt);
-        documentMeta.setTags(documentTags);
-
-        documentDetail.setMeta(documentMeta);
-        documentDetail.setAuthor(documentEntity.author);
-        documentDetail.setPath(documentPath);
-        documentDetail.setDefaultBranch(documentEntity.defaultBranch);
-
-        return documentDetail;
-    }
-
-    @Override
-    public DocumentDetail getDocumentDetailByMeta(DocumentMeta meta) {
-        return getDocumentDetail(meta.getId()); // TODO-rca: 効率悪いのでMetaはもらった物を使うようにする（処理を切り分ける？）
-    }
-
-    @Override
-    public DocumentDetail createDocumentByMeta(DocumentMeta meta) {
-        DocumentDetail documentDetail = new DocumentDetail();
-
-        documentDetail.setMeta(meta);
-        documentDetail.setAuthor("author"); // TODO-rca: SharedPrefを扱う機能を作ってそこから取得するようにする or Gitの設定を参照するようにする
-        documentDetail.setPath(new DocumentPath(deviceInfoUtils.getExternalStorageDirectoryString(), meta.getId()));
-        documentDetail.setDefaultBranch("master"); // TODO-rca: SharedPrefを扱う機能を作ってそこから取得するようにする？
-
-        return documentDetail;
-    }
-
-    @Override
-    public Object getDocumentDetail() {
-        return null;
-    }
-
-    @Override
-    public ArrayList<DocumentDetail> getAllDocumentDetail(int i) {
+    public DocumentDetail getDocument(String documentId) {
         return null;
     }
 }

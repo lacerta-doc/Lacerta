@@ -26,10 +26,10 @@
             <option value="$PROJECT_DIR$/model" />
             <option value="$PROJECT_DIR$/processor" />
             <option value="$PROJECT_DIR$/shared" />
-            <option value="$PROJECT_DIR$/shared/icon" />
             <option value="$PROJECT_DIR$/shared/ui" />
             <option value="$PROJECT_DIR$/source" />
             <option value="$PROJECT_DIR$/utils" />
+            <option value="$PROJECT_DIR$/vcs" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />

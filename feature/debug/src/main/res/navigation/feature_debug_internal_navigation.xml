@@ -11,37 +11,68 @@
         android:label="fragment_debug_menu_top"
         tools:layout="@layout/fragment_debug_menu_top" >
         <action
-            android:id="@+id/action_debugMenuTopFragment_to_debugMenuMetaDataFragment"
-            app:destination="@id/debugMenuMetaDataFragment" />
-        <action
             android:id="@+id/action_debugMenuTopFragment_to_debugMenuDocumentTesterTopFragment"
             app:destination="@id/debugMenuDocumentTesterTopFragment" />
+        <action
+            android:id="@+id/action_debugMenuTopFragment_to_scannerDataManagerStubFragment"
+            app:destination="@id/scannerDataManagerStubFragment" />
+        <action
+            android:id="@+id/action_debugMenuTopFragment_to_debugMenuLibraryItemListPageFragment"
+            app:destination="@id/debugMenuLibraryItemListPageFragment" />
+        <action
+            android:id="@+id/action_debugMenuTopFragment_to_debugMenuVcsGeneralFragment"
+            app:destination="@id/debugMenuVcsGeneralFragment" />
+        <action
+            android:id="@+id/action_debugMenuTopFragment_to_scannerManagerFragment"
+            app:destination="@id/scannerManagerFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/debugMenuMetaDataFragment"
-        android:name="one.nem.lacerta.feature.debug.DebugMenuMetaDataFragment"
-        android:label="fragment_debug_menu_meta_data"
-        tools:layout="@layout/fragment_debug_menu_meta_data" />
     <fragment
         android:id="@+id/debugMenuDocumentTesterTopFragment"
         android:name="one.nem.lacerta.feature.debug.DebugMenuDocumentTesterTopFragment"
         android:label="fragment_debug_menu_document_tester_top"
         tools:layout="@layout/fragment_debug_menu_document_tester_top" >
-        <action
-            android:id="@+id/action_debugMenuDocumentTesterTopFragment_to_debugMenuDocumentTesterListFragment"
-            app:destination="@id/debugMenuDocumentTesterListFragment" />
-        <action
-            android:id="@+id/action_debugMenuDocumentTesterTopFragment_to_debugMenuDocumentTesterManageFragment"
-            app:destination="@id/debugMenuDocumentTesterManageFragment" />
     </fragment>
     <fragment
-        android:id="@+id/debugMenuDocumentTesterListFragment"
-        android:name="one.nem.lacerta.feature.debug.DebugMenuDocumentTesterListFragment"
-        android:label="fragment_debug_menu_document_tester_list"
-        tools:layout="@layout/fragment_debug_menu_document_tester_list" />
+        android:id="@+id/scannerDataManagerStubFragment"
+        android:name="one.nem.lacerta.component.scanner.ScannerDataManagerStubFragment"
+        android:label="ScannerDataManagerStubFragment" />
     <fragment
-        android:id="@+id/debugMenuDocumentTesterManageFragment"
-        android:name="one.nem.lacerta.feature.debug.DebugMenuDocumentTesterManageFragment"
-        android:label="fragment_debug_menu_document_tester_manage"
-        tools:layout="@layout/fragment_debug_menu_document_tester_manage" />
+        android:id="@+id/debugMenuLibraryItemListPageFragment"
+        android:name="one.nem.lacerta.feature.debug.DebugMenuLibraryItemListPageFragment"
+        android:label="fragment_debug_menu_library_item_list_page"
+        tools:layout="@layout/fragment_debug_menu_library_item_list_page" />
+    <fragment
+        android:id="@+id/debugMenuVcsGeneralFragment"
+        android:name="one.nem.lacerta.feature.debug.DebugMenuVcsGeneralFragment"
+        android:label="fragment_debug_menu_vcs_general"
+        tools:layout="@layout/fragment_debug_menu_vcs_general" >
+        <action
+            android:id="@+id/action_debugMenuVcsGeneralFragment_to_debugMenuVcsGeneralActionFragment"
+            app:destination="@id/debugMenuVcsGeneralActionFragment" />
+        <action
+            android:id="@+id/action_debugMenuVcsGeneralFragment_to_debugMenuVcsRevRecordFragment"
+            app:destination="@id/debugMenuVcsRevRecordFragment" />
+        <action
+            android:id="@+id/action_debugMenuVcsGeneralFragment_to_debugMenuVcsLogRecordFragment"
+            app:destination="@id/debugMenuVcsLogRecordFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/debugMenuVcsGeneralActionFragment"
+        android:name="one.nem.lacerta.feature.debug.DebugMenuVcsGeneralActionFragment"
+        android:label="fragment_debug_menu_vcs_general_action"
+        tools:layout="@layout/fragment_debug_menu_vcs_general_action" />
+    <fragment
+        android:id="@+id/debugMenuVcsLogRecordFragment"
+        android:name="one.nem.lacerta.feature.debug.DebugMenuVcsLogRecordFragment"
+        android:label="fragment_debug_menu_vcs_log_record"
+        tools:layout="@layout/fragment_debug_menu_vcs_log_record" />
+    <fragment
+        android:id="@+id/debugMenuVcsRevRecordFragment"
+        android:name="one.nem.lacerta.feature.debug.DebugMenuVcsRevRecordFragment"
+        android:label="fragment_debug_menu_vcs_rev_record"
+        tools:layout="@layout/fragment_debug_menu_vcs_rev_record" />
+    <fragment
+        android:id="@+id/scannerManagerFragment"
+        android:name="one.nem.lacerta.component.scanner.ScannerManagerFragment"
+        android:label="ScannerManagerFragment" />
 </navigation>
