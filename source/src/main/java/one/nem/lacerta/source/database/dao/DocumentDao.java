@@ -28,6 +28,10 @@ public interface DocumentDao {
     @Query("SELECT * FROM Document WHERE id IN (:ids)")
     List<DocumentEntity> findByIds(List<String> ids);
 
+    @Query("SELECT * FROM Document WHERE public_path = :publicPath")
+    DocumentEntity findByPublicPath(String publicPath);
+
+
     // Insert
     @Insert
     void insert(DocumentEntity document);
