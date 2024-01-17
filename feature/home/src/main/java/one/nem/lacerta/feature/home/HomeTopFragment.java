@@ -90,7 +90,7 @@ public class HomeTopFragment extends Fragment {
 
         Log.d("docs", Integer.toString(metas.size()));
 
-        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
+        RecyclerView recyclerView = view.findViewById(R.id.item_recycler_view);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
