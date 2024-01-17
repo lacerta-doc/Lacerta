@@ -1,9 +1,12 @@
 package one.nem.lacerta.data.impl;
 
+import java.util.ArrayList;
+
 import javax.inject.Inject;
 
 import one.nem.lacerta.data.LacertaLibrary;
 import one.nem.lacerta.model.LibraryItemPage;
+import one.nem.lacerta.model.ListItem;
 import one.nem.lacerta.model.document.DocumentDetail;
 import one.nem.lacerta.source.database.LacertaDatabase;
 import one.nem.lacerta.utils.LacertaLogger;
@@ -17,12 +20,12 @@ public class LacertaLibraryImpl implements LacertaLibrary {
     LacertaDatabase database;
 
     @Override
-    public LibraryItemPage getRecentDocument(int limit) {
+    public ArrayList<ListItem> getRecentDocument(int limit) {
         return null;
     }
 
     @Override
-    public LibraryItemPage getRecentDocument(int limit, int offset) {
+    public ArrayList<ListItem> getRecentDocument(int limit, int offset) {
         return null;
     }
 
