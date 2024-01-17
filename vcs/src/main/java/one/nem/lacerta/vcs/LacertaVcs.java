@@ -13,6 +13,7 @@ public interface LacertaVcs {
 
     public void generateRevisionAtCurrent(String message);
 
+
     // debug
     public void printLog();
 

@@ -29,9 +29,7 @@ public class LacertaVcsImpl implements LacertaVcs {
     public LacertaVcsImpl(LacertaLogger logger, LacertaDatabase database, @Assisted String documentId) {
         this.logger = logger;
         this.database = database;
-        if (documentId != null) {
-            this.documentId = documentId;
-        }
+        this.documentId = documentId;
         logger.debug(TAG, "LacertaVcsImpl constructor");
     }
 
