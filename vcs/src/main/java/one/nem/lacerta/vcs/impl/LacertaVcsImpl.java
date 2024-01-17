@@ -12,7 +12,10 @@ import one.nem.lacerta.source.database.LacertaDatabase;
 import one.nem.lacerta.source.database.entity.VcsLogEntity;
 import one.nem.lacerta.source.database.entity.VcsRevEntity;
 import one.nem.lacerta.utils.LacertaLogger;
+import one.nem.lacerta.vcs.ActionType;
 import one.nem.lacerta.vcs.LacertaVcs;
+import one.nem.lacerta.vcs.internal.JsonUtils;
+import one.nem.lacerta.vcs.model.action.InsertPage;
 
 public class LacertaVcsImpl implements LacertaVcs {
 
@@ -41,12 +44,17 @@ public class LacertaVcsImpl implements LacertaVcs {
     @Override
     public void insertPage(int index, String fileName) {
         logger.debug(TAG, "insertPage");
+
+        // InsertPage
+        InsertPage insertPage = new InsertPage(index, fileName);
+        insertPage.setActionType(ActionType.INSERT_PAGE);
+
         VcsLogEntity vcsLogEntity = new VcsLogEntity();
         vcsLogEntity.id = UUID.randomUUID().toString();
         vcsLogEntity.documentId = documentId;
         vcsLogEntity.branchName = "master";
         vcsLogEntity.createdAt = new java.util.Date();
-        vcsLogEntity.action = "placeholder";
+        vcsLogEntity.action = JsonUtils.toJson(insertPage);
         database.vcsLogDao().insert(vcsLogEntity);
     }
 
@@ -58,12 +66,13 @@ public class LacertaVcsImpl implements LacertaVcs {
     @Override
     public void createDocument(String documentId) {
         logger.debug(TAG, "createDocument");
+
         VcsLogEntity vcsLogEntity = new VcsLogEntity();
         vcsLogEntity.id = UUID.randomUUID().toString();
         vcsLogEntity.documentId = documentId;
         vcsLogEntity.branchName = "master";
         vcsLogEntity.createdAt = new java.util.Date();
-        vcsLogEntity.action = "placeholder";
+        vcsLogEntity.action = "ph-createDocument";
         database.vcsLogDao().insert(vcsLogEntity);
     }
 
@@ -118,6 +127,8 @@ public class LacertaVcsImpl implements LacertaVcs {
         logger.debug(TAG, "printLog");
         database.vcsLogDao().findAll().forEach(vcsLog -> {
             logger.debug(TAG, vcsLog.id);
+            logger.debug(TAG, vcsLog.documentId + " " + vcsLog.branchName);
+            logger.debug(TAG, vcsLog.action);
         });
     }
 
@@ -126,6 +137,9 @@ public class LacertaVcsImpl implements LacertaVcs {
         logger.debug(TAG, "printRev");
         database.vcsRevDao().findAll().forEach(vcsRev -> {
             logger.debug(TAG, vcsRev.id);
+            logger.debug(TAG, vcsRev.documentId + " " + vcsRev.branchName);
+            logger.debug(TAG, vcsRev.commitMessage);
+            logger.debug(TAG, vcsRev.logIds.toString());
         });
     }
 }
