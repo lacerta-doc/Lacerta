@@ -13,23 +13,21 @@ import java.util.List;
 
 import one.nem.lacerta.model.ListItem;
 import one.nem.lacerta.model.document.DocumentMeta;
-
+//RecyclerView 用のアダプタークラス
+//アダプターはリストのデータを管理し、それを RecyclerView に表示する
 public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.DocumentViewHolder> {
-
+   // アダプターが保持するデータ
     private ArrayList<ListItem> documentMetas;
-
+    //documentMetas アダプターが表示するデータ
     public DocumentAdapter(ArrayList<ListItem> documentMetas) {
-        // nullの場合に例外を発生させる
-        if (documentMetas == null) {
-            throw new IllegalArgumentException("DocumentMetas list cannot be null or empty");
-        }
-        this.documentMetas = documentMetas;
+        // nullの場合でも例外を発生させないよう修正
+        this.documentMetas = documentMetas != null ? documentMetas : new ArrayList<>();
     }
 
     @NonNull
     @Override
     public DocumentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_library_menu, parent, false);// 適切な id に変更する
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_library_menu, parent, false);
         return new DocumentViewHolder(view);
     }
 
@@ -38,7 +36,7 @@ public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.Docume
         ListItem documentMeta = documentMetas.get(position);
         if (documentMeta != null) {
             holder.title.setText(documentMeta.getTitle());
-        }else{
+        } else {
             holder.title.setText("データがありません");
         }
     }
