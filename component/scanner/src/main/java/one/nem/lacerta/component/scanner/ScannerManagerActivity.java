@@ -160,6 +160,8 @@ public class ScannerManagerActivity extends AppCompatActivity {
             documentProcessorFactory.create(documentDetail).addNewPagesToLast(bitmaps);
             Toast.makeText(this, "Saved.", Toast.LENGTH_SHORT).show();
             lacertaVcsFactory.create(documentDetail.getMeta().getId()).generateRevisionAtCurrent("Initial commit");
+            lacertaVcsFactory.create(documentDetail.getMeta().getId()).printLog(); // Debug
+            lacertaVcsFactory.create(documentDetail.getMeta().getId()).printRev(); // Debug
             finish();
         } catch (Exception e) {
             logger.error(TAG, "Error: " + e.getMessage());
