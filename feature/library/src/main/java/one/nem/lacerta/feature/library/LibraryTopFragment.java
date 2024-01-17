@@ -1,6 +1,5 @@
 package one.nem.lacerta.feature.library;
 
-import static one.nem.lacerta.feature.library.LibraryUtils.convertToLibraryItems;
 
 import android.os.Bundle;
 
