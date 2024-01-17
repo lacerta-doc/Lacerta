@@ -5,19 +5,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import one.nem.lacerta.model.ListItem;
 import one.nem.lacerta.model.document.DocumentMeta;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyAdapterViewHolder> {
 
-    List<DocumentMeta> documentMetas;
+    ArrayList<ListItem> listItems;
 
-    public MyAdapter(List<DocumentMeta> documentMeta) {
-        this.documentMetas = documentMeta;
+    public MyAdapter(ArrayList<ListItem> ListItem) {
+//        this.listItem = listItem;
     }
 
     @NonNull
@@ -31,8 +33,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyAdapterViewHolde
     public void onBindViewHolder(@NonNull MyAdapterViewHolder holder, int position) {
 
 
-        holder.title.setText(documentMetas.get(position).getTitle());
-        holder.description.setText(documentMetas.get(position).getId());
+        holder.title.setText(listItems.get(position).getTitle());
+        holder.description.setText(listItems.get(position).getDescription());
 
 
 
@@ -46,7 +48,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyAdapterViewHolde
 
     @Override
     public int getItemCount() {
-        return documentMetas.size();
+        return listItems.size();
     }
 
     public class MyAdapterViewHolder extends RecyclerView.ViewHolder {

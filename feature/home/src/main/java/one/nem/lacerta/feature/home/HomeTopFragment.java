@@ -17,6 +17,8 @@ import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import one.nem.lacerta.data.Document;
+import one.nem.lacerta.data.LacertaLibrary;
+import one.nem.lacerta.model.ListItem;
 import one.nem.lacerta.model.document.DocumentMeta;
 
 
@@ -30,11 +32,7 @@ import one.nem.lacerta.model.document.DocumentMeta;
 public class HomeTopFragment extends Fragment {
 
     @Inject
-    Document document;
-
-
-
-
+    LacertaLibrary lacertaLibrary;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -86,15 +84,17 @@ public class HomeTopFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home_top, container, false);
 
-        List<DocumentMeta> metas = document.getAllDocumentMetas(100);
+//        List<DocumentMeta> metas = document.getAllDocumentMetas(100);
 
-        Log.d("docs", Integer.toString(metas.size()));
+        List<ListItem> listItem = lacertaLibrary.getRecentDocument(100).getListItems();
+
+        Log.d("docs", Integer.toString(listItem.size()));
 
         RecyclerView recyclerView = view.findViewById(R.id.item_recycler_view);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        MyAdapter myAdapter = new MyAdapter(metas);
+        MyAdapter myAdapter = new MyAdapter(listItems);
 
         recyclerView.setAdapter(myAdapter);
 
