@@ -44,7 +44,7 @@ public class DocumentImpl implements Document {
     @Inject
     public DocumentImpl() {
         // Init
-        logger.debug(TAG, "called");
+//        logger.debug(TAG, "called");
     }
 
 
