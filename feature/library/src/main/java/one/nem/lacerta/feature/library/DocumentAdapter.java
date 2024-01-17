@@ -29,7 +29,7 @@ public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.Docume
     @NonNull
     @Override
     public DocumentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_library_menu, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_library_menu, parent, false);// 適切な id に変更する
         return new DocumentViewHolder(view);
     }
 
@@ -38,6 +38,8 @@ public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.Docume
         ListItem documentMeta = documentMetas.get(position);
         if (documentMeta != null) {
             holder.title.setText(documentMeta.getTitle());
+        }else{
+            holder.title.setText("データがありません");
         }
     }
 
