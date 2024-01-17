@@ -31,6 +31,9 @@ public interface DocumentDao {
     @Query("SELECT * FROM Document WHERE public_path = :publicPath LIMIT :limit")
     List<DocumentEntity> findByPublicPathWithLimit(String publicPath, int limit);
 
+    @Query("SELECT * FROM Document ORDER BY created_at DESC LIMIT :limit")
+    List<DocumentEntity> getRecentDocument(int limit);
+
     // Insert
     @Insert
     void insert(DocumentEntity document);
