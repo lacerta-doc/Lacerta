@@ -24,6 +24,7 @@ import one.nem.lacerta.utils.LacertaLogger;
 
 // Lacerta/vcs
 import one.nem.lacerta.vcs.LacertaVcs;
+import one.nem.lacerta.vcs.factory.LacertaVcsFactory;
 
 
 public class DocumentImpl implements Document {
@@ -36,8 +37,8 @@ public class DocumentImpl implements Document {
     @Inject
     LacertaDatabase database;
 
-//    @Inject
-//    LacertaVcs vcs;
+    @Inject
+    LacertaVcsFactory vcsFactory;
 
 
     @Inject
@@ -69,7 +70,8 @@ public class DocumentImpl implements Document {
         database.documentDao().insert(documentEntity);
 
         // Vcs
-//        vcs.createDocument(meta.getId());
+        LacertaVcs vcs = vcsFactory.create(meta.getId());
+        vcs.createDocument(meta.getId());
 
         return detail;
     }
