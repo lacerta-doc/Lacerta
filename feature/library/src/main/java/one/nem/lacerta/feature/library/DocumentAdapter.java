@@ -22,7 +22,7 @@ public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.Docume
 
     //documentMetas アダプターが表示するデータ
     public DocumentAdapter(ArrayList<ListItem> documentMetas) {
-        // nullの場合でも例外を発生させないよう修正
+        // nullの場合でも例外を発生させない
         this.documentMetas = documentMetas != null ? documentMetas : new ArrayList<>();
     }
 
