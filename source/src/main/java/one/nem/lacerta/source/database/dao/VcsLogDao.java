@@ -24,6 +24,14 @@ public interface VcsLogDao {
     @Query("SELECT * FROM vcs_log WHERE document_id = :documentId")
     List<VcsLogEntity> findByDocumentId(String documentId);
 
+    @Query("SELECT * FROM vcs_log WHERE document_id = :documentId AND is_included = :isIncluded ORDER BY created_at")
+    List<VcsLogEntity> findByDocumentIdAndIncluded(String documentId, boolean isIncluded);
+
+    @Query("SELECT * FROM vcs_log WHERE document_id = :documentId AND branch_name = :branchName")
+    List<VcsLogEntity> findByDocumentIdAndBranchName(String documentId, String branchName);
+
+    @Query("SELECT * FROM vcs_log WHERE document_id = :documentId AND branch_name = :branchName AND is_included = :isIncluded ORDER BY created_at")
+    List<VcsLogEntity> findByDocumentIdAndBranchNameAndIncluded(String documentId, String branchName, boolean isIncluded);
     // Insert
 
     @Insert
