@@ -86,9 +86,9 @@ public class HomeTopFragment extends Fragment {
 
 //        List<DocumentMeta> metas = document.getAllDocumentMetas(100);
 
-        List<ListItem> listItem = lacertaLibrary.getRecentDocument(100);
+        ArrayList<ListItem> listItems = lacertaLibrary.getRecentDocument(100);
 
-        Log.d("docs", Integer.toString(listItem.size()));
+        Log.d("docs", Integer.toString(listItems.size()));
 
         RecyclerView recyclerView = view.findViewById(R.id.item_recycler_view);
 
