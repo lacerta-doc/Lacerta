@@ -57,13 +57,13 @@ public class DebugMenuLibraryItemListPageFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_debug_menu_library_item_list_page, container, false);
 
-        LibraryItemPage libraryItemPage = lacertaLibrary.getRecentDocument(10);
-        for (ListItem listItem : libraryItemPage.getListItems()) {
+        ArrayList<ListItem> listItems = lacertaLibrary.getRecentDocument(10);
+        for (ListItem listItem : listItems) {
             System.out.println(listItem.getTitle());
         }
 
         RecyclerView recyclerView = view.findViewById(R.id.item_recycler_view);
-        recyclerView.setAdapter(new ItemAdapter(libraryItemPage.getListItems()));
+        recyclerView.setAdapter(new ItemAdapter(listItems));
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
