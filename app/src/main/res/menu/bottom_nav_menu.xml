@@ -12,6 +12,11 @@
         android:title="Library"/>
 
     <item
+        android:id="@id/feature_search_navigation"
+        android:icon="@drawable/search_24px"
+        android:title="Search"/>
+
+    <item
         android:id="@id/feature_debug_navigation"
         android:icon="@drawable/developer_mode_24px"
         android:title="Debug menu"/>
