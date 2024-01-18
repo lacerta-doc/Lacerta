@@ -18,8 +18,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyAdapterViewHolde
 
     ArrayList<ListItem> listItems;
 
-    public MyAdapter(ArrayList<ListItem> ListItem) {
-//        this.listItem = listItem;
+    public MyAdapter(ArrayList<ListItem> listItems) {
+        this.listItems = listItems;
     }
 
     @NonNull
