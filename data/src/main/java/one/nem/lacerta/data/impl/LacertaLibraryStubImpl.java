@@ -148,8 +148,8 @@ public class LacertaLibraryStubImpl implements LacertaLibrary {
      * @return ページオブジェクト
      */
     @Override
-    public LibraryItemPage getRecentDocument(int limit) {
-        return getRecentDocumentPage(limit);
+    public ArrayList<ListItem> getRecentDocument(int limit) {
+        return getRecentDocumentPage(limit).getListItems();
     }
 
     /**
@@ -159,8 +159,8 @@ public class LacertaLibraryStubImpl implements LacertaLibrary {
      * @return ページオブジェクト
      */
     @Override
-    public LibraryItemPage getRecentDocument(int limit, int offset) {
-        return getRecentDocumentPage(limit);
+    public ArrayList<ListItem> getRecentDocument(int limit, int offset) {
+        return getRecentDocumentPage(limit).getListItems();
     }
 
     /**

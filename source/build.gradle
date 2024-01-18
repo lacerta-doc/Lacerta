@@ -47,4 +47,7 @@ dependencies {
     // Utils モジュール
     implementation project(':utils')
 
+    // Model
+    implementation project(':model')
+
 }
