@@ -86,7 +86,7 @@ public class HomeTopFragment extends Fragment {
 
 //        List<DocumentMeta> metas = document.getAllDocumentMetas(100);
 
-        List<ListItem> listItem = lacertaLibrary.getRecentDocument(100).getListItems();
+        List<ListItem> listItem = lacertaLibrary.getRecentDocument(100);
 
         Log.d("docs", Integer.toString(listItem.size()));
 
