@@ -26,8 +26,12 @@ import java.util.Objects;
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
+import one.nem.lacerta.model.document.DocumentDetail;
+import one.nem.lacerta.model.document.DocumentMeta;
+import one.nem.lacerta.processor.factory.DocumentProcessorFactory;
 import one.nem.lacerta.utils.LacertaLogger;
 import one.nem.lacerta.data.Document;
+import one.nem.lacerta.vcs.factory.LacertaVcsFactory;
 
 @AndroidEntryPoint
 public class ScannerManagerActivity extends AppCompatActivity {
@@ -40,6 +44,11 @@ public class ScannerManagerActivity extends AppCompatActivity {
     @Inject
     Document document;
 
+    @Inject
+    DocumentProcessorFactory documentProcessorFactory;
+
+    @Inject
+    LacertaVcsFactory lacertaVcsFactory;
 
     // Variables
     private ArrayList<Bitmap> croppedImages = new ArrayList<>();
@@ -143,7 +152,21 @@ public class ScannerManagerActivity extends AppCompatActivity {
 
     private void saveNewDocument() {
         logger.debug(TAG, "saveNewDocument");
-
+        DocumentMeta documentMeta = new DocumentMeta("Untitled"); // TODO-rca: デフォルトタイトルを指定できるようにする
+        DocumentDetail documentDetail = document.createDocument(documentMeta);
+        Bitmap[] bitmaps = new Bitmap[this.croppedImages.size()];
+        this.croppedImages.toArray(bitmaps);
+        try {
+            documentProcessorFactory.create(documentDetail).addNewPagesToLast(bitmaps);
+            Toast.makeText(this, "Saved.", Toast.LENGTH_SHORT).show();
+            lacertaVcsFactory.create(documentDetail.getMeta().getId()).generateRevisionAtCurrent("Initial commit");
+            lacertaVcsFactory.create(documentDetail.getMeta().getId()).printLog(); // Debug
+            lacertaVcsFactory.create(documentDetail.getMeta().getId()).printRev(); // Debug
+            finish();
+        } catch (Exception e) {
+            logger.error(TAG, "Error: " + e.getMessage());
+            logger.e_code("9dff2a28-20e8-4ccd-9d04-f0c7646faa6a");
+        }
     }
 
     private void insertToExistDocument() {

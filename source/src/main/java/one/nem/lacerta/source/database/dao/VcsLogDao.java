@@ -3,6 +3,7 @@ package one.nem.lacerta.source.database.dao;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import java.util.List;
 
@@ -24,6 +25,14 @@ public interface VcsLogDao {
     @Query("SELECT * FROM vcs_log WHERE document_id = :documentId")
     List<VcsLogEntity> findByDocumentId(String documentId);
 
+    @Query("SELECT * FROM vcs_log WHERE document_id = :documentId AND is_included = :isIncluded ORDER BY created_at")
+    List<VcsLogEntity> findByDocumentIdAndIncluded(String documentId, boolean isIncluded);
+
+    @Query("SELECT * FROM vcs_log WHERE document_id = :documentId AND branch_name = :branchName")
+    List<VcsLogEntity> findByDocumentIdAndBranchName(String documentId, String branchName);
+
+    @Query("SELECT * FROM vcs_log WHERE document_id = :documentId AND branch_name = :branchName AND is_included = :isIncluded ORDER BY created_at")
+    List<VcsLogEntity> findByDocumentIdAndBranchNameAndIncluded(String documentId, String branchName, boolean isIncluded);
     // Insert
 
     @Insert
@@ -35,5 +44,12 @@ public interface VcsLogDao {
     @Insert
     void insert(VcsLogEntity vcsLog);
 
-    // TODO-rca: Update, Deleteが必要か検討
+    @Update
+    void update(VcsLogEntity vcsLog);
+
+    @Update
+    void updateAll(VcsLogEntity... vcsLogs);
+
+    @Update
+    void updateAll(List<VcsLogEntity> vcsLogs);
 }

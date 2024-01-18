@@ -11,7 +11,12 @@ public interface LacertaVcs {
 
     public void createDocument(String documentId);
 
+    public void generateRevisionAtCurrent(String message);
+
+
     // debug
     public void printLog();
+
+    public void printRev();
 
 }

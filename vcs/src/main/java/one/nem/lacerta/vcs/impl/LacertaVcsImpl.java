@@ -1,5 +1,7 @@
 package one.nem.lacerta.vcs.impl;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import javax.inject.Inject;
@@ -8,8 +10,12 @@ import dagger.assisted.Assisted;
 import dagger.assisted.AssistedInject;
 import one.nem.lacerta.source.database.LacertaDatabase;
 import one.nem.lacerta.source.database.entity.VcsLogEntity;
+import one.nem.lacerta.source.database.entity.VcsRevEntity;
 import one.nem.lacerta.utils.LacertaLogger;
+import one.nem.lacerta.vcs.ActionType;
 import one.nem.lacerta.vcs.LacertaVcs;
+import one.nem.lacerta.vcs.internal.JsonUtils;
+import one.nem.lacerta.vcs.model.action.InsertPage;
 
 public class LacertaVcsImpl implements LacertaVcs {
 
@@ -38,12 +44,17 @@ public class LacertaVcsImpl implements LacertaVcs {
     @Override
     public void insertPage(int index, String fileName) {
         logger.debug(TAG, "insertPage");
+
+        // InsertPage
+        InsertPage insertPage = new InsertPage(index, fileName);
+        insertPage.setActionType(ActionType.INSERT_PAGE);
+
         VcsLogEntity vcsLogEntity = new VcsLogEntity();
         vcsLogEntity.id = UUID.randomUUID().toString();
         vcsLogEntity.documentId = documentId;
         vcsLogEntity.branchName = "master";
         vcsLogEntity.createdAt = new java.util.Date();
-        vcsLogEntity.action = "placeholder";
+        vcsLogEntity.action = JsonUtils.toJson(insertPage);
         database.vcsLogDao().insert(vcsLogEntity);
     }
 
@@ -54,7 +65,61 @@ public class LacertaVcsImpl implements LacertaVcs {
 
     @Override
     public void createDocument(String documentId) {
+        logger.debug(TAG, "createDocument");
 
+        VcsLogEntity vcsLogEntity = new VcsLogEntity();
+        vcsLogEntity.id = UUID.randomUUID().toString();
+        vcsLogEntity.documentId = documentId;
+        vcsLogEntity.branchName = "master";
+        vcsLogEntity.createdAt = new java.util.Date();
+        vcsLogEntity.action = "ph-createDocument";
+        database.vcsLogDao().insert(vcsLogEntity);
+    }
+
+    // Internal
+    private ArrayList<VcsLogEntity> getNonIncludedVcsLogEntities() {
+        return new ArrayList<>(database.vcsLogDao().findByDocumentIdAndIncluded(documentId, false));
+    }
+
+    private ArrayList<VcsLogEntity> getNonIncludedVcsLogEntities(String branchName) {
+        return new ArrayList<>(database.vcsLogDao().findByDocumentIdAndBranchNameAndIncluded(documentId, branchName, false));
+    }
+
+    private void setIncludedVcsLogEntities(ArrayList<VcsLogEntity> vcsLogEntities) {
+        vcsLogEntities.forEach(vcsLogEntity -> {
+            vcsLogEntity.isIncluded = true;
+            database.vcsLogDao().update(vcsLogEntity);
+        });
+
+        logger.debug(TAG, "setIncludedVcsLogEntities updated: " + vcsLogEntities.size() + " entities");
+    }
+
+    @Override
+    public void generateRevisionAtCurrent(String message) {
+        logger.debug(TAG, "generateRevisionAtCurrent");
+        // TODO-rca: ブランチを考慮する
+
+        ArrayList<VcsLogEntity> vcsLogEntities = getNonIncludedVcsLogEntities();
+
+        ArrayList<String> logIds = new ArrayList<>();
+        vcsLogEntities.forEach(vcsLogEntity -> {
+            logIds.add(vcsLogEntity.id);
+        });
+
+        VcsRevEntity vcsRevEntity = new VcsRevEntity();
+        vcsRevEntity.id = UUID.randomUUID().toString();
+        vcsRevEntity.documentId = documentId;
+        vcsRevEntity.branchName = "master";
+        vcsRevEntity.createdAt = new java.util.Date();
+        vcsRevEntity.commitMessage = message;
+        vcsRevEntity.logIds = logIds;
+
+        database.vcsRevDao().insert(vcsRevEntity);
+
+        setIncludedVcsLogEntities(vcsLogEntities);
+
+        logger.debug(TAG, "generateRevisionAtCurrent finished");
+        logger.debug(TAG, "New revision inserted: " + vcsRevEntity.id);
     }
 
     @Override
@@ -62,6 +127,19 @@ public class LacertaVcsImpl implements LacertaVcs {
         logger.debug(TAG, "printLog");
         database.vcsLogDao().findAll().forEach(vcsLog -> {
             logger.debug(TAG, vcsLog.id);
+            logger.debug(TAG, vcsLog.documentId + " " + vcsLog.branchName);
+            logger.debug(TAG, vcsLog.action);
+        });
+    }
+
+    @Override
+    public void printRev() {
+        logger.debug(TAG, "printRev");
+        database.vcsRevDao().findAll().forEach(vcsRev -> {
+            logger.debug(TAG, vcsRev.id);
+            logger.debug(TAG, vcsRev.documentId + " " + vcsRev.branchName);
+            logger.debug(TAG, vcsRev.commitMessage);
+            logger.debug(TAG, vcsRev.logIds.toString());
         });
     }
 }
