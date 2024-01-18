@@ -73,4 +73,6 @@ public class DocumentDetail {
         this.pages = pages;
     }
 
-}
+
+    }
+

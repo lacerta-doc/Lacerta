@@ -25,6 +25,8 @@ import one.nem.lacerta.data.Document;
 import one.nem.lacerta.model.document.DocumentMeta;
 import one.nem.lacerta.model.document.tag.DocumentTag;
 
+
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link LibraryTopFragment#newInstance} factory method to

@@ -1,19 +1,39 @@
 package one.nem.lacerta.feature.home;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
+import one.nem.lacerta.data.Document;
+import one.nem.lacerta.data.LacertaLibrary;
+import one.nem.lacerta.model.ListItem;
+import one.nem.lacerta.model.document.DocumentMeta;
+
+
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link HomeTopFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+@AndroidEntryPoint
 public class HomeTopFragment extends Fragment {
+
+    @Inject
+    LacertaLibrary lacertaLibrary;
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -46,12 +66,15 @@ public class HomeTopFragment extends Fragment {
         return fragment;
     }
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+
+
         }
     }
 
@@ -59,6 +82,42 @@ public class HomeTopFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home_top, container, false);
-    }
+        View view = inflater.inflate(R.layout.fragment_home_top, container, false);
+
+//        List<DocumentMeta> metas = document.getAllDocumentMetas(100);
+
+        List<ListItem> listItem = lacertaLibrary.getRecentDocument(100).getListItems();
+
+        Log.d("docs", Integer.toString(listItem.size()));
+
+        RecyclerView recyclerView = view.findViewById(R.id.item_recycler_view);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        MyAdapter myAdapter = new MyAdapter(listItems);
+
+        recyclerView.setAdapter(myAdapter);
+
+        return view;
+
+
+        }
+String pageTitle;
+    String pageId;
+    ArrayList listItems;
+
+    String title;
+    String description;
+
+    String itemId;
+
+
+
 }
+
+
+
+
+
+
+
