@@ -1,5 +1,6 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
     <style name="Base.Theme.Lacerta" parent="Theme.Material3.DayNight.NoActionBar">
 
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -29,10 +30,6 @@
         <item name="colorOnBackground">@color/colorOnBackground</item>
 
         <item name="android:windowLightNavigationBar">true</item>
-
-    </style>
-
-    <style name="Theme.Lacerta" parent="Base.Theme.Lacerta" >
 
     </style>
 </resources>
