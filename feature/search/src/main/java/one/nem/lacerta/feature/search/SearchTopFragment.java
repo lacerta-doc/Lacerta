@@ -10,7 +10,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.SearchView;
 
 import java.util.ArrayList;
@@ -21,19 +20,15 @@ import java.util.ArrayList;
  * create an instance of this fragment.
  */
 public class SearchTopFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String TAG = SearchTopFragment.class.getSimpleName();
     private final SearchTopFragment self = this;
 
     private SearchView searchView;
     private String searchWord;
 
-
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
-
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
@@ -53,8 +48,6 @@ public class SearchTopFragment extends Fragment {
      * @return A new instance of fragment SearchTopFragment.
      */
     // TODO: Rename and change types and number of parameters
-
-
     public static SearchTopFragment newInstance(String param1, String param2) {
         SearchTopFragment fragment = new SearchTopFragment();
         Bundle args = new Bundle();
@@ -78,11 +71,13 @@ public class SearchTopFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_search_top, container, false);
-
     }
 
-    public void onCreateOptionsMenu(FrameLayout framelayout, MenuInflater inflater) {
-        super.onCreateOptionsMenu((Menu) framelayout, inflater);
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
 
 
 
@@ -97,9 +92,9 @@ public class SearchTopFragment extends Fragment {
 
             this.searchView.setQuery(this.searchWord, false);
         } else {
-            String query = self.getResources().getString(R.string.hello_blank_fragment);
+            String queryHint = self.getResources().getString(R.string.hello_blank_fragment);
 
-            this.searchView.setQueryHint(query);
+            this.searchView.setQueryHint(queryHint);
         }
         this.searchView.setOnQueryTextListener(self.onQueryTextListener);
     }
@@ -108,7 +103,7 @@ public class SearchTopFragment extends Fragment {
         @Override
         public boolean onQueryTextSubmit(String query) {
 
-            return self.setSearchWord();
+            return self.setSearchWord(searchWord);
         }
 
         @Override
@@ -117,7 +112,7 @@ public class SearchTopFragment extends Fragment {
             return false;
         }
     };
-    private boolean setSearchWord() {
+    private boolean setSearchWord(String query) {
 
 
         if (searchWord != null && !searchWord.equals("")) {
@@ -132,8 +127,9 @@ public class SearchTopFragment extends Fragment {
         this.searchView.clearFocus();
         return false;
     }
-
 }
+
+
 
 
     interface LacertaSearch {
@@ -141,7 +137,6 @@ public class SearchTopFragment extends Fragment {
 
         ArrayList<LauncherActivity.ListItem> autoSearch(String query, int limit, int offset);
     }
-
 
 
 
