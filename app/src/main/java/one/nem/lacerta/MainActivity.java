@@ -13,6 +13,8 @@ import androidx.navigation.ui.NavigationUI;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -52,6 +54,18 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        // Create a new TextView
+        TextView toolbarTitle = new TextView(this);
+        // Set the text and center it in the TextView
+        toolbarTitle.setText("App Name");
+        toolbarTitle.setTextColor(Color.WHITE);
+        toolbarTitle.setTextSize(20);
+        toolbarTitle.setLayoutParams(new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT,
+                Toolbar.LayoutParams.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL));
+
+        // Set the TextView as the title
+        toolbar.addView(toolbarTitle);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
