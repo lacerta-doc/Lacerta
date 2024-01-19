@@ -24,6 +24,7 @@
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorSecondaryContainer"
                 app:layout_scrollFlags="scroll|enterAlways"
+                android:layout_margin="8dp"
                 app:titleCentered="true" />
 
         </com.google.android.material.appbar.AppBarLayout>
