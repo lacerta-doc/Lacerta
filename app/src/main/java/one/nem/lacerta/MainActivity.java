@@ -68,17 +68,14 @@ public class MainActivity extends AppCompatActivity {
 //        // Set the TextView as the title
 //        toolbar.addView(toolbarTitle);
 
-        // Create a ShapeAppearanceModel with rounded corners
-        ShapeAppearanceModel shapeAppearanceModel = new ShapeAppearanceModel()
+        float radius = getResources().getDimension(one.nem.lacerta.shared.ui.R.dimen.toolbar_corner_radius);
+
+        MaterialShapeDrawable materialShapeDrawable = (MaterialShapeDrawable)toolbar.getBackground();
+        materialShapeDrawable.setShapeAppearanceModel(materialShapeDrawable.getShapeAppearanceModel()
                 .toBuilder()
-                .setAllCorners(CornerFamily.ROUNDED, getResources().getDimension(one.nem.lacerta.shared.ui.R.dimen.toolbar_corner_radius))
-                .build();
-
-        // Create a MaterialShapeDrawable with the ShapeAppearanceModel
-        MaterialShapeDrawable shapeDrawable = new MaterialShapeDrawable(shapeAppearanceModel);
-
+                .setAllCorners(CornerFamily.ROUNDED,radius)
+                .build());
         // Set the MaterialShapeDrawable as the background of the Toolbar
-        toolbar.setBackground(shapeDrawable);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
