@@ -25,4 +25,7 @@
     <color name="colorSurfaceVariant">@color/material_dynamic_neutral_variant90</color>
     <color name="colorOnSurfaceVariant">@color/material_dynamic_neutral_variant30</color>
     <color name="colorSurfaceInverse">@color/material_dynamic_neutral20</color>
+
+    <!-- indicator icon background -->
+    <color name="colorIndicator">@color/material_dynamic_secondary70</color>
 </resources>

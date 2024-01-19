@@ -12,11 +12,13 @@ import android.view.ViewGroup;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
@@ -121,6 +123,24 @@ public class HomeTopFragment extends Fragment {
 
         // Set the title of the CollapsingToolbarLayout
         collapsingToolbarLayout.setTitle("Lacerta");
+
+        AppBarLayout appBarLayout = view.findViewById(R.id.app_bar_layout);
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (Math.abs(verticalOffset) == appBarLayout.getTotalScrollRange()) {
+                    // Collapsed
+                    getActivity().getWindow().setStatusBarColor(ContextCompat.getColor(getActivity(), one.nem.lacerta.shared.ui.R.color.colorSecondaryContainer));
+                } else if (verticalOffset == 0) {
+                    // Expanded
+                    getActivity().getWindow().setStatusBarColor(ContextCompat.getColor(getActivity(), one.nem.lacerta.shared.ui.R.color.colorSurface));
+                } else {
+                    // Somewhere in between
+                    // Here you can add a color transition if you want
+                }
+            }
+        });
+
     }
 
 String pageTitle;

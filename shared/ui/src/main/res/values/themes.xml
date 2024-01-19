@@ -28,8 +28,6 @@
         <item name="colorOutline">@color/colorOutline</item>
         <item name="colorOnBackground">@color/colorOnBackground</item>
 
-        <item name="android:windowLightNavigationBar">true</item>
-
     </style>
 
     <style name="Theme.Lacerta" parent="Base.Theme.Lacerta" >
