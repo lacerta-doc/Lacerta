@@ -18,8 +18,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-
+import com.google.android.material.shape.CornerFamily;
+import com.google.android.material.shape.MaterialShapeDrawable;
+import com.google.android.material.shape.ShapeAppearanceModel;
 
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -55,17 +56,29 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // Create a new TextView
-        TextView toolbarTitle = new TextView(this);
-        // Set the text and center it in the TextView
-        toolbarTitle.setText("App Name");
-        toolbarTitle.setTextColor(Color.WHITE);
-        toolbarTitle.setTextSize(20);
-        toolbarTitle.setLayoutParams(new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT,
-                Toolbar.LayoutParams.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL));
+//        // Create a new TextView
+//        TextView toolbarTitle = new TextView(this);
+//        // Set the text and center it in the TextView
+//        toolbarTitle.setText("App Name");
+//        toolbarTitle.setTextColor(Color.WHITE);
+//        toolbarTitle.setTextSize(20);
+//        toolbarTitle.setLayoutParams(new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT,
+//                Toolbar.LayoutParams.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL));
+//
+//        // Set the TextView as the title
+//        toolbar.addView(toolbarTitle);
 
-        // Set the TextView as the title
-        toolbar.addView(toolbarTitle);
+        // Create a ShapeAppearanceModel with rounded corners
+        ShapeAppearanceModel shapeAppearanceModel = new ShapeAppearanceModel()
+                .toBuilder()
+                .setAllCorners(CornerFamily.ROUNDED, getResources().getDimension(one.nem.lacerta.shared.ui.R.dimen.toolbar_corner_radius))
+                .build();
+
+        // Create a MaterialShapeDrawable with the ShapeAppearanceModel
+        MaterialShapeDrawable shapeDrawable = new MaterialShapeDrawable(shapeAppearanceModel);
+
+        // Set the MaterialShapeDrawable as the background of the Toolbar
+        toolbar.setBackground(shapeDrawable);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
