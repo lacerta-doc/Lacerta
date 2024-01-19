@@ -1,19 +1,16 @@
 package one.nem.lacerta.feature.search;
 
-import android.app.ActionBar;
 import android.app.LauncherActivity;
 import android.os.Bundle;
 
-import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.SearchView;
 
 import java.util.ArrayList;
@@ -83,9 +80,9 @@ public class SearchTopFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_search_top, container, false);
 
     }
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
+
+    public void onCreateOptionsMenu(FrameLayout framelayout, MenuInflater inflater) {
+        super.onCreateOptionsMenu((Menu) framelayout, inflater);
 
 
 
@@ -100,9 +97,9 @@ public class SearchTopFragment extends Fragment {
 
             this.searchView.setQuery(this.searchWord, false);
         } else {
-            String queryHint = self.getResources().getString(R.string.hello_blank_fragment);
+            String query = self.getResources().getString(R.string.hello_blank_fragment);
 
-            this.searchView.setQueryHint(queryHint);
+            this.searchView.setQueryHint(query);
         }
         this.searchView.setOnQueryTextListener(self.onQueryTextListener);
     }
@@ -111,7 +108,7 @@ public class SearchTopFragment extends Fragment {
         @Override
         public boolean onQueryTextSubmit(String query) {
 
-            return self.setSearchWord(searchWord);
+            return self.setSearchWord();
         }
 
         @Override
@@ -120,7 +117,7 @@ public class SearchTopFragment extends Fragment {
             return false;
         }
     };
-    private boolean setSearchWord(String query) {
+    private boolean setSearchWord() {
 
 
         if (searchWord != null && !searchWord.equals("")) {
