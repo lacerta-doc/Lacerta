@@ -1,6 +1,7 @@
 package one.nem.lacerta;
 
 import android.app.Application;
+import android.util.Log;
 
 import com.google.android.material.color.DynamicColors;
 
@@ -12,8 +13,12 @@ public class LacertaApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        // DynamicColorを有効化
-        DynamicColors.applyToActivitiesIfAvailable(this);
+        if (DynamicColors.isDynamicColorAvailable()) {
+            Log.d("DynamicColors", "DynamicColors is available. Applying to activities...");
+            DynamicColors.applyToActivitiesIfAvailable(this);
+        } else {
+            Log.d("DynamicColors", "DynamicColors is not available.");
+        }
 
     }
 
