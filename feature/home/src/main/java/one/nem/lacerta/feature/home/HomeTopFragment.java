@@ -93,19 +93,17 @@ public class HomeTopFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home_top, container, false);
 
-//        List<DocumentMeta> metas = document.getAllDocumentMetas(100);
+        ArrayList<ListItem> recentDocument = lacertaLibrary.getRecentDocument(10);
 
-//        ArrayList<ListItem> listItems = lacertaLibrary.getRecentDocument(100);
-//
-//        Log.d("docs", Integer.toString(listItems.size()));
-//
-//        RecyclerView recyclerView = view.findViewById(R.id.item_recycler_view);
-//
-//        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-//
-//        MyAdapter myAdapter = new MyAdapter(listItems);
-//
-//        recyclerView.setAdapter(myAdapter);
+        Log.d("docs", Integer.toString(recentDocument.size()));
+
+        RecyclerView recyclerView = view.findViewById(R.id.home_item_recycler_view);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        ListItemAdapter listItemAdapter = new ListItemAdapter(recentDocument);
+
+        recyclerView.setAdapter(listItemAdapter);
 
         return view;
 
