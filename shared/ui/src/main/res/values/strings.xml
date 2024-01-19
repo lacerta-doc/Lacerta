@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- home -->
+    <string name="home_title">ホーム</string>
+
+    <!-- search -->
+    <string name="search_title">検索</string>
+
+    <!-- library -->
+    <string name="library_title">ライブラリ</string>
+
+    <!-- debug -->
+    <string name="debug_menu_title">デバッグメニュー</string>
+
+    <!-- common -->
+
+</resources>
