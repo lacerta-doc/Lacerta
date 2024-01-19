@@ -9,6 +9,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -27,18 +28,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Debug
-        FragmentManager supportFragmentManager = getSupportFragmentManager();
+        // Init navigation
+        try {
+            FragmentManager supportFragmentManager = getSupportFragmentManager();
+            NavHostFragment navHostFragment = (NavHostFragment) supportFragmentManager.findFragmentById(R.id.nav_host_fragment);
+            assert navHostFragment != null;
+            NavController navController = navHostFragment.getNavController();
+            BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav);
+            NavigationUI.setupWithNavController(bottomNavigationView, navController);
+        }
+        catch (Exception e) {
+            Log.e("Init", "Failed to init navigation");
+            Log.e("Init", "Searchable Error code: " + "894b5941-3bc0-46fe-b752-0dbc88be29a8");
+            Toast.makeText(this, "Failed to init navigation", Toast.LENGTH_LONG).show();
+            finish(); // Exit app
+        }
 
-        NavHostFragment navHostFragment = (NavHostFragment) supportFragmentManager.findFragmentById(R.id.nav_host_fragment);
-        NavController navController = navHostFragment.getNavController();
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav);
-
-        NavigationUI.setupWithNavController(bottomNavigationView, navController);
-
+        // Set navigation bar color
         getWindow().setNavigationBarColor(ContextCompat.getColor(this, one.nem.lacerta.shared.ui.R.color.colorSurfaceVariant));
-
-
     }
-
 }
