@@ -6,9 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,8 +84,7 @@ public class HomeTopFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home_top, container, false);
 
@@ -100,8 +104,23 @@ public class HomeTopFragment extends Fragment {
 
         return view;
 
+    }
 
-        }
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        CollapsingToolbarLayout collapsingToolbarLayout = view.findViewById(R.id.collapsing_toolbar);
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+
+        // Set the Toolbar
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+
+        // Set the title of the CollapsingToolbarLayout
+        collapsingToolbarLayout.setTitle("Title");
+    }
+
+
 String pageTitle;
     String pageId;
     ArrayList listItems;
