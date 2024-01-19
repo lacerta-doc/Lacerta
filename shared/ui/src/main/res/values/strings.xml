@@ -15,4 +15,6 @@
 
     <!-- common -->
 
+    <!-- for placeholder -->
+    <string name="placeholder">Placeholder(TODO: Replace)</string>
 </resources>
