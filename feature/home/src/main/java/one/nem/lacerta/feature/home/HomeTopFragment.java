@@ -90,17 +90,17 @@ public class HomeTopFragment extends Fragment {
 
 //        List<DocumentMeta> metas = document.getAllDocumentMetas(100);
 
-        ArrayList<ListItem> listItems = lacertaLibrary.getRecentDocument(100);
-
-        Log.d("docs", Integer.toString(listItems.size()));
-
-        RecyclerView recyclerView = view.findViewById(R.id.item_recycler_view);
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        MyAdapter myAdapter = new MyAdapter(listItems);
-
-        recyclerView.setAdapter(myAdapter);
+//        ArrayList<ListItem> listItems = lacertaLibrary.getRecentDocument(100);
+//
+//        Log.d("docs", Integer.toString(listItems.size()));
+//
+//        RecyclerView recyclerView = view.findViewById(R.id.item_recycler_view);
+//
+//        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+//
+//        MyAdapter myAdapter = new MyAdapter(listItems);
+//
+//        recyclerView.setAdapter(myAdapter);
 
         return view;
 
