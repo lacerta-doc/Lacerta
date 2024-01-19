@@ -40,7 +40,7 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ListIt
 
     @Override
     public int getItemCount() {
-        return 0;
+        return listItems.size();
     }
 
     public static class ListItemViewHolder extends RecyclerView.ViewHolder{

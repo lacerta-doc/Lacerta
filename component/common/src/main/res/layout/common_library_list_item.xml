@@ -14,7 +14,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/item_text_container"
-        app:srcCompat="@drawable/description_24px" />
+        app:srcCompat="@drawable/description_24px"
+        android:contentDescription="icon" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/item_text_container"
