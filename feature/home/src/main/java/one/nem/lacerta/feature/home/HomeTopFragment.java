@@ -3,6 +3,8 @@ package one.nem.lacerta.feature.home;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -83,6 +85,7 @@ public class HomeTopFragment extends Fragment {
 
 
         }
+
     }
 
     @Override
@@ -118,11 +121,9 @@ public class HomeTopFragment extends Fragment {
         // Set the Toolbar
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
-
         // Set the title of the CollapsingToolbarLayout
-        collapsingToolbarLayout.setTitle("Title");
+        collapsingToolbarLayout.setTitle("Lacerta");
     }
-
 
 String pageTitle;
     String pageId;
