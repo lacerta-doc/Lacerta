@@ -12,4 +12,7 @@
 
     <!-- debug -->
     <string name="debug_menu_title">デバッグメニュー</string>
+
+    <!-- common -->
+
 </resources>
