@@ -4,21 +4,21 @@
     <item
         android:id="@id/feature_home_navigation"
         android:icon="@drawable/home_24px"
-        android:title="Home"/>
+        android:title="@string/home_title"/>
 
     <item
         android:id="@id/feature_search_navigation"
         android:icon="@drawable/search_24px"
-        android:title="Search"/>
+        android:title="@string/search_title"/>
 
     <item
         android:id="@id/feature_library_navigation"
         android:icon="@drawable/folder_24px"
-        android:title="Library"/>
+        android:title="@string/library_title"/>
 
     <item
         android:id="@id/feature_debug_navigation"
         android:icon="@drawable/developer_mode_24px"
-        android:title="Debug menu"/>
+        android:title="@string/debug_menu_title"/>
 
 </menu>
