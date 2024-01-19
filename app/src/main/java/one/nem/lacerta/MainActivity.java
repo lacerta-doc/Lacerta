@@ -11,8 +11,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import one.nem.lacerta.utils.LacertaLogger;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
@@ -23,9 +21,6 @@ import javax.inject.Inject;
 
 @AndroidEntryPoint
 public class MainActivity extends AppCompatActivity {
-
-    @Inject
-    LacertaLogger logger;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
