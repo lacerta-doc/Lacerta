@@ -83,6 +83,8 @@ dependencies {
 
     implementation project(':shared:ui')
 
+    implementation project(':utils')
+
     // Hilt (DI)
     implementation libs.com.google.dagger.hilt.android
     annotationProcessor libs.com.google.dagger.hilt.compiler
