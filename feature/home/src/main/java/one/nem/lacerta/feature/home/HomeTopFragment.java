@@ -7,8 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -115,6 +117,12 @@ public class HomeTopFragment extends Fragment {
 
         // Set the Toolbar
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+
+        DrawerLayout drawer = view.findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                getActivity(), drawer, toolbar, one.nem.lacerta.shared.ui.R.string.placeholder, one.nem.lacerta.shared.ui.R.string.placeholder);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
 
         // Set the title of the CollapsingToolbarLayout
         collapsingToolbarLayout.setTitle("Title");
