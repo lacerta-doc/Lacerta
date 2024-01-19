@@ -1,7 +1,10 @@
 package one.nem.lacerta;
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -46,5 +49,17 @@ public class MainActivity extends AppCompatActivity {
 
         // Set navigation bar color
         getWindow().setNavigationBarColor(ContextCompat.getColor(this, one.nem.lacerta.shared.ui.R.color.colorSurfaceVariant));
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, one.nem.lacerta.shared.ui.R.string.placeholder, one.nem.lacerta.shared.ui.R.string.placeholder);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        // Set the app name in the middle of the toolbar
+        getSupportActionBar().setTitle("App Name");
     }
 }
