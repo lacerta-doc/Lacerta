@@ -33,7 +33,7 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ListIt
     public void onBindViewHolder(@NonNull ListItemAdapter.ListItemViewHolder holder, int position) {
         ListItem listItem = listItems.get(position);
         holder.icon.setImageResource(listItem.getItemType().getIconId());
-        holder.icon.setColorFilter(one.nem.lacerta.shared.ui.R.color.colorOnBackground);
+        holder.icon.setColorFilter(one.nem.lacerta.shared.ui.R.color.colorOnSurface);
         holder.title.setText(listItem.getTitle());
         holder.description.setText(listItem.getDescription());
     }
