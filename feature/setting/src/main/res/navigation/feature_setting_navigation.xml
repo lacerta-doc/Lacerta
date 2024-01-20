@@ -11,7 +11,11 @@
         android:label="SettingTopFragment" >
         <action
             android:id="@+id/action_settingTopFragment_to_settingAboutPageFragment"
-            app:destination="@id/settingAboutPageFragment" />
+            app:destination="@id/settingAboutPageFragment"
+            app:enterAnim="@anim/slide_from_right"
+            app:exitAnim="@anim/slide_to_left"
+            app:popEnterAnim="@anim/slide_from_left"
+            app:popExitAnim="@anim/slide_to_right" />
     </fragment>
     <fragment
         android:id="@+id/settingAboutPageFragment"
