@@ -13,6 +13,21 @@
     <!-- debug -->
     <string name="debug_menu_title">デバッグメニュー</string>
 
+    <!-- setting -->
+    <string name="setting_title">設定</string>
+
+    <string name="setting_top_scan_title">スキャン</string>
+    <string name="setting_top_scan_description">画質, 保存先</string>
+
+    <string name="setting_top_display_title">表示</string>
+    <string name="setting_top_display_description">テーマ, フォントサイズ</string>
+
+    <string name="setting_top_data_title">データ</string>
+    <string name="setting_top_data_description">バックアップ, リストア</string>
+
+    <string name="setting_top_about_title">このアプリについて</string>
+    <string name="setting_top_about_description">バージョン情報</string>
+
     <!-- common -->
 
     <string name="placeholder">Placeholder(TODO: Replace)</string>
