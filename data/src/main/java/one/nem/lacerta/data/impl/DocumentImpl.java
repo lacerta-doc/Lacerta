@@ -91,13 +91,17 @@ public class DocumentImpl implements Document {
     }
 
     @Override
-    public void deleteDocument(String documentId) {
-
+    public CompletableFuture<Void> deleteDocument(String documentId) {
+        return CompletableFuture.supplyAsync(() -> {
+            return null;
+        });
     }
 
     @Override
-    public void updateDocument(DocumentMeta meta, DocumentDetail detail) {
-
+    public CompletableFuture<Void> updateDocument(DocumentMeta meta, DocumentDetail detail) {
+        return CompletableFuture.supplyAsync(() -> {
+            return null;
+        });
     }
 
     @Override
