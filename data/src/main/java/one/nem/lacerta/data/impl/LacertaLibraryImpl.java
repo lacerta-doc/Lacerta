@@ -18,11 +18,14 @@ import one.nem.lacerta.utils.LacertaLogger;
 
 public class LacertaLibraryImpl implements LacertaLibrary {
 
-    @Inject
     LacertaLogger logger;
+    LacertaDatabase database;
 
     @Inject
-    LacertaDatabase database;
+    public LacertaLibraryImpl(LacertaLogger logger, LacertaDatabase database) {
+        this.logger = logger;
+        this.database = database;
+    }
 
     @Override
     public ArrayList<ListItem> getRecentDocument(int limit) {
