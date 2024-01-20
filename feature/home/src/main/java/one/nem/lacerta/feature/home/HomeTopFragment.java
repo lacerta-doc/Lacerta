@@ -15,7 +15,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -77,7 +76,7 @@ public class HomeTopFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         RecyclerView recyclerView = view.findViewById(R.id.home_item_recycler_view);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
+
 
         ListItemAdapter listItemAdapter = new ListItemAdapter();
         recyclerView.setAdapter(listItemAdapter);
@@ -85,7 +84,9 @@ public class HomeTopFragment extends Fragment {
 
         lacertaLibrary.getRecentDocument(10).thenAccept(listItems -> {
             listItemAdapter.setListItems(listItems);
-            getActivity().runOnUiThread(listItemAdapter::notifyDataSetChanged);
+            getActivity().runOnUiThread(() -> {
+                listItemAdapter.notifyItemRangeInserted(0, listItems.size());
+            });
         });
 
         CollapsingToolbarLayout collapsingToolbarLayout = view.findViewById(R.id.collapsing_toolbar);
