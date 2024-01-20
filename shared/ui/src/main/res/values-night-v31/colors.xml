@@ -28,4 +28,5 @@
 
     <!-- indicator icon background -->
     <color name="colorIndicator">@color/material_dynamic_secondary70</color>
+    <color name="colorOnSurfaceSecondary">@color/material_dynamic_neutral_variant30</color>
 </resources>

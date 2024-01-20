@@ -31,6 +31,5 @@
 
         <item name="android:windowLightNavigationBar">true</item>
         <item name="android:windowLightStatusBar">true</item>
-
     </style>
 </resources>

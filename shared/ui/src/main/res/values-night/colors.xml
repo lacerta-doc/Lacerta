@@ -25,4 +25,8 @@
     <color name="colorSurfaceInverse">#313033</color>
     <color name="colorOnSurfaceInverse">#F4EFF4</color>
     <color name="colorPrimaryInverse">#D0BCFF</color>
+
+    <!-- indicator icon background -->
+    <color name="colorIndicator">#d2d4bc</color>
+    <color name="colorOnSurfaceSecondary">#49454F</color>
 </resources>

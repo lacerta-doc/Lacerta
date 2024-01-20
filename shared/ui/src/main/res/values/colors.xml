@@ -27,4 +27,5 @@
     <color name="colorPrimaryInverse">#B8D321</color>
     <!-- indicator icon background -->
     <color name="colorIndicator">#d2d4bc</color>
+    <color name="colorOnSurfaceSecondary">#46483B</color>
 </resources>

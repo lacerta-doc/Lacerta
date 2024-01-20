@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/feature_setting_navigation"
+    app:startDestination="@id/settingTopFragment">
+
+    <fragment
+        android:id="@+id/settingTopFragment"
+        android:name="one.nem.lacerta.setting.SettingTopFragment"
+        android:label="SettingTopFragment" >
+        <action
+            android:id="@+id/action_settingTopFragment_to_settingAboutPageFragment"
+            app:destination="@id/settingAboutPageFragment"
+            app:enterAnim="@anim/slide_from_right"
+            app:exitAnim="@anim/slide_to_left"
+            app:popEnterAnim="@anim/slide_from_left"
+            app:popExitAnim="@anim/slide_to_right" />
+        <action
+            android:id="@+id/action_settingTopFragment_to_settingDisplayPageFragment"
+            app:destination="@id/settingDisplayPageFragment"
+            app:enterAnim="@anim/slide_from_right"
+            app:exitAnim="@anim/slide_to_left"
+            app:popEnterAnim="@anim/slide_from_left"
+            app:popExitAnim="@anim/slide_to_right" />
+        <action
+            android:id="@+id/action_settingTopFragment_to_settingDataPageFragment"
+            app:destination="@id/settingDataPageFragment"
+            app:enterAnim="@anim/slide_from_right"
+            app:exitAnim="@anim/slide_to_left"
+            app:popEnterAnim="@anim/slide_from_left"
+            app:popExitAnim="@anim/slide_to_right" />
+        <action
+            android:id="@+id/action_settingTopFragment_to_settingScanPageFragment"
+            app:destination="@id/settingScanPageFragment"
+            app:enterAnim="@anim/slide_from_right"
+            app:exitAnim="@anim/slide_to_left"
+            app:popEnterAnim="@anim/slide_from_left"
+            app:popExitAnim="@anim/slide_to_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingAboutPageFragment"
+        android:name="one.nem.lacerta.setting.SettingAboutPageFragment"
+        android:label="fragment_setting_about_page"
+        tools:layout="@layout/fragment_setting_about_page" />
+    <fragment
+        android:id="@+id/settingDataPageFragment"
+        android:name="one.nem.lacerta.setting.SettingDataPageFragment"
+        android:label="fragment_setting_data_page"
+        tools:layout="@layout/fragment_setting_data_page" />
+    <fragment
+        android:id="@+id/settingDisplayPageFragment"
+        android:name="one.nem.lacerta.setting.SettingDisplayPageFragment"
+        android:label="fragment_setting_display_page"
+        tools:layout="@layout/fragment_setting_display_page" />
+    <fragment
+        android:id="@+id/settingScanPageFragment"
+        android:name="one.nem.lacerta.setting.SettingScanPageFragment"
+        android:label="fragment_setting_scan_page"
+        tools:layout="@layout/fragment_setting_scan_page" />
+</navigation>

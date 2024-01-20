@@ -1,4 +1,4 @@
-package one.nem.lacerta.feature.home;
+package one.nem.lacerta.setting;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,17 +7,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import one.nem.lacerta.model.ListItem;
+import one.nem.lacerta.setting.model.SettingListItem;
 
 public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ListItemViewHolder>{
 
-    ArrayList<ListItem> listItems;
+    ArrayList<SettingListItem> listItems;
 
-    public ListItemAdapter(ArrayList<ListItem> listItems){
+    public ListItemAdapter(ArrayList<SettingListItem> listItems){
         this.listItems = listItems;
     }
 
@@ -30,11 +31,15 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ListIt
 
     @Override
     public void onBindViewHolder(@NonNull ListItemAdapter.ListItemViewHolder holder, int position) {
-        ListItem listItem = listItems.get(position);
-        holder.icon.setImageResource(listItem.getItemType().getIconId());
+        SettingListItem listItem = listItems.get(position);
+        holder.icon.setImageDrawable(listItem.getIcon());
         holder.icon.setColorFilter(one.nem.lacerta.shared.ui.R.color.colorOnSurface);
         holder.title.setText(listItem.getTitle());
         holder.description.setText(listItem.getDescription());
+
+        holder.itemView.setOnClickListener( v -> {
+            Navigation.findNavController(v).navigate(listItem.getDestination());
+        });
     }
 
     @Override
