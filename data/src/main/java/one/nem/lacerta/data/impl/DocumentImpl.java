@@ -3,6 +3,7 @@ package one.nem.lacerta.data.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 // Hilt
 import javax.inject.Inject;
@@ -49,31 +50,30 @@ public class DocumentImpl implements Document {
 
 
     @Override
-    public DocumentDetail createDocument(DocumentMeta meta) {
-        DocumentDetail detail = new DocumentDetail();
-        detail.setMeta(meta);
-        detail.setPages(new ArrayList<>());
+    public CompletableFuture<DocumentDetail> createDocument(DocumentMeta meta) {
+        return CompletableFuture.supplyAsync(() -> {
+            DocumentDetail detail = new DocumentDetail();
+            detail.setMeta(meta);
+            detail.setPages(new ArrayList<>());
+            // Create DocumentEntity
+            DocumentEntity documentEntity = new DocumentEntity();
+            documentEntity.id = meta.getId();
+            documentEntity.title = meta.getTitle();
+            documentEntity.author = meta.getAuthor();
+            documentEntity.defaultBranch = meta.getDefaultBranch();
+            documentEntity.updatedAt = meta.getUpdatedAt();
+            documentEntity.createdAt = meta.getCreatedAt();
+            documentEntity.publicPath = meta.getPath().getStringPath();
+            documentEntity.tagIds = meta.getTagIds();
 
-        // TODO-rca: UIスレッドから追い出す
+            database.documentDao().insert(documentEntity);
 
-        // Create DocumentEntity
-        DocumentEntity documentEntity = new DocumentEntity();
-        documentEntity.id = meta.getId();
-        documentEntity.title = meta.getTitle();
-        documentEntity.author = meta.getAuthor();
-        documentEntity.defaultBranch = meta.getDefaultBranch();
-        documentEntity.updatedAt = meta.getUpdatedAt();
-        documentEntity.createdAt = meta.getCreatedAt();
-        documentEntity.publicPath = meta.getPath().getStringPath();
-        documentEntity.tagIds = meta.getTagIds();
+            // Vcs
+            LacertaVcs vcs = vcsFactory.create(meta.getId());
+            vcs.createDocument(meta.getId());
 
-        database.documentDao().insert(documentEntity);
-
-        // Vcs
-        LacertaVcs vcs = vcsFactory.create(meta.getId());
-        vcs.createDocument(meta.getId());
-
-        return detail;
+            return detail;
+        });
     }
 
     @Override
@@ -102,6 +102,6 @@ public class DocumentImpl implements Document {
 
     @Override
     public DocumentDetail getDocument(String documentId) {
-        return null;
+
     }
 }
