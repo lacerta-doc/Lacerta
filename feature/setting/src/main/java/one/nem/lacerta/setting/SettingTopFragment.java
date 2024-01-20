@@ -48,6 +48,33 @@ public class SettingTopFragment extends Fragment {
         ArrayList<SettingListItem> settingListItems = new ArrayList<>();
         settingListItems.add(
                 new SettingListItem(
+                        "Display",
+                        "Display settings",
+                        ContextCompat.getDrawable(getContext(), one.nem.lacerta.shared.ui.R.drawable.save_24px),
+                        R.id.action_settingTopFragment_to_settingDisplayPageFragment
+                )
+        );
+
+        settingListItems.add(
+                new SettingListItem(
+                        "Data",
+                        "Data settings",
+                        ContextCompat.getDrawable(getContext(), one.nem.lacerta.shared.ui.R.drawable.save_24px),
+                        R.id.action_settingTopFragment_to_settingDataPageFragment
+                )
+        );
+
+        settingListItems.add(
+                new SettingListItem(
+                        "Scan",
+                        "Scan settings",
+                        ContextCompat.getDrawable(getContext(), one.nem.lacerta.shared.ui.R.drawable.save_24px),
+                        R.id.action_settingTopFragment_to_settingScanPageFragment
+                )
+        );
+
+        settingListItems.add(
+                new SettingListItem(
                         "About",
                         "About this app",
                         ContextCompat.getDrawable(getContext(), one.nem.lacerta.shared.ui.R.drawable.save_24px),
