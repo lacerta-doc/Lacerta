@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/feature_setting_navigation">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/feature_setting_navigation"
+    app:startDestination="@id/settingTopFragment">
 
+    <fragment
+        android:id="@+id/settingTopFragment"
+        android:name="one.nem.lacerta.setting.SettingTopFragment"
+        android:label="SettingTopFragment" >
+        <action
+            android:id="@+id/action_settingTopFragment_to_settingAboutPageFragment"
+            app:destination="@id/settingAboutPageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingAboutPageFragment"
+        android:name="one.nem.lacerta.setting.SettingAboutPageFragment"
+        android:label="fragment_setting_about_page"
+        tools:layout="@layout/fragment_setting_about_page" />
 </navigation>
