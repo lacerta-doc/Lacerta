@@ -54,27 +54,30 @@ public class LacertaLibraryImpl implements LacertaLibrary {
     }
 
     @Override
-    public LibraryItemPage getLibraryPage(int limit) {
-        return null;
+    public CompletableFuture<LibraryItemPage> getLibraryPage(int limit) {
+        return CompletableFuture.supplyAsync(() -> {
+            return null;
+        });
     }
 
     @Override
-    public LibraryItemPage getLibraryPage(int limit, int offset) {
-        return null;
+    public CompletableFuture<LibraryItemPage> getLibraryPage(int limit, int offset) {
+        return CompletableFuture.supplyAsync(() -> {
+            return null;
+        });
     }
 
     @Override
-    public LibraryItemPage getLibraryPage(String pageId, int limit) {
-        return null;
+    public CompletableFuture<LibraryItemPage> getLibraryPage(String pageId, int limit) {
+        return CompletableFuture.supplyAsync(() -> {
+            return null;
+        });
     }
 
     @Override
-    public LibraryItemPage getLibraryPage(String pageId, int limit, int offset) {
-        return null;
-    }
-
-    @Override
-    public DocumentDetail getDocumentDetailById(String id) {
-        return null;
+    public CompletableFuture<LibraryItemPage> getLibraryPage(String pageId, int limit, int offset) {
+        return CompletableFuture.supplyAsync(() -> {
+            return null;
+        });
     }
 }
