@@ -50,7 +50,7 @@ public class SettingTopFragment extends Fragment {
                 new SettingListItem(
                         "Display",
                         "Display settings",
-                        ContextCompat.getDrawable(getContext(), one.nem.lacerta.shared.ui.R.drawable.save_24px),
+                        ContextCompat.getDrawable(getContext(), one.nem.lacerta.shared.ui.R.drawable.palette_24px),
                         R.id.action_settingTopFragment_to_settingDisplayPageFragment
                 )
         );
@@ -59,7 +59,7 @@ public class SettingTopFragment extends Fragment {
                 new SettingListItem(
                         "Data",
                         "Data settings",
-                        ContextCompat.getDrawable(getContext(), one.nem.lacerta.shared.ui.R.drawable.save_24px),
+                        ContextCompat.getDrawable(getContext(), one.nem.lacerta.shared.ui.R.drawable.settings_backup_restore_24px),
                         R.id.action_settingTopFragment_to_settingDataPageFragment
                 )
         );
@@ -68,7 +68,7 @@ public class SettingTopFragment extends Fragment {
                 new SettingListItem(
                         "Scan",
                         "Scan settings",
-                        ContextCompat.getDrawable(getContext(), one.nem.lacerta.shared.ui.R.drawable.save_24px),
+                        ContextCompat.getDrawable(getContext(), one.nem.lacerta.shared.ui.R.drawable.document_scanner_24px),
                         R.id.action_settingTopFragment_to_settingScanPageFragment
                 )
         );
@@ -77,7 +77,7 @@ public class SettingTopFragment extends Fragment {
                 new SettingListItem(
                         "About",
                         "About this app",
-                        ContextCompat.getDrawable(getContext(), one.nem.lacerta.shared.ui.R.drawable.save_24px),
+                        ContextCompat.getDrawable(getContext(), one.nem.lacerta.shared.ui.R.drawable.info_24px),
                         R.id.action_settingTopFragment_to_settingAboutPageFragment
                 )
         );
