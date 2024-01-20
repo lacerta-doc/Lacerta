@@ -1,5 +1,6 @@
 package one.nem.lacerta.data.impl;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
@@ -17,13 +18,19 @@ import one.nem.lacerta.model.document.DocumentMeta;
 import one.nem.lacerta.model.document.DocumentDetail;
 
 // Lacerta/source
+import one.nem.lacerta.model.document.internal.XmlMetaPageModel;
+import one.nem.lacerta.model.document.page.Page;
 import one.nem.lacerta.source.database.LacertaDatabase;
 import one.nem.lacerta.source.database.entity.DocumentEntity;
 
 // Lacerta/utils
+import one.nem.lacerta.source.file.FileManager;
+import one.nem.lacerta.source.file.factory.FileManagerFactory;
 import one.nem.lacerta.utils.LacertaLogger;
 
 // Lacerta/vcs
+import one.nem.lacerta.utils.XmlMetaParser;
+import one.nem.lacerta.utils.repository.DeviceInfoUtils;
 import one.nem.lacerta.vcs.LacertaVcs;
 import one.nem.lacerta.vcs.factory.LacertaVcsFactory;
 
@@ -41,6 +48,14 @@ public class DocumentImpl implements Document {
     @Inject
     LacertaVcsFactory vcsFactory;
 
+    @Inject
+    FileManagerFactory fileManagerFactory;
+
+    @Inject
+    DeviceInfoUtils deviceInfoUtils;
+
+    @Inject
+    XmlMetaParser xmlMetaParser;
 
     @Inject
     public DocumentImpl() {
@@ -105,7 +120,69 @@ public class DocumentImpl implements Document {
     }
 
     @Override
-    public DocumentDetail getDocument(String documentId) {
+    public CompletableFuture<DocumentDetail> getDocument(String documentId) {
+        return CompletableFuture.supplyAsync(() -> {
+            DocumentEntity documentEntity = database.documentDao().findById(documentId);
+            if (documentEntity == null) {
+                throw new IllegalArgumentException("documentId is not found");
+            }
+            DocumentMeta meta = new DocumentMeta();
+            meta.setId(documentEntity.id);
+            meta.setTitle(documentEntity.title);
+            meta.setAuthor(documentEntity.author);
+            meta.setDefaultBranch(documentEntity.defaultBranch);
+            meta.setUpdatedAt(documentEntity.updatedAt);
+            meta.setCreatedAt(documentEntity.createdAt);
+            meta.setPath(new PublicPath().resolve(documentEntity.publicPath));
+            meta.setTags(new ArrayList<>()); // TODO-rca: タグを取得する
 
+            DocumentDetail detail = new DocumentDetail();
+
+            getPagesByXmlMeta(documentId).thenCompose(xmlMetaPageModels -> getPagesByXmlMetaPageModel(documentId, xmlMetaPageModels)).thenAccept(pages -> {
+                detail.setMeta(meta);
+                detail.setPages(pages);
+            });
+            return detail;
+        });
+    }
+
+    private CompletableFuture<ArrayList<XmlMetaPageModel>> getPagesByXmlMeta(String documentId) {
+        return CompletableFuture.supplyAsync(() -> {
+            FileManager fileManager = fileManagerFactory.create(deviceInfoUtils.getExternalStorageDirectory());
+            try {
+                return xmlMetaParser.deserialize(fileManager.resolve(documentId).loadXml("meta.xml")).getPages();
+            } catch (IOException e) {
+                logger.error(TAG, "DocumentMeta parse error");
+                logger.trace(TAG, e.getMessage());
+                logger.e_code("db18c04a-1625-4871-9e4e-918d805568ac");
+            }
+            return null;
+        });
+    }
+
+    private CompletableFuture<ArrayList<Page>> getPagesByXmlMetaPageModel(String documentId, ArrayList<XmlMetaPageModel> xmlMetaPageModels) {
+        return CompletableFuture.supplyAsync(() -> {
+            ArrayList<Page> pages = new ArrayList<>();
+            FileManager fileManager;
+            try {
+                fileManager = fileManagerFactory.create(deviceInfoUtils.getExternalStorageDirectory()).resolve(documentId);
+            } catch (IOException e) {
+                logger.error(TAG, "FileManager resolve error");
+                logger.trace(TAG, e.getMessage());
+                logger.e_code("2235e8ee-4177-46f8-af6b-084381b202e6");
+                return null;
+            }
+            for (XmlMetaPageModel xmlMetaPageModel : xmlMetaPageModels) {
+                try {
+                    pages.add(new Page(xmlMetaPageModel.getFilename(), fileManager.loadBitmap(xmlMetaPageModel.getFilename())));
+                } catch (IOException e) {
+                    logger.error(TAG, "Bitmap decode error");
+                    logger.trace(TAG, e.getMessage());
+                    logger.e_code("3bba8c8f-90fb-4a24-a726-7ea201929f8b");
+                    return null;
+                }
+            }
+            return pages;
+        });
     }
 }
