@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -35,6 +36,10 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ListIt
         holder.icon.setColorFilter(one.nem.lacerta.shared.ui.R.color.colorOnSurface);
         holder.title.setText(listItem.getTitle());
         holder.description.setText(listItem.getDescription());
+
+        holder.itemView.setOnClickListener( v -> {
+            Navigation.findNavController(v).navigate(listItem.getDestination());
+        });
     }
 
     @Override
