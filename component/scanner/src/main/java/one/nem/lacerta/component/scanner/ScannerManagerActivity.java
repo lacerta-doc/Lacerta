@@ -157,6 +157,9 @@ public class ScannerManagerActivity extends AppCompatActivity {
         // Deprecatedだが、中断機能が存在しないので操作をブロックする目的で(意図的に)使用
         ProgressDialog dialog = new ProgressDialog(this);
         dialog.setMessage("保存中..."); // TODO-rca: テキストをリソースに移動
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog.setCancelable(false);
+        dialog.show();
         DocumentMeta documentMeta = new DocumentMeta("Untitled"); // TODO-rca: デフォルトタイトルを指定できるようにする
         document.createDocument(documentMeta).thenAccept((documentDetail1) -> {
             Bitmap[] bitmaps = new Bitmap[this.croppedImages.size()];
