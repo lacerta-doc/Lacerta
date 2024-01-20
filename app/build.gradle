@@ -74,6 +74,7 @@ dependencies {
     implementation project(':feature:library')
     implementation project(':feature:scan')
     implementation project(':feature:debug')  // デバッグメニュー
+    implementation project(':feature:setting')  // 設定画面
 
     implementation project(':data')
     implementation project(':shared:ui')
