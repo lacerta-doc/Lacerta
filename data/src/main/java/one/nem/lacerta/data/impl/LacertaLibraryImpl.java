@@ -34,7 +34,7 @@ public class LacertaLibraryImpl implements LacertaLibrary {
         return CompletableFuture.supplyAsync(() -> {
             // 5秒フリーズさせる
             try {
-                Thread.sleep(5000);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
