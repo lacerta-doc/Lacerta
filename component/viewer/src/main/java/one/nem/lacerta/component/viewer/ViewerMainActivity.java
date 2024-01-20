@@ -59,5 +59,9 @@ public class ViewerMainActivity extends AppCompatActivity {
             Toast.makeText(this, "Failed to get documentId from intent", Toast.LENGTH_LONG).show();
             finish();
         }
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.nav_host_fragment, ComponentViewerTopFragment.newInstance(documentId))
+                .commitNow();
     }
 }

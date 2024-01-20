@@ -11,12 +11,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import one.nem.lacerta.model.document.page.Page;
+
 public class ViewerBodyAdapter extends RecyclerView.Adapter<ViewerBodyAdapter.ViewHolder>{
 
-    ArrayList<Bitmap> images;
+    ArrayList<Page> pages;
 
-    public ViewerBodyAdapter(ArrayList<Bitmap> images){
-        this.images = images;
+    public ViewerBodyAdapter(ArrayList<Page> pages){
+        this.pages = pages;
     }
 
     @NonNull
@@ -28,12 +30,13 @@ public class ViewerBodyAdapter extends RecyclerView.Adapter<ViewerBodyAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewerBodyAdapter.ViewHolder holder, int position) {
-        holder.image.setImageBitmap(images.get(position));
+        Bitmap bitmap = pages.get(position).getBitmap();
+        holder.image.setImageBitmap(bitmap);
     }
 
     @Override
     public int getItemCount() {
-        return images.size();
+        return pages.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
