@@ -45,6 +45,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Set navigation bar color
-        getWindow().setNavigationBarColor(ContextCompat.getColor(this, one.nem.lacerta.shared.ui.R.color.colorSurfaceVariant));
+        getWindow().setNavigationBarColor(ContextCompat.getColor(this, one.nem.lacerta.shared.ui.R.color.colorSecondaryContainer));
+
+        // Set status bar color
+        getWindow().setStatusBarColor(ContextCompat.getColor(this, one.nem.lacerta.shared.ui.R.color.colorSurface));
     }
 }

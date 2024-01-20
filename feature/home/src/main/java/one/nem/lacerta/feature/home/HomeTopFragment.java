@@ -3,12 +3,23 @@ package one.nem.lacerta.feature.home;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,34 +45,13 @@ public class HomeTopFragment extends Fragment {
     @Inject
     LacertaLibrary lacertaLibrary;
 
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     public HomeTopFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment HomeTopFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static HomeTopFragment newInstance(String param1, String param2) {
+    public static HomeTopFragment newInstance() {
         HomeTopFragment fragment = new HomeTopFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -70,49 +60,58 @@ public class HomeTopFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-
-
-        }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home_top, container, false);
 
-//        List<DocumentMeta> metas = document.getAllDocumentMetas(100);
+        ArrayList<ListItem> recentDocument = lacertaLibrary.getRecentDocument(10);
 
-        ArrayList<ListItem> listItems = lacertaLibrary.getRecentDocument(100);
+        Log.d("docs", Integer.toString(recentDocument.size()));
 
-        Log.d("docs", Integer.toString(listItems.size()));
-
-        RecyclerView recyclerView = view.findViewById(R.id.item_recycler_view);
+        RecyclerView recyclerView = view.findViewById(R.id.home_item_recycler_view);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        MyAdapter myAdapter = new MyAdapter(listItems);
+        ListItemAdapter listItemAdapter = new ListItemAdapter(recentDocument);
 
-        recyclerView.setAdapter(myAdapter);
+        recyclerView.setAdapter(listItemAdapter);
 
         return view;
+    }
 
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-        }
-String pageTitle;
-    String pageId;
-    ArrayList listItems;
+        CollapsingToolbarLayout collapsingToolbarLayout = view.findViewById(R.id.collapsing_toolbar);
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
 
-    String title;
-    String description;
+        // Set the Toolbar
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
-    String itemId;
+        // Set the title of the CollapsingToolbarLayout
+        collapsingToolbarLayout.setTitle("Lacerta");
 
-
-
+        AppBarLayout appBarLayout = view.findViewById(R.id.app_bar_layout);
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (Math.abs(verticalOffset) == appBarLayout.getTotalScrollRange()) {
+                    // Collapsed
+                    getActivity().getWindow().setStatusBarColor(ContextCompat.getColor(getActivity(), one.nem.lacerta.shared.ui.R.color.colorSecondaryContainer));
+                } else if (verticalOffset == 0) {
+                    // Expanded
+                    getActivity().getWindow().setStatusBarColor(ContextCompat.getColor(getActivity(), one.nem.lacerta.shared.ui.R.color.colorSurface));
+                } else {
+                    // Somewhere in between
+                    // Here you can add a color transition if you want
+                }
+            }
+        });
+    }
 }
 
 

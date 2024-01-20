@@ -55,4 +55,6 @@ dependencies {
     implementation project(':model')
 
     implementation "androidx.recyclerview:recyclerview:1.3.2"
+
+    implementation project(':component:common')
 }
