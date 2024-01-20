@@ -48,8 +48,8 @@ public class SettingTopFragment extends Fragment {
         ArrayList<SettingListItem> settingListItems = new ArrayList<>();
         settingListItems.add(
                 new SettingListItem(
-                        "Display",
-                        "Display settings",
+                        getResources().getString(one.nem.lacerta.shared.ui.R.string.setting_top_display_title),
+                        getResources().getString(one.nem.lacerta.shared.ui.R.string.setting_top_display_description),
                         ContextCompat.getDrawable(getContext(), one.nem.lacerta.shared.ui.R.drawable.palette_24px),
                         R.id.action_settingTopFragment_to_settingDisplayPageFragment
                 )
@@ -57,8 +57,8 @@ public class SettingTopFragment extends Fragment {
 
         settingListItems.add(
                 new SettingListItem(
-                        "Data",
-                        "Data settings",
+                        getResources().getString(one.nem.lacerta.shared.ui.R.string.setting_top_data_title),
+                        getResources().getString(one.nem.lacerta.shared.ui.R.string.setting_top_data_description),
                         ContextCompat.getDrawable(getContext(), one.nem.lacerta.shared.ui.R.drawable.settings_backup_restore_24px),
                         R.id.action_settingTopFragment_to_settingDataPageFragment
                 )
@@ -66,8 +66,8 @@ public class SettingTopFragment extends Fragment {
 
         settingListItems.add(
                 new SettingListItem(
-                        "Scan",
-                        "Scan settings",
+                        getResources().getString(one.nem.lacerta.shared.ui.R.string.setting_top_scan_title),
+                        getResources().getString(one.nem.lacerta.shared.ui.R.string.setting_top_scan_description),
                         ContextCompat.getDrawable(getContext(), one.nem.lacerta.shared.ui.R.drawable.document_scanner_24px),
                         R.id.action_settingTopFragment_to_settingScanPageFragment
                 )
@@ -75,8 +75,8 @@ public class SettingTopFragment extends Fragment {
 
         settingListItems.add(
                 new SettingListItem(
-                        "About",
-                        "About this app",
+                        getResources().getString(one.nem.lacerta.shared.ui.R.string.setting_top_about_title),
+                        getResources().getString(one.nem.lacerta.shared.ui.R.string.setting_top_about_description),
                         ContextCompat.getDrawable(getContext(), one.nem.lacerta.shared.ui.R.drawable.info_24px),
                         R.id.action_settingTopFragment_to_settingAboutPageFragment
                 )
