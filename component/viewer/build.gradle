@@ -47,4 +47,6 @@ dependencies {
     // shared
     implementation project(':shared:ui')
 
+    implementation project(':utils')
+
 }
