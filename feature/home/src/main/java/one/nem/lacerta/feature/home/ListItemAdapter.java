@@ -1,6 +1,5 @@
 package one.nem.lacerta.feature.home;
 
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +24,7 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ListIt
     @NonNull
     @Override
     public ListItemAdapter.ListItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(one.nem.lacerta.component.common.R.layout.common_library_list_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(one.nem.lacerta.shared.ui.R.layout.common_list_item, parent, false);
         return new ListItemViewHolder(view);
     }
 
@@ -51,9 +50,9 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ListIt
         public ListItemViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            icon = itemView.findViewById(one.nem.lacerta.component.common.R.id.item_icon);
-            title = itemView.findViewById(one.nem.lacerta.component.common.R.id.item_title);
-            description = itemView.findViewById(one.nem.lacerta.component.common.R.id.item_description);
+            icon = itemView.findViewById(one.nem.lacerta.shared.ui.R.id.item_icon);
+            title = itemView.findViewById(one.nem.lacerta.shared.ui.R.id.item_title);
+            description = itemView.findViewById(one.nem.lacerta.shared.ui.R.id.item_description);
         }
     }
 }
