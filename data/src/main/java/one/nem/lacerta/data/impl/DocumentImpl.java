@@ -77,7 +77,7 @@ public class DocumentImpl implements Document {
     }
 
     @Override
-    public DocumentDetail createDocument() {
+    public CompletableFuture<DocumentDetail> createDocument() {
         DocumentMeta meta = new DocumentMeta();
         meta.setId(UUID.randomUUID().toString());
         meta.setTitle("New Document");
