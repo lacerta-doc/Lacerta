@@ -6,18 +6,14 @@ public class SettingListItem {
 
     String title;
     String description;
-    String destination;
     Drawable icon;
+    int destination;
 
-    public SettingListItem(String title, String description, String destination, Drawable icon) {
+    public SettingListItem(String title, String description, Drawable icon, int destination) {
         this.title = title;
         this.description = description;
-        this.destination = destination;
         this.icon = icon;
-    }
-
-    public SettingListItem() {
-        // Empty constructor
+        this.destination = destination;
     }
 
     public String getTitle() {
@@ -28,28 +24,11 @@ public class SettingListItem {
         return description;
     }
 
-    public String getDestination() {
-        return destination;
-    }
-
     public Drawable getIcon() {
         return icon;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public int getDestination() {
+        return destination;
     }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setDestination(String destination) {
-        this.destination = destination;
-    }
-
-    public void setIcon(Drawable icon) {
-        this.icon = icon;
-    }
-
 }
