@@ -15,13 +15,18 @@ import android.view.ViewGroup;
  */
 public class ComponentViewerTopFragment extends Fragment {
 
+    private static final String TAG = "ComponentViewerTopFragment";
+
+    private String documentId;
+
     public ComponentViewerTopFragment() {
         // Required empty public constructor
     }
 
-    public static ComponentViewerTopFragment newInstance() {
+    public static ComponentViewerTopFragment newInstance(String documentId) {
         ComponentViewerTopFragment fragment = new ComponentViewerTopFragment();
         Bundle args = new Bundle();
+        args.putString("documentId", documentId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -29,6 +34,9 @@ public class ComponentViewerTopFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            documentId = getArguments().getString("documentId");
+        }
     }
 
     @Override
