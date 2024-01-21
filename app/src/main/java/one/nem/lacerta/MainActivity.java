@@ -40,6 +40,10 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav);
 
+        if (sharedPrefUtils.getIsFirstLaunch()) {
+            initializeApp();
+        }
+
         // Init navigation
         try {
             FragmentManager supportFragmentManager = getSupportFragmentManager();
@@ -65,6 +69,15 @@ public class MainActivity extends AppCompatActivity {
 
         // Set status bar color
         getWindow().setStatusBarColor(ContextCompat.getColor(this, one.nem.lacerta.shared.ui.R.color.colorSurface));
+    }
+
+    private void initializeApp() {
+        // Set feature switch override to default value
+        sharedPrefUtils.setFeatureSwitchOverride(FeatureSwitchOverride.ENABLE_SEARCH, FeatureSwitch.FeatureMaster.enableSearch);
+        sharedPrefUtils.setFeatureSwitchOverride(FeatureSwitchOverride.ENABLE_DEBUG_MENU, FeatureSwitch.FeatureMaster.enableDebugMenu);
+
+        // Set isFirstLaunch to false
+        sharedPrefUtils.setIsFirstLaunch(false);
     }
 
     private void applyFeatureSwitch(BottomNavigationView bottomNavigationView, FeatureSwitchOverride featureSwitchOverride, boolean defaultValue, int menuId) {
