@@ -20,7 +20,7 @@ public interface Document {
 
     CompletableFuture<Void> deleteDocument(String documentId);
 
-    CompletableFuture<Void> updateDocument(DocumentMeta meta, DocumentDetail detail);
+    CompletableFuture<Void> updateDocument(DocumentDetail detail);
 
     CompletableFuture<DocumentDetail> getDocument(String documentId);
 }

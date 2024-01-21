@@ -117,7 +117,7 @@ public class DocumentImpl implements Document {
     }
 
     @Override
-    public CompletableFuture<Void> updateDocument(DocumentMeta meta, DocumentDetail detail) {
+    public CompletableFuture<Void> updateDocument(DocumentDetail detail) {
         return CompletableFuture.supplyAsync(() -> {
             return null;
         });
