@@ -14,12 +14,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import one.nem.lacerta.model.pref.FeatureSwitchOverride;
 import one.nem.lacerta.utils.FeatureSwitch;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
-
+import java.io.NotActiveException;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import one.nem.lacerta.utils.repository.SharedPrefUtils;
@@ -54,8 +55,44 @@ public class MainActivity extends AppCompatActivity {
             finish(); // Exit app
         }
 
-        // bottomNavigation FeatureSwitch
-        Menu menu = bottomNavigationView.getMenu();
+        // Apply feature switch
+        if (FeatureSwitch.Meta.canOverrideSwitch) {
+            Log.d("FeatureSwitch", "Feature switch override is enabled");
+            if (!FeatureSwitch.FeatureMaster.enableDebugMenu) {
+                if (sharedPrefUtils.getFeatureSwitchOverride(FeatureSwitchOverride.ENABLE_DEBUG_MENU)) {
+                    Log.d("FeatureSwitch", "Debug menu is enabled");
+                } else {
+                    bottomNavigationView.getMenu().removeItem(one.nem.lacerta.feature.debug.R.id.feature_debug_navigation);
+                    Log.d("FeatureSwitch", "Debug menu is disabled");
+                }
+            } else {
+                Log.d("FeatureSwitch", "Debug menu is enabled");
+            }
+            if (!FeatureSwitch.FeatureMaster.enableSearch) {
+                if (sharedPrefUtils.getFeatureSwitchOverride(FeatureSwitchOverride.ENABLE_SEARCH)) {
+                    Log.d("FeatureSwitch", "Search is enabled");
+                } else {
+                    bottomNavigationView.getMenu().removeItem(one.nem.lacerta.feature.search.R.id.feature_search_navigation);
+                    Log.d("FeatureSwitch", "Search is disabled");
+                }
+            } else {
+                Log.d("FeatureSwitch", "Search is enabled");
+            }
+        } else {
+            Log.d("FeatureSwitch", "Feature switch override is disabled");
+            if (FeatureSwitch.FeatureMaster.enableDebugMenu) {
+                Log.d("FeatureSwitch", "Debug menu is enabled");
+            } else {
+                Log.d("FeatureSwitch", "Debug menu is disabled");
+                bottomNavigationView.getMenu().removeItem(one.nem.lacerta.feature.debug.R.id.feature_debug_navigation);
+            }
+            if (FeatureSwitch.FeatureMaster.enableSearch) {
+                Log.d("FeatureSwitch", "Search is enabled");
+            } else {
+                Log.d("FeatureSwitch", "Search is disabled");
+                bottomNavigationView.getMenu().removeItem(one.nem.lacerta.feature.search.R.id.feature_search_navigation);
+            }
+        }
 
         // Set navigation bar color
         getWindow().setNavigationBarColor(ContextCompat.getColor(this, one.nem.lacerta.shared.ui.R.color.colorSecondaryContainer));
