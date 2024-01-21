@@ -164,10 +164,10 @@ public class ScannerManagerActivity extends AppCompatActivity {
         document.createDocument(documentMeta).thenAccept((documentDetail1) -> {
             Bitmap[] bitmaps = new Bitmap[this.croppedImages.size()];
             this.croppedImages.toArray(bitmaps);
-            addPagesToDocumentDetail(documentDetail1, bitmaps).thenRun(() -> {
-                dialog.dismiss();
-                finish();
-            });
+            addPagesToDocumentDetail(documentDetail1, bitmaps).join();
+            document.updateDocument(documentDetail1).join();
+            dialog.dismiss();
+            finish();
         });
 
     }
@@ -175,7 +175,7 @@ public class ScannerManagerActivity extends AppCompatActivity {
     private CompletableFuture<Void> addPagesToDocumentDetail(DocumentDetail documentDetail, Bitmap[] bitmaps) {
         return CompletableFuture.runAsync(() -> {
             try {
-                documentProcessorFactory.create(documentDetail).addNewPagesToLast(bitmaps);
+                document.updateDocument(documentProcessorFactory.create(documentDetail).addNewPagesToLast(bitmaps).getDocumentDetail()).join();
                 lacertaVcsFactory.create(documentDetail.getMeta().getId()).generateRevisionAtCurrent("Initial commit");
             } catch (Exception e) {
                 logger.error(TAG, "Error: " + e.getMessage());
