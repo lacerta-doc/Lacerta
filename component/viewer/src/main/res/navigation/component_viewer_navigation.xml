@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/component_viewer_navigation">
+    android:id="@+id/component_viewer_navigation"
+    app:startDestination="@id/componentViewerTopFragment">
 
+    <fragment
+        android:id="@+id/componentViewerTopFragment"
+        android:name="one.nem.lacerta.component.viewer.ComponentViewerTopFragment"
+        android:label="ComponentViewerTopFragment" />
 </navigation>
