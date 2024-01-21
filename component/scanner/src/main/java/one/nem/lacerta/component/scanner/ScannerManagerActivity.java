@@ -161,11 +161,12 @@ public class ScannerManagerActivity extends AppCompatActivity {
         dialog.setCancelable(false);
         dialog.show();
         DocumentMeta documentMeta = new DocumentMeta("Untitled"); // TODO-rca: デフォルトタイトルを指定できるようにする
-        document.createDocument(documentMeta).thenAccept((documentDetail1) -> {
-            Bitmap[] bitmaps = new Bitmap[this.croppedImages.size()];
-            this.croppedImages.toArray(bitmaps);
-            addPagesToDocumentDetail(documentDetail1, bitmaps).join();
-            document.updateDocument(documentDetail1).join();
+        document.createDocument(documentMeta).thenAccept((documentDetail) -> {
+            Bitmap[] bitmaps = new Bitmap[croppedImages.size()];
+            croppedImages.toArray(bitmaps);
+            logger.debug(TAG, "bitmaps.length: " + bitmaps.length);
+            addPagesToDocumentDetail(documentDetail, bitmaps).join();
+            document.updateDocument(documentDetail).join();
             dialog.dismiss();
             finish();
         });

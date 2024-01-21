@@ -157,7 +157,13 @@ public class DocumentImpl implements Document {
         return CompletableFuture.supplyAsync(() -> {
             FileManager fileManager = fileManagerFactory.create(deviceInfoUtils.getExternalStorageDirectory());
             try {
-                return xmlMetaParser.deserialize(fileManager.resolve(documentId).loadXml("meta.xml")).getPages();
+                ArrayList<XmlMetaPageModel> xmlMetaPageModels = xmlMetaParser.deserialize(fileManager.resolve(documentId).loadXml("meta.xml")).getPages();
+                // Debug
+                logger.debug(TAG, "xmlMetaPageModels: " + xmlMetaPageModels.size());
+                for (XmlMetaPageModel xmlMetaPageModel : xmlMetaPageModels) {
+                    logger.debug(TAG, "\txmlMetaPageModel: " + xmlMetaPageModel.getFilename());
+                }
+                return xmlMetaPageModels;
             } catch (IOException e) {
                 logger.error(TAG, "DocumentMeta parse error");
                 logger.trace(TAG, e.getMessage());

@@ -21,6 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 import one.nem.lacerta.data.Document;
 import one.nem.lacerta.model.document.DocumentDetail;
 import one.nem.lacerta.model.document.page.Page;
+import one.nem.lacerta.utils.LacertaLogger;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,6 +33,9 @@ public class ComponentViewerTopFragment extends Fragment {
 
     @Inject
     Document document;
+
+    @Inject
+    LacertaLogger logger;
 
     private static final String TAG = "ComponentViewerTopFragment";
 
@@ -71,9 +75,11 @@ public class ComponentViewerTopFragment extends Fragment {
         recyclerView.setAdapter(viewerBodyAdapter);
 
         document.getDocument(documentId).thenAccept(documentDetail -> {
-            viewerBodyAdapter.setPages(documentDetail.getPages());
+            ArrayList<Page> pages = documentDetail.getPages();
+            logger.debug(TAG, "pages.size(): " + pages.size());
+            viewerBodyAdapter.setPages(pages);
             getActivity().runOnUiThread(() -> {
-                viewerBodyAdapter.notifyItemRangeChanged(0, documentDetail.getPages().size());
+                viewerBodyAdapter.notifyItemRangeChanged(0, pages.size());
             });
         });
 
