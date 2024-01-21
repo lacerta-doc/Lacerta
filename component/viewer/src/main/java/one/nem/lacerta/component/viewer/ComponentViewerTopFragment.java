@@ -72,11 +72,8 @@ public class ComponentViewerTopFragment extends Fragment {
 
         document.getDocument(documentId).thenAccept(documentDetail -> {
             viewerBodyAdapter.setPages(documentDetail.getPages());
-//            getActivity().runOnUiThread(() -> {
-//                viewerBodyAdapter.notifyItemRangeChanged(0, pages.size());
-//            });
             getActivity().runOnUiThread(() -> {
-                viewerBodyAdapter.notifyDataSetChanged();
+                viewerBodyAdapter.notifyItemRangeChanged(0, documentDetail.getPages().size());
             });
         });
 
