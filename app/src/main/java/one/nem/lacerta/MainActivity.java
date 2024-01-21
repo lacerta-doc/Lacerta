@@ -40,9 +40,8 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav);
 
-        if (sharedPrefUtils.getIsFirstLaunch()) {
-            initializeApp();
-        }
+        // Initialize app
+        if (sharedPrefUtils.getIsFirstLaunch()) initializeApp();
 
         // Init navigation
         try {
