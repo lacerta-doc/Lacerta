@@ -10,4 +10,8 @@ public interface SharedPrefUtils {
     // TODO-rca: 名称をenumで管理する？
     SharedPreferences.Editor getEditor(String name);
 
+    SharedPreferences getSharedPreferences(String name);
+
+    SharedPreferences getSharedPreferences();
+
 }

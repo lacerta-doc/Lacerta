@@ -26,4 +26,14 @@ public class SharedPrefUtilsImpl implements SharedPrefUtils{
         // Editorの取得
         return applicationContext.getSharedPreferences(name, Context.MODE_PRIVATE).edit();
     }
+
+    @Override
+    public SharedPreferences getSharedPreferences(String name) {
+        return applicationContext.getSharedPreferences(name, Context.MODE_PRIVATE);
+    }
+
+    @Override
+    public SharedPreferences getSharedPreferences() {
+        return applicationContext.getSharedPreferences("common", Context.MODE_PRIVATE); // TODO-rca: 決め打ちやめる?
+    }
 }
