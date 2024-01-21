@@ -8,7 +8,7 @@ public class FeatureSwitch {
 
     public static class FeatureMaster {
         public static boolean enableSearch = true;
-        public static boolean enableDebugMenu = true;
+        public static boolean enableDebugMenu = false;
     }
 
     public static class Setting {
