@@ -23,6 +23,7 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import javax.inject.Inject;
 
@@ -67,24 +68,26 @@ public class HomeTopFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home_top, container, false);
 
-        ArrayList<ListItem> recentDocument = lacertaLibrary.getRecentDocument(10);
-
-        Log.d("docs", Integer.toString(recentDocument.size()));
-
-        RecyclerView recyclerView = view.findViewById(R.id.home_item_recycler_view);
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        ListItemAdapter listItemAdapter = new ListItemAdapter(recentDocument);
-
-        recyclerView.setAdapter(listItemAdapter);
-
         return view;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        RecyclerView recyclerView = view.findViewById(R.id.home_item_recycler_view);
+
+
+        ListItemAdapter listItemAdapter = new ListItemAdapter();
+        recyclerView.setAdapter(listItemAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        lacertaLibrary.getRecentDocument(10).thenAccept(listItems -> {
+            listItemAdapter.setListItems(listItems);
+            getActivity().runOnUiThread(() -> {
+                listItemAdapter.notifyItemRangeInserted(0, listItems.size());
+            });
+        });
 
         CollapsingToolbarLayout collapsingToolbarLayout = view.findViewById(R.id.collapsing_toolbar);
         Toolbar toolbar = view.findViewById(R.id.toolbar);

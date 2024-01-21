@@ -23,6 +23,14 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ListIt
         this.listItems = listItems;
     }
 
+    public ListItemAdapter() {
+        this.listItems = new ArrayList<>();
+    }
+
+    public void setListItems(ArrayList<ListItem> listItems) {
+        this.listItems = listItems;
+    }
+
     @NonNull
     @Override
     public ListItemAdapter.ListItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

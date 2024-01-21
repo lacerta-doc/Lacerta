@@ -7,7 +7,7 @@ import dagger.hilt.android.components.FragmentComponent;
 import dagger.hilt.migration.DisableInstallInCheck;
 
 import one.nem.lacerta.data.LacertaLibrary;
-import one.nem.lacerta.data.impl.LacertaLibraryStubImpl;
+import one.nem.lacerta.data.impl.LacertaLibraryImpl;
 import one.nem.lacerta.utils.LacertaLogger;
 
 @Module
@@ -16,6 +16,6 @@ import one.nem.lacerta.utils.LacertaLogger;
 abstract public class LacertaLibraryModule {
 
     @Binds
-    public abstract LacertaLibrary bindLacertaLibrary(LacertaLibraryStubImpl impl);
+    public abstract LacertaLibrary bindLacertaLibrary(LacertaLibraryImpl impl);
 
 }

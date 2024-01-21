@@ -30,9 +30,10 @@ public class LacertaSearchStubImpl implements LacertaSearch {
      */
     @Override
     public ArrayList<ListItem> autoSearch(String query, int limit) {
-        logger.debug("SearchStub", "autoSearch");
-        logger.debug("SearchStub", "query: " + query);
-        return library.getLibraryPage(limit).getListItems();
+//        logger.debug("SearchStub", "autoSearch");
+//        logger.debug("SearchStub", "query: " + query);
+//        return library.getLibraryPage(limit).getListItems();
+        return null;
     }
 
     /**
@@ -44,8 +45,9 @@ public class LacertaSearchStubImpl implements LacertaSearch {
      */
     @Override
     public ArrayList<ListItem> autoSearch(String query, int limit, int offset) {
-        logger.debug("SearchStub", "autoSearch");
-        logger.debug("SearchStub", "query: " + query);
-        return library.getLibraryPage(limit, offset).getListItems();
+//        logger.debug("SearchStub", "autoSearch");
+//        logger.debug("SearchStub", "query: " + query);
+//        return library.getLibraryPage(limit, offset).getListItems();
+        return null;
     }
 }

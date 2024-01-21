@@ -2,6 +2,7 @@ package one.nem.lacerta.data;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.concurrent.CompletableFuture;
 
 import one.nem.lacerta.model.document.DocumentMeta;
 import one.nem.lacerta.model.document.DocumentDetail;
@@ -13,13 +14,13 @@ import one.nem.lacerta.model.document.tag.DocumentTag;
  */
 public interface Document {
 
-    DocumentDetail createDocument(DocumentMeta meta);
+    CompletableFuture<DocumentDetail> createDocument(DocumentMeta meta);
 
-    DocumentDetail createDocument();
+    CompletableFuture<DocumentDetail> createDocument();
 
-    void deleteDocument(String documentId);
+    CompletableFuture<Void> deleteDocument(String documentId);
 
-    void updateDocument(DocumentMeta meta, DocumentDetail detail);
+    CompletableFuture<Void> updateDocument(DocumentMeta meta, DocumentDetail detail);
 
-    DocumentDetail getDocument(String documentId);
+    CompletableFuture<DocumentDetail> getDocument(String documentId);
 }

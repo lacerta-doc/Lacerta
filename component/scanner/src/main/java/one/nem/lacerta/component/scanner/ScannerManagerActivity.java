@@ -1,5 +1,6 @@
 package one.nem.lacerta.component.scanner;
 
+import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -22,6 +23,7 @@ import com.websitebeaver.documentscanner.DocumentScanner;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 
 import javax.inject.Inject;
 
@@ -152,21 +154,34 @@ public class ScannerManagerActivity extends AppCompatActivity {
 
     private void saveNewDocument() {
         logger.debug(TAG, "saveNewDocument");
+        // Deprecatedだが、中断機能が存在しないので操作をブロックする目的で(意図的に)使用
+        ProgressDialog dialog = new ProgressDialog(this);
+        dialog.setMessage("保存中..."); // TODO-rca: テキストをリソースに移動
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog.setCancelable(false);
+        dialog.show();
         DocumentMeta documentMeta = new DocumentMeta("Untitled"); // TODO-rca: デフォルトタイトルを指定できるようにする
-        DocumentDetail documentDetail = document.createDocument(documentMeta);
-        Bitmap[] bitmaps = new Bitmap[this.croppedImages.size()];
-        this.croppedImages.toArray(bitmaps);
-        try {
-            documentProcessorFactory.create(documentDetail).addNewPagesToLast(bitmaps);
-            Toast.makeText(this, "Saved.", Toast.LENGTH_SHORT).show();
-            lacertaVcsFactory.create(documentDetail.getMeta().getId()).generateRevisionAtCurrent("Initial commit");
-            lacertaVcsFactory.create(documentDetail.getMeta().getId()).printLog(); // Debug
-            lacertaVcsFactory.create(documentDetail.getMeta().getId()).printRev(); // Debug
-            finish();
-        } catch (Exception e) {
-            logger.error(TAG, "Error: " + e.getMessage());
-            logger.e_code("9dff2a28-20e8-4ccd-9d04-f0c7646faa6a");
-        }
+        document.createDocument(documentMeta).thenAccept((documentDetail1) -> {
+            Bitmap[] bitmaps = new Bitmap[this.croppedImages.size()];
+            this.croppedImages.toArray(bitmaps);
+            addPagesToDocumentDetail(documentDetail1, bitmaps).thenRun(() -> {
+                dialog.dismiss();
+                finish();
+            });
+        });
+
+    }
+
+    private CompletableFuture<Void> addPagesToDocumentDetail(DocumentDetail documentDetail, Bitmap[] bitmaps) {
+        return CompletableFuture.runAsync(() -> {
+            try {
+                documentProcessorFactory.create(documentDetail).addNewPagesToLast(bitmaps);
+                lacertaVcsFactory.create(documentDetail.getMeta().getId()).generateRevisionAtCurrent("Initial commit");
+            } catch (Exception e) {
+                logger.error(TAG, "Error: " + e.getMessage());
+                logger.e_code("9dff2a28-20e8-4ccd-9d04-f0c7646faa6a");
+            }
+        });
     }
 
     private void insertToExistDocument() {
