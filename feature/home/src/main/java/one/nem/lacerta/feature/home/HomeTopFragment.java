@@ -1,5 +1,6 @@
 package one.nem.lacerta.feature.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,6 +29,7 @@ import java.util.concurrent.CompletableFuture;
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
+import one.nem.lacerta.component.viewer.ViewerMainActivity;
 import one.nem.lacerta.data.Document;
 import one.nem.lacerta.data.LacertaLibrary;
 import one.nem.lacerta.model.ListItem;
@@ -78,7 +80,12 @@ public class HomeTopFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.home_item_recycler_view);
 
 
-        ListItemAdapter listItemAdapter = new ListItemAdapter();
+        ListItemAdapter listItemAdapter = new ListItemAdapter(documentId -> {
+            Log.d("HomeTopFragment", "onViewCreated: " + documentId);
+            Intent intent = new Intent(getContext(), ViewerMainActivity.class);
+            intent.putExtra("documentId", documentId);
+            startActivity(intent);
+        });
         recyclerView.setAdapter(listItemAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 

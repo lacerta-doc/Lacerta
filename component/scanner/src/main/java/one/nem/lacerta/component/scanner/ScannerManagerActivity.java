@@ -161,13 +161,14 @@ public class ScannerManagerActivity extends AppCompatActivity {
         dialog.setCancelable(false);
         dialog.show();
         DocumentMeta documentMeta = new DocumentMeta("Untitled"); // TODO-rca: デフォルトタイトルを指定できるようにする
-        document.createDocument(documentMeta).thenAccept((documentDetail1) -> {
-            Bitmap[] bitmaps = new Bitmap[this.croppedImages.size()];
-            this.croppedImages.toArray(bitmaps);
-            addPagesToDocumentDetail(documentDetail1, bitmaps).thenRun(() -> {
-                dialog.dismiss();
-                finish();
-            });
+        document.createDocument(documentMeta).thenAccept((documentDetail) -> {
+            Bitmap[] bitmaps = new Bitmap[croppedImages.size()];
+            croppedImages.toArray(bitmaps);
+            logger.debug(TAG, "bitmaps.length: " + bitmaps.length);
+            addPagesToDocumentDetail(documentDetail, bitmaps).join();
+            document.updateDocument(documentDetail).join();
+            dialog.dismiss();
+            finish();
         });
 
     }
@@ -175,7 +176,7 @@ public class ScannerManagerActivity extends AppCompatActivity {
     private CompletableFuture<Void> addPagesToDocumentDetail(DocumentDetail documentDetail, Bitmap[] bitmaps) {
         return CompletableFuture.runAsync(() -> {
             try {
-                documentProcessorFactory.create(documentDetail).addNewPagesToLast(bitmaps);
+                document.updateDocument(documentProcessorFactory.create(documentDetail).addNewPagesToLast(bitmaps).getDocumentDetail()).join();
                 lacertaVcsFactory.create(documentDetail.getMeta().getId()).generateRevisionAtCurrent("Initial commit");
             } catch (Exception e) {
                 logger.error(TAG, "Error: " + e.getMessage());

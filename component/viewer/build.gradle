@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.com.android.library)
+    id 'com.google.dagger.hilt.android'
 }
 
 android {
@@ -29,7 +30,28 @@ dependencies {
 
     implementation libs.androidx.appcompat
     implementation libs.com.google.android.material
+    implementation libs.androidx.activity
+    implementation libs.androidx.constraintlayout
     testImplementation libs.junit
     androidTestImplementation libs.androidx.test.ext.junit
     androidTestImplementation libs.androidx.test.espresso.core
+
+    // Navigation
+    implementation libs.navigation.fragment
+    implementation libs.navigation.ui
+    implementation libs.navigation.dynamic.features.fragment
+
+    // DI
+    implementation libs.com.google.dagger.hilt.android
+    annotationProcessor libs.com.google.dagger.hilt.compiler
+
+    // shared
+    implementation project(':shared:ui')
+
+    implementation project(':utils')
+
+    implementation project(':data')
+
+    implementation project(':model')
+
 }

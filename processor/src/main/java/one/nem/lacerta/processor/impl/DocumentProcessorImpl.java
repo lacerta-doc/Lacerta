@@ -70,7 +70,7 @@ public class DocumentProcessorImpl implements DocumentProcessor{
 
 
     @Override
-    public void addNewPageToLast(Bitmap bitmap) throws Exception{
+    public DocumentProcessor addNewPageToLast(Bitmap bitmap) throws Exception{
         logger.debug("addNewPageToLast", "called");
         String filename = UUID.randomUUID().toString() + ".png"; // TODO-rca: 拡張子を動的にする
 
@@ -85,19 +85,23 @@ public class DocumentProcessorImpl implements DocumentProcessor{
 
         logger.info("addNewPageToLast", "finished");
         logger.info("addNewPageToLast", "filename: " + filename);
+
+        return this;
     }
 
     @Override
-    public void addNewPagesToLast(Bitmap[] bitmaps) throws Exception{
+    public DocumentProcessor addNewPagesToLast(Bitmap[] bitmaps) throws Exception{
         logger.debug("addNewPagesToLast", "called");
 
         for (Bitmap bitmap : bitmaps) {
             addNewPageToLast(bitmap);
         } // TODO-rca: 効率悪いので改善する
+
+        return this;
     }
 
     @Override
-    public void insertPageAtIndex(Bitmap bitmap, int index) throws Exception {
+    public DocumentProcessor insertPageAtIndex(Bitmap bitmap, int index) throws Exception {
         logger.debug("addNewPageAfterIndex", "called");
         String filename = UUID.randomUUID().toString() + ".png"; // TODO-rca: 拡張子を動的にする
 
@@ -109,16 +113,18 @@ public class DocumentProcessorImpl implements DocumentProcessor{
         this.documentDetail.getPages().add(index, page);
 
         lacertaVcs.insertPage(index, filename);
+
+        return this;
     }
 
     @Override
-    public void removePageAtIndex(int index) {
-
+    public DocumentProcessor removePageAtIndex(int index) {
+        return null;
     }
 
     @Override
-    public void updatePageAtIndex(Bitmap bitmap, int index) {
-
+    public DocumentProcessor updatePageAtIndex(Bitmap bitmap, int index) {
+        return null;
     }
 
     @Override

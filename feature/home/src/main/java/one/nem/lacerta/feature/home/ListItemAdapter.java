@@ -1,5 +1,6 @@
 package one.nem.lacerta.feature.home;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,18 +12,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import one.nem.lacerta.component.viewer.ViewerMainActivity;
 import one.nem.lacerta.model.ListItem;
 
 public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ListItemViewHolder>{
 
     ArrayList<ListItem> listItems;
 
-    public ListItemAdapter(ArrayList<ListItem> listItems){
-        this.listItems = listItems;
-    }
+    DocumentSelectListener listener;
 
-    public ListItemAdapter() {
+    public ListItemAdapter(DocumentSelectListener listener){
         this.listItems = new ArrayList<>();
+        this.listener = listener;
     }
 
     public void setListItems(ArrayList<ListItem> listItems) {
@@ -43,6 +44,12 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ListIt
         holder.icon.setColorFilter(one.nem.lacerta.shared.ui.R.color.colorOnSurface);
         holder.title.setText(listItem.getTitle());
         holder.description.setText(listItem.getDescription());
+
+        holder.itemView.setOnClickListener( v -> {
+            Intent intent = new Intent(v.getContext(), ViewerMainActivity.class);
+            intent.putExtra("documentId", listItem.getItemId());
+            v.getContext().startActivity(intent);
+        });
     }
 
     @Override

@@ -17,6 +17,8 @@ import one.nem.lacerta.utils.LacertaLogger;
 
 public class XmlMetaParserImpl implements XmlMetaParser{
 
+    String TAG = getClass().getSimpleName();
+
     @Inject
     LacertaLogger logger;
 
@@ -35,11 +37,16 @@ public class XmlMetaParserImpl implements XmlMetaParser{
             meta.setRevisionId(rootElement.getElementsByTagName("revisionId").item(0).getTextContent());
 
             ArrayList<XmlMetaPageModel> pages = new ArrayList<>();
-            for(int i = 0; i < rootElement.getElementsByTagName("pages").getLength(); i++) {
+            for (int i = 0; i < rootElement.getElementsByTagName("page").getLength(); i++) {
                 Element pageElement = (Element) rootElement.getElementsByTagName("page").item(i);
                 XmlMetaPageModel page = new XmlMetaPageModel();
                 page.setFilename(pageElement.getElementsByTagName("filename").item(0).getTextContent());
                 pages.add(page);
+            }
+
+            logger.debug(TAG, "Parsed Meta: " + meta.getRevisionId() + " " + pages.size() + " pages.");
+            for (XmlMetaPageModel page : pages) {
+                logger.debug(TAG, "\tPage: " + page.getFilename());
             }
 
             meta.setPages(pages);
