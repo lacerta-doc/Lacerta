@@ -19,7 +19,7 @@
     <item
         android:id="@id/feature_debug_navigation"
         android:icon="@drawable/developer_mode_24px"
-        android:title="@string/debug_menu_title"/>
+        android:title="@string/debug_menu_title" />
 
     <item
         android:id="@id/feature_setting_navigation"
