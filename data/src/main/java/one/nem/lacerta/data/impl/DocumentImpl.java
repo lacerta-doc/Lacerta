@@ -181,7 +181,7 @@ public class DocumentImpl implements Document {
             }
             for (XmlMetaPageModel xmlMetaPageModel : xmlMetaPageModels) {
                 try {
-                    pages.add(new Page(xmlMetaPageModel.getFilename(), fileManager.loadBitmap(xmlMetaPageModel.getFilename())));
+                    pages.add(new Page(xmlMetaPageModel.getFilename(), fileManager.resolve("raw").loadBitmap(xmlMetaPageModel.getFilename())));
                 } catch (IOException e) {
                     logger.error(TAG, "Bitmap decode error");
                     logger.trace(TAG, e.getMessage());
