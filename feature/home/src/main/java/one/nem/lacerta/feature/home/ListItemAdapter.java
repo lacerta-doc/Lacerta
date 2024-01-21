@@ -19,12 +19,15 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ListIt
 
     ArrayList<ListItem> listItems;
 
+    DocumentSelectListener listener;
+
     public ListItemAdapter(ArrayList<ListItem> listItems){
         this.listItems = listItems;
     }
 
-    public ListItemAdapter() {
+    public ListItemAdapter(DocumentSelectListener listener){
         this.listItems = new ArrayList<>();
+        this.listener = listener;
     }
 
     public void setListItems(ArrayList<ListItem> listItems) {
