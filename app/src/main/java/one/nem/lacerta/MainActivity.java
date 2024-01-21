@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initializeApp() {
+        Log.d("Init", "Initializing app");
         // Set feature switch override to default value
         sharedPrefUtils.setFeatureSwitchOverride(FeatureSwitchOverride.ENABLE_SEARCH, FeatureSwitch.FeatureMaster.enableSearch);
         sharedPrefUtils.setFeatureSwitchOverride(FeatureSwitchOverride.ENABLE_DEBUG_MENU, FeatureSwitch.FeatureMaster.enableDebugMenu);
