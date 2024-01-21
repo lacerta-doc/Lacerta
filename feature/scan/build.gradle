@@ -4,7 +4,7 @@ plugins {
 
 android {
     namespace 'one.nem.lacerta.feature.scan'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         minSdk 26
