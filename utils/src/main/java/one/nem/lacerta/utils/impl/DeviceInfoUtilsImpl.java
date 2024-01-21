@@ -20,7 +20,9 @@ public class DeviceInfoUtilsImpl implements DeviceInfoUtils {
 
     @Override
     public Path getExternalStorageDirectory() {
-        // TODO-rca: 結果がnullだった場合の処理を追加する？
+        if (applicationContext.getExternalFilesDir(null) == null) {
+            throw new RuntimeException("applicationContext.getExternalFilesDir(null) is null");
+        }
         return Objects.requireNonNull(applicationContext.getExternalFilesDir(null)).toPath();
     }
 
@@ -31,7 +33,9 @@ public class DeviceInfoUtilsImpl implements DeviceInfoUtils {
 
     @Override
     public Path getExternalStorageDirectory(String type) {
-        // TODO-rca: 結果がnullだった場合の処理を追加する？
+        if(applicationContext.getExternalFilesDir(type) == null) {
+            throw new RuntimeException("applicationContext.getExternalFilesDir(" + type + ") is null");
+        }
         return Objects.requireNonNull(applicationContext.getExternalFilesDir(type)).toPath();
     }
 

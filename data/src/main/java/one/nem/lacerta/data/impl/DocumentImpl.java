@@ -18,6 +18,7 @@ import one.nem.lacerta.model.document.DocumentMeta;
 import one.nem.lacerta.model.document.DocumentDetail;
 
 // Lacerta/source
+import one.nem.lacerta.model.document.internal.XmlMetaModel;
 import one.nem.lacerta.model.document.internal.XmlMetaPageModel;
 import one.nem.lacerta.model.document.page.Page;
 import one.nem.lacerta.source.database.LacertaDatabase;
@@ -86,6 +87,9 @@ public class DocumentImpl implements Document {
             // Vcs
             LacertaVcs vcs = vcsFactory.create(meta.getId());
             vcs.createDocument(meta.getId());
+
+            // XmlMeta
+            updateXmlMeta(detail).join();
 
             return detail;
         });
@@ -185,6 +189,26 @@ public class DocumentImpl implements Document {
                 }
             }
             return pages;
+        });
+    }
+
+    private CompletableFuture<Void> updateXmlMeta(DocumentDetail documentDetail) {
+        return CompletableFuture.supplyAsync(() -> {
+            // TODO-rca: リビジョンIDを検証する, 挿入する
+            FileManager fileManager = fileManagerFactory.create(deviceInfoUtils.getExternalStorageDirectory());
+            ArrayList<XmlMetaPageModel> xmlMetaPageModels = new ArrayList<>();
+            for (Page page : documentDetail.getPages()) {
+                xmlMetaPageModels.add(new XmlMetaPageModel(page.getFileName()));
+            }
+            try {
+                fileManager.createDirectoryIfNotExist(documentDetail.getMeta().getId()).resolve(documentDetail.getMeta().getId())
+                        .createFileIfNotExist("meta.xml").resolve("meta.xml").saveXml(xmlMetaParser.serialize(new XmlMetaModel("revisionId_PLACEHOLDER", xmlMetaPageModels)));
+            } catch (IOException e) {
+                logger.error(TAG, "DocumentMeta serialize error");
+                logger.trace(TAG, e.getMessage());
+                logger.e_code("e3b4d0c9-5b7e-4b7e-9e9a-5b8b8b8b8b8b");
+            }
+            return null;
         });
     }
 }

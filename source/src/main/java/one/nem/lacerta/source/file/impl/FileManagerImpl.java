@@ -37,7 +37,11 @@ public class FileManagerImpl implements FileManager {
     @AssistedInject
     public FileManagerImpl(LacertaLogger logger, @Assisted Path rootDir) {
         this.logger = logger;
+        if (rootDir == null) {
+            throw new IllegalArgumentException("rootDir must not be null");
+        }
         this.rootDir = rootDir;
+        this.path = rootDir;
     }
 
     // for generate new instance
