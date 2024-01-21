@@ -21,6 +21,14 @@ public class ViewerBodyAdapter extends RecyclerView.Adapter<ViewerBodyAdapter.Vi
         this.pages = pages;
     }
 
+    public ViewerBodyAdapter(){
+
+    }
+
+    public void setPages(ArrayList<Page> pages){
+        this.pages = pages;
+    }
+
     @NonNull
     @Override
     public ViewerBodyAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
