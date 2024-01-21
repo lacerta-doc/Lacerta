@@ -62,6 +62,10 @@ public class FileManagerImpl implements FileManager {
             try {
                 resolvedPath = resolvedPath.resolve(pathPart);
             } catch (Exception e) {
+                logger.error("resolveStringPath", e.getMessage());
+                logger.debug("resolveStringPath", "this.path: " + this.path);
+                logger.debug("resolveStringPath", "pathPart: " + pathPart);
+                logger.debug("resolveStringPath", "resolvedPath: " + resolvedPath);
                 throw new IOException("Invalid path: " + path);
             }
         }
