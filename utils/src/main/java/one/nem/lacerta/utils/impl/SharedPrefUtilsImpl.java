@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import dagger.hilt.android.qualifiers.ApplicationContext;
+import one.nem.lacerta.model.pref.FeatureSwitchOverride;
 import one.nem.lacerta.utils.repository.SharedPrefUtils;
 
 public class SharedPrefUtilsImpl implements SharedPrefUtils{
@@ -35,5 +36,15 @@ public class SharedPrefUtilsImpl implements SharedPrefUtils{
     @Override
     public SharedPreferences getSharedPreferences() {
         return applicationContext.getSharedPreferences("common", Context.MODE_PRIVATE); // TODO-rca: 決め打ちやめる?
+    }
+
+    @Override
+    public boolean getFeatureSwitchOverride(FeatureSwitchOverride featureSwitchOverride) {
+        return getSharedPreferences().getBoolean(featureSwitchOverride.getKey(), false);
+    }
+
+    @Override
+    public void setFeatureSwitchOverride(FeatureSwitchOverride featureSwitchOverride, boolean value) {
+        getEditor().putBoolean(featureSwitchOverride.getKey(), value).apply();
     }
 }

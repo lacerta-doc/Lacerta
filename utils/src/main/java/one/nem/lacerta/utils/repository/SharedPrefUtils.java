@@ -2,6 +2,8 @@ package one.nem.lacerta.utils.repository;
 
 import android.content.SharedPreferences;
 
+import one.nem.lacerta.model.pref.FeatureSwitchOverride;
+
 public interface SharedPrefUtils {
 
     // Shared preferences editorの取得
@@ -14,4 +16,7 @@ public interface SharedPrefUtils {
 
     SharedPreferences getSharedPreferences();
 
+    boolean getFeatureSwitchOverride(FeatureSwitchOverride featureSwitchOverride);
+
+    void setFeatureSwitchOverride(FeatureSwitchOverride featureSwitchOverride, boolean value);
 }
