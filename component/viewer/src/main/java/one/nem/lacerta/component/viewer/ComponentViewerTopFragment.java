@@ -10,8 +10,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.concurrent.CompletableFuture;
 
 import javax.inject.Inject;
 
@@ -61,15 +63,20 @@ public class ComponentViewerTopFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_component_viewer_top, container, false);
 
-        DocumentDetail documentDetail = document.getDocument(documentId);
-
-        ArrayList<Page> documentPages = new ArrayList<>();
-        documentPages = documentDetail.getPages();
-
         RecyclerView recyclerView = view.findViewById(R.id.body_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        ViewerBodyAdapter viewerBodyAdapter = new ViewerBodyAdapter(documentPages);
+        ViewerBodyAdapter viewerBodyAdapter = new ViewerBodyAdapter(fileName -> {
+            Toast.makeText(getContext(), fileName, Toast.LENGTH_SHORT).show();
+        });
         recyclerView.setAdapter(viewerBodyAdapter);
+
+        document.getDocument(documentId).thenAccept(documentDetail -> {
+            ArrayList<Page> pages = documentDetail.getPages();
+            viewerBodyAdapter.setPages(pages);
+            getActivity().runOnUiThread(() -> {
+                viewerBodyAdapter.notifyItemRangeChanged(0, pages.size());
+            });
+        });
 
         return view;
     }

@@ -17,12 +17,16 @@ public class ViewerBodyAdapter extends RecyclerView.Adapter<ViewerBodyAdapter.Vi
 
     ArrayList<Page> pages;
 
-    public ViewerBodyAdapter(ArrayList<Page> pages){
+    ItemClickListener listener;
+
+    public ViewerBodyAdapter(ArrayList<Page> pages, ItemClickListener listener){
         this.pages = pages;
+        this.listener = listener;
     }
 
-    public ViewerBodyAdapter(){
-
+    public ViewerBodyAdapter(ItemClickListener listener){
+        this.pages = new ArrayList<>();
+        this.listener = listener;
     }
 
     public void setPages(ArrayList<Page> pages){
@@ -40,6 +44,9 @@ public class ViewerBodyAdapter extends RecyclerView.Adapter<ViewerBodyAdapter.Vi
     public void onBindViewHolder(@NonNull ViewerBodyAdapter.ViewHolder holder, int position) {
         Bitmap bitmap = pages.get(position).getBitmap();
         holder.image.setImageBitmap(bitmap);
+        holder.itemView.setOnClickListener(v -> {
+
+        });
     }
 
     @Override
