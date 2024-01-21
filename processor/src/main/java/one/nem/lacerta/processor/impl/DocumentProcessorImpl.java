@@ -85,6 +85,8 @@ public class DocumentProcessorImpl implements DocumentProcessor{
 
         logger.info("addNewPageToLast", "finished");
         logger.info("addNewPageToLast", "filename: " + filename);
+
+        return this;
     }
 
     @Override
@@ -94,6 +96,8 @@ public class DocumentProcessorImpl implements DocumentProcessor{
         for (Bitmap bitmap : bitmaps) {
             addNewPageToLast(bitmap);
         } // TODO-rca: 効率悪いので改善する
+
+        return this;
     }
 
     @Override
@@ -109,16 +113,18 @@ public class DocumentProcessorImpl implements DocumentProcessor{
         this.documentDetail.getPages().add(index, page);
 
         lacertaVcs.insertPage(index, filename);
+
+        return this;
     }
 
     @Override
     public DocumentProcessor removePageAtIndex(int index) {
-
+        return null;
     }
 
     @Override
     public DocumentProcessor updatePageAtIndex(Bitmap bitmap, int index) {
-
+        return null;
     }
 
     @Override
