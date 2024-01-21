@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import one.nem.lacerta.utils.FeatureSwitch;
@@ -36,13 +37,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav);
+
         // Init navigation
         try {
             FragmentManager supportFragmentManager = getSupportFragmentManager();
             NavHostFragment navHostFragment = (NavHostFragment) supportFragmentManager.findFragmentById(R.id.nav_host_fragment);
             assert navHostFragment != null;
             NavController navController = navHostFragment.getNavController();
-            BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav);
             NavigationUI.setupWithNavController(bottomNavigationView, navController);
         }
         catch (Exception e) {
@@ -52,34 +54,13 @@ public class MainActivity extends AppCompatActivity {
             finish(); // Exit app
         }
 
+        // bottomNavigation FeatureSwitch
+        Menu menu = bottomNavigationView.getMenu();
+
         // Set navigation bar color
         getWindow().setNavigationBarColor(ContextCompat.getColor(this, one.nem.lacerta.shared.ui.R.color.colorSecondaryContainer));
 
         // Set status bar color
         getWindow().setStatusBarColor(ContextCompat.getColor(this, one.nem.lacerta.shared.ui.R.color.colorSurface));
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        if (!FeatureSwitch.Meta.canOverrideSwitch) {
-            Log.d("FeatureSwitch", "Switch override is disabled");
-            if (!FeatureSwitch.FeatureMaster.enableDebugMenu) {
-                menu.removeItem(one.nem.lacerta.feature.debug.R.id.feature_debug_navigation);
-
-            }
-            if (!FeatureSwitch.FeatureMaster.enableSearch) {
-                menu.removeItem(one.nem.lacerta.feature.search.R.id.feature_search_navigation);
-            }
-        } else {
-            Log.d("FeatureSwitch", "Switch override is enabled");
-            if (!FeatureSwitch.FeatureMaster.enableDebugMenu && !sharedPrefUtils.getFeatureSwitchOverride(one.nem.lacerta.model.pref.FeatureSwitchOverride.ENABLE_DEBUG_MENU)) {
-                menu.removeItem(one.nem.lacerta.feature.debug.R.id.feature_debug_navigation);
-            }
-            if (!FeatureSwitch.FeatureMaster.enableSearch && !sharedPrefUtils.getFeatureSwitchOverride(one.nem.lacerta.model.pref.FeatureSwitchOverride.ENABLE_SEARCH)) {
-                menu.removeItem(one.nem.lacerta.feature.search.R.id.feature_search_navigation);
-            }
-        }
-
-        return super.onPrepareOptionsMenu(menu);
     }
 }

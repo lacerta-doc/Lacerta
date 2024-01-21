@@ -2,8 +2,13 @@ package one.nem.lacerta.utils;
 
 public class FeatureSwitch {
 
+    public static class Meta {
+        public static boolean canOverrideSwitch = true;
+    }
+
     public static class FeatureMaster {
         public static boolean enableSearch = true;
+        public static boolean enableDebugMenu = true;
     }
 
     public static class Setting {

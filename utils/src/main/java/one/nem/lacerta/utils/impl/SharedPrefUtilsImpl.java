@@ -4,6 +4,8 @@ package one.nem.lacerta.utils.impl;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import javax.inject.Inject;
+
 import dagger.hilt.android.qualifiers.ApplicationContext;
 import one.nem.lacerta.model.pref.FeatureSwitchOverride;
 import one.nem.lacerta.utils.repository.SharedPrefUtils;
@@ -12,6 +14,7 @@ public class SharedPrefUtilsImpl implements SharedPrefUtils{
 
     private final Context applicationContext;
 
+    @Inject
     public SharedPrefUtilsImpl(@ApplicationContext Context applicationContext) {
         this.applicationContext = applicationContext;
     }
