@@ -39,6 +39,4 @@ dependencies {
 
     // model
     implementation project(':model')
-
-    implementation project(':utils')
 }
