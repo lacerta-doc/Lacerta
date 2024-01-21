@@ -50,4 +50,14 @@ public class SharedPrefUtilsImpl implements SharedPrefUtils{
     public void setFeatureSwitchOverride(FeatureSwitchOverride featureSwitchOverride, boolean value) {
         getEditor().putBoolean(featureSwitchOverride.getKey(), value).apply();
     }
+
+    @Override
+    public boolean getIsFirstLaunch() {
+        return getSharedPreferences().getBoolean("isFirstLaunch", true);
+    }
+
+    @Override
+    public void setIsFirstLaunch(boolean value) {
+        getEditor().putBoolean("isFirstLaunch", value).apply();
+    }
 }

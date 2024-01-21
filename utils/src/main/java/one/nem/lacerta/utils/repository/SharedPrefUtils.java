@@ -19,4 +19,8 @@ public interface SharedPrefUtils {
     boolean getFeatureSwitchOverride(FeatureSwitchOverride featureSwitchOverride);
 
     void setFeatureSwitchOverride(FeatureSwitchOverride featureSwitchOverride, boolean value);
+
+    boolean getIsFirstLaunch();
+
+    void setIsFirstLaunch(boolean value);
 }
