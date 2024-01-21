@@ -139,9 +139,11 @@ public class DocumentImpl implements Document {
             DocumentDetail detail = new DocumentDetail();
 
             getPagesByXmlMeta(documentId).thenCompose(xmlMetaPageModels -> getPagesByXmlMetaPageModel(documentId, xmlMetaPageModels)).thenAccept(pages -> {
+                logger.debug(TAG, "pages: " + pages.size());
                 detail.setMeta(meta);
                 detail.setPages(pages);
-            });
+            }).join();
+
             return detail;
         });
     }

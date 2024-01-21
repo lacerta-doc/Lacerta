@@ -71,10 +71,12 @@ public class ComponentViewerTopFragment extends Fragment {
         recyclerView.setAdapter(viewerBodyAdapter);
 
         document.getDocument(documentId).thenAccept(documentDetail -> {
-            ArrayList<Page> pages = documentDetail.getPages();
-            viewerBodyAdapter.setPages(pages);
+            viewerBodyAdapter.setPages(documentDetail.getPages());
+//            getActivity().runOnUiThread(() -> {
+//                viewerBodyAdapter.notifyItemRangeChanged(0, pages.size());
+//            });
             getActivity().runOnUiThread(() -> {
-                viewerBodyAdapter.notifyItemRangeChanged(0, pages.size());
+                viewerBodyAdapter.notifyDataSetChanged();
             });
         });
 
