@@ -25,14 +25,12 @@ import one.nem.lacerta.utils.LacertaLogger;
 @AndroidEntryPoint
 public class ViewerMainActivity extends AppCompatActivity {
 
+    @Inject
     LacertaLogger logger;
 
     @Inject
-    public ViewerMainActivity(LacertaLogger logger) {
-        this.logger = logger;
-        logger.debug(TAG, "ViewerMainActivity created");
+    public ViewerMainActivity() {
     }
-
 
     // Variables
     private static final String TAG = "ViewerMainActivity";
