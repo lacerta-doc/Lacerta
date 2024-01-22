@@ -148,16 +148,20 @@ public class LacertaLibraryImpl implements LacertaLibrary {
             if (itemType == ListItemType.ITEM_TYPE_DOCUMENT) {
                 DocumentEntity documentEntity = database.documentDao().findById(itemId);
                 if (documentEntity == null) {
+                    logger.warn("LacertaLibraryImpl", itemId + " is not found.");
                     return null;
                 }
-                return new PublicPath().resolve(documentEntity.publicPath);
+                PublicPath publicPath = recursiveResolve(documentEntity.parentId);
+                publicPath.resolve(documentEntity.title);
+                return publicPath;
             } else if (itemType == ListItemType.ITEM_TYPE_FOLDER) {
                 FolderEntity folderEntity = database.folderDao().findById(itemId);
                 if (folderEntity == null) {
                     return null;
                 }
-                return new PublicPath().resolve(folderEntity.publicPath);
+                return recursiveResolve(folderEntity.id);
             } else {
+                logger.warn("LacertaLibraryImpl", "Unknown ListItemType: " + itemType);
                 return null;
             }
         });

@@ -7,6 +7,7 @@ import one.nem.lacerta.model.ListItem;
 import one.nem.lacerta.model.ListItemType;
 
 import one.nem.lacerta.model.LibraryItemPage;
+import one.nem.lacerta.model.PublicPath;
 import one.nem.lacerta.model.document.DocumentDetail;
 
 public interface LacertaLibrary {
@@ -21,5 +22,8 @@ public interface LacertaLibrary {
 
     // Create Folder
     CompletableFuture<String> createFolder(String path, String name);
+
+    // Get Public Path
+    CompletableFuture<PublicPath> getPublicPath(String itemId, ListItemType itemType);
 
 }
