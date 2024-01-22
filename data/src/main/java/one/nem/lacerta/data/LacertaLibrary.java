@@ -21,7 +21,7 @@ public interface LacertaLibrary {
     CompletableFuture<LibraryItemPage> getLibraryPage(String pageId, int limit, int offset);
 
     // Create Folder
-    CompletableFuture<String> createFolder(String path, String name);
+    CompletableFuture<String> createFolder(String parentId, String name);
 
     // Get Public Path
     CompletableFuture<PublicPath> getPublicPath(String itemId, ListItemType itemType);
