@@ -27,10 +27,16 @@ public class PublicPath {
     }
 
     private void resolveInternal(String path) {
-        if (path.equals("..")) {
-            this.path.remove(this.path.size() - 1);
+        if (path.startsWith("/")) {
+            this.path.clear();
         } else {
-            add(path);
+            if (path.equals("..")) {
+                this.path.remove(this.path.size() - 1);
+            } else if (path.equals(".")) {
+                // do nothing
+            } else {
+                this.path.add(path);
+            }
         }
     }
 
