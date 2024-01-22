@@ -124,19 +124,10 @@ public class LacertaLibraryImpl implements LacertaLibrary {
     @Override
     public CompletableFuture<String> createFolder(String parentId, String name) {
         return CompletableFuture.supplyAsync(() -> {
-
-            FolderEntity parentFolderEntity = database.folderDao().findById(parentId);
-            PublicPath publicPath;
-            if (parentFolderEntity == null) {
-                publicPath = new PublicPath().resolve("/");
-            } else {
-                publicPath = new PublicPath().resolve(parentFolderEntity.publicPath);
-            }
-
             FolderEntity folderEntity = new FolderEntity();
             folderEntity.id = UUID.randomUUID().toString();
             folderEntity.name = name;
-            folderEntity.publicPath = publicPath.getStringPath();
+            folderEntity.parentId = parentId;
             database.folderDao().insert(folderEntity);
             return folderEntity.id;
         });
