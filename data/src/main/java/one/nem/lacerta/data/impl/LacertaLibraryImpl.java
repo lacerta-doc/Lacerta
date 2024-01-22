@@ -38,13 +38,6 @@ public class LacertaLibraryImpl implements LacertaLibrary {
     @Override
     public CompletableFuture<ArrayList<ListItem>> getRecentDocument(int limit) {
         return CompletableFuture.supplyAsync(() -> {
-            // 5秒フリーズさせる
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
             List<DocumentEntity> documentEntities = database.documentDao().getRecentDocument(limit);
 
             ArrayList<ListItem> listItems = new ArrayList<>();
