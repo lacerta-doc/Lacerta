@@ -10,6 +10,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,12 +18,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import one.nem.lacerta.component.scanner.ScannerManagerActivity;
 import one.nem.lacerta.model.FragmentNavigation;
 import one.nem.lacerta.model.pref.FeatureSwitchOverride;
 import one.nem.lacerta.utils.FeatureSwitch;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
 import java.io.NotActiveException;
@@ -73,6 +76,13 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigatio
 
         // Set status bar color
         getWindow().setStatusBarColor(ContextCompat.getColor(this, one.nem.lacerta.shared.ui.R.color.colorSurface));
+
+        // Fab
+        findViewById(R.id.scanFab).setOnClickListener(v -> {
+            Toast.makeText(this, "Scan", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this.getApplicationContext(), ScannerManagerActivity.class);
+            startActivity(intent);
+        });
 
     }
     private void initializeApp() {
