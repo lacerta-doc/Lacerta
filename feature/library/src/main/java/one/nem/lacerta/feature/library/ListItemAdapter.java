@@ -21,8 +21,8 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ListIt
 
     DocumentSelectListener listener;
 
-    public ListItemAdapter(DocumentSelectListener listener){
-        this.libraryItemPage = new LibraryItemPage();
+
+    public ListItemAdapter(DocumentSelectListener listener) {
         this.listener = listener;
     }
 
@@ -54,7 +54,8 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ListIt
 
     @Override
     public int getItemCount() {
-        return libraryItemPage.getListItems().size();
+        return this.libraryItemPage == null ? 0
+                : this.libraryItemPage.getListItems() == null ? 0 : this.libraryItemPage.getListItems().size();
     }
 
     public static class ListItemViewHolder extends RecyclerView.ViewHolder{
