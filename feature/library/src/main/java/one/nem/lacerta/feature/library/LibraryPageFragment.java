@@ -4,9 +4,6 @@ import android.app.AlertDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,37 +14,23 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
-
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
-import one.nem.lacerta.data.Document;
 import one.nem.lacerta.data.LacertaLibrary;
-import one.nem.lacerta.model.document.DocumentMeta;
-import one.nem.lacerta.model.document.tag.DocumentTag;
 import one.nem.lacerta.utils.LacertaLogger;
 import one.nem.lacerta.utils.TextInputDialog;
 
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link LibraryTopFragment#newInstance} factory method to
+ * Use the {@link LibraryPageFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 @AndroidEntryPoint
-public class LibraryTopFragment extends Fragment {
+public class LibraryPageFragment extends Fragment {
 
     @Inject
     LacertaLibrary lacertaLibrary;
@@ -59,11 +42,11 @@ public class LibraryTopFragment extends Fragment {
 
     int currentTotalItemCount = 0;
 
-    public LibraryTopFragment() {
+    public LibraryPageFragment() {
         // Required empty public constructor
     }
-    public static LibraryTopFragment newInstance() {
-        LibraryTopFragment fragment = new LibraryTopFragment();
+    public static LibraryPageFragment newInstance() {
+        LibraryPageFragment fragment = new LibraryPageFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
