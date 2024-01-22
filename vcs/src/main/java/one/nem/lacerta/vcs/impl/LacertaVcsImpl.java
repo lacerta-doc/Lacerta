@@ -125,12 +125,12 @@ public class LacertaVcsImpl implements LacertaVcs {
     }
 
     @Override
-    public CompletableFuture<ArrayList<VcsRevModel>> getRevisionHistoryByDocumentId(String documentId) {
+    public CompletableFuture<ArrayList<VcsRevModel>> getRevisionHistory() {
         return CompletableFuture.supplyAsync(() -> {
             logger.debug(TAG, "getRevisionHistoryByDocumentId");
             ArrayList<VcsRevModel> vcsRevModels = new ArrayList<>();
 
-            List<VcsRevEntity> vcsRevEntities = database.vcsRevDao().findByDocumentId(documentId);
+            List<VcsRevEntity> vcsRevEntities = database.vcsRevDao().findByDocumentId(this.documentId);
             vcsRevEntities.forEach(vcsRevEntity -> {
                 VcsRevModel vcsRevModel = new VcsRevModel();
                 vcsRevModel.setDocumentId(vcsRevEntity.documentId);

@@ -18,7 +18,7 @@ public interface LacertaVcs {
 
     public void generateRevisionAtCurrent(String message);
 
-    public CompletableFuture<ArrayList<VcsRevModel>> getRevisionHistoryByDocumentId(String documentId);
+    public CompletableFuture<ArrayList<VcsRevModel>> getRevisionHistory();
 
 
     // debug
