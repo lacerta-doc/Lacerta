@@ -104,7 +104,7 @@ public class HomeTopFragment extends Fragment {
                 if (FeatureSwitch.RecyclerView.useSimpleNotifyMethod) {
                     listItemAdapter.notifyDataSetChanged();
                 } else {
-                    // IndexOutOfBoundsExceptionを吐くことがあったので
+                    // IndexOutOfBoundsExceptionを吐くことがあったので いったん
                     listItemAdapter.notifyItemRangeInserted(0, listItems.size() - 1);
                 }
             });

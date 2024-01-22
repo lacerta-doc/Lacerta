@@ -276,6 +276,7 @@ public class LibraryPageFragment extends Fragment {
                 toolbar.setNavigationIcon(null);
             }
             toolbar.setTitle(title);
+            toolbar.getMenu().clear();
             toolbar.inflateMenu(R.menu.dir_menu);
             toolbar.setOnMenuItemClickListener(item -> {
                 if (item.getItemId() == R.id.menu_item_create_new_folder) {
