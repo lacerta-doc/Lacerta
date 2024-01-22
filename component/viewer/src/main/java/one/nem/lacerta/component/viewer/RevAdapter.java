@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
@@ -40,13 +41,14 @@ public class RevAdapter extends RecyclerView.Adapter<RevAdapter.RevViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull RevAdapter.RevViewHolder holder, int position) {
         VcsRevModel revModel = revModels.get(position);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         holder.title.setText(revModel.getCommitMessage());
         if (FeatureSwitch.Vcs.disableBranchDisplay) {
 //            holder.detail.setText(DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(revModel.getCreatedAt().toInstant()));
-            holder.detail.setText("DateTimePlaceholder");
+            holder.detail.setText(simpleDateFormat.format(revModel.getCreatedAt()));
         } else {
             //        holder.detail.setText(DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(revModel.getCreatedAt().toInstant()) + " " + revModel.getBranchName());
-            holder.detail.setText("DateTimePlaceholder" + " " + revModel.getBranchName());
+            holder.detail.setText(simpleDateFormat.format(revModel.getCreatedAt())+ " " + revModel.getBranchName());
         }
         holder.revId.setText("RevID: " + revModel.getId());
 
