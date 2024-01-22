@@ -38,8 +38,6 @@ import one.nem.lacerta.data.LacertaLibrary;
 import one.nem.lacerta.model.document.DocumentMeta;
 import one.nem.lacerta.model.document.tag.DocumentTag;
 import one.nem.lacerta.utils.LacertaLogger;
-import one.nem.lacerta.utils.TextInputDialog;
-
 
 /**
  * A simple {@link Fragment} subclass.
