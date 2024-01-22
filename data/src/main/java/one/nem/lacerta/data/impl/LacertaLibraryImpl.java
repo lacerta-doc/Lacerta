@@ -78,6 +78,14 @@ public class LacertaLibraryImpl implements LacertaLibrary {
     @Override
     public CompletableFuture<LibraryItemPage> getLibraryPage(int limit) {
         return CompletableFuture.supplyAsync(() -> {
+
+            // 5秒フリーズさせる
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
             LibraryItemPage libraryItemPage = new LibraryItemPage();
 
             List<FolderEntity> folderEntities = getFolderEntitiesByPublicPath("/").join();
