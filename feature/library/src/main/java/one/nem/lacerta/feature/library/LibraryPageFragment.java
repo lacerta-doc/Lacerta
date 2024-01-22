@@ -36,6 +36,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 import one.nem.lacerta.data.Document;
 import one.nem.lacerta.data.LacertaLibrary;
 import one.nem.lacerta.model.FragmentNavigation;
+import one.nem.lacerta.model.PublicPath;
 import one.nem.lacerta.utils.LacertaLogger;
 
 
@@ -50,6 +51,8 @@ public class LibraryPageFragment extends Fragment {
     // Param
     private String folderId;
     private String title;
+    private String publicPath;
+    private PublicPath currentPublicPath;
 
     @Inject
     LacertaLibrary lacertaLibrary;
@@ -65,11 +68,12 @@ public class LibraryPageFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static LibraryPageFragment newInstance(String folderId, String title) {
+    public static LibraryPageFragment newInstance(String folderId, String title, String publicPath) {
         LibraryPageFragment fragment = new LibraryPageFragment();
         Bundle args = new Bundle();
         args.putString("folderId", folderId);
         args.putString("title", title);
+        args.putString("publicPath", publicPath);
         fragment.setArguments(args);
         return fragment;
     }
@@ -79,6 +83,7 @@ public class LibraryPageFragment extends Fragment {
         Bundle args = new Bundle();
         args.putString("folderId", null);
         args.putString("title", null);
+        args.putString("publicPath", null);
         fragment.setArguments(args);
         return fragment;
     }
@@ -93,7 +98,6 @@ public class LibraryPageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_library_top, container, false);
-
         return view;
     }
 
@@ -111,7 +115,7 @@ public class LibraryPageFragment extends Fragment {
                 Toast.makeText(getContext(), "Folder selected! folderId: " + folderId + ", folderName: " + folderName, Toast.LENGTH_SHORT).show();
                 FragmentNavigation fragmentNavigation = (FragmentNavigation) getActivity();
                 assert fragmentNavigation != null;
-                fragmentNavigation.navigateToFragment(LibraryPageFragment.newInstance(folderId, folderName));
+                fragmentNavigation.navigateToFragment(LibraryPageFragment.newInstance(folderId, folderName, currentPublicPath.resolve(folderName).getStringPath()));
             }
 
             @Override
@@ -124,11 +128,20 @@ public class LibraryPageFragment extends Fragment {
 
         if (getArguments() != null) {
             this.folderId = getArguments().getString("folderId");
+            this.title = getArguments().getString("title");
+            this.publicPath = getArguments().getString("publicPath");
+            // Log
+            logger.debug("LibraryTopFragment", "args"
+                    + ", folderId: " + this.folderId
+                    + ", title: " + this.title
+                    + ", publicPath: " + this.publicPath);
         }
 
         if (this.folderId == null) { // Root
             toolbarSetup(view.findViewById(R.id.library_toolbar), false, "ライブラリ", "Placeholder");
             lacertaLibrary.getLibraryPage(10).thenAccept(libraryItemPage -> {
+                this.currentPublicPath = new PublicPath().resolve("/");
+                logger.debug("LibraryInit(ROOT)",currentPublicPath.getStringPath());
                 logger.debug("LibraryTopFragment", "Item selected! libraryItemPage.getListItems().size(): " + libraryItemPage.getListItems().size());
                 listItemAdapter.setLibraryItemPage(libraryItemPage);
                 getActivity().runOnUiThread(() -> {
@@ -139,6 +152,8 @@ public class LibraryPageFragment extends Fragment {
         } else { // Root以外
             toolbarSetup(view.findViewById(R.id.library_toolbar), true, this.title, "Placeholder");
             lacertaLibrary.getLibraryPage(this.folderId, 10).thenAccept(libraryItemPage -> {
+                this.currentPublicPath = new PublicPath().parse(this.publicPath);
+                logger.debug("LibraryInit(NON_ROOT)",currentPublicPath.getStringPath());
                 logger.debug("LibraryTopFragment", "Item selected! libraryItemPage.getListItems().size(): " + libraryItemPage.getListItems().size());
                 listItemAdapter.setLibraryItemPage(libraryItemPage);
                 getActivity().runOnUiThread(() -> {
@@ -180,7 +195,6 @@ public class LibraryPageFragment extends Fragment {
                 toolbar.setNavigationIcon(null);
             }
             toolbar.setTitle(title);
-            if (subtitle != null) toolbar.setSubtitle(subtitle);
             toolbar.inflateMenu(R.menu.dir_menu);
             toolbar.setOnMenuItemClickListener(item -> {
                 if (item.getItemId() == R.id.menu_item_create_new_folder) {

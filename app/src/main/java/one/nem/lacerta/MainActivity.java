@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import one.nem.lacerta.model.FragmentNavigation;
 import one.nem.lacerta.model.pref.FeatureSwitchOverride;
 import one.nem.lacerta.utils.FeatureSwitch;
 
@@ -31,7 +32,7 @@ import one.nem.lacerta.utils.repository.SharedPrefUtils;
 import javax.inject.Inject;
 
 @AndroidEntryPoint
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements FragmentNavigation {
 
     @Inject
     SharedPrefUtils sharedPrefUtils;
@@ -88,11 +89,11 @@ public class MainActivity extends AppCompatActivity {
         if (!isEnabled) bottomNavigationView.getMenu().removeItem(menuId);
     }
 
-//    @Override
-//    public void navigateToFragment(Fragment fragment) {
-//        getSupportFragmentManager().beginTransaction()
-//                .replace(R.id.nav_host_fragment, fragment)
-//                .addToBackStack(null)
-//                .commit();
-//    }
+    @Override
+    public void navigateToFragment(Fragment fragment) {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.nav_host_fragment, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
 }
