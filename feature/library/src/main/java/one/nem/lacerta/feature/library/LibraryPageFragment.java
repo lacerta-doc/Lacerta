@@ -21,7 +21,6 @@ import javax.inject.Inject;
 import dagger.hilt.android.AndroidEntryPoint;
 import one.nem.lacerta.data.LacertaLibrary;
 import one.nem.lacerta.utils.LacertaLogger;
-import one.nem.lacerta.utils.TextInputDialog;
 
 
 /**
