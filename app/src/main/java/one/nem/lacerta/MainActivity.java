@@ -5,6 +5,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
@@ -109,5 +110,48 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigatio
                     .replace(R.id.nav_host_fragment, fragment)
                     .commit();
         }
+    }
+
+    @Override
+    public void navigateToFragment(Fragment fragment, boolean addToBackStack, boolean clearBackStack) {
+        if (clearBackStack) {
+            getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        }
+        if (addToBackStack) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.nav_host_fragment, fragment)
+                    .addToBackStack(null)
+                    .commit();
+        } else {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.nav_host_fragment, fragment)
+                    .commit();
+        }
+    }
+
+    public void navigateToFragmentAlternate(Fragment fragment, boolean addToBackStack) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        // get the current fragment
+        Fragment currentFragment = getSupportFragmentManager().getPrimaryNavigationFragment();
+
+        // hide the current fragment
+        if (currentFragment != null) {
+            transaction.hide(currentFragment);
+        }
+
+        // Add the new fragment
+        transaction.add(R.id.nav_host_fragment, fragment);
+
+        // Add the transaction to the back stack if needed
+        if (addToBackStack) {
+            transaction.addToBackStack(null);
+        }
+
+        // Commit the transaction
+        transaction.commit();
+
+        // Update the primary navigation fragment
+        getSupportFragmentManager().beginTransaction().setPrimaryNavigationFragment(fragment).commit();
     }
 }

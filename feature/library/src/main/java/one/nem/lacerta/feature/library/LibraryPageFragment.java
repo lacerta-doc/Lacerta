@@ -81,6 +81,16 @@ public class LibraryPageFragment extends Fragment {
         return fragment;
     }
 
+    public static LibraryPageFragment newInstance(String folderId) { // Back action
+        LibraryPageFragment fragment = new LibraryPageFragment();
+        Bundle args = new Bundle();
+        args.putString("folderId", folderId);
+        args.putString("title", null);
+        args.putString("publicPath", null);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     public static LibraryPageFragment newInstance() {
         LibraryPageFragment fragment = new LibraryPageFragment();
         Bundle args = new Bundle();
@@ -127,11 +137,13 @@ public class LibraryPageFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         if (getArguments() != null) {
-            this.folderId = getArguments().getString("folderId");
-            this.title = getArguments().getString("title");
-            this.parentId = getArguments().getString("parentId");
-            // Log
-            logger.debug("LibraryTopFragment", "Args: folderId: " + folderId + ", title: " + title + ", parentId: " + parentId);
+            this.folderId = getArguments().getString("folderId"); // Required
+            if (getArguments().getString("title") == null && getArguments().getString("publicPath") == null) {
+                this.libraryItemPage = new LibraryItemPage();
+            } else {
+                this.title = getArguments().getString("title");
+                this.parentId = getArguments().getString("publicPath");
+            }
         } else {
             logger.debug("LibraryTopFragment", "getArguments() is null(maybe root)");
             this.libraryItemPage = new LibraryItemPage();
@@ -150,7 +162,7 @@ public class LibraryPageFragment extends Fragment {
                 // 画面遷移
                 FragmentNavigation fragmentNavigation = (FragmentNavigation) getActivity();
                 // folderId: 推移先で表示するフォルダのID, folderName: 推移先で表示するフォルダの名前, parentId: このフラグメントで表示しているフォルダのID(推移先の親)
-                fragmentNavigation.navigateToFragment(LibraryPageFragment.newInstance(folderId, folderName, libraryItemPage != null ? libraryItemPage.getParentId() : null));
+                fragmentNavigation.navigateToFragment(LibraryPageFragment.newInstance(folderId, folderName, libraryItemPage != null ? libraryItemPage.getParentId() : null), false);
             }
 
             @Override
@@ -165,6 +177,16 @@ public class LibraryPageFragment extends Fragment {
         // Get library page and update RecyclerView items
         lacertaLibrary.getLibraryPage(this.folderId, 10).thenAccept(libraryItemPage -> {
             this.libraryItemPage = libraryItemPage;
+
+            if (this.parentId == null) {
+                this.parentId = libraryItemPage.getParentId();
+            }
+            if (this.title == null) {
+                this.title = libraryItemPage.getPageTitle();
+                // Toolbar init again
+                toolbarSetup(view.findViewById(R.id.library_toolbar), this.folderId != null, this.title != null ? this.title : "ライブラリ");
+            }
+
             logger.debug("LibraryTopFragment", "Item selected! Total item page: " + this.libraryItemPage.getListItems().size());
             getActivity().runOnUiThread(() -> { // TODO-rca: 実行条件を考える？
                 listItemAdapter.notifyItemRangeRemoved(0, this.libraryItemPage.getListItems().size() - 1);
@@ -228,8 +250,8 @@ public class LibraryPageFragment extends Fragment {
             if (showBackButton) {
                 toolbar.setNavigationIcon(one.nem.lacerta.shared.ui.R.drawable.arrow_back_24px);
                 toolbar.setNavigationOnClickListener(v -> {
-                    this.libraryItemPage = lacertaLibrary.getLibraryPage(this.libraryItemPage.getParentId(), 10).join();
-                    getParentFragmentManager().popBackStack();
+                    //this.libraryItemPage = lacertaLibrary.getLibraryPage(this.libraryItemPage.getParentId(), 10).join();
+                    processBack();
                 });
             } else {
                 toolbar.setNavigationIcon(null);
@@ -245,6 +267,19 @@ public class LibraryPageFragment extends Fragment {
                 }
             });
         });
+    }
+
+    /**
+     * Backボタンが押された時の処理
+     */
+    private void processBack() {
+        if (this.parentId != null) {
+            FragmentNavigation fragmentNavigation = (FragmentNavigation) getActivity();
+            fragmentNavigation.navigateToFragment(LibraryPageFragment.newInstance(this.parentId));
+        } else { // Root
+            FragmentNavigation fragmentNavigation = (FragmentNavigation) getActivity();
+            fragmentNavigation.navigateToFragment(LibraryPageFragment.newInstance());
+        }
     }
 
 }
