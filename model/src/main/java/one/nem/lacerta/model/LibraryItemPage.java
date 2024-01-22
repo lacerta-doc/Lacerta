@@ -18,6 +18,12 @@ public class LibraryItemPage {
         this.parentId = parentId;
     }
 
+    public LibraryItemPage(String pageTitle, String pageId, ArrayList<ListItem> listItems) {
+        this.pageTitle = pageTitle;
+        this.pageId = pageId;
+        this.listItems = listItems;
+    }
+
     public LibraryItemPage() {
         // Empty constructor
     }
