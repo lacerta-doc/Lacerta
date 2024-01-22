@@ -114,6 +114,11 @@ public class DocumentImpl implements Document {
     @Override
     public CompletableFuture<Void> deleteDocument(String documentId) {
         return CompletableFuture.supplyAsync(() -> {
+            DocumentEntity documentEntity = database.documentDao().findById(documentId);
+            if (documentEntity == null) {
+                throw new IllegalArgumentException("documentId is not found");
+            }
+            database.documentDao().delete(documentEntity);
             return null;
         });
     }
