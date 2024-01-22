@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 import javax.inject.Inject;
@@ -13,6 +14,7 @@ import one.nem.lacerta.data.LacertaLibrary;
 import one.nem.lacerta.model.LibraryItemPage;
 import one.nem.lacerta.model.ListItem;
 import one.nem.lacerta.model.ListItemType;
+import one.nem.lacerta.model.PublicPath;
 import one.nem.lacerta.model.document.DocumentDetail;
 import one.nem.lacerta.source.database.LacertaDatabase;
 import one.nem.lacerta.source.database.common.DateTypeConverter;
@@ -141,6 +143,28 @@ public class LacertaLibraryImpl implements LacertaLibrary {
     public CompletableFuture<LibraryItemPage> getLibraryPage(String pageId, int limit, int offset) {
         return CompletableFuture.supplyAsync(() -> {
             return null;
+        });
+    }
+
+    @Override
+    public CompletableFuture<String> createFolder(String parentId, String name) {
+        return CompletableFuture.supplyAsync(() -> {
+
+            FolderEntity parentFolderEntity = database.folderDao().findById(parentId);
+            PublicPath publicPath;
+            if (parentFolderEntity == null) {
+                publicPath = new PublicPath().resolve("/");
+            } else {
+                publicPath = new PublicPath().resolve(parentFolderEntity.publicPath);
+            }
+            publicPath = publicPath.resolve(name);
+
+            FolderEntity folderEntity = new FolderEntity();
+            folderEntity.id = UUID.randomUUID().toString();
+            folderEntity.name = name;
+            folderEntity.publicPath = publicPath.toString();
+            database.folderDao().insert(folderEntity);
+            return folderEntity.id;
         });
     }
 }
