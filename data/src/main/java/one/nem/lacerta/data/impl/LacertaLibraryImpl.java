@@ -135,7 +135,52 @@ public class LacertaLibraryImpl implements LacertaLibrary {
     @Override
     public CompletableFuture<LibraryItemPage> getLibraryPage(String pageId, int limit) {
         return CompletableFuture.supplyAsync(() -> {
-            return null;
+            LibraryItemPage libraryItemPage = new LibraryItemPage();
+
+            FolderEntity folderEntity = database.folderDao().findById(pageId);
+            if (folderEntity == null) {
+                return null;
+            }
+
+            PublicPath publicPath = new PublicPath().parse(folderEntity.publicPath);
+
+            String resolvedPublicPath = publicPath.resolve(folderEntity.name).getStringPath();
+
+            logger.debug("LacertaLibraryImpl", "Resolved publicPath: " + resolvedPublicPath);
+
+            List<FolderEntity> folderEntities = getFolderEntitiesByPublicPath(resolvedPublicPath).join();
+            logger.debug("LacertaLibraryImpl", "folderEntities.size(): " + folderEntities.size());
+            List<DocumentEntity> documentEntities = getDocumentEntitiesByPublicPath(resolvedPublicPath).join();
+            logger.debug("LacertaLibraryImpl", "documentEntities.size(): " + documentEntities.size());
+
+            ArrayList<ListItem> listItems = new ArrayList<>();
+            for (FolderEntity childFolderEntity : folderEntities) {
+                logger.debug("LacertaLibraryImpl", "childFolderEntity.name: " + childFolderEntity.name);
+                ListItem listItem = new ListItem();
+                listItem.setItemType(ListItemType.ITEM_TYPE_FOLDER);
+                listItem.setTitle(childFolderEntity.name);
+                listItem.setDescription("フォルダ"); // TODO-rca: ハードコーディングやめる
+                listItem.setItemId(childFolderEntity.id);
+                listItems.add(listItem);
+            }
+
+            for (DocumentEntity documentEntity : documentEntities) {
+                logger.debug("LacertaLibraryImpl", "documentEntity.title: " + documentEntity.title);
+                ListItem listItem = new ListItem();
+                listItem.setItemType(ListItemType.ITEM_TYPE_DOCUMENT);
+                listItem.setTitle(documentEntity.title);
+//                listItem.setDescription(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm").format(documentEntity.updatedAt.toInstant()));
+                listItem.setItemId(documentEntity.id);
+                listItems.add(listItem);
+            }
+
+            libraryItemPage.setPageTitle(folderEntity.name);
+            libraryItemPage.setPageId(folderEntity.id);
+            libraryItemPage.setListItems(listItems);
+
+            logger.debug("LacertaLibraryImpl", "libraryItemPage.getListItems().size(): " + libraryItemPage.getListItems().size());
+
+            return libraryItemPage;
         });
     }
 

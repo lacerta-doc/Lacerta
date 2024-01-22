@@ -1,5 +1,7 @@
 package one.nem.lacerta.model;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,23 +29,23 @@ public class PublicPath {
     }
 
     private void resolveInternal(String path) {
-        if (path.startsWith("/")) {
-            this.path.clear();
-            this.path.add("/");
+        if (path.equals("..")) {
+            this.path.remove(this.path.size() - 1);
+        } else if (path.equals(".")) {
+            // do nothing
         } else {
-            if (path.equals("..")) {
-                this.path.remove(this.path.size() - 1);
-            } else if (path.equals(".")) {
-                // do nothing
-            } else {
-                this.path.add(path);
-            }
+            this.path.add(path);
         }
     }
 
     public PublicPath parse(String path) {
+        if (path.startsWith("/")) {
+            this.path.clear();
+            path = path.substring(1);
+        }
         String[] pathArray = path.split("/");
         for (String p : pathArray) {
+            Log.d("PublicPath", "parse: " + p);
             resolveInternal(p);
         }
         return this;

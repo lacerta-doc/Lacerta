@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 import one.nem.lacerta.model.LibraryItemPage;
 import one.nem.lacerta.model.ListItem;
+import one.nem.lacerta.model.ListItemType;
 
 public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ListItemViewHolder>{
 
@@ -46,9 +47,12 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ListIt
         holder.description.setText(listItem.getDescription());
 
         holder.itemView.setOnClickListener( v -> {
-//            Intent intent = new Intent(v.getContext(), ViewerMainActivity.class);
-//            intent.putExtra("documentId", listItem.getItemId());
-//            v.getContext().startActivity(intent);
+            if (listItem.getItemType() == ListItemType.ITEM_TYPE_DOCUMENT) {
+                listener.onDocumentSelected(listItem.getItemId(), listItem.getTitle());
+            }
+            else if (listItem.getItemType() == ListItemType.ITEM_TYPE_FOLDER) {
+                listener.onFolderSelected(listItem.getItemId(), listItem.getTitle());
+            }
         });
     }
 

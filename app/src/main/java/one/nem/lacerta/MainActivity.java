@@ -71,8 +71,37 @@ public class MainActivity extends AppCompatActivity {
         // Set status bar color
         getWindow().setStatusBarColor(ContextCompat.getColor(this, one.nem.lacerta.shared.ui.R.color.colorSurface));
 
+        // Set app bar color
+        AppBarLayout appBarLayout = findViewById(R.id.app_bar_layout);
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (Math.abs(verticalOffset) == appBarLayout.getTotalScrollRange()) {
+                    // Collapsed
+                    getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(), one.nem.lacerta.shared.ui.R.color.colorSecondaryContainer));
+                } else if (verticalOffset == 0) {
+                    // Expanded
+                    getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(), one.nem.lacerta.shared.ui.R.color.colorSurface));
+                } else {
+                    // Somewhere in between
+                    // Here you can add a color transition if you want
+                }
+            }
+        });
+
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
     }
 
+    // Public
+    public void setActionBarTitle(String title) {
+        getSupportActionBar().setTitle(title);
+    }
+
+    public void setActionBarBackButton(boolean isEnabled) {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(isEnabled);
+    }
 
     private void initializeApp() {
         Log.d("Init", "Initializing app");
@@ -87,5 +116,13 @@ public class MainActivity extends AppCompatActivity {
     private void applyFeatureSwitch(BottomNavigationView bottomNavigationView, FeatureSwitchOverride featureSwitchOverride, boolean defaultValue, int menuId) {
         boolean isEnabled = FeatureSwitch.Meta.canOverrideSwitch ? sharedPrefUtils.getFeatureSwitchOverride(featureSwitchOverride) : defaultValue;
         if (!isEnabled) bottomNavigationView.getMenu().removeItem(menuId);
+    }
+
+    @Override
+    public void navigateToFragment(Fragment fragment) {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.nav_host_fragment, fragment)
+                .addToBackStack(null)
+                .commit();
     }
 }

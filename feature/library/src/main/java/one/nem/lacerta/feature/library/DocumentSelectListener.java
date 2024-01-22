@@ -1,5 +1,6 @@
 package one.nem.lacerta.feature.library;
 
 public interface DocumentSelectListener {
-    void onDocumentSelect(String documentId);
+    void onFolderSelected(String folderId, String folderName);
+    void onDocumentSelected(String documentId, String documentName);
 }
