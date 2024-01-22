@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
@@ -139,5 +140,56 @@ public class LacertaLibraryImpl implements LacertaLibrary {
             database.folderDao().insert(folderEntity);
             return folderEntity.id;
         });
+    }
+
+    @Override
+    public CompletableFuture<PublicPath> getPublicPath(String itemId, ListItemType itemType) {
+        return CompletableFuture.supplyAsync(() -> {
+            if (itemType == ListItemType.ITEM_TYPE_DOCUMENT) {
+                DocumentEntity documentEntity = database.documentDao().findById(itemId);
+                if (documentEntity == null) {
+                    return null;
+                }
+                return new PublicPath().resolve(documentEntity.publicPath);
+            } else if (itemType == ListItemType.ITEM_TYPE_FOLDER) {
+                FolderEntity folderEntity = database.folderDao().findById(itemId);
+                if (folderEntity == null) {
+                    return null;
+                }
+                return new PublicPath().resolve(folderEntity.publicPath);
+            } else {
+                return null;
+            }
+        });
+    }
+
+    /**
+     * 再帰的にパスを解決する
+     *
+     * @param folderId
+     * @return
+     */
+    private PublicPath recursiveResolve(String folderId) {
+        String current = folderId;
+        boolean continueFlag = true;
+        ArrayList<String> folderNames = new ArrayList<>();
+        while (continueFlag) {
+            FolderEntity folderEntity = database.folderDao().findById(current);
+            if (folderEntity == null) { // 存在しないフォルダIDが指定された場合
+                continueFlag = false;
+            } else {
+                folderNames.add(folderEntity.name);
+                current = folderEntity.parentId;
+                if (current == null) { // ルートフォルダに到達した場合
+                    continueFlag = false;
+                }
+            }
+        }
+
+        // フォルダ名を逆順にしてListに変換
+        Collections.reverse(folderNames);
+        List<String> folderNamesReversed = new ArrayList<>(folderNames);
+
+        return new PublicPath(folderNamesReversed);
     }
 }
