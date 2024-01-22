@@ -72,6 +72,8 @@ public class LibraryTopFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_library_top, container, false);
 
+        setHasOptionsMenu(true);
+
         return view;
     }
 
@@ -94,5 +96,11 @@ public class LibraryTopFragment extends Fragment {
                 listItemAdapter.notifyItemRangeInserted(0, libraryItemPage.getListItems().size() - 1);
             });
         });
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.dir_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 }
