@@ -1,5 +1,6 @@
 package one.nem.lacerta.component.viewer;
 
+import android.app.AlertDialog;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 
@@ -124,6 +125,49 @@ public class ComponentViewerTopFragment extends Fragment {
                     getParentFragmentManager().beginTransaction()
                             .replace(R.id.nav_host_fragment, ViewerVcsRevListFragment.newInstance(documentId))
                             .commit();
+                    return true;
+                } else if (item.getItemId() == R.id.action_rename) {
+                    // TODO-rca: デザインをMaterial Design 3に合わせたカスタムダイアログにする
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setTitle("ファイル名の変更");
+                    builder.setMessage("ファイル名を入力してください");
+                    final android.widget.EditText input = new android.widget.EditText(getContext());
+                    input.setText(documentName);
+                    builder.setView(input);
+                    builder.setPositiveButton("作成", (dialog, which) -> {
+                        document.renameDocument(documentId, input.getText().toString()).thenAccept(aVoid -> {
+                            getActivity().runOnUiThread(() -> {
+                                toolbar.setTitle(input.getText().toString());
+                                documentName = input.getText().toString();
+                            });
+                        });
+                    });
+                    builder.setNegativeButton("キャンセル", (dialog, which) -> {
+                        dialog.cancel();
+                    });
+                    builder.show();
+
+                    return true;
+                } else if (item.getItemId() == R.id.action_delete) {
+                    // TODO-rca: デザインをMaterial Design 3に合わせたカスタムダイアログにする
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setTitle("ファイルの削除");
+                    builder.setMessage("ファイルを削除しますか？");
+                    builder.setPositiveButton("削除", (dialog, which) -> {
+                        document.deleteDocument(documentId).thenAccept(aVoid -> {
+                            getActivity().runOnUiThread(() -> {
+                                // Stop Activity
+                                getActivity().finish();
+                            });
+                        });
+                    });
+                    builder.setNegativeButton("キャンセル", (dialog, which) -> {
+                        dialog.cancel();
+                    });
+                    builder.show();
+                    return true;
+                } else if (item.getItemId() == R.id.action_move) {
+                    Toast.makeText(getContext(), "Work in progress", Toast.LENGTH_SHORT).show();
                     return true;
                 } else {
                     return false;
