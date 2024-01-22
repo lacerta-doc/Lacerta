@@ -19,6 +19,14 @@
     <string name="setting_top_scan_title">スキャン</string>
     <string name="setting_top_scan_description">画質, 保存先</string>
 
+    <string name="setting_scan_quality_title">画質</string>
+    <string name="setting_scan_quality_png_quality_title">PNG画質</string>
+    <string name="setting_scan_quality_png_quality_description">PNG画質を設定します. 画質が高いほどファイルサイズが大きくなります.</string>
+
+    <string name="setting_scan_default_title">保存先</string>
+    <string name="setting_scan_default_document_name">新規ドキュメントのデフォルトタイトル</string>
+    <string name="setting_scan_default_folder_name">新規フォルダのデフォルト名</string>
+
     <string name="setting_top_display_title">表示</string>
     <string name="setting_top_display_description">テーマ, フォントサイズ</string>
 

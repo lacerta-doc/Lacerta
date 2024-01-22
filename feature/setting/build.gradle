@@ -45,4 +45,8 @@ dependencies {
     // shared
     implementation project(':shared:ui')
 
+    // https://mvnrepository.com/artifact/androidx.preference/preference
+    implementation 'androidx.preference:preference:1.2.1'
+
+
 }
