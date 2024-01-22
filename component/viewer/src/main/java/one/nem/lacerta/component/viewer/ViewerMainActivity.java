@@ -35,6 +35,7 @@ public class ViewerMainActivity extends AppCompatActivity {
     // Variables
     private static final String TAG = "ViewerMainActivity";
     String documentId;
+    String documentName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,7 @@ public class ViewerMainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         try {
             documentId = intent.getStringExtra("documentId");
+            documentName = intent.getStringExtra("documentName");
         }
         catch (Exception e) {
             logger.error(TAG, "Failed to get documentId from intent");
@@ -60,7 +62,7 @@ public class ViewerMainActivity extends AppCompatActivity {
 
         // Navigation
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.nav_host_fragment, ComponentViewerTopFragment.newInstance(documentId))
+                .replace(R.id.nav_host_fragment, ComponentViewerTopFragment.newInstance(documentId, documentName))
                 .commit();
     }
 }
