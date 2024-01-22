@@ -1,6 +1,7 @@
 package one.nem.lacerta;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import one.nem.lacerta.model.pref.FeatureSwitchOverride;
 import one.nem.lacerta.utils.FeatureSwitch;
 
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
@@ -68,6 +70,40 @@ public class MainActivity extends AppCompatActivity {
 
         // Set status bar color
         getWindow().setStatusBarColor(ContextCompat.getColor(this, one.nem.lacerta.shared.ui.R.color.colorSurface));
+
+        // Set app bar color
+        AppBarLayout appBarLayout = findViewById(R.id.app_bar_layout);
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (Math.abs(verticalOffset) == appBarLayout.getTotalScrollRange()) {
+                    // Collapsed
+                    getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(), one.nem.lacerta.shared.ui.R.color.colorSecondaryContainer));
+                } else if (verticalOffset == 0) {
+                    // Expanded
+                    getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(), one.nem.lacerta.shared.ui.R.color.colorSurface));
+                } else {
+                    // Somewhere in between
+                    // Here you can add a color transition if you want
+                }
+            }
+        });
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+    }
+
+    // Public
+    public void setActionBarTitle(String title) {
+        getSupportActionBar().setTitle(title);
+    }
+
+    public void setActionBarBackButton(boolean isEnabled) {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(isEnabled);
+    }
+
+    public void setActionBarMenuItem(int itemId, boolean isEnabled) {
+
     }
 
     private void initializeApp() {

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -70,6 +71,7 @@ public class HomeTopFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home_top, container, false);
 
+        setHasOptionsMenu(true);
         return view;
     }
 
@@ -95,32 +97,12 @@ public class HomeTopFragment extends Fragment {
                 listItemAdapter.notifyItemRangeInserted(0, listItems.size());
             });
         });
+    }
 
-        CollapsingToolbarLayout collapsingToolbarLayout = view.findViewById(R.id.collapsing_toolbar);
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
-
-        // Set the Toolbar
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-
-        // Set the title of the CollapsingToolbarLayout
-        collapsingToolbarLayout.setTitle("Lacerta");
-
-        AppBarLayout appBarLayout = view.findViewById(R.id.app_bar_layout);
-        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (Math.abs(verticalOffset) == appBarLayout.getTotalScrollRange()) {
-                    // Collapsed
-                    getActivity().getWindow().setStatusBarColor(ContextCompat.getColor(getActivity(), one.nem.lacerta.shared.ui.R.color.colorSecondaryContainer));
-                } else if (verticalOffset == 0) {
-                    // Expanded
-                    getActivity().getWindow().setStatusBarColor(ContextCompat.getColor(getActivity(), one.nem.lacerta.shared.ui.R.color.colorSurface));
-                } else {
-                    // Somewhere in between
-                    // Here you can add a color transition if you want
-                }
-            }
-        });
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.drawer_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 }
 
