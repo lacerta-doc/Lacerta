@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/component_viewer_navigation"
     app:startDestination="@id/componentViewerTopFragment">
 
     <fragment
         android:id="@+id/componentViewerTopFragment"
         android:name="one.nem.lacerta.component.viewer.ComponentViewerTopFragment"
-        android:label="ComponentViewerTopFragment" />
+        android:label="ComponentViewerTopFragment" >
+        <action
+            android:id="@+id/action_componentViewerTopFragment_to_viewerVcsRevListFragment"
+            app:destination="@id/viewerVcsRevListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/viewerVcsRevListFragment"
+        android:name="one.nem.lacerta.component.viewer.ViewerVcsRevListFragment"
+        android:label="fragment_viewer_vcs_rev_list"
+        tools:layout="@layout/fragment_viewer_vcs_rev_list" />
 </navigation>

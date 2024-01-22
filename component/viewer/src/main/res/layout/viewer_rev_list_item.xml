@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/item_title"
+            android:id="@+id/rev_item_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="16sp"
@@ -26,7 +26,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/item_detail"
+            android:id="@+id/rev_item_detail"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="14sp"
@@ -34,10 +34,10 @@
             android:textColor="@color/colorOnSurfaceSecondary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/item_title" />
+            app:layout_constraintTop_toBottomOf="@+id/rev_item_title" />
 
         <TextView
-            android:id="@+id/item_rev_id"
+            android:id="@+id/rev_item_id"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="12sp"
@@ -45,7 +45,7 @@
             android:textColor="@color/colorOnSurfaceSecondary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/item_detail" />
+            app:layout_constraintTop_toBottomOf="@+id/rev_item_detail" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

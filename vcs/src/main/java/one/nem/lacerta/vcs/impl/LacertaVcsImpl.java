@@ -133,6 +133,7 @@ public class LacertaVcsImpl implements LacertaVcs {
             List<VcsRevEntity> vcsRevEntities = database.vcsRevDao().findByDocumentId(this.documentId);
             vcsRevEntities.forEach(vcsRevEntity -> {
                 VcsRevModel vcsRevModel = new VcsRevModel();
+                vcsRevModel.setId(vcsRevEntity.id);
                 vcsRevModel.setDocumentId(vcsRevEntity.documentId);
                 vcsRevModel.setBranchName(vcsRevEntity.branchName);
                 vcsRevModel.setCommitMessage(vcsRevEntity.commitMessage);
