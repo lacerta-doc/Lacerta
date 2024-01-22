@@ -20,7 +20,6 @@ import javax.xml.transform.stream.StreamResult;
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedInject;
 import one.nem.lacerta.source.file.FileManager;
-
 import one.nem.lacerta.utils.LacertaLogger;
 import one.nem.lacerta.utils.Store;
 
