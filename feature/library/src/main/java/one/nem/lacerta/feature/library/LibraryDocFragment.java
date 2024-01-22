@@ -1,7 +1,7 @@
 package one.nem.lacerta.feature.library;
 
 /*
-Unused
+Currently, this file is not used in the app.
  */
 
 import android.os.Bundle;
