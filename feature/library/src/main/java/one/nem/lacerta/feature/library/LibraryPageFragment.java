@@ -91,8 +91,6 @@ public class LibraryPageFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_library_top, container, false);
 
-        setHasOptionsMenu(true);
-
         return view;
     }
 
@@ -193,6 +191,7 @@ public class LibraryPageFragment extends Fragment {
     }
 
     private void createFolder() {
+        // TODO-rca: デザインをMaterial Design 3に合わせたカスタムダイアログにする
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("フォルダの作成");
         builder.setMessage("フォルダ名を入力してください");
@@ -211,40 +210,6 @@ public class LibraryPageFragment extends Fragment {
         });
         builder.show();
     }
-
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.dir_menu, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    // Selected
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.menu_item_create_new_folder) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            builder.setTitle("フォルダの作成");
-            builder.setMessage("フォルダ名を入力してください");
-            final android.widget.EditText input = new android.widget.EditText(getContext());
-            input.setText("フォルダ名");
-            builder.setView(input);
-            builder.setPositiveButton("作成", (dialog, which) -> {
-                lacertaLibrary.createFolder(null, input.getText().toString()).thenAccept(folderId -> {
-                    logger.debug("LibraryTopFragment", "folderId: " + folderId);
-                });
-                // Refresh
-                updateItem();
-            });
-            builder.setNegativeButton("キャンセル", (dialog, which) -> {
-                dialog.cancel();
-            });
-            builder.show();
-            return true;
-        } else {
-            return super.onOptionsItemSelected(item);
-        }
-    }
-
     private void updateItem() {
         lacertaLibrary.getLibraryPage(10).thenAccept(libraryItemPage -> {
             logger.debug("LibraryTopFragment", "Item selected! libraryItemPage.getListItems().size(): " + libraryItemPage.getListItems().size());
