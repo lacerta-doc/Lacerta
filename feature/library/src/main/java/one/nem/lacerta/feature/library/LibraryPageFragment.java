@@ -127,20 +127,20 @@ public class LibraryPageFragment extends Fragment {
         }
 
         if (this.folderId == null) { // Root
+            toolbarSetup(view.findViewById(R.id.library_toolbar), false, "ライブラリ", "Placeholder");
             lacertaLibrary.getLibraryPage(10).thenAccept(libraryItemPage -> {
                 logger.debug("LibraryTopFragment", "Item selected! libraryItemPage.getListItems().size(): " + libraryItemPage.getListItems().size());
                 listItemAdapter.setLibraryItemPage(libraryItemPage);
                 getActivity().runOnUiThread(() -> {
-                    toolbarSetup(view.findViewById(R.id.library_toolbar), false, "ライブラリ", "Placeholder");
                     listItemAdapter.notifyItemRangeInserted(0, libraryItemPage.getListItems().size() - 1);
                 });
                 this.currentTotalItemCount = libraryItemPage.getListItems().size();
             });
         } else { // Root以外
+            toolbarSetup(view.findViewById(R.id.library_toolbar), true, this.title, "Placeholder");
             lacertaLibrary.getLibraryPage(this.folderId, 10).thenAccept(libraryItemPage -> {
                 logger.debug("LibraryTopFragment", "Item selected! libraryItemPage.getListItems().size(): " + libraryItemPage.getListItems().size());
                 listItemAdapter.setLibraryItemPage(libraryItemPage);
-                toolbarSetup(view.findViewById(R.id.library_toolbar), true, libraryItemPage.getPageTitle(), "Placeholder");
                 getActivity().runOnUiThread(() -> {
                     listItemAdapter.notifyItemRangeInserted(0, libraryItemPage.getListItems().size() - 1);
                 });
