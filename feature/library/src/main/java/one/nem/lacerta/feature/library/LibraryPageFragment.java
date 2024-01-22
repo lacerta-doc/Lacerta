@@ -4,9 +4,6 @@ import android.app.AlertDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,37 +14,26 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
-
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
-import one.nem.lacerta.data.Document;
 import one.nem.lacerta.data.LacertaLibrary;
-import one.nem.lacerta.model.document.DocumentMeta;
-import one.nem.lacerta.model.document.tag.DocumentTag;
+import one.nem.lacerta.model.FragmentNavigation;
 import one.nem.lacerta.utils.LacertaLogger;
-import one.nem.lacerta.utils.TextInputDialog;
 
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link LibraryTopFragment#newInstance} factory method to
+ * Use the {@link LibraryPageFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 @AndroidEntryPoint
-public class LibraryTopFragment extends Fragment {
+public class LibraryPageFragment extends Fragment {
+
+    // Param
+    private String folderId;
 
     @Inject
     LacertaLibrary lacertaLibrary;
@@ -59,12 +45,21 @@ public class LibraryTopFragment extends Fragment {
 
     int currentTotalItemCount = 0;
 
-    public LibraryTopFragment() {
+    public LibraryPageFragment() {
         // Required empty public constructor
     }
-    public static LibraryTopFragment newInstance() {
-        LibraryTopFragment fragment = new LibraryTopFragment();
+    public static LibraryPageFragment newInstance(String folderId) {
+        LibraryPageFragment fragment = new LibraryPageFragment();
         Bundle args = new Bundle();
+        args.putString("folderId", folderId);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static LibraryPageFragment newInstance() {
+        LibraryPageFragment fragment = new LibraryPageFragment();
+        Bundle args = new Bundle();
+        args.putString("folderId", null);
         fragment.setArguments(args);
         return fragment;
     }
@@ -91,20 +86,55 @@ public class LibraryTopFragment extends Fragment {
 
         RecyclerView recyclerView = view.findViewById(R.id.library_item_recycler_view);
 
-        this.listItemAdapter = new ListItemAdapter(documentId -> {
-            Toast.makeText(getContext(), documentId, Toast.LENGTH_SHORT).show();
+        this.listItemAdapter = new ListItemAdapter(new DocumentSelectListener() {
+            @Override
+            public void onFolderSelected(String folderId, String folderName) {
+                logger.debug("LibraryTopFragment", "Folder selected! folderId: " + folderId + ", folderName: " + folderName);
+                // 画面遷移
+                FragmentNavigation fragmentNavigation = (FragmentNavigation) getActivity();
+                assert fragmentNavigation != null;
+                fragmentNavigation.navigateToFragment(LibraryPageFragment.newInstance(folderId));
+            }
+
+            @Override
+            public void onDocumentSelected(String documentId, String documentName) {
+                Toast.makeText(getContext(), "Document selected! documentId: " + documentId + ", documentName: " + documentName, Toast.LENGTH_SHORT).show();
+            }
         });
         recyclerView.setAdapter(listItemAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        lacertaLibrary.getLibraryPage(10).thenAccept(libraryItemPage -> {
-            logger.debug("LibraryTopFragment", "Item selected! libraryItemPage.getListItems().size(): " + libraryItemPage.getListItems().size());
-            listItemAdapter.setLibraryItemPage(libraryItemPage);
-            this.currentTotalItemCount = libraryItemPage.getListItems().size();
-            getActivity().runOnUiThread(() -> {
-                listItemAdapter.notifyItemRangeInserted(0, this.currentTotalItemCount - 1);
+        if (getArguments() != null) {
+            this.folderId = getArguments().getString("folderId");
+        }
+
+        if (this.folderId == null) { // Root
+            lacertaLibrary.getLibraryPage(10).thenAccept(libraryItemPage -> {
+                logger.debug("LibraryTopFragment", "Item selected! libraryItemPage.getListItems().size(): " + libraryItemPage.getListItems().size());
+                listItemAdapter.setLibraryItemPage(libraryItemPage);
+                getActivity().runOnUiThread(() -> {
+                    // ActionBarのタイトルを変更する
+                    getActivity().setTitle("ライブラリ");
+                    // ActionBarに戻るボタンを非表示にする
+//                    getActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
+                    listItemAdapter.notifyItemRangeInserted(0, libraryItemPage.getListItems().size() - 1);
+                });
+                this.currentTotalItemCount = libraryItemPage.getListItems().size();
             });
-        });
+        } else { // Root以外
+            lacertaLibrary.getLibraryPage(this.folderId, 10).thenAccept(libraryItemPage -> {
+                logger.debug("LibraryTopFragment", "Item selected! libraryItemPage.getListItems().size(): " + libraryItemPage.getListItems().size());
+                listItemAdapter.setLibraryItemPage(libraryItemPage);
+                getActivity().runOnUiThread(() -> {
+                    // ActionBarのタイトルを変更する
+                    getActivity().setTitle(libraryItemPage.getPageTitle());
+                    // ActionBarに戻るボタンを表示する
+//                    getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+                    listItemAdapter.notifyItemRangeInserted(0, libraryItemPage.getListItems().size() - 1);
+                });
+                this.currentTotalItemCount = libraryItemPage.getListItems().size();
+            });
+        }
     }
 
     @Override
