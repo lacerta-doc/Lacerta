@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -70,6 +71,7 @@ public class HomeTopFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home_top, container, false);
 
+        setHasOptionsMenu(true);
         return view;
     }
 
@@ -95,6 +97,12 @@ public class HomeTopFragment extends Fragment {
                 listItemAdapter.notifyItemRangeInserted(0, listItems.size());
             });
         });
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.drawer_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 }
 
