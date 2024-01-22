@@ -115,7 +115,8 @@ public class LibraryPageFragment extends Fragment {
                 Toast.makeText(getContext(), "Folder selected! folderId: " + folderId + ", folderName: " + folderName, Toast.LENGTH_SHORT).show();
                 FragmentNavigation fragmentNavigation = (FragmentNavigation) getActivity();
                 assert fragmentNavigation != null;
-                fragmentNavigation.navigateToFragment(LibraryPageFragment.newInstance(folderId, folderName, new PublicPath().parse(publicPath).resolve(folderName).getStringPath()));
+                logger.debug("LibraryTopFragment", "publicPath: " + publicPath);
+                fragmentNavigation.navigateToFragment(LibraryPageFragment.newInstance(folderId, folderName, publicPath == null ? new PublicPath().parse("/").resolve(folderName).getStringPath() : new PublicPath().parse(publicPath).resolve(folderName).getStringPath()));
             }
 
             @Override
