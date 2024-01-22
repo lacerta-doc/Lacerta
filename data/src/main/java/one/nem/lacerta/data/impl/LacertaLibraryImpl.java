@@ -157,12 +157,11 @@ public class LacertaLibraryImpl implements LacertaLibrary {
             } else {
                 publicPath = new PublicPath().resolve(parentFolderEntity.publicPath);
             }
-            publicPath = publicPath.resolve(name);
 
             FolderEntity folderEntity = new FolderEntity();
             folderEntity.id = UUID.randomUUID().toString();
             folderEntity.name = name;
-            folderEntity.publicPath = publicPath.toString();
+            folderEntity.publicPath = publicPath.getStringPath();
             database.folderDao().insert(folderEntity);
             return folderEntity.id;
         });
