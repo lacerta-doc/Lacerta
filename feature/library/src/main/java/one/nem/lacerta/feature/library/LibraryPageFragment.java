@@ -115,7 +115,7 @@ public class LibraryPageFragment extends Fragment {
                 Toast.makeText(getContext(), "Folder selected! folderId: " + folderId + ", folderName: " + folderName, Toast.LENGTH_SHORT).show();
                 FragmentNavigation fragmentNavigation = (FragmentNavigation) getActivity();
                 assert fragmentNavigation != null;
-                fragmentNavigation.navigateToFragment(LibraryPageFragment.newInstance(folderId, folderName, currentPublicPath.resolve(folderName).getStringPath()));
+                fragmentNavigation.navigateToFragment(LibraryPageFragment.newInstance(folderId, folderName, new PublicPath().parse(publicPath).resolve(folderName).getStringPath()));
             }
 
             @Override
@@ -140,8 +140,6 @@ public class LibraryPageFragment extends Fragment {
         if (this.folderId == null) { // Root
             toolbarSetup(view.findViewById(R.id.library_toolbar), false, "ライブラリ", "Placeholder");
             lacertaLibrary.getLibraryPage(10).thenAccept(libraryItemPage -> {
-                this.currentPublicPath = new PublicPath().resolve("/");
-                logger.debug("LibraryInit(ROOT)",currentPublicPath.getStringPath());
                 logger.debug("LibraryTopFragment", "Item selected! libraryItemPage.getListItems().size(): " + libraryItemPage.getListItems().size());
                 listItemAdapter.setLibraryItemPage(libraryItemPage);
                 getActivity().runOnUiThread(() -> {
@@ -152,8 +150,6 @@ public class LibraryPageFragment extends Fragment {
         } else { // Root以外
             toolbarSetup(view.findViewById(R.id.library_toolbar), true, this.title, "Placeholder");
             lacertaLibrary.getLibraryPage(this.folderId, 10).thenAccept(libraryItemPage -> {
-                this.currentPublicPath = new PublicPath().parse(this.publicPath);
-                logger.debug("LibraryInit(NON_ROOT)",currentPublicPath.getStringPath());
                 logger.debug("LibraryTopFragment", "Item selected! libraryItemPage.getListItems().size(): " + libraryItemPage.getListItems().size());
                 listItemAdapter.setLibraryItemPage(libraryItemPage);
                 getActivity().runOnUiThread(() -> {
@@ -189,6 +185,7 @@ public class LibraryPageFragment extends Fragment {
             if (showBackButton) {
                 toolbar.setNavigationIcon(one.nem.lacerta.shared.ui.R.drawable.arrow_back_24px);
                 toolbar.setNavigationOnClickListener(v -> {
+                    this.publicPath = new PublicPath().parse(this.publicPath).resolve("..").getStringPath();
                     getParentFragmentManager().popBackStack();
                 });
             } else {
@@ -216,7 +213,7 @@ public class LibraryPageFragment extends Fragment {
         input.setText("フォルダ名");
         builder.setView(input);
         builder.setPositiveButton("作成", (dialog, which) -> {
-            lacertaLibrary.createFolder(null, input.getText().toString()).thenAccept(folderId -> {
+            lacertaLibrary.createFolder(this.currentPublicPath.getStringPath(), input.getText().toString()).thenAccept(folderId -> {
                 logger.debug("LibraryTopFragment", "folderId: " + folderId);
             });
             // Refresh
