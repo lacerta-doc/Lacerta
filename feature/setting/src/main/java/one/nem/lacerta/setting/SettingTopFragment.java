@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.appbar.AppBarLayout;
+
 import java.util.ArrayList;
 
 import one.nem.lacerta.setting.model.SettingListItem;
@@ -86,6 +88,17 @@ public class SettingTopFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(new ListItemAdapter(settingListItems));
 
+        // Set status bar color
+        AppBarLayout appBarLayout = view.findViewById(R.id.app_bar_layout);
+        appBarLayout.addOnOffsetChangedListener((appBarLayout1, verticalOffset) -> {
+            if (Math.abs(verticalOffset) == appBarLayout1.getTotalScrollRange()) {
+                // Collapsed
+                getActivity().getWindow().setStatusBarColor(ContextCompat.getColor(getContext(), one.nem.lacerta.shared.ui.R.color.colorSecondaryContainer));
+            } else if (verticalOffset == 0) {
+                // Expanded
+                getActivity().getWindow().setStatusBarColor(ContextCompat.getColor(getContext(), one.nem.lacerta.shared.ui.R.color.colorSurface));
+            }
+        });
         return view;
     }
 }

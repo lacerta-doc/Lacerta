@@ -11,6 +11,7 @@ public class FeatureSwitch {
     }
 
     public static class Viewer {
+        // TODO-rca: 実装
         public static boolean showOriginalImage = false;
         public static int maxImageSize = 1024;
         public static boolean showProgressBarWhenLoading = true;
@@ -18,7 +19,7 @@ public class FeatureSwitch {
 
     public static class FeatureMaster {
         public static boolean enableSearch = false;
-        public static boolean enableDebugMenu = true;
+        public static boolean enableDebugMenu = false;
     }
 
     public static class Vcs {
@@ -26,6 +27,7 @@ public class FeatureSwitch {
     }
 
     public static class Setting {
+        // TODO-rca: 実装
         public static boolean showDisplayMenu = false;
         public static boolean showDataMenu = false;
         public static boolean showScanMenu = false;
