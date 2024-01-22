@@ -1,6 +1,7 @@
 package one.nem.lacerta.feature.library;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -35,6 +36,7 @@ import java.util.Objects;
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
+import one.nem.lacerta.component.viewer.ViewerMainActivity;
 import one.nem.lacerta.data.Document;
 import one.nem.lacerta.data.LacertaLibrary;
 import one.nem.lacerta.model.FragmentNavigation;
@@ -179,7 +181,11 @@ public class LibraryPageFragment extends Fragment {
 
             @Override
             public void onDocumentSelected(String documentId, String documentName) {
-                Toast.makeText(getContext(), "Document selected! documentId: " + documentId + ", documentName: " + documentName, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getContext(), ViewerMainActivity.class);
+                logger.debug("LibraryTopFragment", "Document selected! documentId: " + documentId + ", documentName: " + documentName);
+                intent.putExtra("documentId", documentId);
+                intent.putExtra("documentName", documentName);
+                startActivity(intent);
             }
         });
 
