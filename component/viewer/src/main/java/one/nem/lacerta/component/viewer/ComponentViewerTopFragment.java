@@ -63,7 +63,7 @@ public class ComponentViewerTopFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             documentId = getArguments().getString("documentId");
-            String documentName = getArguments().getString("documentName");
+            documentName = getArguments().getString("documentName");
         }
     }
 

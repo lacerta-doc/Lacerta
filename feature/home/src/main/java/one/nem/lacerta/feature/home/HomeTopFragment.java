@@ -85,11 +85,15 @@ public class HomeTopFragment extends Fragment {
         Toolbar toolbar = view.findViewById(R.id.home_toolbar);
         toolbarSetup(toolbar, false, "ホーム");
 
-        ListItemAdapter listItemAdapter = new ListItemAdapter(documentId -> {
-            Log.d("HomeTopFragment", "onViewCreated: " + documentId);
-            Intent intent = new Intent(getContext(), ViewerMainActivity.class);
-            intent.putExtra("documentId", documentId);
-            startActivity(intent);
+        ListItemAdapter listItemAdapter = new ListItemAdapter(new DocumentSelectListener() {
+            @Override
+            public void onDocumentSelect(String documentId, String documentName) {
+                Intent intent = new Intent(getContext(), ViewerMainActivity.class);
+                Log.d("HomeTopFragment", "onDocumentSelect: " + documentId + " " + documentName);
+                intent.putExtra("documentId", documentId);
+                intent.putExtra("documentName", documentName);
+                startActivity(intent);
+            }
         });
         recyclerView.setAdapter(listItemAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
