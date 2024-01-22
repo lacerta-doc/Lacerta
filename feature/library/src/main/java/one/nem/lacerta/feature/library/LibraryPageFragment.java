@@ -63,6 +63,7 @@ public class LibraryPageFragment extends Fragment {
     public LibraryPageFragment() {
         // Required empty public constructor
     }
+
     public static LibraryPageFragment newInstance(String folderId) {
         LibraryPageFragment fragment = new LibraryPageFragment();
         Bundle args = new Bundle();
@@ -169,6 +170,49 @@ public class LibraryPageFragment extends Fragment {
                 }
             }
         });
+
+    }
+
+    private void toolbarSetup(Toolbar toolbar, boolean showBackButton, String title, String subtitle) {
+        if (showBackButton) {
+            toolbar.setNavigationIcon(one.nem.lacerta.shared.ui.R.drawable.arrow_back_24px);
+            toolbar.setNavigationOnClickListener(v -> {
+                getParentFragmentManager().popBackStack();
+            });
+        } else {
+            toolbar.setNavigationIcon(null);
+        }
+        toolbar.setTitle(title);
+        if (subtitle != null) toolbar.setSubtitle(subtitle);
+        toolbar.inflateMenu(R.menu.dir_menu);
+        toolbar.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.menu_item_create_new_folder) {
+                createFolder();
+                return true;
+            } else {
+                return false;
+            }
+        });
+    }
+
+    private void createFolder() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("フォルダの作成");
+        builder.setMessage("フォルダ名を入力してください");
+        final android.widget.EditText input = new android.widget.EditText(getContext());
+        input.setText("フォルダ名");
+        builder.setView(input);
+        builder.setPositiveButton("作成", (dialog, which) -> {
+            lacertaLibrary.createFolder(null, input.getText().toString()).thenAccept(folderId -> {
+                logger.debug("LibraryTopFragment", "folderId: " + folderId);
+            });
+            // Refresh
+            updateItem();
+        });
+        builder.setNegativeButton("キャンセル", (dialog, which) -> {
+            dialog.cancel();
+        });
+        builder.show();
     }
 
     @Override
