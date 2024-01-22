@@ -94,31 +94,5 @@ public class LibraryTopFragment extends Fragment {
                 listItemAdapter.notifyItemRangeInserted(0, libraryItemPage.getListItems().size() - 1);
             });
         });
-
-        CollapsingToolbarLayout collapsingToolbarLayout = view.findViewById(R.id.collapsing_toolbar);
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
-
-        // Set the Toolbar
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-
-        // Set the title of the CollapsingToolbarLayout
-        collapsingToolbarLayout.setTitle("Library");
-
-        AppBarLayout appBarLayout = view.findViewById(R.id.app_bar_layout);
-        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (Math.abs(verticalOffset) == appBarLayout.getTotalScrollRange()) {
-                    // Collapsed
-                    getActivity().getWindow().setStatusBarColor(ContextCompat.getColor(getActivity(), one.nem.lacerta.shared.ui.R.color.colorSecondaryContainer));
-                } else if (verticalOffset == 0) {
-                    // Expanded
-                    getActivity().getWindow().setStatusBarColor(ContextCompat.getColor(getActivity(), one.nem.lacerta.shared.ui.R.color.colorSurface));
-                } else {
-                    // Somewhere in between
-                    // Here you can add a color transition if you want
-                }
-            }
-        });
     }
 }
