@@ -121,7 +121,7 @@ public class ScannerManagerActivity extends AppCompatActivity {
             return true;
         } else if (item.getItemId() == R.id.action_insert_exist) {
             // 既存ドキュメントに挿入
-            Toast.makeText(this, "挿入処理", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Work in progress", Toast.LENGTH_SHORT).show();
             insertToExistDocument();
             return true;
         } else if (item.getItemId() == android.R.id.home) {
@@ -139,7 +139,6 @@ public class ScannerManagerActivity extends AppCompatActivity {
             if (this.croppedImages.isEmpty()) {
                 logger.debug(TAG, "this.resultImages is empty");
                 logger.e_code("7cb0584e-74ef-48ec-848a-c4d14e75e15a");
-                // TODO-rca: なんかする
             } else {
                 logger.debug(TAG, "this.resultImages is not empty");
                 updateResultView(this.croppedImages);
