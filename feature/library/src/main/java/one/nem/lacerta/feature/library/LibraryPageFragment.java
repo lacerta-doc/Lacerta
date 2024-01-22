@@ -150,6 +150,25 @@ public class LibraryPageFragment extends Fragment {
                 this.currentTotalItemCount = libraryItemPage.getListItems().size();
             });
         }
+
+
+        // Set status bar color
+        AppBarLayout appBarLayout = view.findViewById(R.id.app_bar_layout);
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (Math.abs(verticalOffset) == appBarLayout.getTotalScrollRange()) {
+                    // Collapsed
+                    getActivity().getWindow().setStatusBarColor(ContextCompat.getColor(getContext(), one.nem.lacerta.shared.ui.R.color.colorSecondaryContainer));
+                } else if (verticalOffset == 0) {
+                    // Expanded
+                    getActivity().getWindow().setStatusBarColor(ContextCompat.getColor(getContext(), one.nem.lacerta.shared.ui.R.color.colorSurface));
+                } else {
+                    // Somewhere in between
+                    // Here you can add a color transition if you want
+                }
+            }
+        });
     }
 
     @Override
