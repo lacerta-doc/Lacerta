@@ -20,6 +20,7 @@ import one.nem.lacerta.source.database.LacertaDatabase;
 import one.nem.lacerta.source.database.common.DateTypeConverter;
 import one.nem.lacerta.source.database.entity.DocumentEntity;
 import one.nem.lacerta.source.database.entity.FolderEntity;
+import one.nem.lacerta.utils.FeatureSwitch;
 import one.nem.lacerta.utils.LacertaLogger;
 
 public class LacertaLibraryImpl implements LacertaLibrary {
@@ -71,18 +72,13 @@ public class LacertaLibraryImpl implements LacertaLibrary {
 
             FolderEntity folderEntity = database.folderDao().findById(pageId);
             if (folderEntity == null) {
+                logger.warn("LacertaLibraryImpl", pageId + " is not found.");
                 return null;
             }
 
-            PublicPath publicPath = new PublicPath().parse(folderEntity.publicPath);
-
-            String resolvedPublicPath = publicPath.resolve(folderEntity.name).getStringPath();
-
-            logger.debug("LacertaLibraryImpl", "Resolved publicPath: " + resolvedPublicPath);
-
-            List<FolderEntity> folderEntities = getFolderEntitiesByPublicPath(resolvedPublicPath).join();
+            List<FolderEntity> folderEntities = database.folderDao().findByParentId(pageId);
             logger.debug("LacertaLibraryImpl", "folderEntities.size(): " + folderEntities.size());
-            List<DocumentEntity> documentEntities = getDocumentEntitiesByPublicPath(resolvedPublicPath).join();
+            List<DocumentEntity> documentEntities = database.documentDao().findByParentId(pageId);
             logger.debug("LacertaLibraryImpl", "documentEntities.size(): " + documentEntities.size());
 
             ArrayList<ListItem> listItems = new ArrayList<>();
@@ -108,6 +104,7 @@ public class LacertaLibraryImpl implements LacertaLibrary {
 
             libraryItemPage.setPageTitle(folderEntity.name);
             libraryItemPage.setPageId(folderEntity.id);
+            libraryItemPage.setParentId(folderEntity.parentId);
             libraryItemPage.setListItems(listItems);
 
             logger.debug("LacertaLibraryImpl", "libraryItemPage.getListItems().size(): " + libraryItemPage.getListItems().size());
