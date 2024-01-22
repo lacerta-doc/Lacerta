@@ -107,6 +107,7 @@ public class LibraryPageFragment extends Fragment {
             public void onFolderSelected(String folderId, String folderName) {
                 logger.debug("LibraryTopFragment", "Folder selected! folderId: " + folderId + ", folderName: " + folderName);
                 // 画面遷移
+                Toast.makeText(getContext(), "Folder selected! folderId: " + folderId + ", folderName: " + folderName, Toast.LENGTH_SHORT).show();
                 FragmentNavigation fragmentNavigation = (FragmentNavigation) getActivity();
                 assert fragmentNavigation != null;
                 fragmentNavigation.navigateToFragment(LibraryPageFragment.newInstance(folderId));
@@ -129,10 +130,7 @@ public class LibraryPageFragment extends Fragment {
                 logger.debug("LibraryTopFragment", "Item selected! libraryItemPage.getListItems().size(): " + libraryItemPage.getListItems().size());
                 listItemAdapter.setLibraryItemPage(libraryItemPage);
                 getActivity().runOnUiThread(() -> {
-                    // ActionBarのタイトルを変更する
-                    getActivity().setTitle("ライブラリ");
-                    // ActionBarに戻るボタンを非表示にする
-//                    getActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
+                    toolbarSetup(view.findViewById(R.id.library_toolbar), false, "ライブラリ", "Placeholder");
                     listItemAdapter.notifyItemRangeInserted(0, libraryItemPage.getListItems().size() - 1);
                 });
                 this.currentTotalItemCount = libraryItemPage.getListItems().size();
@@ -141,11 +139,8 @@ public class LibraryPageFragment extends Fragment {
             lacertaLibrary.getLibraryPage(this.folderId, 10).thenAccept(libraryItemPage -> {
                 logger.debug("LibraryTopFragment", "Item selected! libraryItemPage.getListItems().size(): " + libraryItemPage.getListItems().size());
                 listItemAdapter.setLibraryItemPage(libraryItemPage);
+                toolbarSetup(view.findViewById(R.id.library_toolbar), true, libraryItemPage.getPageTitle(), "Placeholder");
                 getActivity().runOnUiThread(() -> {
-                    // ActionBarのタイトルを変更する
-                    getActivity().setTitle(libraryItemPage.getPageTitle());
-                    // ActionBarに戻るボタンを表示する
-//                    getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
                     listItemAdapter.notifyItemRangeInserted(0, libraryItemPage.getListItems().size() - 1);
                 });
                 this.currentTotalItemCount = libraryItemPage.getListItems().size();
@@ -174,24 +169,26 @@ public class LibraryPageFragment extends Fragment {
     }
 
     private void toolbarSetup(Toolbar toolbar, boolean showBackButton, String title, String subtitle) {
-        if (showBackButton) {
-            toolbar.setNavigationIcon(one.nem.lacerta.shared.ui.R.drawable.arrow_back_24px);
-            toolbar.setNavigationOnClickListener(v -> {
-                getParentFragmentManager().popBackStack();
-            });
-        } else {
-            toolbar.setNavigationIcon(null);
-        }
-        toolbar.setTitle(title);
-        if (subtitle != null) toolbar.setSubtitle(subtitle);
-        toolbar.inflateMenu(R.menu.dir_menu);
-        toolbar.setOnMenuItemClickListener(item -> {
-            if (item.getItemId() == R.id.menu_item_create_new_folder) {
-                createFolder();
-                return true;
+        getActivity().runOnUiThread(() -> {
+            if (showBackButton) {
+                toolbar.setNavigationIcon(one.nem.lacerta.shared.ui.R.drawable.arrow_back_24px);
+                toolbar.setNavigationOnClickListener(v -> {
+                    getParentFragmentManager().popBackStack();
+                });
             } else {
-                return false;
+                toolbar.setNavigationIcon(null);
             }
+            toolbar.setTitle(title);
+            if (subtitle != null) toolbar.setSubtitle(subtitle);
+            toolbar.inflateMenu(R.menu.dir_menu);
+            toolbar.setOnMenuItemClickListener(item -> {
+                if (item.getItemId() == R.id.menu_item_create_new_folder) {
+                    createFolder();
+                    return true;
+                } else {
+                    return false;
+                }
+            });
         });
     }
 
