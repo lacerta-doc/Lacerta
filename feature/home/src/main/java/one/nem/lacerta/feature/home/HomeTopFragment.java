@@ -51,6 +51,8 @@ public class HomeTopFragment extends Fragment {
     @Inject
     LacertaLibrary lacertaLibrary;
 
+    private ListItemAdapter listItemAdapter;
+
     public HomeTopFragment() {
         // Required empty public constructor
     }
@@ -85,7 +87,7 @@ public class HomeTopFragment extends Fragment {
         Toolbar toolbar = view.findViewById(R.id.home_toolbar);
         toolbarSetup(toolbar, false, "ホーム");
 
-        ListItemAdapter listItemAdapter = new ListItemAdapter(new DocumentSelectListener() {
+        this.listItemAdapter = new ListItemAdapter(new DocumentSelectListener() {
             @Override
             public void onDocumentSelect(String documentId, String documentName) {
                 Intent intent = new Intent(getContext(), ViewerMainActivity.class);
@@ -98,18 +100,29 @@ public class HomeTopFragment extends Fragment {
         recyclerView.setAdapter(listItemAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        updateList();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        updateList();
+    }
+
+    private void updateList() {
         lacertaLibrary.getRecentDocument(10).thenAccept(listItems -> {
             if (listItems == null) {
                 return;
             }
-            listItemAdapter.setListItems(listItems);
+            this.listItemAdapter.setListItems(listItems);
             getActivity().runOnUiThread(() -> {
                 Log.d("HomeTopFragment", "onViewCreated: " + listItems.size());
                 if (FeatureSwitch.RecyclerView.useSimpleNotifyMethod) {
-                    listItemAdapter.notifyDataSetChanged();
+                    this.listItemAdapter.notifyDataSetChanged();
                 } else {
                     // IndexOutOfBoundsExceptionを吐くことがあったので いったん
-                    listItemAdapter.notifyItemRangeInserted(0, listItems.size() - 1);
+                    this.listItemAdapter.notifyItemRangeInserted(0, listItems.size() - 1);
                 }
             });
         });
