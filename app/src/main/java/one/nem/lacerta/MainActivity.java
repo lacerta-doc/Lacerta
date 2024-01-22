@@ -106,11 +106,11 @@ public class MainActivity extends AppCompatActivity {
         if (!isEnabled) bottomNavigationView.getMenu().removeItem(menuId);
     }
 
-    @Override
-    public void navigateToFragment(Fragment fragment) {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.nav_host_fragment, fragment)
-                .addToBackStack(null)
-                .commit();
-    }
+//    @Override
+//    public void navigateToFragment(Fragment fragment) {
+//        getSupportFragmentManager().beginTransaction()
+//                .replace(R.id.nav_host_fragment, fragment)
+//                .addToBackStack(null)
+//                .commit();
+//    }
 }
