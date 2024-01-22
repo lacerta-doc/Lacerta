@@ -29,6 +29,7 @@ public class PublicPath {
     private void resolveInternal(String path) {
         if (path.startsWith("/")) {
             this.path.clear();
+            this.path.add("/");
         } else {
             if (path.equals("..")) {
                 this.path.remove(this.path.size() - 1);
