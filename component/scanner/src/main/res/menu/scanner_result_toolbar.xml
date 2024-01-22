@@ -6,9 +6,9 @@
         android:icon="@drawable/save_24px"
         android:title="Save"
         app:showAsAction="ifRoom"/>
-    <item
-        android:id="@+id/action_insert_exist"
-        android:icon="@drawable/ic_baseline_add_24"
-        android:title="Save"
-        app:showAsAction="ifRoom"/>
+<!--    <item-->
+<!--        android:id="@+id/action_insert_exist"-->
+<!--        android:icon="@drawable/description_24px"-->
+<!--        android:title="Insert"-->
+<!--        app:showAsAction="ifRoom"/>-->
 </menu>

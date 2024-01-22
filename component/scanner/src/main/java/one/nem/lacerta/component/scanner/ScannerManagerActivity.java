@@ -1,6 +1,8 @@
 package one.nem.lacerta.component.scanner;
 
+import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -11,6 +13,8 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -92,6 +96,14 @@ public class ScannerManagerActivity extends AppCompatActivity {
             return insets;
         });
 
+
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 1); // TODO-rca: リクエストコードを定数にする
+        }
+
+
         MaterialToolbar toolbar = findViewById(R.id.top_toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -116,11 +128,12 @@ public class ScannerManagerActivity extends AppCompatActivity {
             Toast.makeText(this, "保存処理", Toast.LENGTH_SHORT).show();
             saveNewDocument();
             return true;
-        } else if (item.getItemId() == R.id.action_insert_exist) {
-            // 既存ドキュメントに挿入
-            Toast.makeText(this, "Work in progress", Toast.LENGTH_SHORT).show();
-            insertToExistDocument();
-            return true;
+//        }
+//        else if (item.getItemId() == R.id.action_insert_exist) {
+//            // 既存ドキュメントに挿入
+//            Toast.makeText(this, "Work in progress", Toast.LENGTH_SHORT).show();
+//            insertToExistDocument();
+//            return true;
         } else if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
