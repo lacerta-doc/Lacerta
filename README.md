@@ -1,5 +1,6 @@
 # Lacerta
 学習に便利な機能とGit-like VCSを持ったドキュメントスキャナ (Work In Progress)
+(グループワーク)
 
 ## モジュール設計
 ![Untitled Diagram(2)(1) drawio(1)](https://github.com/lacerta-doc/Lacerta/assets/66072112/f9b9c40f-bed0-4ade-95c1-50e28df68f35)
