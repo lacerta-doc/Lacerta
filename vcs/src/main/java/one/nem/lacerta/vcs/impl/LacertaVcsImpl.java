@@ -3,11 +3,13 @@ package one.nem.lacerta.vcs.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 import javax.inject.Inject;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedInject;
+import one.nem.lacerta.model.VcsRevModel;
 import one.nem.lacerta.source.database.LacertaDatabase;
 import one.nem.lacerta.source.database.entity.VcsLogEntity;
 import one.nem.lacerta.source.database.entity.VcsRevEntity;
@@ -120,6 +122,26 @@ public class LacertaVcsImpl implements LacertaVcs {
 
         logger.debug(TAG, "generateRevisionAtCurrent finished");
         logger.debug(TAG, "New revision inserted: " + vcsRevEntity.id);
+    }
+
+    @Override
+    public CompletableFuture<ArrayList<VcsRevModel>> getRevisionHistoryByDocumentId(String documentId) {
+        return CompletableFuture.supplyAsync(() -> {
+            logger.debug(TAG, "getRevisionHistoryByDocumentId");
+            ArrayList<VcsRevModel> vcsRevModels = new ArrayList<>();
+
+            List<VcsRevEntity> vcsRevEntities = database.vcsRevDao().findByDocumentId(documentId);
+            vcsRevEntities.forEach(vcsRevEntity -> {
+                VcsRevModel vcsRevModel = new VcsRevModel();
+                vcsRevModel.setDocumentId(vcsRevEntity.documentId);
+                vcsRevModel.setBranchName(vcsRevEntity.branchName);
+                vcsRevModel.setCommitMessage(vcsRevEntity.commitMessage);
+                vcsRevModel.setLogIds(vcsRevEntity.logIds);
+                vcsRevModels.add(vcsRevModel);
+            });
+
+            return vcsRevModels;
+        });
     }
 
     @Override
