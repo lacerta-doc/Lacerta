@@ -71,24 +71,6 @@ public class MainActivity extends AppCompatActivity {
         // Set status bar color
         getWindow().setStatusBarColor(ContextCompat.getColor(this, one.nem.lacerta.shared.ui.R.color.colorSurface));
 
-        // Set app bar color
-        AppBarLayout appBarLayout = findViewById(R.id.app_bar_layout);
-        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (Math.abs(verticalOffset) == appBarLayout.getTotalScrollRange()) {
-                    // Collapsed
-                    getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(), one.nem.lacerta.shared.ui.R.color.colorSecondaryContainer));
-                } else if (verticalOffset == 0) {
-                    // Expanded
-                    getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(), one.nem.lacerta.shared.ui.R.color.colorSurface));
-                } else {
-                    // Somewhere in between
-                    // Here you can add a color transition if you want
-                }
-            }
-        });
-
     }
 
 
