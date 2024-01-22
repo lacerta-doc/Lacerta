@@ -16,7 +16,7 @@ public class FolderEntity {
     @ColumnInfo(name = "title")
     public String name; // フォルダ名
 
-    @ColumnInfo(name = "public_path")
-    public String publicPath; // 公開パス
+    @ColumnInfo(name = "parent_id")
+    public String parentId; // 親フォルダID
 
 }
