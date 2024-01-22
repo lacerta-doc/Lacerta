@@ -22,6 +22,7 @@ import dagger.assisted.AssistedInject;
 import one.nem.lacerta.source.file.FileManager;
 
 import one.nem.lacerta.utils.LacertaLogger;
+import one.nem.lacerta.utils.Store;
 
 public class FileManagerImpl implements FileManager {
 
@@ -303,7 +304,7 @@ public class FileManagerImpl implements FileManager {
     private void saveBitmapInternal(Bitmap bitmap, Path path) throws IOException {
         try {
             logger.debug("saveBitmapInternal", "path: " + path);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, Files.newOutputStream(path));
+            bitmap.compress(Bitmap.CompressFormat.PNG, Store.Scan.PNG_QUALITY, Files.newOutputStream(path));
         } catch (Exception e) {
             logger.error("saveBitmapInternal", e.getMessage());
             throw new IOException("Failed to save bitmap");
