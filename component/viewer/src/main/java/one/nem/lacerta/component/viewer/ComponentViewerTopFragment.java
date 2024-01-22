@@ -3,7 +3,9 @@ package one.nem.lacerta.component.viewer;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -67,6 +69,10 @@ public class ComponentViewerTopFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_component_viewer_top, container, false);
 
+        // Toolbar
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        toolbarSetup(toolbar, true, "Revision List");
+
         RecyclerView recyclerView = view.findViewById(R.id.body_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         ViewerBodyAdapter viewerBodyAdapter = new ViewerBodyAdapter(fileName -> {
@@ -84,5 +90,40 @@ public class ComponentViewerTopFragment extends Fragment {
         });
 
         return view;
+    }
+
+    /**
+     * ToolbarをInitする
+     *
+     * @param toolbar Toolbar
+     * @param showBackButton 戻るボタンを表示するか
+     * @param title タイトル
+     */
+    private void toolbarSetup(Toolbar toolbar, boolean showBackButton, String title) {
+        getActivity().runOnUiThread(() -> {
+            if (showBackButton) {
+                toolbar.setNavigationIcon(one.nem.lacerta.shared.ui.R.drawable.arrow_back_24px);
+                toolbar.setNavigationOnClickListener(v -> {
+                    //this.libraryItemPage = lacertaLibrary.getLibraryPage(this.libraryItemPage.getParentId(), 10).join();
+                    // Back
+                    Navigation.findNavController(requireView()).popBackStack();
+                });
+            } else {
+                toolbar.setNavigationIcon(null);
+            }
+            toolbar.setTitle(title);
+            toolbar.inflateMenu(R.menu.viewer_menu);
+            toolbar.setOnMenuItemClickListener(item -> {
+                if (item.getItemId() == R.id.action_open_vcs_rev_list) {
+                    // Open vcs rev list
+                    getParentFragmentManager().beginTransaction()
+                            .replace(R.id.nav_host_fragment, ViewerVcsRevListFragment.newInstance(documentId))
+                            .commit();
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+        });
     }
 }

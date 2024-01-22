@@ -1,5 +1,10 @@
 package one.nem.lacerta.vcs;
 
+import java.util.ArrayList;
+import java.util.concurrent.CompletableFuture;
+
+import one.nem.lacerta.model.VcsRevModel;
+
 public interface LacertaVcs {
 
     // Actions
@@ -12,6 +17,8 @@ public interface LacertaVcs {
     public void createDocument(String documentId);
 
     public void generateRevisionAtCurrent(String message);
+
+    public CompletableFuture<ArrayList<VcsRevModel>> getRevisionHistory();
 
 
     // debug

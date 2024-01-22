@@ -11,6 +11,10 @@ public class FeatureSwitch {
         public static boolean enableDebugMenu = false;
     }
 
+    public static class Vcs {
+        public static boolean disableBranchDisplay = true;
+    }
+
     public static class Setting {
         public static boolean showDisplayMenu = false;
         public static boolean showDataMenu = false;
