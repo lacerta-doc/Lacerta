@@ -71,16 +71,29 @@ public class LacertaLibraryImpl implements LacertaLibrary {
         return CompletableFuture.supplyAsync(() -> {
             LibraryItemPage libraryItemPage = new LibraryItemPage();
 
-            FolderEntity folderEntity = database.folderDao().findById(pageId);
-            if (folderEntity == null) {
-                logger.warn("LacertaLibraryImpl", pageId + " is not found.");
-                return null;
-            }
+            List<FolderEntity> folderEntities;
+            List<DocumentEntity> documentEntities;
 
-            List<FolderEntity> folderEntities = database.folderDao().findByParentId(pageId);
-            logger.debug("LacertaLibraryImpl", "folderEntities.size(): " + folderEntities.size());
-            List<DocumentEntity> documentEntities = database.documentDao().findByParentId(pageId);
-            logger.debug("LacertaLibraryImpl", "documentEntities.size(): " + documentEntities.size());
+            if (pageId == null) { // When root folder
+                libraryItemPage.setPageTitle("ライブラリ");
+                libraryItemPage.setPageId(null);
+                libraryItemPage.setParentId(null);
+
+                folderEntities = database.folderDao().findRootFolders();
+                documentEntities = database.documentDao().findRootDocuments();
+            } else {
+                FolderEntity folderEntity = database.folderDao().findById(pageId);
+                if (folderEntity == null) {
+                    logger.warn("LacertaLibraryImpl", pageId + " is not found.");
+                    return null;
+                }
+                libraryItemPage.setPageTitle(folderEntity.name);
+                libraryItemPage.setPageId(folderEntity.id);
+                libraryItemPage.setParentId(folderEntity.parentId);
+
+                folderEntities = database.folderDao().findByParentId(pageId);
+                documentEntities = database.documentDao().findByParentId(pageId);
+            }
 
             ArrayList<ListItem> listItems = new ArrayList<>();
             for (FolderEntity childFolderEntity : folderEntities) {
@@ -103,9 +116,6 @@ public class LacertaLibraryImpl implements LacertaLibrary {
                 listItems.add(listItem);
             }
 
-            libraryItemPage.setPageTitle(folderEntity.name);
-            libraryItemPage.setPageId(folderEntity.id);
-            libraryItemPage.setParentId(folderEntity.parentId);
             libraryItemPage.setListItems(listItems);
 
             logger.debug("LacertaLibraryImpl", "libraryItemPage.getListItems().size(): " + libraryItemPage.getListItems().size());
