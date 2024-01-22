@@ -21,4 +21,7 @@ public interface LacertaLibrary {
     CompletableFuture<LibraryItemPage> getLibraryPage(String pageId, int limit);
     CompletableFuture<LibraryItemPage> getLibraryPage(String pageId, int limit, int offset);
 
+    // Create Folder
+    CompletableFuture<String> createFolder(String path, String name);
+
 }

@@ -1,5 +1,6 @@
 package one.nem.lacerta.feature.library;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -22,6 +24,8 @@ import android.widget.Toast;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +38,7 @@ import one.nem.lacerta.data.LacertaLibrary;
 import one.nem.lacerta.model.document.DocumentMeta;
 import one.nem.lacerta.model.document.tag.DocumentTag;
 import one.nem.lacerta.utils.LacertaLogger;
-
+import one.nem.lacerta.utils.TextInputDialog;
 
 
 /**
@@ -50,6 +54,10 @@ public class LibraryTopFragment extends Fragment {
 
     @Inject
     LacertaLogger logger;
+
+    ListItemAdapter listItemAdapter;
+
+    int currentTotalItemCount = 0;
 
     public LibraryTopFragment() {
         // Required empty public constructor
@@ -83,7 +91,7 @@ public class LibraryTopFragment extends Fragment {
 
         RecyclerView recyclerView = view.findViewById(R.id.library_item_recycler_view);
 
-        ListItemAdapter listItemAdapter = new ListItemAdapter(documentId -> {
+        this.listItemAdapter = new ListItemAdapter(documentId -> {
             Toast.makeText(getContext(), documentId, Toast.LENGTH_SHORT).show();
         });
         recyclerView.setAdapter(listItemAdapter);
@@ -92,8 +100,9 @@ public class LibraryTopFragment extends Fragment {
         lacertaLibrary.getLibraryPage(10).thenAccept(libraryItemPage -> {
             logger.debug("LibraryTopFragment", "Item selected! libraryItemPage.getListItems().size(): " + libraryItemPage.getListItems().size());
             listItemAdapter.setLibraryItemPage(libraryItemPage);
+            this.currentTotalItemCount = libraryItemPage.getListItems().size();
             getActivity().runOnUiThread(() -> {
-                listItemAdapter.notifyItemRangeInserted(0, libraryItemPage.getListItems().size() - 1);
+                listItemAdapter.notifyItemRangeInserted(0, this.currentTotalItemCount - 1);
             });
         });
     }
@@ -102,5 +111,46 @@ public class LibraryTopFragment extends Fragment {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.dir_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    // Selected
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.menu_item_create_new_folder) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setTitle("フォルダの作成");
+            builder.setMessage("フォルダ名を入力してください");
+            final android.widget.EditText input = new android.widget.EditText(getContext());
+            input.setText("フォルダ名");
+            builder.setView(input);
+            builder.setPositiveButton("作成", (dialog, which) -> {
+                lacertaLibrary.createFolder(null, input.getText().toString()).thenAccept(folderId -> {
+                    logger.debug("LibraryTopFragment", "folderId: " + folderId);
+                });
+                // Refresh
+                updateItem();
+            });
+            builder.setNegativeButton("キャンセル", (dialog, which) -> {
+                dialog.cancel();
+            });
+            builder.show();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void updateItem() {
+        lacertaLibrary.getLibraryPage(10).thenAccept(libraryItemPage -> {
+            logger.debug("LibraryTopFragment", "Item selected! libraryItemPage.getListItems().size(): " + libraryItemPage.getListItems().size());
+            getActivity().runOnUiThread(() -> {
+                listItemAdapter.notifyItemRangeRemoved(0, this.currentTotalItemCount - 1);
+            });
+            listItemAdapter.setLibraryItemPage(libraryItemPage);
+            getActivity().runOnUiThread(() -> {
+                listItemAdapter.notifyItemRangeInserted(0, libraryItemPage.getListItems().size() - 1);
+            });
+            this.currentTotalItemCount = libraryItemPage.getListItems().size();
+        });
     }
 }

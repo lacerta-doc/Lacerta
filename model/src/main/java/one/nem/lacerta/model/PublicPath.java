@@ -27,11 +27,26 @@ public class PublicPath {
     }
 
     private void resolveInternal(String path) {
-        if (path.equals("..")) {
-            this.path.remove(this.path.size() - 1);
+        if (path.startsWith("/")) {
+            this.path.clear();
+            this.path.add("/");
         } else {
-            add(path);
+            if (path.equals("..")) {
+                this.path.remove(this.path.size() - 1);
+            } else if (path.equals(".")) {
+                // do nothing
+            } else {
+                this.path.add(path);
+            }
         }
+    }
+
+    public PublicPath parse(String path) {
+        String[] pathArray = path.split("/");
+        for (String p : pathArray) {
+            resolveInternal(p);
+        }
+        return this;
     }
 
     public PublicPath resolve(String path) {
