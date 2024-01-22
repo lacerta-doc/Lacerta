@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,6 +30,7 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -159,10 +161,19 @@ public class LibraryPageFragment extends Fragment {
             @Override
             public void onFolderSelected(String folderId, String folderName) {
                 logger.debug("LibraryTopFragment", "Folder selected! folderId: " + folderId + ", folderName: " + folderName);
-                // 画面遷移
-                FragmentNavigation fragmentNavigation = (FragmentNavigation) getActivity();
-                // folderId: 推移先で表示するフォルダのID, folderName: 推移先で表示するフォルダの名前, parentId: このフラグメントで表示しているフォルダのID(推移先の親)
-                fragmentNavigation.navigateToFragment(LibraryPageFragment.newInstance(folderId, folderName, libraryItemPage != null ? libraryItemPage.getParentId() : null), false);
+//                // 画面遷移
+//                FragmentNavigation fragmentNavigation = (FragmentNavigation) getActivity();
+//                // folderId: 推移先で表示するフォルダのID, folderName: 推移先で表示するフォルダの名前, parentId: このフラグメントで表示しているフォルダのID(推移先の親)
+//                fragmentNavigation.navigateToFragment(LibraryPageFragment.newInstance(folderId, folderName, libraryItemPage != null ? libraryItemPage.getParentId() : null), false);
+                Bundle bundle = new Bundle();
+                bundle.putString("folderId", folderId);
+                bundle.putString("title", folderName);
+                bundle.putString("publicPath", libraryItemPage != null ? libraryItemPage.getParentId() : null);
+                try {
+                    Navigation.findNavController(requireView()).navigate(R.id.action_feature_library_top_fragment_self, bundle);
+                } catch (IllegalStateException e) {
+                    logger.error("LibraryTopFragment", "IllegalStateException: " + e.getMessage());
+                }
             }
 
             @Override
@@ -251,7 +262,8 @@ public class LibraryPageFragment extends Fragment {
                 toolbar.setNavigationIcon(one.nem.lacerta.shared.ui.R.drawable.arrow_back_24px);
                 toolbar.setNavigationOnClickListener(v -> {
                     //this.libraryItemPage = lacertaLibrary.getLibraryPage(this.libraryItemPage.getParentId(), 10).join();
-                    processBack();
+                    // Back
+                    Navigation.findNavController(requireView()).popBackStack();
                 });
             } else {
                 toolbar.setNavigationIcon(null);
@@ -268,18 +280,4 @@ public class LibraryPageFragment extends Fragment {
             });
         });
     }
-
-    /**
-     * Backボタンが押された時の処理
-     */
-    private void processBack() {
-        if (this.parentId != null) {
-            FragmentNavigation fragmentNavigation = (FragmentNavigation) getActivity();
-            fragmentNavigation.navigateToFragment(LibraryPageFragment.newInstance(this.parentId));
-        } else { // Root
-            FragmentNavigation fragmentNavigation = (FragmentNavigation) getActivity();
-            fragmentNavigation.navigateToFragment(LibraryPageFragment.newInstance());
-        }
-    }
-
 }
