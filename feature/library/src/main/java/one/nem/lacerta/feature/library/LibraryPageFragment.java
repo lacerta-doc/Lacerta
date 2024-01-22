@@ -49,6 +49,7 @@ public class LibraryPageFragment extends Fragment {
 
     // Param
     private String folderId;
+    private String title;
 
     @Inject
     LacertaLibrary lacertaLibrary;
@@ -64,10 +65,11 @@ public class LibraryPageFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static LibraryPageFragment newInstance(String folderId) {
+    public static LibraryPageFragment newInstance(String folderId, String title) {
         LibraryPageFragment fragment = new LibraryPageFragment();
         Bundle args = new Bundle();
         args.putString("folderId", folderId);
+        args.putString("title", title);
         fragment.setArguments(args);
         return fragment;
     }
@@ -76,6 +78,7 @@ public class LibraryPageFragment extends Fragment {
         LibraryPageFragment fragment = new LibraryPageFragment();
         Bundle args = new Bundle();
         args.putString("folderId", null);
+        args.putString("title", null);
         fragment.setArguments(args);
         return fragment;
     }
