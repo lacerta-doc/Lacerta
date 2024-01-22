@@ -3,18 +3,17 @@ package one.nem.lacerta;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.Toast;
 
+import one.nem.lacerta.model.FragmentNavigation;
 import one.nem.lacerta.model.pref.FeatureSwitchOverride;
 import one.nem.lacerta.utils.FeatureSwitch;
 
@@ -22,15 +21,13 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
-import java.io.NotActiveException;
-
 import dagger.hilt.android.AndroidEntryPoint;
 import one.nem.lacerta.utils.repository.SharedPrefUtils;
 
 import javax.inject.Inject;
 
 @AndroidEntryPoint
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements FragmentNavigation {
 
     @Inject
     SharedPrefUtils sharedPrefUtils;
@@ -102,10 +99,6 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(isEnabled);
     }
 
-    public void setActionBarMenuItem(int itemId, boolean isEnabled) {
-
-    }
-
     private void initializeApp() {
         Log.d("Init", "Initializing app");
         // Set feature switch override to default value
@@ -119,5 +112,13 @@ public class MainActivity extends AppCompatActivity {
     private void applyFeatureSwitch(BottomNavigationView bottomNavigationView, FeatureSwitchOverride featureSwitchOverride, boolean defaultValue, int menuId) {
         boolean isEnabled = FeatureSwitch.Meta.canOverrideSwitch ? sharedPrefUtils.getFeatureSwitchOverride(featureSwitchOverride) : defaultValue;
         if (!isEnabled) bottomNavigationView.getMenu().removeItem(menuId);
+    }
+
+    @Override
+    public void navigateToFragment(Fragment fragment) {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.nav_host_fragment, fragment)
+                .addToBackStack(null)
+                .commit();
     }
 }
