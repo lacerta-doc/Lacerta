@@ -3,6 +3,7 @@ package one.nem.lacerta;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -89,20 +90,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
     }
-
-    // Public
-    public void setActionBarTitle(String title) {
-        getSupportActionBar().setTitle(title);
-    }
-
-    public void setActionBarBackButton(boolean isEnabled) {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(isEnabled);
-    }
-
     private void initializeApp() {
         Log.d("Init", "Initializing app");
         // Set feature switch override to default value
