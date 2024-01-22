@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="png_quality_default">70</integer>
+    <integer name="png_quality_min">5</integer>
+    <integer name="png_quality_max">100</integer>
+</resources>

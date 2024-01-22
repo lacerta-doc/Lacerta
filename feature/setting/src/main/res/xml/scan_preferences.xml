@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory android:title="@string/setting_scan_quality_title">
+        <SeekBarPreference
+            android:defaultValue="@integer/png_quality_default"
+            android:key="png_quality"
+            android:max="@integer/png_quality_max"
+            android:min="@integer/png_quality_min"
+            android:summary="@string/setting_scan_quality_png_quality_description"
+            android:title="@string/setting_scan_quality_png_quality_title" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/setting_scan_default_title">
+
+        <EditTextPreference
+            android:defaultValue="Untitled"
+            android:key="new_doc_default_title"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/setting_scan_default_document_name" />
+        <EditTextPreference
+            android:defaultValue="NewFolder"
+            android:key="new_dir_default_title"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/setting_scan_default_folder_name" />
+    </PreferenceCategory>
+</PreferenceScreen>
