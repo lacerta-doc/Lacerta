@@ -31,6 +31,7 @@ import one.nem.lacerta.data.Document;
 import one.nem.lacerta.data.LacertaLibrary;
 import one.nem.lacerta.model.document.DocumentMeta;
 import one.nem.lacerta.model.document.tag.DocumentTag;
+import one.nem.lacerta.utils.LacertaLogger;
 
 
 
@@ -44,6 +45,9 @@ public class LibraryTopFragment extends Fragment {
 
     @Inject
     LacertaLibrary lacertaLibrary;
+
+    @Inject
+    LacertaLogger logger;
 
     public LibraryTopFragment() {
         // Required empty public constructor
@@ -82,9 +86,10 @@ public class LibraryTopFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         lacertaLibrary.getLibraryPage(10).thenAccept(libraryItemPage -> {
+            logger.debug("LibraryTopFragment", "Item selected! libraryItemPage.getListItems().size(): " + libraryItemPage.getListItems().size());
             listItemAdapter.setLibraryItemPage(libraryItemPage);
             getActivity().runOnUiThread(() -> {
-                listItemAdapter.notifyItemRangeInserted(0, libraryItemPage.getListItems().size());
+                listItemAdapter.notifyItemRangeInserted(0, libraryItemPage.getListItems().size() - 1);
             });
         });
 

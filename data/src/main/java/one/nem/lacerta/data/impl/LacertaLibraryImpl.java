@@ -81,10 +81,13 @@ public class LacertaLibraryImpl implements LacertaLibrary {
             LibraryItemPage libraryItemPage = new LibraryItemPage();
 
             List<FolderEntity> folderEntities = getFolderEntitiesByPublicPath("/").join();
+            logger.debug("LacertaLibraryImpl", "folderEntities.size(): " + folderEntities.size());
             List<DocumentEntity> documentEntities = getDocumentEntitiesByPublicPath("/").join();
+            logger.debug("LacertaLibraryImpl", "documentEntities.size(): " + documentEntities.size());
 
             ArrayList<ListItem> listItems = new ArrayList<>();
             for (FolderEntity folderEntity : folderEntities) {
+                logger.debug("LacertaLibraryImpl", "folderEntity.name: " + folderEntity.name);
                 ListItem listItem = new ListItem();
                 listItem.setItemType(ListItemType.ITEM_TYPE_FOLDER);
                 listItem.setTitle(folderEntity.name);
@@ -93,15 +96,20 @@ public class LacertaLibraryImpl implements LacertaLibrary {
                 listItems.add(listItem);
             }
             for (DocumentEntity documentEntity : documentEntities) {
+                logger.debug("LacertaLibraryImpl", "documentEntity.title: " + documentEntity.title);
                 ListItem listItem = new ListItem();
                 listItem.setItemType(ListItemType.ITEM_TYPE_DOCUMENT);
                 listItem.setTitle(documentEntity.title);
-                listItem.setDescription(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm").format(documentEntity.updatedAt.toInstant()));
+//                listItem.setDescription(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm").format(documentEntity.updatedAt.toInstant()));
                 listItem.setItemId(documentEntity.id);
                 listItems.add(listItem);
             }
 
+            libraryItemPage.setPageTitle("/");
+            libraryItemPage.setPageId("root");
             libraryItemPage.setListItems(listItems);
+
+            logger.debug("LacertaLibraryImpl", "libraryItemPage.getListItems().size(): " + libraryItemPage.getListItems().size());
 
             return libraryItemPage;
         });
