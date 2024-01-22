@@ -1,5 +1,6 @@
 package one.nem.lacerta.feature.library;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -24,6 +25,8 @@ import android.widget.Toast;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +38,7 @@ import one.nem.lacerta.data.LacertaLibrary;
 import one.nem.lacerta.model.document.DocumentMeta;
 import one.nem.lacerta.model.document.tag.DocumentTag;
 import one.nem.lacerta.utils.LacertaLogger;
-
+import one.nem.lacerta.utils.TextInputDialog;
 
 
 /**
@@ -114,11 +117,23 @@ public class LibraryTopFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.menu_item_create_new_folder) {
-            lacertaLibrary.createFolder(null, "New Folder").thenAccept(folderId -> {
-                logger.debug("LibraryTopFragment", "folderId: " + folderId);
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setTitle("フォルダの作成");
+            builder.setMessage("フォルダ名を入力してください");
+            final android.widget.EditText input = new android.widget.EditText(getContext());
+            input.setText("フォルダ名");
+            builder.setView(input);
+            builder.setPositiveButton("作成", (dialog, which) -> {
+                lacertaLibrary.createFolder(null, input.getText().toString()).thenAccept(folderId -> {
+                    logger.debug("LibraryTopFragment", "folderId: " + folderId);
+                });
+                // Refresh
+                updateItem();
             });
-            // Refresh
-            updateItem();
+            builder.setNegativeButton("キャンセル", (dialog, which) -> {
+                dialog.cancel();
+            });
+            builder.show();
             return true;
         } else {
             return super.onOptionsItemSelected(item);
