@@ -6,9 +6,17 @@ public class LibraryItemPage {
 
     String pageTitle;
     String pageId;
+    String parentId;
     ArrayList<ListItem> listItems;
 
     // Constructor
+
+    public LibraryItemPage(String pageTitle, String pageId, ArrayList<ListItem> listItems, String parentId) {
+        this.pageTitle = pageTitle;
+        this.pageId = pageId;
+        this.listItems = listItems;
+        this.parentId = parentId;
+    }
 
     public LibraryItemPage(String pageTitle, String pageId, ArrayList<ListItem> listItems) {
         this.pageTitle = pageTitle;
@@ -30,6 +38,10 @@ public class LibraryItemPage {
         return pageId;
     }
 
+    public String getParentId() {
+        return parentId;
+    }
+
     public ArrayList<ListItem> getListItems() {
         return listItems;
     }
@@ -42,6 +54,10 @@ public class LibraryItemPage {
 
     public void setPageId(String pageId) {
         this.pageId = pageId;
+    }
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
     }
 
     public void setListItems(ArrayList<ListItem> listItems) {

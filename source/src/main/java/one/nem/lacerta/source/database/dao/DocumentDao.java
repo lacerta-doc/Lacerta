@@ -29,8 +29,11 @@ public interface DocumentDao {
     @Query("SELECT * FROM Document WHERE id IN (:ids)")
     List<DocumentEntity> findByIds(List<String> ids);
 
-    @Query("SELECT * FROM Document WHERE public_path = :publicPath LIMIT :limit")
-    List<DocumentEntity> findByPublicPathWithLimit(String publicPath, int limit);
+    @Query("SELECT * FROM Document WHERE parent_id = :parentId")
+    List<DocumentEntity> findByParentId(String parentId);
+
+    @Query("SELECT * FROM Document WHERE parent_id IS NULL")
+    List<DocumentEntity> findRootDocuments();
 
     @Query("SELECT * FROM Document ORDER BY created_at DESC LIMIT :limit")
     List<DocumentEntity> getRecentDocument(int limit);

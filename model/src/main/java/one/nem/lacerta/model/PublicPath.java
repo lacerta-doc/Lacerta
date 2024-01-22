@@ -39,14 +39,19 @@ public class PublicPath {
     }
 
     public PublicPath parse(String path) {
-        if (path.startsWith("/")) {
+        if (path == null) {
             this.path.clear();
-            path = path.substring(1);
-        }
-        String[] pathArray = path.split("/");
-        for (String p : pathArray) {
-            Log.d("PublicPath", "parse: " + p);
-            resolveInternal(p);
+            this.path.add("/");
+        } else {
+            if (path.startsWith("/")) {
+                this.path.clear();
+                path = path.substring(1);
+            }
+            String[] pathArray = path.split("/");
+            for (String p : pathArray) {
+                Log.d("PublicPath", "parse: " + p);
+                resolveInternal(p);
+            }
         }
         return this;
     }

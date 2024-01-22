@@ -5,12 +5,16 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import one.nem.lacerta.model.FragmentNavigation;
@@ -20,6 +24,8 @@ import one.nem.lacerta.utils.FeatureSwitch;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+
+import java.io.NotActiveException;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import one.nem.lacerta.utils.repository.SharedPrefUtils;
@@ -68,37 +74,7 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigatio
         // Set status bar color
         getWindow().setStatusBarColor(ContextCompat.getColor(this, one.nem.lacerta.shared.ui.R.color.colorSurface));
 
-        // Set app bar color
-        AppBarLayout appBarLayout = findViewById(R.id.app_bar_layout);
-        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (Math.abs(verticalOffset) == appBarLayout.getTotalScrollRange()) {
-                    // Collapsed
-                    getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(), one.nem.lacerta.shared.ui.R.color.colorSecondaryContainer));
-                } else if (verticalOffset == 0) {
-                    // Expanded
-                    getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(), one.nem.lacerta.shared.ui.R.color.colorSurface));
-                } else {
-                    // Somewhere in between
-                    // Here you can add a color transition if you want
-                }
-            }
-        });
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
     }
-
-    // Public
-    public void setActionBarTitle(String title) {
-        getSupportActionBar().setTitle(title);
-    }
-
-    public void setActionBarBackButton(boolean isEnabled) {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(isEnabled);
-    }
-
     private void initializeApp() {
         Log.d("Init", "Initializing app");
         // Set feature switch override to default value
@@ -120,5 +96,62 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigatio
                 .replace(R.id.nav_host_fragment, fragment)
                 .addToBackStack(null)
                 .commit();
+    }
+
+    @Override
+    public void navigateToFragment(Fragment fragment, boolean addToBackStack) {
+        if (addToBackStack) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.nav_host_fragment, fragment)
+                    .addToBackStack(null)
+                    .commit();
+        } else {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.nav_host_fragment, fragment)
+                    .commit();
+        }
+    }
+
+    @Override
+    public void navigateToFragment(Fragment fragment, boolean addToBackStack, boolean clearBackStack) {
+        if (clearBackStack) {
+            getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        }
+        if (addToBackStack) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.nav_host_fragment, fragment)
+                    .addToBackStack(null)
+                    .commit();
+        } else {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.nav_host_fragment, fragment)
+                    .commit();
+        }
+    }
+
+    public void navigateToFragmentAlternate(Fragment fragment, boolean addToBackStack) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        // get the current fragment
+        Fragment currentFragment = getSupportFragmentManager().getPrimaryNavigationFragment();
+
+        // hide the current fragment
+        if (currentFragment != null) {
+            transaction.hide(currentFragment);
+        }
+
+        // Add the new fragment
+        transaction.add(R.id.nav_host_fragment, fragment);
+
+        // Add the transaction to the back stack if needed
+        if (addToBackStack) {
+            transaction.addToBackStack(null);
+        }
+
+        // Commit the transaction
+        transaction.commit();
+
+        // Update the primary navigation fragment
+        getSupportFragmentManager().beginTransaction().setPrimaryNavigationFragment(fragment).commit();
     }
 }

@@ -7,6 +7,7 @@ import one.nem.lacerta.model.ListItem;
 import one.nem.lacerta.model.ListItemType;
 
 import one.nem.lacerta.model.LibraryItemPage;
+import one.nem.lacerta.model.PublicPath;
 import one.nem.lacerta.model.document.DocumentDetail;
 
 public interface LacertaLibrary {
@@ -15,13 +16,14 @@ public interface LacertaLibrary {
     CompletableFuture<ArrayList<ListItem>> getRecentDocument(int limit);
     CompletableFuture<ArrayList<ListItem>> getRecentDocument(int limit, int offset);
 
-    // Get Library page
-    CompletableFuture<LibraryItemPage> getLibraryPage(int limit);
-    CompletableFuture<LibraryItemPage> getLibraryPage(int limit, int offset);
+    // Get Library Page
     CompletableFuture<LibraryItemPage> getLibraryPage(String pageId, int limit);
     CompletableFuture<LibraryItemPage> getLibraryPage(String pageId, int limit, int offset);
 
     // Create Folder
-    CompletableFuture<String> createFolder(String path, String name);
+    CompletableFuture<String> createFolder(String parentId, String name);
+
+    // Get Public Path
+    CompletableFuture<PublicPath> getPublicPath(String itemId, ListItemType itemType);
 
 }

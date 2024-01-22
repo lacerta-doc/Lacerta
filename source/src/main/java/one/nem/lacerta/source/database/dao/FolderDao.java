@@ -15,11 +15,11 @@ public interface FolderDao {
     @Query("SELECT * FROM Folder WHERE id = :id")
     FolderEntity findById(String id);
 
-    @Query("SELECT * FROM Folder WHERE public_path = :publicPath")
-    FolderEntity findByPublicPath(String publicPath);
+    @Query("SELECT * FROM Folder WHERE parent_id = :parentId")
+    List<FolderEntity> findByParentId(String parentId);
 
-    @Query("SELECT * FROM Folder WHERE public_path = :publicPath LIMIT :limit")
-    List<FolderEntity> findByPublicPathWithLimit(String publicPath, int limit);
+    @Query("SELECT * FROM Folder WHERE parent_id IS NULL")
+    List<FolderEntity> findRootFolders();
 
     @Insert
     void insert(FolderEntity folderEntity);

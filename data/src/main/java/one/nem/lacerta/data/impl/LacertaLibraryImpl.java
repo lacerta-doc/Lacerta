@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
@@ -20,6 +21,7 @@ import one.nem.lacerta.source.database.LacertaDatabase;
 import one.nem.lacerta.source.database.common.DateTypeConverter;
 import one.nem.lacerta.source.database.entity.DocumentEntity;
 import one.nem.lacerta.source.database.entity.FolderEntity;
+import one.nem.lacerta.utils.FeatureSwitch;
 import one.nem.lacerta.utils.LacertaLogger;
 
 public class LacertaLibraryImpl implements LacertaLibrary {
@@ -64,94 +66,34 @@ public class LacertaLibraryImpl implements LacertaLibrary {
         return null; // TODO-rca: Implement
     }
 
-    // Internal
-    private CompletableFuture<List<FolderEntity>> getFolderEntitiesByPublicPath(String publicPath) {
-        return CompletableFuture.supplyAsync(() -> {
-            return database.folderDao().findByPublicPathWithLimit(publicPath, 10); // TODO-rca: ハードコーディングやめる
-        });
-    }
-
-    private CompletableFuture<List<DocumentEntity>> getDocumentEntitiesByPublicPath(String publicPath) {
-        return CompletableFuture.supplyAsync(() -> {
-            return database.documentDao().findByPublicPathWithLimit(publicPath, 10); // TODO-rca: ハードコーディングやめる
-        });
-    }
-
-    @Override
-    public CompletableFuture<LibraryItemPage> getLibraryPage(int limit) {
-        return CompletableFuture.supplyAsync(() -> {
-
-            // 5秒フリーズさせる
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            LibraryItemPage libraryItemPage = new LibraryItemPage();
-
-            List<FolderEntity> folderEntities = getFolderEntitiesByPublicPath("/").join();
-            logger.debug("LacertaLibraryImpl", "folderEntities.size(): " + folderEntities.size());
-            List<DocumentEntity> documentEntities = getDocumentEntitiesByPublicPath("/").join();
-            logger.debug("LacertaLibraryImpl", "documentEntities.size(): " + documentEntities.size());
-
-            ArrayList<ListItem> listItems = new ArrayList<>();
-            for (FolderEntity folderEntity : folderEntities) {
-                logger.debug("LacertaLibraryImpl", "folderEntity.name: " + folderEntity.name);
-                ListItem listItem = new ListItem();
-                listItem.setItemType(ListItemType.ITEM_TYPE_FOLDER);
-                listItem.setTitle(folderEntity.name);
-                listItem.setDescription("フォルダ"); // TODO-rca: ハードコーディングやめる
-                listItem.setItemId(folderEntity.id);
-                listItems.add(listItem);
-            }
-            for (DocumentEntity documentEntity : documentEntities) {
-                logger.debug("LacertaLibraryImpl", "documentEntity.title: " + documentEntity.title);
-                ListItem listItem = new ListItem();
-                listItem.setItemType(ListItemType.ITEM_TYPE_DOCUMENT);
-                listItem.setTitle(documentEntity.title);
-//                listItem.setDescription(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm").format(documentEntity.updatedAt.toInstant()));
-                listItem.setItemId(documentEntity.id);
-                listItems.add(listItem);
-            }
-
-            libraryItemPage.setPageTitle("/");
-            libraryItemPage.setPageId("root");
-            libraryItemPage.setListItems(listItems);
-
-            logger.debug("LacertaLibraryImpl", "libraryItemPage.getListItems().size(): " + libraryItemPage.getListItems().size());
-
-            return libraryItemPage;
-        });
-    }
-
-    @Override
-    public CompletableFuture<LibraryItemPage> getLibraryPage(int limit, int offset) {
-        return CompletableFuture.supplyAsync(() -> {
-            return null;
-        });
-    }
-
     @Override
     public CompletableFuture<LibraryItemPage> getLibraryPage(String pageId, int limit) {
         return CompletableFuture.supplyAsync(() -> {
             LibraryItemPage libraryItemPage = new LibraryItemPage();
 
-            FolderEntity folderEntity = database.folderDao().findById(pageId);
-            if (folderEntity == null) {
-                return null;
+            List<FolderEntity> folderEntities;
+            List<DocumentEntity> documentEntities;
+
+            if (pageId == null) { // When root folder
+                libraryItemPage.setPageTitle("ライブラリ");
+                libraryItemPage.setPageId(null);
+                libraryItemPage.setParentId(null);
+
+                folderEntities = database.folderDao().findRootFolders();
+                documentEntities = database.documentDao().findRootDocuments();
+            } else {
+                FolderEntity folderEntity = database.folderDao().findById(pageId);
+                if (folderEntity == null) {
+                    logger.warn("LacertaLibraryImpl", pageId + " is not found.");
+                    return null;
+                }
+                libraryItemPage.setPageTitle(folderEntity.name);
+                libraryItemPage.setPageId(folderEntity.id);
+                libraryItemPage.setParentId(folderEntity.parentId);
+
+                folderEntities = database.folderDao().findByParentId(pageId);
+                documentEntities = database.documentDao().findByParentId(pageId);
             }
-
-            PublicPath publicPath = new PublicPath().parse(folderEntity.publicPath);
-
-            String resolvedPublicPath = publicPath.resolve(folderEntity.name).getStringPath();
-
-            logger.debug("LacertaLibraryImpl", "Resolved publicPath: " + resolvedPublicPath);
-
-            List<FolderEntity> folderEntities = getFolderEntitiesByPublicPath(resolvedPublicPath).join();
-            logger.debug("LacertaLibraryImpl", "folderEntities.size(): " + folderEntities.size());
-            List<DocumentEntity> documentEntities = getDocumentEntitiesByPublicPath(resolvedPublicPath).join();
-            logger.debug("LacertaLibraryImpl", "documentEntities.size(): " + documentEntities.size());
 
             ArrayList<ListItem> listItems = new ArrayList<>();
             for (FolderEntity childFolderEntity : folderEntities) {
@@ -174,8 +116,6 @@ public class LacertaLibraryImpl implements LacertaLibrary {
                 listItems.add(listItem);
             }
 
-            libraryItemPage.setPageTitle(folderEntity.name);
-            libraryItemPage.setPageId(folderEntity.id);
             libraryItemPage.setListItems(listItems);
 
             logger.debug("LacertaLibraryImpl", "libraryItemPage.getListItems().size(): " + libraryItemPage.getListItems().size());
@@ -194,21 +134,67 @@ public class LacertaLibraryImpl implements LacertaLibrary {
     @Override
     public CompletableFuture<String> createFolder(String parentId, String name) {
         return CompletableFuture.supplyAsync(() -> {
-
-            FolderEntity parentFolderEntity = database.folderDao().findById(parentId);
-            PublicPath publicPath;
-            if (parentFolderEntity == null) {
-                publicPath = new PublicPath().resolve("/");
-            } else {
-                publicPath = new PublicPath().resolve(parentFolderEntity.publicPath);
-            }
-
             FolderEntity folderEntity = new FolderEntity();
             folderEntity.id = UUID.randomUUID().toString();
             folderEntity.name = name;
-            folderEntity.publicPath = publicPath.getStringPath();
+            folderEntity.parentId = parentId;
             database.folderDao().insert(folderEntity);
             return folderEntity.id;
         });
+    }
+
+    @Override
+    public CompletableFuture<PublicPath> getPublicPath(String itemId, ListItemType itemType) {
+        return CompletableFuture.supplyAsync(() -> {
+            if (itemType == ListItemType.ITEM_TYPE_DOCUMENT) {
+                DocumentEntity documentEntity = database.documentDao().findById(itemId);
+                if (documentEntity == null) {
+                    logger.warn("LacertaLibraryImpl", itemId + " is not found.");
+                    return null;
+                }
+                PublicPath publicPath = recursiveResolve(documentEntity.parentId);
+                publicPath.resolve(documentEntity.title);
+                return publicPath;
+            } else if (itemType == ListItemType.ITEM_TYPE_FOLDER) {
+                FolderEntity folderEntity = database.folderDao().findById(itemId);
+                if (folderEntity == null) {
+                    return null;
+                }
+                return recursiveResolve(folderEntity.id);
+            } else {
+                logger.warn("LacertaLibraryImpl", "Unknown ListItemType: " + itemType);
+                return null;
+            }
+        });
+    }
+
+    /**
+     * 再帰的にパスを解決する
+     *
+     * @param folderId
+     * @return
+     */
+    private PublicPath recursiveResolve(String folderId) {
+        String current = folderId;
+        boolean continueFlag = true;
+        ArrayList<String> folderNames = new ArrayList<>();
+        while (continueFlag) {
+            FolderEntity folderEntity = database.folderDao().findById(current);
+            if (folderEntity == null) { // 存在しないフォルダIDが指定された場合
+                continueFlag = false;
+            } else {
+                folderNames.add(folderEntity.name);
+                current = folderEntity.parentId;
+                if (current == null) { // ルートフォルダに到達した場合
+                    continueFlag = false;
+                }
+            }
+        }
+
+        // フォルダ名を逆順にしてListに変換
+        Collections.reverse(folderNames);
+        List<String> folderNamesReversed = new ArrayList<>(folderNames);
+
+        return new PublicPath(folderNamesReversed);
     }
 }
