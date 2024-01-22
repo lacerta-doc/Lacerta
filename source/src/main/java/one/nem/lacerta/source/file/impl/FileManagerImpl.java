@@ -304,7 +304,16 @@ public class FileManagerImpl implements FileManager {
     private void saveBitmapInternal(Bitmap bitmap, Path path) throws IOException {
         try {
             logger.debug("saveBitmapInternal", "path: " + path);
-            bitmap.compress(Bitmap.CompressFormat.PNG, Store.Scan.PNG_QUALITY, Files.newOutputStream(path));
+            // Bitmapの長辺を1024pxにする
+            int width = bitmap.getWidth();
+            int height = bitmap.getHeight();
+            float scale = 1.0f;
+            if (width > height) {
+                scale = Store.Scan.MAX_RESOLUTION_LONG / width;
+            } else {
+                scale = Store.Scan.MAX_RESOLUTION_LONG / height;
+            }
+            bitmap.compress(new Store.Scan().COMPRESS_FORMAT, Store.Scan.QUALITY, Files.newOutputStream(path));
         } catch (Exception e) {
             logger.error("saveBitmapInternal", e.getMessage());
             throw new IOException("Failed to save bitmap");
