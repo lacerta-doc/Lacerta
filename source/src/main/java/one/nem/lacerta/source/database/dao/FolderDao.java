@@ -4,6 +4,9 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import one.nem.lacerta.source.database.entity.FolderEntity;
 
 @Dao
@@ -14,6 +17,9 @@ public interface FolderDao {
 
     @Query("SELECT * FROM Folder WHERE public_path = :publicPath")
     FolderEntity findByPublicPath(String publicPath);
+
+    @Query("SELECT * FROM Folder WHERE public_path = :publicPath LIMIT :limit")
+    List<FolderEntity> findByPublicPathWithLimit(String publicPath, int limit);
 
     @Insert
     void insert(FolderEntity folderEntity);
