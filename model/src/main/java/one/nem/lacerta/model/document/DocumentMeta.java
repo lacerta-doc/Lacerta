@@ -37,7 +37,7 @@ public class DocumentMeta { // TODO-rca: JavaDoc対応
      */
     List<DocumentTag> tags;
 
-    PublicPath path;
+    String parentId;
 
     String author;
 
@@ -54,7 +54,7 @@ public class DocumentMeta { // TODO-rca: JavaDoc対応
         this.tags = new ArrayList<>();
         this.author = ""; // TODO-rca: 作者のデフォルト値を設定できるようにする
         this.defaultBranch = "main"; // TODO-rca: デフォルトブランチのデフォルト値を設定できるようにする
-        this.path = new PublicPath().getRoot();
+        this.parentId = null;
         this.updatedAt = new Date();
         this.createdAt = new Date();
     }
@@ -85,13 +85,13 @@ public class DocumentMeta { // TODO-rca: JavaDoc対応
         this.defaultBranch = defaultBranch;
     }
 
-    public DocumentMeta(String id, String title, Date updatedAt, Date createdAt, List<DocumentTag> tags, PublicPath path, String author, String defaultBranch) {
+    public DocumentMeta(String id, String title, Date updatedAt, Date createdAt, List<DocumentTag> tags, String parentId, String author, String defaultBranch) {
         this.id = id;
         this.title = title;
         this.updatedAt = updatedAt;
         this.createdAt = createdAt;
         this.tags = tags;
-        this.path = path;
+        this.parentId = parentId;
         this.author = author;
         this.defaultBranch = defaultBranch;
     }
@@ -145,10 +145,10 @@ public class DocumentMeta { // TODO-rca: JavaDoc対応
     }
 
     /**
-     * PublicPathを取得する
+     * ドキュメントの親フォルダのID(String)を取得する
      */
-    public PublicPath getPath() {
-        return path;
+    public String getParentId() {
+        return parentId;
     }
 
     /**
@@ -208,11 +208,11 @@ public class DocumentMeta { // TODO-rca: JavaDoc対応
     }
 
     /**
-     * PublicPathを設定する
-     * @param path PublicPath
+     * ドキュメントの親フォルダのID(String)を設定する
+     * @param parentId ドキュメントの親フォルダのID
      */
-    public void setPath(PublicPath path) {
-        this.path = path;
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
     }
 
     /**

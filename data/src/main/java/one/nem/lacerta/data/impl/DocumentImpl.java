@@ -79,7 +79,7 @@ public class DocumentImpl implements Document {
             documentEntity.defaultBranch = meta.getDefaultBranch();
             documentEntity.updatedAt = meta.getUpdatedAt();
             documentEntity.createdAt = meta.getCreatedAt();
-            documentEntity.publicPath = meta.getPath().getStringPath();
+            documentEntity.parentId = meta.getParentId();
             documentEntity.tagIds = meta.getTagIds();
 
             database.documentDao().insert(documentEntity);
@@ -104,7 +104,7 @@ public class DocumentImpl implements Document {
         meta.setDefaultBranch("master");
         meta.setUpdatedAt(new Date());
         meta.setCreatedAt(new Date());
-        meta.setPath(new PublicPath().getRoot()); // TODO-rca: 2回インスタンスを生成していて無駄なのでなんとかする
+        meta.setParentId(null);
         meta.setTags(new ArrayList<>());
         return createDocument(meta);
     }
@@ -138,7 +138,7 @@ public class DocumentImpl implements Document {
             meta.setDefaultBranch(documentEntity.defaultBranch);
             meta.setUpdatedAt(documentEntity.updatedAt);
             meta.setCreatedAt(documentEntity.createdAt);
-            meta.setPath(new PublicPath().resolve(documentEntity.publicPath));
+            meta.setParentId(documentEntity.parentId);
             meta.setTags(new ArrayList<>()); // TODO-rca: タグを取得する
 
             DocumentDetail detail = new DocumentDetail();
