@@ -40,6 +40,7 @@ import one.nem.lacerta.data.LacertaLibrary;
 import one.nem.lacerta.model.FragmentNavigation;
 import one.nem.lacerta.model.LibraryItemPage;
 import one.nem.lacerta.model.PublicPath;
+import one.nem.lacerta.utils.FeatureSwitch;
 import one.nem.lacerta.utils.LacertaLogger;
 
 
@@ -199,12 +200,18 @@ public class LibraryPageFragment extends Fragment {
             }
 
             logger.debug("LibraryTopFragment", "Item selected! Total item page: " + this.libraryItemPage.getListItems().size());
-            getActivity().runOnUiThread(() -> { // TODO-rca: 実行条件を考える？
-                listItemAdapter.notifyItemRangeRemoved(0, this.libraryItemPage.getListItems().size() - 1);
-            });
+            if (!FeatureSwitch.RecyclerView.useSimpleNotifyMethod) {
+                getActivity().runOnUiThread(() -> { // TODO-rca: 実行条件を考える？
+                    listItemAdapter.notifyItemRangeRemoved(0, this.libraryItemPage.getListItems().size() - 1);
+                });
+            }
             listItemAdapter.setLibraryItemPage(this.libraryItemPage);
             getActivity().runOnUiThread(() -> {
-                listItemAdapter.notifyItemRangeInserted(0, this.libraryItemPage.getListItems().size() - 1);
+                if (FeatureSwitch.RecyclerView.useSimpleNotifyMethod) {
+                    listItemAdapter.notifyDataSetChanged();
+                } else {
+                    listItemAdapter.notifyItemRangeInserted(0, this.libraryItemPage.getListItems().size() - 1);
+                }
             });
         });
     }

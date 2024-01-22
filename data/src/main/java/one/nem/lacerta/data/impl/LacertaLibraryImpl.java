@@ -1,6 +1,7 @@
 package one.nem.lacerta.data.impl;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -99,12 +100,14 @@ public class LacertaLibraryImpl implements LacertaLibrary {
                 listItems.add(listItem);
             }
 
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:");
+
             for (DocumentEntity documentEntity : documentEntities) {
                 logger.debug("LacertaLibraryImpl", "documentEntity.title: " + documentEntity.title);
                 ListItem listItem = new ListItem();
                 listItem.setItemType(ListItemType.ITEM_TYPE_DOCUMENT);
                 listItem.setTitle(documentEntity.title);
-//                listItem.setDescription(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm").format(documentEntity.updatedAt.toInstant()));
+                listItem.setDescription(simpleDateFormat.format(documentEntity.updatedAt));
                 listItem.setItemId(documentEntity.id);
                 listItems.add(listItem);
             }

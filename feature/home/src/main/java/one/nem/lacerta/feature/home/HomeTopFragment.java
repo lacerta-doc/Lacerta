@@ -36,7 +36,8 @@ import one.nem.lacerta.data.Document;
 import one.nem.lacerta.data.LacertaLibrary;
 import one.nem.lacerta.model.ListItem;
 import one.nem.lacerta.model.document.DocumentMeta;
-
+import one.nem.lacerta.utils.FeatureSwitch;
+import one.nem.lacerta.utils.Store;
 
 
 /**
@@ -99,7 +100,13 @@ public class HomeTopFragment extends Fragment {
             }
             listItemAdapter.setListItems(listItems);
             getActivity().runOnUiThread(() -> {
-                listItemAdapter.notifyItemRangeInserted(0, listItems.size() - 1);
+                Log.d("HomeTopFragment", "onViewCreated: " + listItems.size());
+                if (FeatureSwitch.RecyclerView.useSimpleNotifyMethod) {
+                    listItemAdapter.notifyDataSetChanged();
+                } else {
+                    // IndexOutOfBoundsExceptionを吐くことがあったので
+                    listItemAdapter.notifyItemRangeInserted(0, listItems.size() - 1);
+                }
             });
         });
     }
