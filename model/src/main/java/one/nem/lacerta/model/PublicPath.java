@@ -41,6 +41,14 @@ public class PublicPath {
         }
     }
 
+    public PublicPath parse(String path) {
+        String[] pathArray = path.split("/");
+        for (String p : pathArray) {
+            resolveInternal(p);
+        }
+        return this;
+    }
+
     public PublicPath resolve(String path) {
         resolveInternal(path);
         return this;
