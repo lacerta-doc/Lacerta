@@ -89,22 +89,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
     }
 
-    // Public
-    public void setActionBarTitle(String title) {
-        getSupportActionBar().setTitle(title);
-    }
-
-    public void setActionBarBackButton(boolean isEnabled) {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(isEnabled);
-    }
-
-    public void setActionBarMenuItem(int itemId, boolean isEnabled) {
-
-    }
 
     private void initializeApp() {
         Log.d("Init", "Initializing app");
