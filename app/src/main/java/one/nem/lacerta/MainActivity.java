@@ -96,4 +96,18 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigatio
                 .addToBackStack(null)
                 .commit();
     }
+
+    @Override
+    public void navigateToFragment(Fragment fragment, boolean addToBackStack) {
+        if (addToBackStack) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.nav_host_fragment, fragment)
+                    .addToBackStack(null)
+                    .commit();
+        } else {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.nav_host_fragment, fragment)
+                    .commit();
+        }
+    }
 }
