@@ -32,6 +32,9 @@ public interface DocumentDao {
     @Query("SELECT * FROM Document WHERE parent_id = :parentId")
     List<DocumentEntity> findByParentId(String parentId);
 
+    @Query("SELECT * FROM Document WHERE parent_id IS NULL")
+    List<DocumentEntity> findRootDocuments();
+
     @Query("SELECT * FROM Document ORDER BY created_at DESC LIMIT :limit")
     List<DocumentEntity> getRecentDocument(int limit);
 
