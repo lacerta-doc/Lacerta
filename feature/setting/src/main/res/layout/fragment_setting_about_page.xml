@@ -33,7 +33,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     app:layout_collapseMode="pin"
-                    app:title="@string/setting_top_scan_title" />
+                    app:title="@string/setting_top_about_title" />
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
