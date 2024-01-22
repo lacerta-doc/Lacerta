@@ -3,16 +3,13 @@ package one.nem.lacerta.component.scanner;
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.AnimatorRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -28,11 +25,11 @@ import java.util.concurrent.CompletableFuture;
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
+import one.nem.lacerta.data.Document;
 import one.nem.lacerta.model.document.DocumentDetail;
 import one.nem.lacerta.model.document.DocumentMeta;
 import one.nem.lacerta.processor.factory.DocumentProcessorFactory;
 import one.nem.lacerta.utils.LacertaLogger;
-import one.nem.lacerta.data.Document;
 import one.nem.lacerta.vcs.factory.LacertaVcsFactory;
 
 @AndroidEntryPoint
