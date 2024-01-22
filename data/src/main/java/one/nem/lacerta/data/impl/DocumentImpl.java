@@ -1,5 +1,7 @@
 package one.nem.lacerta.data.impl;
 
+import androidx.room.Update;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -120,6 +122,19 @@ public class DocumentImpl implements Document {
     public CompletableFuture<Void> updateDocument(DocumentDetail detail) {
         return CompletableFuture.supplyAsync(() -> {
             updateXmlMeta(detail).join();
+            return null;
+        });
+    }
+
+    @Override
+    public CompletableFuture<Void> renameDocument(String documentId, String name) {
+        return CompletableFuture.supplyAsync(() -> {
+            DocumentEntity documentEntity = database.documentDao().findById(documentId);
+            if (documentEntity == null) {
+                throw new IllegalArgumentException("documentId is not found");
+            }
+            documentEntity.title = name;
+            database.documentDao().update(documentEntity);
             return null;
         });
     }
