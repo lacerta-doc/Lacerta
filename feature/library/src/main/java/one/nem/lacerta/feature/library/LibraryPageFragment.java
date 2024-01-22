@@ -137,6 +137,9 @@ public class LibraryPageFragment extends Fragment {
             this.libraryItemPage = new LibraryItemPage();
         }
 
+        // Toolbar Setup
+        toolbarSetup(view.findViewById(R.id.library_toolbar), this.folderId != null, this.title != null ? this.title : "ライブラリ");
+
         // RecyclerView Setup
 
         RecyclerView recyclerView = view.findViewById(R.id.library_item_recycler_view);
@@ -219,9 +222,8 @@ public class LibraryPageFragment extends Fragment {
      * @param toolbar Toolbar
      * @param showBackButton 戻るボタンを表示するか
      * @param title タイトル
-     * @param subtitle サブタイトル
      */
-    private void toolbarSetup(Toolbar toolbar, boolean showBackButton, String title, String subtitle) {
+    private void toolbarSetup(Toolbar toolbar, boolean showBackButton, String title) {
         getActivity().runOnUiThread(() -> {
             if (showBackButton) {
                 toolbar.setNavigationIcon(one.nem.lacerta.shared.ui.R.drawable.arrow_back_24px);
