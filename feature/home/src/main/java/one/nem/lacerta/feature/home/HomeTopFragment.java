@@ -17,6 +17,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -71,7 +72,6 @@ public class HomeTopFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home_top, container, false);
 
-        setHasOptionsMenu(true);
         return view;
     }
 
@@ -81,6 +81,8 @@ public class HomeTopFragment extends Fragment {
 
         RecyclerView recyclerView = view.findViewById(R.id.home_item_recycler_view);
 
+        Toolbar toolbar = view.findViewById(R.id.home_toolbar);
+        toolbarSetup(toolbar, false, "ホーム");
 
         ListItemAdapter listItemAdapter = new ListItemAdapter(documentId -> {
             Log.d("HomeTopFragment", "onViewCreated: " + documentId);
@@ -99,10 +101,27 @@ public class HomeTopFragment extends Fragment {
         });
     }
 
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.drawer_menu, menu);
-        super.onCreateOptionsMenu(menu, inflater);
+    /**
+     * ToolbarをInitする
+     *
+     * @param toolbar Toolbar
+     * @param showBackButton 戻るボタンを表示するか
+     * @param title タイトル
+     */
+    private void toolbarSetup(Toolbar toolbar, boolean showBackButton, String title) {
+        getActivity().runOnUiThread(() -> {
+            if (showBackButton) {
+                toolbar.setNavigationIcon(one.nem.lacerta.shared.ui.R.drawable.arrow_back_24px);
+                toolbar.setNavigationOnClickListener(v -> {
+                    //this.libraryItemPage = lacertaLibrary.getLibraryPage(this.libraryItemPage.getParentId(), 10).join();
+                    // Back
+                    Navigation.findNavController(requireView()).popBackStack();
+                });
+            } else {
+                toolbar.setNavigationIcon(null);
+            }
+            toolbar.setTitle(title);
+        });
     }
 }
 
