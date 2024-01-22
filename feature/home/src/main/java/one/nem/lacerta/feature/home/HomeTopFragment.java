@@ -94,9 +94,12 @@ public class HomeTopFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         lacertaLibrary.getRecentDocument(10).thenAccept(listItems -> {
+            if (listItems == null) {
+                return;
+            }
             listItemAdapter.setListItems(listItems);
             getActivity().runOnUiThread(() -> {
-                listItemAdapter.notifyItemRangeInserted(0, listItems.size());
+                listItemAdapter.notifyItemRangeInserted(0, listItems.size() - 1);
             });
         });
     }
