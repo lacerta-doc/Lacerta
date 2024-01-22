@@ -185,7 +185,7 @@ public class LibraryPageFragment extends Fragment {
             if (showBackButton) {
                 toolbar.setNavigationIcon(one.nem.lacerta.shared.ui.R.drawable.arrow_back_24px);
                 toolbar.setNavigationOnClickListener(v -> {
-                    this.publicPath = new PublicPath().parse(this.publicPath).resolve("..").getStringPath();
+                    this.publicPath = new PublicPath().parse(this.publicPath).parent().getStringPath();
                     getParentFragmentManager().popBackStack();
                 });
             } else {
