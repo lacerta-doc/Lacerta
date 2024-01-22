@@ -150,7 +150,7 @@ public class LibraryPageFragment extends Fragment {
                 // 画面遷移
                 FragmentNavigation fragmentNavigation = (FragmentNavigation) getActivity();
                 // folderId: 推移先で表示するフォルダのID, folderName: 推移先で表示するフォルダの名前, parentId: このフラグメントで表示しているフォルダのID(推移先の親)
-                fragmentNavigation.navigateToFragment(LibraryPageFragment.newInstance(folderId, folderName, libraryItemPage.getPageId()));
+                fragmentNavigation.navigateToFragment(LibraryPageFragment.newInstance(folderId, folderName, libraryItemPage != null ? libraryItemPage.getParentId() : null));
             }
 
             @Override
@@ -163,7 +163,7 @@ public class LibraryPageFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         // Get library page and update RecyclerView items
-        lacertaLibrary.getLibraryPage(this.libraryItemPage.getPageId(), 10).thenAccept(libraryItemPage -> {
+        lacertaLibrary.getLibraryPage(this.folderId, 10).thenAccept(libraryItemPage -> {
             this.libraryItemPage = libraryItemPage;
             logger.debug("LibraryTopFragment", "Item selected! Total item page: " + this.libraryItemPage.getListItems().size());
             getActivity().runOnUiThread(() -> { // TODO-rca: 実行条件を考える？
