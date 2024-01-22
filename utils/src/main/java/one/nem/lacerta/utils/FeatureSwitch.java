@@ -6,6 +6,16 @@ public class FeatureSwitch {
         public static boolean canOverrideSwitch = false;
     }
 
+    public static class RecyclerView {
+        public static boolean useSimpleNotifyMethod = true;
+    }
+
+    public static class Viewer {
+        public static boolean showOriginalImage = false;
+        public static int maxImageSize = 1024;
+        public static boolean showProgressBarWhenLoading = true;
+    }
+
     public static class FeatureMaster {
         public static boolean enableSearch = false;
         public static boolean enableDebugMenu = true;

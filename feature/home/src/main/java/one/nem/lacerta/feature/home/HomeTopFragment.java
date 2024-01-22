@@ -4,38 +4,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import one.nem.lacerta.component.viewer.ViewerMainActivity;
-import one.nem.lacerta.data.Document;
 import one.nem.lacerta.data.LacertaLibrary;
-import one.nem.lacerta.model.ListItem;
-import one.nem.lacerta.model.document.DocumentMeta;
-
+import one.nem.lacerta.utils.FeatureSwitch;
 
 
 /**
@@ -48,6 +31,8 @@ public class HomeTopFragment extends Fragment {
 
     @Inject
     LacertaLibrary lacertaLibrary;
+
+    private ListItemAdapter listItemAdapter;
 
     public HomeTopFragment() {
         // Required empty public constructor
@@ -71,7 +56,6 @@ public class HomeTopFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home_top, container, false);
 
-        setHasOptionsMenu(true);
         return view;
     }
 
@@ -81,28 +65,71 @@ public class HomeTopFragment extends Fragment {
 
         RecyclerView recyclerView = view.findViewById(R.id.home_item_recycler_view);
 
+        Toolbar toolbar = view.findViewById(R.id.home_toolbar);
+        toolbarSetup(toolbar, false, "ホーム");
 
-        ListItemAdapter listItemAdapter = new ListItemAdapter(documentId -> {
-            Log.d("HomeTopFragment", "onViewCreated: " + documentId);
-            Intent intent = new Intent(getContext(), ViewerMainActivity.class);
-            intent.putExtra("documentId", documentId);
-            startActivity(intent);
+        this.listItemAdapter = new ListItemAdapter(new DocumentSelectListener() {
+            @Override
+            public void onDocumentSelect(String documentId, String documentName) {
+                Intent intent = new Intent(getContext(), ViewerMainActivity.class);
+                Log.d("HomeTopFragment", "onDocumentSelect: " + documentId + " " + documentName);
+                intent.putExtra("documentId", documentId);
+                intent.putExtra("documentName", documentName);
+                startActivity(intent);
+            }
         });
         recyclerView.setAdapter(listItemAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        updateList();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        updateList();
+    }
+
+    private void updateList() {
         lacertaLibrary.getRecentDocument(10).thenAccept(listItems -> {
-            listItemAdapter.setListItems(listItems);
+            if (listItems == null) {
+                return;
+            }
+            this.listItemAdapter.setListItems(listItems);
             getActivity().runOnUiThread(() -> {
-                listItemAdapter.notifyItemRangeInserted(0, listItems.size());
+                Log.d("HomeTopFragment", "onViewCreated: " + listItems.size());
+                if (FeatureSwitch.RecyclerView.useSimpleNotifyMethod) {
+                    this.listItemAdapter.notifyDataSetChanged();
+                } else {
+                    // IndexOutOfBoundsExceptionを吐くことがあったので いったん
+                    this.listItemAdapter.notifyItemRangeInserted(0, listItems.size() - 1);
+                }
             });
         });
     }
 
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.drawer_menu, menu);
-        super.onCreateOptionsMenu(menu, inflater);
+    /**
+     * ToolbarをInitする
+     *
+     * @param toolbar Toolbar
+     * @param showBackButton 戻るボタンを表示するか
+     * @param title タイトル
+     */
+    private void toolbarSetup(Toolbar toolbar, boolean showBackButton, String title) {
+        getActivity().runOnUiThread(() -> {
+            if (showBackButton) {
+                toolbar.setNavigationIcon(one.nem.lacerta.shared.ui.R.drawable.arrow_back_24px);
+                toolbar.setNavigationOnClickListener(v -> {
+                    //this.libraryItemPage = lacertaLibrary.getLibraryPage(this.libraryItemPage.getParentId(), 10).join();
+                    // Back
+                    Navigation.findNavController(requireView()).popBackStack();
+                });
+            } else {
+                toolbar.setNavigationIcon(null);
+            }
+            toolbar.setTitle(title);
+        });
     }
 }
 

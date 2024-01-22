@@ -1,5 +1,9 @@
 package one.nem.lacerta.feature.library;
 
+/*
+Currently, this file is not used in the app.
+ */
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;

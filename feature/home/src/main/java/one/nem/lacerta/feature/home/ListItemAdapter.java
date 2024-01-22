@@ -46,15 +46,17 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ListIt
         holder.description.setText(listItem.getDescription());
 
         holder.itemView.setOnClickListener( v -> {
-            Intent intent = new Intent(v.getContext(), ViewerMainActivity.class);
-            intent.putExtra("documentId", listItem.getItemId());
-            v.getContext().startActivity(intent);
+            listener.onDocumentSelect(listItem.getItemId(), listItem.getTitle());
         });
     }
 
     @Override
     public int getItemCount() {
-        return listItems.size();
+        if (listItems == null) {
+            return 0;
+        } else {
+            return listItems.size();
+        }
     }
 
     public static class ListItemViewHolder extends RecyclerView.ViewHolder{

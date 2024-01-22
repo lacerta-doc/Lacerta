@@ -82,4 +82,6 @@ dependencies {
     implementation project(':model')
 
     implementation project(':utils')
+
+    implementation project(':component:scanner')
 }

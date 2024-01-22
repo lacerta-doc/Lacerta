@@ -1,5 +1,6 @@
 package one.nem.lacerta.vcs.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -136,6 +137,7 @@ public class LacertaVcsImpl implements LacertaVcs {
                 vcsRevModel.setId(vcsRevEntity.id);
                 vcsRevModel.setDocumentId(vcsRevEntity.documentId);
                 vcsRevModel.setBranchName(vcsRevEntity.branchName);
+                vcsRevModel.setCreatedAt(vcsRevEntity.createdAt);
                 vcsRevModel.setCommitMessage(vcsRevEntity.commitMessage);
                 vcsRevModel.setLogIds(vcsRevEntity.logIds);
                 vcsRevModels.add(vcsRevModel);

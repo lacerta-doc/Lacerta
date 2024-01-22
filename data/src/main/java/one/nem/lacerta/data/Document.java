@@ -18,6 +18,8 @@ public interface Document {
 
     CompletableFuture<DocumentDetail> createDocument();
 
+    CompletableFuture<Void> renameDocument(String documentId, String name);
+
     CompletableFuture<Void> deleteDocument(String documentId);
 
     CompletableFuture<Void> updateDocument(DocumentDetail detail);
