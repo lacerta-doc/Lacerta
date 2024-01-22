@@ -15,9 +15,7 @@ public interface LacertaLibrary {
     CompletableFuture<ArrayList<ListItem>> getRecentDocument(int limit);
     CompletableFuture<ArrayList<ListItem>> getRecentDocument(int limit, int offset);
 
-    // Get Library page
-    CompletableFuture<LibraryItemPage> getLibraryPage(int limit);
-    CompletableFuture<LibraryItemPage> getLibraryPage(int limit, int offset);
+    // Get Library Page
     CompletableFuture<LibraryItemPage> getLibraryPage(String pageId, int limit);
     CompletableFuture<LibraryItemPage> getLibraryPage(String pageId, int limit, int offset);
 
