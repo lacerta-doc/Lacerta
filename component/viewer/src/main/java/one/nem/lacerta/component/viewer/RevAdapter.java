@@ -1,4 +1,4 @@
-package one.nem.lacerta.feature.library;
+package one.nem.lacerta.component.viewer;
 
 import android.view.View;
 import android.view.ViewGroup;
