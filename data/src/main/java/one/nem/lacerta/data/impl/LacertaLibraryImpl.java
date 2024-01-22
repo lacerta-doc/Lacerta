@@ -1,6 +1,7 @@
 package one.nem.lacerta.data.impl;
 
 import java.text.DateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -16,6 +17,7 @@ import one.nem.lacerta.model.document.DocumentDetail;
 import one.nem.lacerta.source.database.LacertaDatabase;
 import one.nem.lacerta.source.database.common.DateTypeConverter;
 import one.nem.lacerta.source.database.entity.DocumentEntity;
+import one.nem.lacerta.source.database.entity.FolderEntity;
 import one.nem.lacerta.utils.LacertaLogger;
 
 public class LacertaLibraryImpl implements LacertaLibrary {
@@ -60,10 +62,48 @@ public class LacertaLibraryImpl implements LacertaLibrary {
         return null; // TODO-rca: Implement
     }
 
+    // Internal
+    private CompletableFuture<List<FolderEntity>> getFolderEntitiesByPublicPath(String publicPath) {
+        return CompletableFuture.supplyAsync(() -> {
+            return database.folderDao().findByPublicPathWithLimit(publicPath, 10); // TODO-rca: ハードコーディングやめる
+        });
+    }
+
+    private CompletableFuture<List<DocumentEntity>> getDocumentEntitiesByPublicPath(String publicPath) {
+        return CompletableFuture.supplyAsync(() -> {
+            return database.documentDao().findByPublicPathWithLimit(publicPath, 10); // TODO-rca: ハードコーディングやめる
+        });
+    }
+
     @Override
     public CompletableFuture<LibraryItemPage> getLibraryPage(int limit) {
         return CompletableFuture.supplyAsync(() -> {
-            return null;
+            LibraryItemPage libraryItemPage = new LibraryItemPage();
+
+            List<FolderEntity> folderEntities = getFolderEntitiesByPublicPath("/").join();
+            List<DocumentEntity> documentEntities = getDocumentEntitiesByPublicPath("/").join();
+
+            ArrayList<ListItem> listItems = new ArrayList<>();
+            for (FolderEntity folderEntity : folderEntities) {
+                ListItem listItem = new ListItem();
+                listItem.setItemType(ListItemType.ITEM_TYPE_FOLDER);
+                listItem.setTitle(folderEntity.name);
+                listItem.setDescription("フォルダ"); // TODO-rca: ハードコーディングやめる
+                listItem.setItemId(folderEntity.id);
+                listItems.add(listItem);
+            }
+            for (DocumentEntity documentEntity : documentEntities) {
+                ListItem listItem = new ListItem();
+                listItem.setItemType(ListItemType.ITEM_TYPE_DOCUMENT);
+                listItem.setTitle(documentEntity.title);
+                listItem.setDescription(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm").format(documentEntity.updatedAt.toInstant()));
+                listItem.setItemId(documentEntity.id);
+                listItems.add(listItem);
+            }
+
+            libraryItemPage.setListItems(listItems);
+
+            return libraryItemPage;
         });
     }
 
