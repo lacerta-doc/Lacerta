@@ -157,12 +157,12 @@ public class LacertaVcsImpl implements LacertaVcs {
     @Override
     public CompletableFuture<ArrayList<VcsLogModel>> getLogHistoryInRev(String revId) {
         return CompletableFuture.supplyAsync(() -> {
-            logger.debug(TAG, "getLogHistoryAtRev");
+            logger.debug(TAG, "getLogHistoryInRev");
             ArrayList<VcsLogModel> vcsLogModels = new ArrayList<>();
 
             VcsRevEntity vcsRevEntity = database.vcsRevDao().findById(revId);
-            vcsRevEntity.logIds.forEach(logId -> {
-                VcsLogEntity vcsLogEntity = database.vcsLogDao().findById(logId);
+            ArrayList<VcsLogEntity> vcsLogEntities = getLogInRev(vcsRevEntity);
+            vcsLogEntities.forEach(vcsLogEntity -> {
                 VcsLogModel vcsLogModel = new VcsLogModel();
                 vcsLogModel.setId(vcsLogEntity.id);
                 vcsLogModel.setDocumentId(vcsLogEntity.documentId);
@@ -176,9 +176,49 @@ public class LacertaVcsImpl implements LacertaVcs {
         });
     }
 
+    private ArrayList<VcsRevEntity> getRevBeforeTargetId(String revId){
+        ArrayList<VcsRevEntity> vcsRevEntities = new ArrayList<>(database.vcsRevDao().findByDocumentId(this.documentId));
+        ArrayList<VcsRevEntity> vcsRevEntitiesBeforeTarget = new ArrayList<>();
+        vcsRevEntities.forEach(vcsRevEntity -> {
+            if(vcsRevEntity.id.equals(revId)){
+                vcsRevEntitiesBeforeTarget.add(vcsRevEntity);
+                return;
+            }
+            vcsRevEntitiesBeforeTarget.add(vcsRevEntity);
+        });
+
+        return vcsRevEntitiesBeforeTarget;
+    }
+
+    private ArrayList<VcsLogEntity> getLogInRevs(ArrayList<VcsRevEntity> vcsRevEntities){
+        ArrayList<VcsLogEntity> vcsLogEntities = new ArrayList<>();
+        vcsRevEntities.forEach(vcsRevEntity -> {
+            vcsRevEntity.logIds.forEach(logId -> {
+                VcsLogEntity vcsLogEntity = database.vcsLogDao().findById(logId);
+                vcsLogEntities.add(vcsLogEntity);
+            });
+        });
+
+        return vcsLogEntities;
+    }
+
+    private ArrayList<VcsLogEntity> getLogInRev(VcsRevEntity revEntity) {
+        ArrayList<VcsLogEntity> vcsLogEntities = new ArrayList<>();
+        revEntity.logIds.forEach(logId -> {
+            VcsLogEntity vcsLogEntity = database.vcsLogDao().findById(logId);
+            vcsLogEntities.add(vcsLogEntity);
+        });
+
+        return vcsLogEntities;
+    }
+
     @Override
     public CompletableFuture<ArrayList<DocumentDetail>> getDocumentDetailAtRev(String revId) {
-        return null;
+        return CompletableFuture.supplyAsync(() -> {
+            ArrayList<VcsRevEntity> vcsRevEntities = getRevBeforeTargetId(revId);
+
+
+        });
     }
 
     @Override
