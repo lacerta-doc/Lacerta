@@ -22,7 +22,9 @@ import one.nem.lacerta.utils.LacertaLogger;
 import one.nem.lacerta.vcs.ActionType;
 import one.nem.lacerta.vcs.LacertaVcs;
 import one.nem.lacerta.vcs.internal.JsonUtils;
+import one.nem.lacerta.vcs.model.action.DeletePage;
 import one.nem.lacerta.vcs.model.action.InsertPage;
+import one.nem.lacerta.vcs.model.action.UpdatePage;
 
 public class LacertaVcsImpl implements LacertaVcs {
 
@@ -227,6 +229,21 @@ public class LacertaVcsImpl implements LacertaVcs {
         documentMeta.setTags(new ArrayList<>()); // TODO-rca: タグの実装
 
         return documentMeta;
+    }
+
+    private DocumentDetail applyInsertPage(DocumentDetail documentDetail, InsertPage insertPage) {
+        // TODO-rca: 実装
+        return null;
+    }
+
+    private DocumentDetail applyUpdatePage(DocumentDetail documentDetail, UpdatePage updatePage) {
+        // TODO-rca: 実装
+        return null;
+    }
+
+    private DocumentDetail applyDeletePage(DocumentDetail documentDetail, DeletePage deletePage) {
+        // TODO-rca: 実装
+        return null;
     }
 
     @Override
