@@ -76,7 +76,8 @@ public class LacertaVcsImpl implements LacertaVcs {
         vcsLogEntity.documentId = documentId;
         vcsLogEntity.branchName = "master";
         vcsLogEntity.createdAt = new java.util.Date();
-        vcsLogEntity.action = "ph-createDocument";
+        vcsLogEntity.actionType = ActionType.CREATE_DOCUMENT.getValue();
+        vcsLogEntity.action = "";
         database.vcsLogDao().insert(vcsLogEntity);
     }
 
