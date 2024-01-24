@@ -216,46 +216,30 @@ public class LacertaVcsImpl implements LacertaVcs {
         return vcsLogEntities;
     }
 
-    private DocumentMeta createDocumentMeta() {
-        DocumentMeta documentMeta = new DocumentMeta();
-        DocumentEntity documentEntity = database.documentDao().findById(documentId);
-        documentMeta.setId(documentEntity.id);
-        documentMeta.setCreatedAt(documentEntity.createdAt);
-        documentMeta.setUpdatedAt(documentEntity.updatedAt);
-        documentMeta.setDefaultBranch(documentEntity.defaultBranch);
-        documentMeta.setAuthor(documentEntity.author);
-        documentMeta.setParentId(documentEntity.parentId);
-        documentMeta.setTitle(documentEntity.title);
-        documentMeta.setTags(new ArrayList<>()); // TODO-rca: タグの実装
-
-        return documentMeta;
-    }
-
-    private ArrayList<String> applyInsertPage(ArrayList<String> fileNameList, InsertPage insertPage) {
-        fileNameList.add(insertPage.getIndex(), insertPage.getFileName());
-        return fileNameList;
-    }
-
-    private ArrayList<String> applyUpdatePage(DocumentDetail documentDetail, UpdatePage updatePage) {
-        // TODO-rca: 実装
-        return null;
-    }
-
-    private DocumentDetail applyDeletePage(DocumentDetail documentDetail, DeletePage deletePage) {
-        // TODO-rca: 実装
-        return null;
-    }
-
     @Override
     public CompletableFuture<ArrayList<String>> getDocumentPagePathListRev(String revId) {
         return CompletableFuture.supplyAsync(() -> {
             ArrayList<VcsRevEntity> vcsRevEntities = getRevBeforeTargetId(revId);
             ArrayList<VcsLogEntity> vcsLogEntities = getLogInRevs(vcsRevEntities);
 
-            DocumentDetail documentDetail = new DocumentDetail();
-            documentDetail.setMeta(createDocumentMeta());
+            final ArrayList<String>[] fileNameList = new ArrayList[]{new ArrayList<>()};
 
-            vcsLogEntities.
+            vcsLogEntities.forEach(vcsLogEntity -> {
+                if (vcsLogEntity.actionType.equals(ActionType.INSERT_PAGE.getValue())){
+                    InsertPage insertPage = (InsertPage) JsonUtils.fromJson(vcsLogEntity.action, ActionType.INSERT_PAGE);
+                    fileNameList[0].add(insertPage.getIndex(), insertPage.getFileName());
+                } else if (vcsLogEntity.actionType.equals(ActionType.UPDATE_PAGE.getValue())){
+                    UpdatePage updatePage = (UpdatePage) JsonUtils.fromJson(vcsLogEntity.action, ActionType.UPDATE_PAGE);
+                    fileNameList[0].set(updatePage.getIndex(), updatePage.getFileName());
+                } else if (vcsLogEntity.actionType.equals(ActionType.DELETE_PAGE.getValue())){
+                    DeletePage deletePage = (DeletePage) JsonUtils.fromJson(vcsLogEntity.action, ActionType.DELETE_PAGE);
+                    fileNameList[0].remove(deletePage.getIndex());
+                } else {
+                    logger.debug(TAG, "Unknown action type");
+                }
+            });
+
+            return fileNameList[0];
         });
     }
 
