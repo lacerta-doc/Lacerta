@@ -159,7 +159,7 @@ public class LacertaVcsImpl implements LacertaVcs {
             ArrayList<VcsLogModel> vcsLogModels = new ArrayList<>();
 
             VcsRevEntity vcsRevEntity = database.vcsRevDao().findById(revId);
-            ArrayList<VcsLogEntity> vcsLogEntities = getLogInRev(vcsRevEntity);
+            ArrayList<VcsLogEntity> vcsLogEntities = getLogInRevAsync(vcsRevEntity).join(); // TODO-rca: リファクタリング
             vcsLogEntities.forEach(vcsLogEntity -> {
                 VcsLogModel vcsLogModel = new VcsLogModel();
                 vcsLogModel.setId(vcsLogEntity.id);
@@ -201,8 +201,8 @@ public class LacertaVcsImpl implements LacertaVcs {
         });
     }
 
-    private ArrayList<VcsLogEntity> getLogInRev(VcsRevEntity revEntity) {
-        return new ArrayList<>(database.vcsLogDao().findByIds(revEntity.logIds));
+    private CompletableFuture<ArrayList<VcsLogEntity>> getLogInRevAsync(VcsRevEntity revEntity) {
+        return CompletableFuture.supplyAsync(() -> new ArrayList<>(database.vcsLogDao().findByIds(revEntity.logIds)));
     }
 
     @Override
