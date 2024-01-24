@@ -3,7 +3,10 @@ package one.nem.lacerta.vcs;
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 
+import one.nem.lacerta.model.VcsLogModel;
 import one.nem.lacerta.model.VcsRevModel;
+import one.nem.lacerta.model.document.DocumentDetail;
+import one.nem.lacerta.source.database.entity.VcsLogEntity;
 
 public interface LacertaVcs {
 
@@ -19,6 +22,10 @@ public interface LacertaVcs {
     public void generateRevisionAtCurrent(String message);
 
     public CompletableFuture<ArrayList<VcsRevModel>> getRevisionHistory();
+
+    public CompletableFuture<ArrayList<VcsLogModel>> getLogHistory();
+
+    public CompletableFuture<ArrayList<DocumentDetail>> getDocumentDetailAtRev(String revId);
 
 
     // debug

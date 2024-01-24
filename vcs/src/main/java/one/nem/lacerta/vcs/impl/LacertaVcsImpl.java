@@ -10,7 +10,9 @@ import javax.inject.Inject;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedInject;
+import one.nem.lacerta.model.VcsLogModel;
 import one.nem.lacerta.model.VcsRevModel;
+import one.nem.lacerta.model.document.DocumentDetail;
 import one.nem.lacerta.source.database.LacertaDatabase;
 import one.nem.lacerta.source.database.entity.VcsLogEntity;
 import one.nem.lacerta.source.database.entity.VcsRevEntity;
@@ -145,6 +147,16 @@ public class LacertaVcsImpl implements LacertaVcs {
 
             return vcsRevModels;
         });
+    }
+
+    @Override
+    public CompletableFuture<ArrayList<VcsLogModel>> getLogHistory() {
+        return null;
+    }
+
+    @Override
+    public CompletableFuture<ArrayList<DocumentDetail>> getDocumentDetailAtRev(String revId) {
+        return null;
     }
 
     @Override
