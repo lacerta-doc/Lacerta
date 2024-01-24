@@ -210,6 +210,7 @@ public class LacertaVcsImpl implements LacertaVcs {
         return CompletableFuture.supplyAsync(() -> {
             logger.debug(TAG, "getDocumentPagePathListRev");
             ArrayList<VcsLogEntity> vcsLogEntities = getRevBeforeTargetIdAsync(revId).thenCompose(this::getLogInRevsAsync).join();
+            logger.debug(TAG, "Query finished\nSize: " + vcsLogEntities.size());
 
             // finalで宣言しないとLambda式内で扱えないので
             final ArrayList<String>[] fileNameList = new ArrayList[]{new ArrayList<>()};
