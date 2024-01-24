@@ -76,16 +76,22 @@ public class DocumentProcessorImpl implements DocumentProcessor{
 
         lacertaVcs.insertPage(this.documentDetail.getPages().size(), filename);
 
-        Page page = new Page();
-        page.setFileName(filename);
-        page.setBitmap(bitmap);
-        this.documentDetail.getPages().add(page);
+        try {
+            Page page = new Page();
+            page.setFileName(filename);
+            page.setBitmap(bitmap);
+            this.documentDetail.getPages().add(page);
 
-        this.fileManager.getNewInstance().createDirectoryIfNotExist(DEFAULT_SAVE_DIR).resolve(DEFAULT_SAVE_DIR).saveBitmap(bitmap, filename);
+            this.fileManager.getNewInstance().createDirectoryIfNotExist(DEFAULT_SAVE_DIR).resolve(DEFAULT_SAVE_DIR).saveBitmap(bitmap, filename);
 
-        logger.info("addNewPageToLast", "finished");
-        logger.info("addNewPageToLast", "filename: " + filename);
-
+            logger.info("addNewPageToLast", "finished");
+            logger.info("addNewPageToLast", "filename: " + filename);
+        } catch (Exception e) {
+            logger.error("addNewPageToLast", "failed: Unknown error");
+            logger.e_code("d9191286-6092-40b3-80ed-9239106a8c65");
+            // Recover (Undo latest action)
+            lacertaVcs.undo();
+        }
         return this;
     }
 
