@@ -4,6 +4,8 @@ public class FeatureSwitch {
 
     public static class Meta {
         public static boolean canOverrideSwitch = false;
+
+        public static boolean disableDynamicColor = false;
     }
 
     public static class RecyclerView {

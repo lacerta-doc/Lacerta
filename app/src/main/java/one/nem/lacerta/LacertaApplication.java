@@ -6,6 +6,7 @@ import android.util.Log;
 import com.google.android.material.color.DynamicColors;
 
 import dagger.hilt.android.HiltAndroidApp;
+import one.nem.lacerta.utils.FeatureSwitch;
 
 @HiltAndroidApp
 public class LacertaApplication extends Application {
@@ -15,7 +16,11 @@ public class LacertaApplication extends Application {
 
         if (DynamicColors.isDynamicColorAvailable()) {
             Log.d("DynamicColors", "DynamicColors is available. Applying to activities...");
-            DynamicColors.applyToActivitiesIfAvailable(this);
+            if (FeatureSwitch.Meta.disableDynamicColor) {
+                Log.d("DynamicColors", "DynamicColors is disabled by FeatureSwitch.");
+            } else {
+                DynamicColors.applyToActivitiesIfAvailable(this);
+            }
         } else {
             Log.d("DynamicColors", "DynamicColors is not available.");
         }
