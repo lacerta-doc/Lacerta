@@ -1,22 +1,15 @@
 package one.nem.lacerta.vcs.impl;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionException;
-
-import javax.inject.Inject;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedInject;
 import one.nem.lacerta.model.VcsLogModel;
 import one.nem.lacerta.model.VcsRevModel;
-import one.nem.lacerta.model.document.DocumentDetail;
-import one.nem.lacerta.model.document.DocumentMeta;
 import one.nem.lacerta.source.database.LacertaDatabase;
-import one.nem.lacerta.source.database.entity.DocumentEntity;
 import one.nem.lacerta.source.database.entity.VcsLogEntity;
 import one.nem.lacerta.source.database.entity.VcsRevEntity;
 import one.nem.lacerta.utils.LacertaLogger;
@@ -197,7 +190,7 @@ public class LacertaVcsImpl implements LacertaVcs {
         });
     }
 
-    private CompletableFuture<ArrayList<VcsLogEntity>> getLogInRevs(ArrayList<VcsRevEntity> vcsRevEntities){
+    private CompletableFuture<ArrayList<VcsLogEntity>> getLogInRevsAsync(ArrayList<VcsRevEntity> vcsRevEntities){
         return CompletableFuture.supplyAsync(() -> {
             List<String> logIds = new ArrayList<>();
             vcsRevEntities.forEach(vcsRevEntity -> {
@@ -216,7 +209,7 @@ public class LacertaVcsImpl implements LacertaVcs {
     public CompletableFuture<ArrayList<String>> getDocumentPagePathListRev(String revId) {
         return CompletableFuture.supplyAsync(() -> {
             logger.debug(TAG, "getDocumentPagePathListRev");
-            ArrayList<VcsLogEntity> vcsLogEntities = getRevBeforeTargetIdAsync(revId).thenCompose(this::getLogInRevs).join();
+            ArrayList<VcsLogEntity> vcsLogEntities = getRevBeforeTargetIdAsync(revId).thenCompose(this::getLogInRevsAsync).join();
 
             // finalで宣言しないとLambda式内で扱えないので
             final ArrayList<String>[] fileNameList = new ArrayList[]{new ArrayList<>()};
