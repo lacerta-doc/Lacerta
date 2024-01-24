@@ -173,6 +173,34 @@ public class DocumentImpl implements Document {
         });
     }
 
+    @Override
+    public CompletableFuture<ArrayList<Page>> getDocumentPageListByFileNameList(String documentId, ArrayList<String> fileNameList) {
+        return CompletableFuture.supplyAsync(() -> {
+            ArrayList<Page> pages = new ArrayList<>();
+            FileManager fileManager;
+            try {
+                fileManager = fileManagerFactory.create(deviceInfoUtils.getExternalStorageDirectory()).resolve(documentId).resolve("raw");
+            } catch (IOException e) {
+                logger.error(TAG, "FileManager resolve error");
+                logger.trace(TAG, e.getMessage());
+                logger.e_code("1210ae5b-dd2f-42ef-bc15-40b9a9bbdb16");
+                return null;
+            }
+
+            fileNameList.forEach(fileName -> {
+                try {
+                    pages.add(new Page(fileName, fileManager.loadBitmap(fileName)));
+                } catch (IOException e) {
+                    logger.error(TAG, "Bitmap decode error");
+                    logger.trace(TAG, e.getMessage());
+                    logger.e_code("6f9ba0dc-ac63-401c-8f50-a2bd9ff5cb91");
+                }
+            });
+
+            return pages;
+        });
+    }
+
     private CompletableFuture<ArrayList<XmlMetaPageModel>> getPagesByXmlMeta(String documentId) {
         return CompletableFuture.supplyAsync(() -> {
             FileManager fileManager = fileManagerFactory.create(deviceInfoUtils.getExternalStorageDirectory());
