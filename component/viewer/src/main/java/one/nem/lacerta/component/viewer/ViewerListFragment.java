@@ -98,7 +98,7 @@ public class ViewerListFragment extends Fragment {
         });
         recyclerView.setAdapter(viewerBodyAdapter);
 
-        if (revisionId.isEmpty()) {
+        if (revisionId == null) {
             logger.debug(TAG, "revisionId is empty, loading latest revision");
             if (FeatureSwitch.Viewer.showProgressBarWhenLoading) view.findViewById(R.id.loading_progress_bar).setVisibility(View.VISIBLE);
             document.getDocument(documentId).thenAccept(documentDetail -> {
@@ -154,7 +154,7 @@ public class ViewerListFragment extends Fragment {
                 if (item.getItemId() == R.id.action_open_vcs_rev_list) {
                     // Open vcs rev list
                     getParentFragmentManager().beginTransaction()
-                            .replace(R.id.nav_host_fragment, ViewerVcsRevListFragment.newInstance(documentId))
+                            .replace(R.id.nav_host_fragment, ViewerVcsRevListFragment.newInstance(documentId, documentName))
                             .commit();
                     return true;
                 } else if (item.getItemId() == R.id.action_rename) {
