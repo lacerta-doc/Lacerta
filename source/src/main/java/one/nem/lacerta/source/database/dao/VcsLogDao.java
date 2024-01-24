@@ -56,4 +56,7 @@ public interface VcsLogDao {
     // Delete
     @Query("DELETE FROM vcs_log WHERE id = :id")
     void deleteById(String id);
+
+    @Query("DELETE FROM vcs_log WHERE document_id = :documentId ORDER BY created_at LIMIT 1")
+    void deleteLatestByDocumentId(String documentId);
 }
