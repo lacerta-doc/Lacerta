@@ -22,6 +22,8 @@ import one.nem.lacerta.data.Document;
 import one.nem.lacerta.model.document.page.Page;
 import one.nem.lacerta.utils.FeatureSwitch;
 import one.nem.lacerta.utils.LacertaLogger;
+import one.nem.lacerta.vcs.LacertaVcs;
+import one.nem.lacerta.vcs.factory.LacertaVcsFactory;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -37,10 +39,14 @@ public class ViewerPrimaryFragment extends Fragment {
     @Inject
     LacertaLogger logger;
 
+    @Inject
+    LacertaVcsFactory lacertaVcsFactory;
+
     private static final String TAG = "ComponentViewerTopFragment";
 
     private String documentId;
     private String documentName;
+    private String revisionId;
 
     public ViewerPrimaryFragment() {
         // Required empty public constructor
@@ -71,6 +77,7 @@ public class ViewerPrimaryFragment extends Fragment {
         if (getArguments() != null) {
             documentId = getArguments().getString("documentId");
             documentName = getArguments().getString("documentName");
+            revisionId = getArguments().getString("revisionId");
         }
     }
 
@@ -91,16 +98,34 @@ public class ViewerPrimaryFragment extends Fragment {
         });
         recyclerView.setAdapter(viewerBodyAdapter);
 
-        if (FeatureSwitch.Viewer.showProgressBarWhenLoading) view.findViewById(R.id.loading_progress_bar).setVisibility(View.VISIBLE);
-        document.getDocument(documentId).thenAccept(documentDetail -> {
-            ArrayList<Page> pages = documentDetail.getPages();
-            logger.debug(TAG, "pages.size(): " + pages.size());
-            viewerBodyAdapter.setPages(pages);
-            getActivity().runOnUiThread(() -> {
-                viewerBodyAdapter.notifyItemRangeChanged(0, pages.size());
-                if (FeatureSwitch.Viewer.showProgressBarWhenLoading) view.findViewById(R.id.loading_progress_bar).setVisibility(View.GONE);
+        if (revisionId.isEmpty()) {
+            logger.debug(TAG, "revisionId is empty, loading latest revision");
+            if (FeatureSwitch.Viewer.showProgressBarWhenLoading) view.findViewById(R.id.loading_progress_bar).setVisibility(View.VISIBLE);
+            document.getDocument(documentId).thenAccept(documentDetail -> {
+                ArrayList<Page> pages = documentDetail.getPages();
+                logger.debug(TAG, "pages.size(): " + pages.size());
+                viewerBodyAdapter.setPages(pages);
+                getActivity().runOnUiThread(() -> {
+                    viewerBodyAdapter.notifyItemRangeChanged(0, pages.size());
+                    if (FeatureSwitch.Viewer.showProgressBarWhenLoading) view.findViewById(R.id.loading_progress_bar).setVisibility(View.GONE);
+                });
             });
-        });
+        } else {
+            logger.debug(TAG, "revisionId: " + revisionId);
+            if (FeatureSwitch.Viewer.showProgressBarWhenLoading) view.findViewById(R.id.loading_progress_bar).setVisibility(View.VISIBLE);
+            LacertaVcs lacertaVcs = lacertaVcsFactory.create(documentId);
+            lacertaVcs.getDocumentPagePathListRev(revisionId).thenAccept(documentPathList -> {
+                logger.debug(TAG, "documentPathList.size(): " + documentPathList.size());
+                document.getDocumentPageListByFileNameList(documentId, documentPathList).thenAccept(pages -> {
+                    logger.debug(TAG, "pages.size(): " + pages.size());
+                    viewerBodyAdapter.setPages(pages);
+                    getActivity().runOnUiThread(() -> {
+                        viewerBodyAdapter.notifyItemRangeChanged(0, pages.size());
+                        if (FeatureSwitch.Viewer.showProgressBarWhenLoading) view.findViewById(R.id.loading_progress_bar).setVisibility(View.GONE);
+                    });
+                });
+            });
+        }
 
         return view;
     }
