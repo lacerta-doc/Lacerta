@@ -82,15 +82,12 @@ public class HomeTopFragment extends Fragment {
         Toolbar toolbar = view.findViewById(R.id.home_toolbar);
         toolbarSetup(toolbar, false, "ホーム");
 
-        this.listItemAdapter = new ListItemAdapter(new DocumentSelectListener() {
-            @Override
-            public void onDocumentSelect(String documentId, String documentName) {
-                Intent intent = new Intent(getContext(), ViewerMainActivity.class);
-                Log.d("HomeTopFragment", "onDocumentSelect: " + documentId + " " + documentName);
-                intent.putExtra("documentId", documentId);
-                intent.putExtra("documentName", documentName);
-                startActivity(intent);
-            }
+        this.listItemAdapter = new ListItemAdapter((documentId, documentName) -> {
+            Intent intent = new Intent(getContext(), ViewerMainActivity.class);
+            Log.d("HomeTopFragment", "onDocumentSelect: " + documentId + " " + documentName);
+            intent.putExtra("documentId", documentId);
+            intent.putExtra("documentName", documentName);
+            startActivity(intent);
         });
         recyclerView.setAdapter(listItemAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -135,8 +132,6 @@ public class HomeTopFragment extends Fragment {
             if (showBackButton) {
                 toolbar.setNavigationIcon(one.nem.lacerta.shared.ui.R.drawable.arrow_back_24px);
                 toolbar.setNavigationOnClickListener(v -> {
-                    //this.libraryItemPage = lacertaLibrary.getLibraryPage(this.libraryItemPage.getParentId(), 10).join();
-                    // Back
                     Navigation.findNavController(requireView()).popBackStack();
                 });
             } else {
