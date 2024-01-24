@@ -185,6 +185,7 @@ public class LacertaVcsImpl implements LacertaVcs {
                 }
                 vcsRevEntitiesBeforeTarget.add(vcsRevEntity);
             });
+            logger.debug(TAG, "getRevBeforeTargetIdAsync finished\nResult size: " + vcsRevEntitiesBeforeTarget.size());
             return vcsRevEntitiesBeforeTarget;
         });
     }
