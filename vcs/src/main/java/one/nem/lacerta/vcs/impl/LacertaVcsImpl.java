@@ -185,7 +185,6 @@ public class LacertaVcsImpl implements LacertaVcs {
                 }
                 vcsRevEntitiesBeforeTarget.add(vcsRevEntity);
             });
-
             return vcsRevEntitiesBeforeTarget;
         });
     }
@@ -197,12 +196,18 @@ public class LacertaVcsImpl implements LacertaVcs {
                 logIds.addAll(vcsRevEntity.logIds);
             });
             // TODO-rca: ソートしないといけないかも（順番が保証されているわけではない + 順番が変わるとほぼ確実に壊れる）
-            return new ArrayList<>(database.vcsLogDao().findByIds(logIds));
+            ArrayList<VcsLogEntity> vcsLogEntities = new ArrayList<>(database.vcsLogDao().findByIds(logIds));
+            logger.debug(TAG, "getLogInRevsAsync finished\nResult size: " + vcsLogEntities.size());
+            return vcsLogEntities;
         });
     }
 
     private CompletableFuture<ArrayList<VcsLogEntity>> getLogInRevAsync(VcsRevEntity revEntity) {
-        return CompletableFuture.supplyAsync(() -> new ArrayList<>(database.vcsLogDao().findByIds(revEntity.logIds)));
+        return CompletableFuture.supplyAsync(() -> {
+            ArrayList<VcsLogEntity> vcsLogEntities = new ArrayList<>(database.vcsLogDao().findByIds(revEntity.logIds));
+            logger.debug(TAG, "getLogInRevAsync finished\nResult size: " + vcsLogEntities.size());
+            return vcsLogEntities;
+        });
     }
 
     @Override
@@ -210,7 +215,6 @@ public class LacertaVcsImpl implements LacertaVcs {
         return CompletableFuture.supplyAsync(() -> {
             logger.debug(TAG, "getDocumentPagePathListRev");
             ArrayList<VcsLogEntity> vcsLogEntities = getRevBeforeTargetIdAsync(revId).thenCompose(this::getLogInRevsAsync).join();
-            logger.debug(TAG, "Query finished\nSize: " + vcsLogEntities.size());
 
             // finalで宣言しないとLambda式内で扱えないので
             final ArrayList<String>[] fileNameList = new ArrayList[]{new ArrayList<>()};
