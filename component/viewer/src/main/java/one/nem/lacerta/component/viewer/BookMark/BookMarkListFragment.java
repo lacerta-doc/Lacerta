@@ -1,4 +1,4 @@
-package one.nem.lacerta.component.viewer;
+package one.nem.lacerta.component.viewer.BookMark;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import one.nem.lacerta.component.viewer.R;
 
 // BookMarkListFragment.java
 public class BookMarkListFragment extends Fragment {

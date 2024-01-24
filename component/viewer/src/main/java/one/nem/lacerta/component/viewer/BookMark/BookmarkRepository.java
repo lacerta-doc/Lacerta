@@ -1,4 +1,4 @@
-package one.nem.lacerta.component.viewer;
+package one.nem.lacerta.component.viewer.BookMark;
 
 // BookmarkRepository.java
 import java.util.ArrayList;
