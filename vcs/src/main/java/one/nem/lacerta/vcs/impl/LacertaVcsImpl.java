@@ -13,7 +13,9 @@ import dagger.assisted.AssistedInject;
 import one.nem.lacerta.model.VcsLogModel;
 import one.nem.lacerta.model.VcsRevModel;
 import one.nem.lacerta.model.document.DocumentDetail;
+import one.nem.lacerta.model.document.DocumentMeta;
 import one.nem.lacerta.source.database.LacertaDatabase;
+import one.nem.lacerta.source.database.entity.DocumentEntity;
 import one.nem.lacerta.source.database.entity.VcsLogEntity;
 import one.nem.lacerta.source.database.entity.VcsRevEntity;
 import one.nem.lacerta.utils.LacertaLogger;
@@ -212,12 +214,32 @@ public class LacertaVcsImpl implements LacertaVcs {
         return vcsLogEntities;
     }
 
+    private DocumentMeta createDocumentMeta() {
+        DocumentMeta documentMeta = new DocumentMeta();
+        DocumentEntity documentEntity = database.documentDao().findById(documentId);
+        documentMeta.setId(documentEntity.id);
+        documentMeta.setCreatedAt(documentEntity.createdAt);
+        documentMeta.setUpdatedAt(documentEntity.updatedAt);
+        documentMeta.setDefaultBranch(documentEntity.defaultBranch);
+        documentMeta.setAuthor(documentEntity.author);
+        documentMeta.setParentId(documentEntity.parentId);
+        documentMeta.setTitle(documentEntity.title);
+        documentMeta.setTags(new ArrayList<>()); // TODO-rca: タグの実装
+
+        return documentMeta;
+    }
+
     @Override
-    public CompletableFuture<ArrayList<DocumentDetail>> getDocumentDetailAtRev(String revId) {
+    public CompletableFuture<DocumentDetail> getDocumentDetailAtRev(String revId) {
         return CompletableFuture.supplyAsync(() -> {
             ArrayList<VcsRevEntity> vcsRevEntities = getRevBeforeTargetId(revId);
+            ArrayList<VcsLogEntity> vcsLogEntities = getLogInRevs(vcsRevEntities);
 
+            DocumentDetail documentDetail = new DocumentDetail();
+            documentDetail.setMeta(createDocumentMeta());
 
+            // WIP
+            return null;
         });
     }
 

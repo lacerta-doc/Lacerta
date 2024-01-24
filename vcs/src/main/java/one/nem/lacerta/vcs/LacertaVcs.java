@@ -26,7 +26,7 @@ public interface LacertaVcs {
 
     public CompletableFuture<ArrayList<VcsLogModel>> getLogHistoryInRev(String revId);
 
-    public CompletableFuture<ArrayList<DocumentDetail>> getDocumentDetailAtRev(String revId);
+    public CompletableFuture<DocumentDetail> getDocumentDetailAtRev(String revId);
 
 
     // debug
