@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
 
 import javax.inject.Inject;
 
@@ -180,26 +181,31 @@ public class LacertaVcsImpl implements LacertaVcs {
         });
     }
 
-    private ArrayList<VcsRevEntity> getRevBeforeTargetId(String revId){
-        ArrayList<VcsRevEntity> vcsRevEntities = new ArrayList<>(database.vcsRevDao().findByDocumentId(this.documentId));
-        ArrayList<VcsRevEntity> vcsRevEntitiesBeforeTarget = new ArrayList<>();
-        vcsRevEntities.forEach(vcsRevEntity -> {
-            if(vcsRevEntity.id.equals(revId)){
+    private CompletableFuture<ArrayList<VcsRevEntity>> getRevBeforeTargetIdAsync(String revId){
+        return CompletableFuture.supplyAsync(() -> {
+            ArrayList<VcsRevEntity> vcsRevEntities = new ArrayList<>(database.vcsRevDao().findByDocumentId(this.documentId));
+            ArrayList<VcsRevEntity> vcsRevEntitiesBeforeTarget = new ArrayList<>();
+            vcsRevEntities.forEach(vcsRevEntity -> {
+                if(vcsRevEntity.id.equals(revId)){
+                    vcsRevEntitiesBeforeTarget.add(vcsRevEntity);
+                    return;
+                }
                 vcsRevEntitiesBeforeTarget.add(vcsRevEntity);
-                return;
-            }
-            vcsRevEntitiesBeforeTarget.add(vcsRevEntity);
-        });
+            });
 
-        return vcsRevEntitiesBeforeTarget;
+            return vcsRevEntitiesBeforeTarget;
+        });
     }
 
-    private ArrayList<VcsLogEntity> getLogInRevs(ArrayList<VcsRevEntity> vcsRevEntities){
-        List<String> logIds = new ArrayList<>();
-        vcsRevEntities.forEach(vcsRevEntity -> {
-            logIds.addAll(vcsRevEntity.logIds);
+    private CompletableFuture<ArrayList<VcsLogEntity>> getLogInRevs(ArrayList<VcsRevEntity> vcsRevEntities){
+        return CompletableFuture.supplyAsync(() -> {
+            List<String> logIds = new ArrayList<>();
+            vcsRevEntities.forEach(vcsRevEntity -> {
+                logIds.addAll(vcsRevEntity.logIds);
+            });
+            // TODO-rca: ソートしないといけないかも（順番が保証されているわけではない + 順番が変わるとほぼ確実に壊れる）
+            return new ArrayList<>(database.vcsLogDao().findByIds(logIds));
         });
-        return new ArrayList<>(database.vcsLogDao().findByIds(logIds));
     }
 
     private ArrayList<VcsLogEntity> getLogInRev(VcsRevEntity revEntity) {
@@ -209,8 +215,8 @@ public class LacertaVcsImpl implements LacertaVcs {
     @Override
     public CompletableFuture<ArrayList<String>> getDocumentPagePathListRev(String revId) {
         return CompletableFuture.supplyAsync(() -> {
-            ArrayList<VcsRevEntity> vcsRevEntities = getRevBeforeTargetId(revId);
-            ArrayList<VcsLogEntity> vcsLogEntities = getLogInRevs(vcsRevEntities);
+            ArrayList<VcsRevEntity> vcsRevEntities = getRevBeforeTargetIdAsync(revId).join();
+            ArrayList<VcsLogEntity> vcsLogEntities = getLogInRevs(vcsRevEntities).join();
 
             // finalで宣言しないとLambda式内で扱えないので
             final ArrayList<String>[] fileNameList = new ArrayList[]{new ArrayList<>()};
