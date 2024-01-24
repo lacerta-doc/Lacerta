@@ -74,12 +74,12 @@ public class DocumentProcessorImpl implements DocumentProcessor{
         logger.debug("addNewPageToLast", "called");
         String filename = UUID.randomUUID().toString() + ".png"; // TODO-rca: 拡張子を動的にする
 
+        lacertaVcs.insertPage(this.documentDetail.getPages().size(), filename);
+
         Page page = new Page();
         page.setFileName(filename);
         page.setBitmap(bitmap);
         this.documentDetail.getPages().add(page);
-
-        lacertaVcs.insertPage(documentDetail.getPages().size(), filename);
 
         this.fileManager.getNewInstance().createDirectoryIfNotExist(DEFAULT_SAVE_DIR).resolve(DEFAULT_SAVE_DIR).saveBitmap(bitmap, filename);
 
