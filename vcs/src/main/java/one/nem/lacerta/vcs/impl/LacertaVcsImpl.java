@@ -203,13 +203,7 @@ public class LacertaVcsImpl implements LacertaVcs {
     }
 
     private ArrayList<VcsLogEntity> getLogInRev(VcsRevEntity revEntity) {
-        ArrayList<VcsLogEntity> vcsLogEntities = new ArrayList<>();
-        revEntity.logIds.forEach(logId -> {
-            VcsLogEntity vcsLogEntity = database.vcsLogDao().findById(logId);
-            vcsLogEntities.add(vcsLogEntity);
-        });
-
-        return vcsLogEntities;
+        return new ArrayList<>(database.vcsLogDao().findByIds(revEntity.logIds));
     }
 
     @Override
