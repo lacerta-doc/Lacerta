@@ -55,7 +55,7 @@ public class ViewerMainActivity extends AppCompatActivity {
 
         // Navigation
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.nav_host_fragment, ViewerPrimaryFragment.newInstance(documentId, documentName))
+                .replace(R.id.nav_host_fragment, ViewerListFragment.newInstance(documentId, documentName))
                 .commit();
     }
 }

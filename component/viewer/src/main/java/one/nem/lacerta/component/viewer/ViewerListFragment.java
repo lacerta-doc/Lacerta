@@ -27,11 +27,11 @@ import one.nem.lacerta.vcs.factory.LacertaVcsFactory;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ViewerPrimaryFragment#newInstance} factory method to
+ * Use the {@link ViewerListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 @AndroidEntryPoint
-public class ViewerPrimaryFragment extends Fragment {
+public class ViewerListFragment extends Fragment {
 
     @Inject
     Document document;
@@ -48,12 +48,12 @@ public class ViewerPrimaryFragment extends Fragment {
     private String documentName;
     private String revisionId;
 
-    public ViewerPrimaryFragment() {
+    public ViewerListFragment() {
         // Required empty public constructor
     }
 
-    public static ViewerPrimaryFragment newInstance(String documentId, String documentName) {
-        ViewerPrimaryFragment fragment = new ViewerPrimaryFragment();
+    public static ViewerListFragment newInstance(String documentId, String documentName) {
+        ViewerListFragment fragment = new ViewerListFragment();
         Bundle args = new Bundle();
         args.putString("documentId", documentId);
         args.putString("documentName", documentName);
@@ -61,8 +61,8 @@ public class ViewerPrimaryFragment extends Fragment {
         return fragment;
     }
 
-    public static ViewerPrimaryFragment newInstance(String documentId, String documentName, String revisionId) {
-        ViewerPrimaryFragment fragment = new ViewerPrimaryFragment();
+    public static ViewerListFragment newInstance(String documentId, String documentName, String revisionId) {
+        ViewerListFragment fragment = new ViewerListFragment();
         Bundle args = new Bundle();
         args.putString("documentId", documentId);
         args.putString("documentName", documentName);
