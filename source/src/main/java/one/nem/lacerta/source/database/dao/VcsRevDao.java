@@ -21,7 +21,7 @@ public interface VcsRevDao {
     @Query("SELECT * FROM vcs_rev WHERE id IN (:ids)")
     List<VcsRevEntity> findByIds(List<String> ids);
 
-    @Query("SELECT * FROM vcs_rev WHERE document_id = :documentId")
+    @Query("SELECT * FROM vcs_rev WHERE document_id = :documentId ORDER BY created_at ASC")
     List<VcsRevEntity> findByDocumentId(String documentId);
 
     @Query("SELECT * FROM vcs_rev WHERE document_id = :documentId ORDER BY created_at DESC LIMIT 1")
