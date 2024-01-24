@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/component_viewer_navigation"
-    app:startDestination="@id/componentViewerTopFragment">
+    app:startDestination="@id/viewerPrimaryFragment">
 
     <fragment
-        android:id="@+id/componentViewerTopFragment"
-        android:name="one.nem.lacerta.component.viewer.ComponentViewerTopFragment"
+        android:id="@+id/viewerPrimaryFragment"
+        android:name="one.nem.lacerta.component.viewer.ViewerPrimaryFragment"
         android:label="ComponentViewerTopFragment" >
         <action
             android:id="@+id/action_componentViewerTopFragment_to_viewerVcsRevListFragment"

@@ -1,12 +1,10 @@
 package one.nem.lacerta.component.viewer;
 
 import android.app.AlertDialog;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,24 +14,22 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.concurrent.CompletableFuture;
 
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import one.nem.lacerta.data.Document;
-import one.nem.lacerta.model.document.DocumentDetail;
 import one.nem.lacerta.model.document.page.Page;
 import one.nem.lacerta.utils.FeatureSwitch;
 import one.nem.lacerta.utils.LacertaLogger;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ComponentViewerTopFragment#newInstance} factory method to
+ * Use the {@link ViewerPrimaryFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 @AndroidEntryPoint
-public class ComponentViewerTopFragment extends Fragment {
+public class ViewerPrimaryFragment extends Fragment {
 
     @Inject
     Document document;
@@ -46,12 +42,12 @@ public class ComponentViewerTopFragment extends Fragment {
     private String documentId;
     private String documentName;
 
-    public ComponentViewerTopFragment() {
+    public ViewerPrimaryFragment() {
         // Required empty public constructor
     }
 
-    public static ComponentViewerTopFragment newInstance(String documentId, String documentName) {
-        ComponentViewerTopFragment fragment = new ComponentViewerTopFragment();
+    public static ViewerPrimaryFragment newInstance(String documentId, String documentName) {
+        ViewerPrimaryFragment fragment = new ViewerPrimaryFragment();
         Bundle args = new Bundle();
         args.putString("documentId", documentId);
         args.putString("documentName", documentName);
