@@ -222,6 +222,7 @@ public class LacertaVcsImpl implements LacertaVcs {
             ArrayList<VcsRevEntity> vcsRevEntities = getRevBeforeTargetId(revId);
             ArrayList<VcsLogEntity> vcsLogEntities = getLogInRevs(vcsRevEntities);
 
+            // finalで宣言しないとLambda式内で扱えないので
             final ArrayList<String>[] fileNameList = new ArrayList[]{new ArrayList<>()};
 
             vcsLogEntities.forEach(vcsLogEntity -> {
