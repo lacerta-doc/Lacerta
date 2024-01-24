@@ -68,6 +68,11 @@ public class LacertaVcsImpl implements LacertaVcs {
     }
 
     @Override
+    public void undo() {
+        database.vcsLogDao().deleteLatestByDocumentId(documentId);
+    }
+
+    @Override
     public void createDocument(String documentId) {
         logger.debug(TAG, "createDocument");
 

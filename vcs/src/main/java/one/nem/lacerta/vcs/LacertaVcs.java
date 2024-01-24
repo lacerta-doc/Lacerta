@@ -16,6 +16,8 @@ public interface LacertaVcs {
 
     public void deletePage(int index);
 
+    public void undo();
+
     public void createDocument(String documentId);
 
     public void generateRevisionAtCurrent(String message);
