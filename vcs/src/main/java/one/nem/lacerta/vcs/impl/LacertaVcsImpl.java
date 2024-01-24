@@ -233,8 +233,11 @@ public class LacertaVcsImpl implements LacertaVcs {
                 } else if (vcsLogEntity.actionType.equals(ActionType.DELETE_PAGE.getValue())){
                     DeletePage deletePage = (DeletePage) JsonUtils.fromJson(vcsLogEntity.action, ActionType.DELETE_PAGE);
                     fileNameList[0].remove(deletePage.getIndex());
+                } else if (vcsLogEntity.actionType.equals(ActionType.CREATE_DOCUMENT.getValue())) {
+                    // Ignore
+                    logger.debug(TAG, "getDocumentPagePathListRev: Ignored action type: " + vcsLogEntity.actionType);
                 } else {
-                    logger.debug(TAG, "Unknown action type");
+                    logger.error(TAG, "getDocumentPagePathListRev: Unknown action type");
                 }
             });
 
