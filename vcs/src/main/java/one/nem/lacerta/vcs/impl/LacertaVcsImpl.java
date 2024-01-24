@@ -231,12 +231,12 @@ public class LacertaVcsImpl implements LacertaVcs {
         return documentMeta;
     }
 
-    private DocumentDetail applyInsertPage(DocumentDetail documentDetail, InsertPage insertPage) {
-        // TODO-rca: 実装
-        return null;
+    private ArrayList<String> applyInsertPage(ArrayList<String> fileNameList, InsertPage insertPage) {
+        fileNameList.add(insertPage.getIndex(), insertPage.getFileName());
+        return fileNameList;
     }
 
-    private DocumentDetail applyUpdatePage(DocumentDetail documentDetail, UpdatePage updatePage) {
+    private ArrayList<String> applyUpdatePage(DocumentDetail documentDetail, UpdatePage updatePage) {
         // TODO-rca: 実装
         return null;
     }
@@ -247,7 +247,7 @@ public class LacertaVcsImpl implements LacertaVcs {
     }
 
     @Override
-    public CompletableFuture<DocumentDetail> getDocumentDetailAtRev(String revId) {
+    public CompletableFuture<ArrayList<String>> getDocumentPagePathListRev(String revId) {
         return CompletableFuture.supplyAsync(() -> {
             ArrayList<VcsRevEntity> vcsRevEntities = getRevBeforeTargetId(revId);
             ArrayList<VcsLogEntity> vcsLogEntities = getLogInRevs(vcsRevEntities);
@@ -255,8 +255,7 @@ public class LacertaVcsImpl implements LacertaVcs {
             DocumentDetail documentDetail = new DocumentDetail();
             documentDetail.setMeta(createDocumentMeta());
 
-            // WIP
-            return null;
+            vcsLogEntities.
         });
     }
 
