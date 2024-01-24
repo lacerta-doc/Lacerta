@@ -55,6 +55,16 @@ public class ViewerPrimaryFragment extends Fragment {
         return fragment;
     }
 
+    public static ViewerPrimaryFragment newInstance(String documentId, String documentName, String revisionId) {
+        ViewerPrimaryFragment fragment = new ViewerPrimaryFragment();
+        Bundle args = new Bundle();
+        args.putString("documentId", documentId);
+        args.putString("documentName", documentName);
+        args.putString("revisionId", revisionId);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
