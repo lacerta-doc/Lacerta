@@ -6,7 +6,6 @@ import java.util.concurrent.CompletableFuture;
 import one.nem.lacerta.model.VcsLogModel;
 import one.nem.lacerta.model.VcsRevModel;
 import one.nem.lacerta.model.document.DocumentDetail;
-import one.nem.lacerta.source.database.entity.VcsLogEntity;
 
 public interface LacertaVcs {
 
@@ -24,6 +23,8 @@ public interface LacertaVcs {
     public CompletableFuture<ArrayList<VcsRevModel>> getRevisionHistory();
 
     public CompletableFuture<ArrayList<VcsLogModel>> getLogHistory();
+
+    public CompletableFuture<ArrayList<VcsLogModel>> getLogHistoryInRev(String revId);
 
     public CompletableFuture<ArrayList<DocumentDetail>> getDocumentDetailAtRev(String revId);
 

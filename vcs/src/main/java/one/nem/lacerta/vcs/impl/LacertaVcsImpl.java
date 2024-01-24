@@ -155,6 +155,28 @@ public class LacertaVcsImpl implements LacertaVcs {
     }
 
     @Override
+    public CompletableFuture<ArrayList<VcsLogModel>> getLogHistoryInRev(String revId) {
+        return CompletableFuture.supplyAsync(() -> {
+            logger.debug(TAG, "getLogHistoryAtRev");
+            ArrayList<VcsLogModel> vcsLogModels = new ArrayList<>();
+
+            VcsRevEntity vcsRevEntity = database.vcsRevDao().findById(revId);
+            vcsRevEntity.logIds.forEach(logId -> {
+                VcsLogEntity vcsLogEntity = database.vcsLogDao().findById(logId);
+                VcsLogModel vcsLogModel = new VcsLogModel();
+                vcsLogModel.setId(vcsLogEntity.id);
+                vcsLogModel.setDocumentId(vcsLogEntity.documentId);
+                vcsLogModel.setBranchName(vcsLogEntity.branchName);
+                vcsLogModel.setCreatedAt(vcsLogEntity.createdAt);
+                vcsLogModel.setAction(vcsLogEntity.action);
+                vcsLogModels.add(vcsLogModel);
+            });
+
+            return vcsLogModels;
+        });
+    }
+
+    @Override
     public CompletableFuture<ArrayList<DocumentDetail>> getDocumentDetailAtRev(String revId) {
         return null;
     }
