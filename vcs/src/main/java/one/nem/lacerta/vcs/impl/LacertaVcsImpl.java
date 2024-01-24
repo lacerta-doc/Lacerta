@@ -14,7 +14,6 @@ import one.nem.lacerta.model.VcsLogModel;
 import one.nem.lacerta.model.VcsRevModel;
 import one.nem.lacerta.model.document.DocumentDetail;
 import one.nem.lacerta.model.document.DocumentMeta;
-import one.nem.lacerta.model.document.page.Page;
 import one.nem.lacerta.source.database.LacertaDatabase;
 import one.nem.lacerta.source.database.entity.DocumentEntity;
 import one.nem.lacerta.source.database.entity.VcsLogEntity;
@@ -232,17 +231,17 @@ public class LacertaVcsImpl implements LacertaVcs {
         return documentMeta;
     }
 
-    private ArrayList<Page> applyInsertPage(ArrayList<Page> pages, InsertPage insertPage) {
+    private DocumentDetail applyInsertPage(DocumentDetail documentDetail, InsertPage insertPage) {
         // TODO-rca: 実装
         return null;
     }
 
-    private ArrayList<Page> applyUpdatePage(ArrayList<Page> pages, UpdatePage updatePage) {
+    private DocumentDetail applyUpdatePage(DocumentDetail documentDetail, UpdatePage updatePage) {
         // TODO-rca: 実装
         return null;
     }
 
-    private ArrayList<Page> applyDeletePage(ArrayList<Page> pages, DeletePage deletePage) {
+    private DocumentDetail applyDeletePage(DocumentDetail documentDetail, DeletePage deletePage) {
         // TODO-rca: 実装
         return null;
     }
