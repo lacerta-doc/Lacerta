@@ -225,7 +225,12 @@ public class LacertaVcsImpl implements LacertaVcs {
                 if (vcsLogEntity.actionType.equals(ActionType.INSERT_PAGE.getValue())){
                     InsertPage insertPage = (InsertPage) JsonUtils.fromJson(vcsLogEntity.action, ActionType.INSERT_PAGE);
                     logger.debug(TAG, "getDocumentPagePathListRev: Inserting " + insertPage.getFileName() + " at " + insertPage.getIndex());
-                    fileNameList.add(insertPage.getIndex(), insertPage.getFileName());
+                    if (fileNameList.size() <= insertPage.getIndex()) {
+                        logger.debug(TAG, "Index out of range, appending");
+                        fileNameList.add(insertPage.getFileName());
+                    } else {
+                        fileNameList.add(insertPage.getIndex(), insertPage.getFileName());
+                    }
                 } else if (vcsLogEntity.actionType.equals(ActionType.UPDATE_PAGE.getValue())){
                     UpdatePage updatePage = (UpdatePage) JsonUtils.fromJson(vcsLogEntity.action, ActionType.UPDATE_PAGE);
                     logger.debug(TAG, "getDocumentPagePathListRev: Updating " + updatePage.getFileName() + " at " + updatePage.getIndex());
