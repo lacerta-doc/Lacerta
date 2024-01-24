@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+import one.nem.lacerta.component.viewer.model.RevSelectListener;
 import one.nem.lacerta.model.VcsRevModel;
 import one.nem.lacerta.utils.FeatureSwitch;
 
@@ -19,11 +20,14 @@ public class RevAdapter extends RecyclerView.Adapter<RevAdapter.RevViewHolder>{
 
     private ArrayList<VcsRevModel> revModels;
 
+    private RevSelectListener revSelectListener;
+
     public RevAdapter(ArrayList<VcsRevModel> revModels) {
         this.revModels = revModels;
     }
 
-    public RevAdapter() {
+    public RevAdapter(RevSelectListener revSelectListener) {
+        this.revSelectListener = revSelectListener;
     }
 
     public void setRevModels(ArrayList<VcsRevModel> revModels) {
@@ -51,6 +55,13 @@ public class RevAdapter extends RecyclerView.Adapter<RevAdapter.RevViewHolder>{
             holder.detail.setText(simpleDateFormat.format(revModel.getCreatedAt())+ " " + revModel.getBranchName());
         }
         holder.revId.setText("RevID: " + revModel.getId());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                revSelectListener.onRevSelect(revModel.getId());
+            }
+        });
 
     }
 
