@@ -219,29 +219,30 @@ public class LacertaVcsImpl implements LacertaVcs {
             logger.debug(TAG, "getDocumentPagePathListRev");
             ArrayList<VcsLogEntity> vcsLogEntities = getRevBeforeTargetIdAsync(revId).thenCompose(this::getLogInRevsAsync).join();
 
-            // finalで宣言しないとLambda式内で扱えないので
-            final ArrayList<String>[] fileNameList = new ArrayList[]{new ArrayList<>()};
-
-            vcsLogEntities.forEach(vcsLogEntity -> {
+            ArrayList<String> fileNameList = new ArrayList<>();
+            for(VcsLogEntity vcsLogEntity : vcsLogEntities){
                 logger.debug(TAG, "getDocumentPagePathListRev: processing " + vcsLogEntity.id + "(Type: " + vcsLogEntity.actionType + ")");
                 if (vcsLogEntity.actionType.equals(ActionType.INSERT_PAGE.getValue())){
                     InsertPage insertPage = (InsertPage) JsonUtils.fromJson(vcsLogEntity.action, ActionType.INSERT_PAGE);
-                    fileNameList[0].add(insertPage.getIndex(), insertPage.getFileName());
+                    logger.debug(TAG, "getDocumentPagePathListRev: Inserting " + insertPage.getFileName() + " at " + insertPage.getIndex());
+                    fileNameList.add(insertPage.getIndex(), insertPage.getFileName());
                 } else if (vcsLogEntity.actionType.equals(ActionType.UPDATE_PAGE.getValue())){
                     UpdatePage updatePage = (UpdatePage) JsonUtils.fromJson(vcsLogEntity.action, ActionType.UPDATE_PAGE);
-                    fileNameList[0].set(updatePage.getIndex(), updatePage.getFileName());
+                    logger.debug(TAG, "getDocumentPagePathListRev: Updating " + updatePage.getFileName() + " at " + updatePage.getIndex());
+                    fileNameList.set(updatePage.getIndex(), updatePage.getFileName());
                 } else if (vcsLogEntity.actionType.equals(ActionType.DELETE_PAGE.getValue())){
                     DeletePage deletePage = (DeletePage) JsonUtils.fromJson(vcsLogEntity.action, ActionType.DELETE_PAGE);
-                    fileNameList[0].remove(deletePage.getIndex());
+                    logger.debug(TAG, "getDocumentPagePathListRev: Deleting " + deletePage.getIndex());
+                    fileNameList.remove(deletePage.getIndex());
                 } else if (vcsLogEntity.actionType.equals(ActionType.CREATE_DOCUMENT.getValue())) {
                     // Ignore
                     logger.debug(TAG, "getDocumentPagePathListRev: Ignored action type: " + vcsLogEntity.actionType);
                 } else {
                     logger.error(TAG, "getDocumentPagePathListRev: Unknown action type");
                 }
-            });
+            }
 
-            return fileNameList[0];
+            return fileNameList;
         });
     }
 
