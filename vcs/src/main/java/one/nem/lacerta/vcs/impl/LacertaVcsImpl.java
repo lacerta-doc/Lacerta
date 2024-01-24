@@ -221,6 +221,7 @@ public class LacertaVcsImpl implements LacertaVcs {
             final ArrayList<String>[] fileNameList = new ArrayList[]{new ArrayList<>()};
 
             vcsLogEntities.forEach(vcsLogEntity -> {
+                logger.debug(TAG, "getDocumentPagePathListRev: processing " + vcsLogEntity.id + "(Type: " + vcsLogEntity.actionType + ")");
                 if (vcsLogEntity.actionType.equals(ActionType.INSERT_PAGE.getValue())){
                     InsertPage insertPage = (InsertPage) JsonUtils.fromJson(vcsLogEntity.action, ActionType.INSERT_PAGE);
                     fileNameList[0].add(insertPage.getIndex(), insertPage.getFileName());
