@@ -1,4 +1,4 @@
-package one.nem.lacerta.component.viewer.BookMark;
+package one.nem.lacerta.component.viewer;
 
 import android.os.Bundle;
 import android.view.GestureDetector;
@@ -13,8 +13,6 @@ import androidx.fragment.app.Fragment;
 import java.util.UUID;
 
 import javax.inject.Inject;
-
-import one.nem.lacerta.component.viewer.R;
 
 // BookMarkFragment.java
 public class BookMarkFragment extends Fragment {

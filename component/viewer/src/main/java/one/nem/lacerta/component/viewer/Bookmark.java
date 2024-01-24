@@ -1,4 +1,4 @@
-package one.nem.lacerta.component.viewer.BookMark;
+package one.nem.lacerta.component.viewer;
 
 // Bookmark.java
 public class Bookmark {
