@@ -1,4 +1,4 @@
-package one.nem.lacerta.component.viewer;
+package one.nem.lacerta.component.viewer.BookMark;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import one.nem.lacerta.component.viewer.R;
 
 // BookMarkListFragment.java
 public class BookMarkListFragment extends Fragment {
@@ -31,7 +33,7 @@ public class BookMarkListFragment extends Fragment {
         List<Bookmark> bookmarks = bookmarkRepository.getAllBookmarks();
 
         // ブックマーク一覧を表示するRecyclerViewのセットアップ
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         BookmarkAdapter adapter = new BookmarkAdapter(bookmarks, new OnBookmarkClickListener() {
             @Override
             public void onBookmarkClick(Bookmark selectedBookmark) {
