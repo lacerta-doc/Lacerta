@@ -64,6 +64,7 @@ public class SelectDirDialogItemAdapter extends RecyclerView.Adapter<SelectDirDi
 
             title = itemView.findViewById(one.nem.lacerta.shared.ui.R.id.item_title);
             description = itemView.findViewById(one.nem.lacerta.shared.ui.R.id.item_description);
+            description.setVisibility(View.GONE); // 暫定
 
         }
     }
