@@ -38,7 +38,13 @@ public class SettingTagManageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_setting_tag_manage, container, false);
+        View view = inflater.inflate(R.layout.fragment_setting_tag_manage, container, false);
+
+        // Toolbar
+        Toolbar toolbar = view.findViewById(R.id.tag_manage_toolbar);
+        toolbarSetup(toolbar, true, "タグ管理");
+
+        return view;
     }
 
     @Override
