@@ -201,37 +201,17 @@ public class LibraryPageFragment extends Fragment {
      * Currentにフォルダを作成する
      */
     private void createFolder(String pageId) {
-        // TODO-rca: デザインをMaterial Design 3に合わせたカスタムダイアログにする
-//        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-//        builder.setTitle("フォルダの作成");
-//        builder.setMessage("フォルダ名を入力してください");
-//        final android.widget.EditText input = new android.widget.EditText(getContext());
-//        input.setText("フォルダ名");
-//        builder.setView(input);
-//        builder.setPositiveButton("作成", (dialog, which) -> {
-//            lacertaLibrary.createFolder(pageId, input.getText().toString()).thenAccept(folderId -> {
-//                // Refresh
-//                updateItem(pageId);
-//            });
-//        });
-//        builder.setNegativeButton("キャンセル", (dialog, which) -> {
-//            dialog.cancel();
-//        });
-//        builder.show();
-//
-//        LacertaTextInputDialog lacertaTextInputDialog = LacertaTextInputDialog.newInstance("フォルダの作成", "フォルダ名を入力してください");
-//        lacertaTextInputDialog.show(((AppCompatActivity) requireActivity()).getSupportFragmentManager(), "create_folder_dialog");
-
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireContext());
         builder.setTitle("フォルダの作成");
         builder.setMessage("フォルダ名を入力してください");
 
         View view = LayoutInflater.from(requireContext()).inflate(one.nem.lacerta.shared.ui.R.layout.lacerta_dialog_edit_text_layout, null);
-        final android.widget.EditText input = view.findViewById(one.nem.lacerta.shared.ui.R.id.custom_edit_text);
-        input.setText("フォルダ名");
+        final com.google.android.material.textfield.TextInputEditText input = view.findViewById(one.nem.lacerta.shared.ui.R.id.custom_edit_text);
+        final com.google.android.material.textfield.TextInputLayout inputLayout = view.findViewById(one.nem.lacerta.shared.ui.R.id.custom_text_input_layout);
+        inputLayout.setHint("フォルダ名");
 
         builder.setView(view);
-        
+
         builder.setPositiveButton("作成", (dialog, which) -> {
             lacertaLibrary.createFolder(pageId, input.getText().toString()).thenAccept(folderId -> {
                 // Refresh

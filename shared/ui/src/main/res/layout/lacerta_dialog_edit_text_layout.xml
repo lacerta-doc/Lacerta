@@ -5,7 +5,7 @@
     android:id="@+id/custom_text_input_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:hint="Custom EditText"
+    android:paddingHorizontal="16dp"
     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
     <com.google.android.material.textfield.TextInputEditText
