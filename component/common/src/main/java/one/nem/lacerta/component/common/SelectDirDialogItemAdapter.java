@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import one.nem.lacerta.model.ListItem;
+import one.nem.lacerta.model.ListItemType;
 
 public class SelectDirDialogItemAdapter extends RecyclerView.Adapter<SelectDirDialogItemAdapter.SelectDirDialogItemViewHolder> {
 
@@ -22,7 +23,10 @@ public class SelectDirDialogItemAdapter extends RecyclerView.Adapter<SelectDirDi
     }
 
     public void setListItems(ArrayList<ListItem> listItems) {
-        this.listItems = listItems;
+        // 戻るアクションを追加
+        this.listItems.add(0, new ListItem("戻る", " ", ListItemType.ITEM_TYPE_ACTION_BACK, null));
+
+        this.listItems.addAll(listItems);
     }
 
     @NonNull
@@ -37,9 +41,11 @@ public class SelectDirDialogItemAdapter extends RecyclerView.Adapter<SelectDirDi
         ListItem listItem = listItems.get(position);
         holder.title.setText(listItem.getTitle());
         holder.description.setText(listItem.getDescription());
-        holder.itemView.setOnClickListener(v -> {
-            listener.onDirSelected(listItem.getTitle(), listItem.getItemId());
-        });
+        if(listItem.getItemType() == ListItemType.ITEM_TYPE_ACTION_BACK) {
+            holder.itemView.setOnClickListener(v -> listener.onBackSelected());
+        } else {
+            holder.itemView.setOnClickListener(v -> listener.onDirSelected(listItem.getTitle(), listItem.getItemId()));
+        }
     }
 
     @Override
