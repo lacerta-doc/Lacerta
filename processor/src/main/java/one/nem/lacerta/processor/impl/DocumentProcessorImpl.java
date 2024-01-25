@@ -74,18 +74,24 @@ public class DocumentProcessorImpl implements DocumentProcessor{
         logger.debug("addNewPageToLast", "called");
         String filename = UUID.randomUUID().toString() + ".png"; // TODO-rca: 拡張子を動的にする
 
-        Page page = new Page();
-        page.setFileName(filename);
-        page.setBitmap(bitmap);
-        this.documentDetail.getPages().add(page);
+        lacertaVcs.insertPage(this.documentDetail.getPages().size(), filename);
 
-        lacertaVcs.insertPage(documentDetail.getPages().size(), filename);
+        try {
+            Page page = new Page();
+            page.setFileName(filename);
+            page.setBitmap(bitmap);
+            this.documentDetail.getPages().add(page);
 
-        this.fileManager.getNewInstance().createDirectoryIfNotExist(DEFAULT_SAVE_DIR).resolve(DEFAULT_SAVE_DIR).saveBitmap(bitmap, filename);
+            this.fileManager.getNewInstance().createDirectoryIfNotExist(DEFAULT_SAVE_DIR).resolve(DEFAULT_SAVE_DIR).saveBitmap(bitmap, filename);
 
-        logger.info("addNewPageToLast", "finished");
-        logger.info("addNewPageToLast", "filename: " + filename);
-
+            logger.info("addNewPageToLast", "finished");
+            logger.info("addNewPageToLast", "filename: " + filename);
+        } catch (Exception e) {
+            logger.error("addNewPageToLast", "failed: Unknown error");
+            logger.e_code("d9191286-6092-40b3-80ed-9239106a8c65");
+            // Recover (Undo latest action)
+            lacertaVcs.undo();
+        }
         return this;
     }
 

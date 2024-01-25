@@ -52,4 +52,11 @@ public interface VcsLogDao {
 
     @Update
     void updateAll(List<VcsLogEntity> vcsLogs);
+
+    // Delete
+    @Query("DELETE FROM vcs_log WHERE id = :id")
+    void deleteById(String id);
+
+    @Query("DELETE FROM vcs_log WHERE id = (SELECT id FROM vcs_log WHERE document_id = :documentId ORDER BY created_at DESC LIMIT 1)")
+    void deleteLatestByDocumentId(String documentId);
 }
