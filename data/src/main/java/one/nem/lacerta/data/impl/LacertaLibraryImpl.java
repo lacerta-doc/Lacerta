@@ -229,7 +229,15 @@ public class LacertaLibraryImpl implements LacertaLibrary {
 
     @Override
     public CompletableFuture<ArrayList<DocumentTag>> getTagList() {
-        return null;
+        return CompletableFuture.supplyAsync(() -> {
+            List<TagEntity> tagEntities = database.tagDao().findAll();
+            logger.debug("LacertaLibraryImpl", "Database Query: Get TagEntity List (Size: " + tagEntities.size() + ")");
+            ArrayList<DocumentTag> documentTags = new ArrayList<>();
+            for (TagEntity tagEntity : tagEntities) {
+                documentTags.add(convertTagEntityToDocumentTag(tagEntity));
+            }
+            return documentTags;
+        });
     }
 
     @Override
