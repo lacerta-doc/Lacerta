@@ -10,23 +10,23 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import one.nem.lacerta.model.LibraryItemPage;
 import one.nem.lacerta.model.ListItem;
 import one.nem.lacerta.model.ListItemType;
 
 public class SelectDirDialogItemAdapter extends RecyclerView.Adapter<SelectDirDialogItemAdapter.SelectDirDialogItemViewHolder> {
 
-    ArrayList<ListItem> listItems;
+
+    private LibraryItemPage libraryItemPage;
     LacertaSelectDirDialogEventListener listener;
 
     public SelectDirDialogItemAdapter(LacertaSelectDirDialogEventListener listener) {
         this.listener = listener;
     }
 
-    public void setListItems(ArrayList<ListItem> listItems) {
-        // 戻るアクションを追加
-        this.listItems.add(0, new ListItem("戻る", " ", ListItemType.ITEM_TYPE_ACTION_BACK, null));
-
-        this.listItems.addAll(listItems);
+    public void setListItems(LibraryItemPage libraryItemPage) {
+        this.libraryItemPage = libraryItemPage;
+        this.libraryItemPage.getListItems().add(0, new ListItem("戻る", " ", ListItemType.ITEM_TYPE_ACTION_BACK, null));
     }
 
     @NonNull
@@ -38,11 +38,11 @@ public class SelectDirDialogItemAdapter extends RecyclerView.Adapter<SelectDirDi
 
     @Override
     public void onBindViewHolder(SelectDirDialogItemViewHolder holder, int position) {
-        ListItem listItem = listItems.get(position);
+        ListItem listItem = libraryItemPage.getListItems().get(position);
         holder.title.setText(listItem.getTitle());
         holder.description.setText(listItem.getDescription());
         if(listItem.getItemType() == ListItemType.ITEM_TYPE_ACTION_BACK) {
-            holder.itemView.setOnClickListener(v -> listener.onBackSelected());
+            holder.itemView.setOnClickListener(v -> listener.onBackSelected(this.libraryItemPage.getParentId()));
         } else {
             holder.itemView.setOnClickListener(v -> listener.onDirSelected(listItem.getTitle(), listItem.getItemId()));
         }
@@ -50,7 +50,7 @@ public class SelectDirDialogItemAdapter extends RecyclerView.Adapter<SelectDirDi
 
     @Override
     public int getItemCount() {
-        return listItems == null ? 0 : listItems.size();
+        return this.libraryItemPage == null ? 0 : this.libraryItemPage.getListItems().size();
     }
 
     public static class SelectDirDialogItemViewHolder extends RecyclerView.ViewHolder {

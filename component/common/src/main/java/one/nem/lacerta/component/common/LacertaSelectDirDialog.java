@@ -46,9 +46,16 @@ public class LacertaSelectDirDialog extends DialogFragment {
         this.recyclerView = view.findViewById(R.id.select_dir_recycler_view);
         this.current_dir_text_view = view.findViewById(R.id.current_dir_text_view);
 
-        this.adapter = new SelectDirDialogItemAdapter((name, itemId) -> {
-            Toast.makeText(getContext(), "Called:" + name, Toast.LENGTH_SHORT).show();
-            showRecyclerViewItem(itemId);
+        this.adapter = new SelectDirDialogItemAdapter(new LacertaSelectDirDialogEventListener() {
+            @Override
+            public void onDirSelected(String name, String itemId) {
+                showRecyclerViewItem(itemId);
+            }
+
+            @Override
+            public void onBackSelected(String parentId) {
+                showRecyclerViewItem(parentId);
+            }
         });
 
         this.recyclerView.setAdapter(this.adapter);
@@ -63,8 +70,8 @@ public class LacertaSelectDirDialog extends DialogFragment {
         return builder.create();
     }
 
-    private void showRecyclerViewItem(String parent) {
-        lacertaLibrary.getPublicPath(parent, ListItemType.ITEM_TYPE_FOLDER).thenAccept(publicPath -> {
+    private void showRecyclerViewItem(String targetDirId) {
+        lacertaLibrary.getPublicPath(targetDirId, ListItemType.ITEM_TYPE_FOLDER).thenAccept(publicPath -> {
             getActivity().runOnUiThread(() -> {
                 if (publicPath != null) {
                     current_dir_text_view.setText("/" + publicPath.getStringPath()); // TODO-rca: PublicPathの実装を修正する
@@ -73,12 +80,12 @@ public class LacertaSelectDirDialog extends DialogFragment {
                 }
             });
         });
-        lacertaLibrary.getFolderList(parent).thenAccept(listItems -> {
+        lacertaLibrary.getFolderList(targetDirId).thenAccept(libraryItemPage -> {
             getActivity().runOnUiThread(() -> {
                 int currentCount = adapter.getItemCount();
-                adapter.notifyItemRangeRemoved(0, currentCount);
-                adapter.setListItems(listItems);
-                adapter.notifyItemRangeInserted(0, listItems.size());
+                adapter.notifyItemRangeRemoved(1, currentCount); // Backボタンを除くすべてのアイテムを削除
+                adapter.setListItems(libraryItemPage);
+                adapter.notifyItemRangeInserted(1, libraryItemPage.getListItems().size());
             });
         });
     }

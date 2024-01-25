@@ -128,13 +128,26 @@ public class LacertaLibraryImpl implements LacertaLibrary {
     }
 
     @Override
-    public CompletableFuture<ArrayList<ListItem>> getFolderList(String parentId) {
+    public CompletableFuture<LibraryItemPage> getFolderList(String targetDirId) {
         return CompletableFuture.supplyAsync(() -> {
+            LibraryItemPage libraryItemPage = new LibraryItemPage();
+
             List<FolderEntity> folderEntities;
-            if (parentId == null) { // When root folder
+            if (targetDirId == null) { // When root folder
                 folderEntities = database.folderDao().findRootFolders();
+                libraryItemPage.setParentId(null);
+                libraryItemPage.setPageId(targetDirId);
+                libraryItemPage.setPageTitle("ライブラリ");
             } else {
-                folderEntities = database.folderDao().findByParentId(parentId);
+                folderEntities = database.folderDao().findByParentId(targetDirId);
+                FolderEntity folderEntity = database.folderDao().findById(targetDirId);
+                if (folderEntity == null) {
+                    logger.warn("LacertaLibraryImpl", targetDirId + " is not found.");
+                    return null;
+                }
+                libraryItemPage.setParentId(folderEntity.parentId);
+                libraryItemPage.setPageId(folderEntity.id);
+                libraryItemPage.setPageTitle(folderEntity.name);
             }
 
             ArrayList<ListItem> listItems = new ArrayList<>();
@@ -148,7 +161,10 @@ public class LacertaLibraryImpl implements LacertaLibrary {
                 listItems.add(listItem);
             }
 
-            return listItems;
+
+            libraryItemPage.setListItems(listItems);
+
+            return libraryItemPage;
         });
     }
 
