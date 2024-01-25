@@ -20,6 +20,7 @@ import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import one.nem.lacerta.component.common.LacertaSelectDirDialog;
+import one.nem.lacerta.component.common.LacertaSelectDirDialogListener;
 import one.nem.lacerta.data.Document;
 import one.nem.lacerta.model.document.page.Page;
 import one.nem.lacerta.utils.FeatureSwitch;
@@ -206,7 +207,28 @@ public class ViewerListFragment extends Fragment {
                 } else if (item.getItemId() == R.id.action_move) {
 //                    Toast.makeText(getContext(), "Work in progress", Toast.LENGTH_SHORT).show();
                     LacertaSelectDirDialog lacertaSelectDirDialog = new LacertaSelectDirDialog();
-                    lacertaSelectDirDialog.show(getParentFragmentManager(), "LacertaSelectDirDialog");
+                    lacertaSelectDirDialog.setListener(new LacertaSelectDirDialogListener() {
+                        @Override
+                        public void onDirSelected(String name, String itemId) {
+                            logger.debug(TAG, "Selected dir: " + name + ", " + itemId);
+                            document.moveDocument(documentId, itemId).thenAccept(aVoid -> {
+                                getActivity().runOnUiThread(() -> {
+                                    // Stop Activity
+                                    getActivity().finish(); // TODO-rca: ファイル移動後に終了するべきかは検討
+                                });
+                            });
+                        }
+
+                        @Override
+                        public void onCanceled() {
+                            logger.debug(TAG, "Canceled");
+                        }
+                    });
+                    lacertaSelectDirDialog.setTitle("ファイルの移動")
+                                    .setMessage("ファイルを移動するフォルダを選択してください。")
+                                    .setPositiveButtonText("移動")
+                                    .setNegativeButtonText("キャンセル");
+                    lacertaSelectDirDialog.show(getParentFragmentManager(), "select_dir_dialog");
                     return true;
                 } else {
                     return false;
