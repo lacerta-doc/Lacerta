@@ -5,18 +5,29 @@ import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
+import one.nem.lacerta.data.LacertaLibrary;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link SettingTagManageFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+@AndroidEntryPoint
 public class SettingTagManageFragment extends Fragment {
+
+    @Inject
+    LacertaLibrary lacertaLibrary;
 
     public SettingTagManageFragment() {
         // Required empty public constructor
@@ -50,6 +61,20 @@ public class SettingTagManageFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        RecyclerView recyclerView = view.findViewById(R.id.tag_item_recycler_view);
+        TagListItemAdapter adapter = new TagListItemAdapter((tagId, tagName, tagColor) -> {
+            Toast.makeText(getContext(), "Tag Clicked", Toast.LENGTH_SHORT).show();
+        });
+
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        lacertaLibrary.getTagList().thenAccept(documentTags -> {
+            adapter.setDocumentTags(documentTags);
+            adapter.notifyDataSetChanged();
+        });
+
     }
 
     /**
