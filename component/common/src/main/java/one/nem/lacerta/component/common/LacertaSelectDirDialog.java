@@ -83,9 +83,15 @@ public class LacertaSelectDirDialog extends DialogFragment {
         lacertaLibrary.getFolderList(targetDirId).thenAccept(libraryItemPage -> {
             getActivity().runOnUiThread(() -> {
                 int currentCount = adapter.getItemCount();
-                adapter.notifyItemRangeRemoved(1, currentCount); // Backボタンを除くすべてのアイテムを削除
-                adapter.setListItems(libraryItemPage);
-                adapter.notifyItemRangeInserted(1, libraryItemPage.getListItems().size());
+                if (targetDirId == null) { // When root folder
+                    adapter.setListItems(libraryItemPage);
+                    adapter.notifyItemRangeRemoved(0, currentCount);
+                    adapter.notifyItemRangeInserted(0, libraryItemPage.getListItems().size());
+                } else { // When child folder
+                    adapter.setListItems(libraryItemPage);
+                    adapter.notifyItemRangeRemoved(1, currentCount);
+                    adapter.notifyItemRangeInserted(1, libraryItemPage.getListItems().size());
+                }
             });
         });
     }
