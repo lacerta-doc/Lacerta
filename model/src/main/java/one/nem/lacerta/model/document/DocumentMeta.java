@@ -32,16 +32,9 @@ public class DocumentMeta { // TODO-rca: JavaDoc対応
      */
     Date createdAt;
 
-    /**
-     * ドキュメントのタグ(DocumentTagインスタンスのリスト)
-     */
-    List<DocumentTag> tags;
-
     String parentId;
 
     String author;
-
-    String defaultBranch;
 
     // Constructor
 
@@ -51,49 +44,33 @@ public class DocumentMeta { // TODO-rca: JavaDoc対応
     public DocumentMeta(String title) {
         this.id = UUID.randomUUID().toString();
         this.title = title;
-        this.tags = new ArrayList<>();
-        this.author = ""; // TODO-rca: 作者のデフォルト値を設定できるようにする
-        this.defaultBranch = "main"; // TODO-rca: デフォルトブランチのデフォルト値を設定できるようにする
+        this.author = ""; // TODO-rca: 作者のデフォルト値を指定できるように
         this.parentId = null;
         this.updatedAt = new Date();
         this.createdAt = new Date();
     }
 
-    public DocumentMeta(String title, List<DocumentTag> tags, String author, String defaultBranch) {
+    public DocumentMeta(String title, String author) {
         this.id = UUID.randomUUID().toString();
         this.title = title;
-        this.tags = tags;
         this.author = author;
-        this.defaultBranch = defaultBranch;
     }
 
-    public DocumentMeta(String id, String title, List<DocumentTag> tags, String author, String defaultBranch) {
-        this.id = id;
-        this.title = title;
-        this.tags = tags;
-        this.author = author;
-        this.defaultBranch = defaultBranch;
-    }
-
-    public DocumentMeta(String id, String title, Date updatedAt, Date createdAt, List<DocumentTag> tags, String author, String defaultBranch) {
+    public DocumentMeta(String id, String title, Date updatedAt, Date createdAt, String author) {
         this.id = id;
         this.title = title;
         this.updatedAt = updatedAt;
         this.createdAt = createdAt;
-        this.tags = tags;
         this.author = author;
-        this.defaultBranch = defaultBranch;
     }
 
-    public DocumentMeta(String id, String title, Date updatedAt, Date createdAt, List<DocumentTag> tags, String parentId, String author, String defaultBranch) {
+    public DocumentMeta(String id, String title, Date updatedAt, Date createdAt, String parentId, String author) {
         this.id = id;
         this.title = title;
         this.updatedAt = updatedAt;
         this.createdAt = createdAt;
-        this.tags = tags;
         this.parentId = parentId;
         this.author = author;
-        this.defaultBranch = defaultBranch;
     }
 
     // Getter
@@ -127,24 +104,6 @@ public class DocumentMeta { // TODO-rca: JavaDoc対応
     }
 
     /**
-     * ドキュメントのタグ(DocumentTagインスタンスのリスト)を取得する
-     */
-    public List<DocumentTag> getTags() {
-        return tags;
-    }
-
-    /**
-     * ドキュメントのタグ(DocumentTagインスタンスのリスト)のID(String)を取得する
-     */
-    public List<String> getTagIds() {
-        List<String> tagIds = new ArrayList<>();
-        for (DocumentTag tag : tags) {
-            tagIds.add(tag.getId());
-        }
-        return tagIds;
-    }
-
-    /**
      * ドキュメントの親フォルダのID(String)を取得する
      */
     public String getParentId() {
@@ -156,13 +115,6 @@ public class DocumentMeta { // TODO-rca: JavaDoc対応
      */
     public String getAuthor() {
         return author;
-    }
-
-    /**
-     * ドキュメントのデフォルトブランチ(String)を取得する
-     */
-    public String getDefaultBranch() {
-        return defaultBranch;
     }
 
     // Setter
@@ -200,14 +152,6 @@ public class DocumentMeta { // TODO-rca: JavaDoc対応
     }
 
     /**
-     * ドキュメントのタグ(DocumentTagインスタンスのリスト)を設定する
-     * @param tags ドキュメントのタグ(DocumentTagインスタンスのリスト)
-     */
-    public void setTags(List<DocumentTag> tags) {
-        this.tags = tags;
-    }
-
-    /**
      * ドキュメントの親フォルダのID(String)を設定する
      * @param parentId ドキュメントの親フォルダのID
      */
@@ -221,14 +165,6 @@ public class DocumentMeta { // TODO-rca: JavaDoc対応
      */
     public void setAuthor(String author) {
         this.author = author;
-    }
-
-    /**
-     * ドキュメントのデフォルトブランチ(String)を設定する
-     * @param defaultBranch ドキュメントのデフォルトブランチ
-     */
-    public void setDefaultBranch(String defaultBranch) {
-        this.defaultBranch = defaultBranch;
     }
 
     /**
