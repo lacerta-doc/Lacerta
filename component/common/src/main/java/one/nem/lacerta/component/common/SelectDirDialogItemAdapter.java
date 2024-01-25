@@ -1,8 +1,10 @@
 package one.nem.lacerta.component.common;
 
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -41,6 +43,7 @@ public class SelectDirDialogItemAdapter extends RecyclerView.Adapter<SelectDirDi
         ListItem listItem = libraryItemPage.getListItems().get(position);
         holder.title.setText(listItem.getTitle());
         holder.description.setText(listItem.getDescription());
+        holder.icon.setImageResource(listItem.getItemType().getIconId());
         if(listItem.getItemType() == ListItemType.ITEM_TYPE_ACTION_BACK) {
             holder.itemView.setOnClickListener(v -> listener.onBackSelected(this.libraryItemPage.getParentId()));
         } else {
@@ -58,12 +61,15 @@ public class SelectDirDialogItemAdapter extends RecyclerView.Adapter<SelectDirDi
         TextView title;
         TextView description;
 
+        ImageView icon;
+
 
         public SelectDirDialogItemViewHolder(@NonNull View itemView) {
             super(itemView);
 
             title = itemView.findViewById(one.nem.lacerta.shared.ui.R.id.item_title);
             description = itemView.findViewById(one.nem.lacerta.shared.ui.R.id.item_description);
+            icon = itemView.findViewById(one.nem.lacerta.shared.ui.R.id.item_icon);
             description.setVisibility(View.GONE); // 暫定
 
         }
