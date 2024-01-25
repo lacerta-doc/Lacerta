@@ -128,6 +128,47 @@ public class LacertaLibraryImpl implements LacertaLibrary {
     }
 
     @Override
+    public CompletableFuture<LibraryItemPage> getFolderList(String targetDirId) {
+        return CompletableFuture.supplyAsync(() -> {
+            LibraryItemPage libraryItemPage = new LibraryItemPage();
+
+            List<FolderEntity> folderEntities;
+            if (targetDirId == null) { // When root folder
+                folderEntities = database.folderDao().findRootFolders();
+                libraryItemPage.setParentId(null);
+                libraryItemPage.setPageId(null);
+                libraryItemPage.setPageTitle("ライブラリ");
+            } else {
+                folderEntities = database.folderDao().findByParentId(targetDirId);
+                FolderEntity folderEntity = database.folderDao().findById(targetDirId);
+                if (folderEntity == null) {
+                    logger.warn("LacertaLibraryImpl", targetDirId + " is not found.");
+                    return null;
+                }
+                libraryItemPage.setParentId(folderEntity.parentId);
+                libraryItemPage.setPageId(folderEntity.id);
+                libraryItemPage.setPageTitle(folderEntity.name);
+            }
+
+            ArrayList<ListItem> listItems = new ArrayList<>();
+            for (FolderEntity childFolderEntity : folderEntities) {
+                logger.debug("LacertaLibraryImpl", "childFolderEntity.name: " + childFolderEntity.name);
+                ListItem listItem = new ListItem();
+                listItem.setItemType(ListItemType.ITEM_TYPE_FOLDER);
+                listItem.setTitle(childFolderEntity.name);
+                listItem.setDescription("フォルダ"); // TODO-rca: ハードコーディングやめる
+                listItem.setItemId(childFolderEntity.id);
+                listItems.add(listItem);
+            }
+
+
+            libraryItemPage.setListItems(listItems);
+
+            return libraryItemPage;
+        });
+    }
+
+    @Override
     public CompletableFuture<String> createFolder(String parentId, String name) {
         return CompletableFuture.supplyAsync(() -> {
             FolderEntity folderEntity = new FolderEntity();

@@ -124,6 +124,19 @@ public class DocumentImpl implements Document {
     }
 
     @Override
+    public CompletableFuture<Void> moveDocument(String documentId, String parentId) {
+        return CompletableFuture.supplyAsync(() -> {
+            DocumentEntity documentEntity = database.documentDao().findById(documentId);
+            if (documentEntity == null) {
+                throw new IllegalArgumentException("documentId is not found");
+            }
+            documentEntity.parentId = parentId;
+            database.documentDao().update(documentEntity);
+            return null;
+        });
+    }
+
+    @Override
     public CompletableFuture<Void> updateDocument(DocumentDetail detail) {
         return CompletableFuture.supplyAsync(() -> {
             updateXmlMeta(detail).join();

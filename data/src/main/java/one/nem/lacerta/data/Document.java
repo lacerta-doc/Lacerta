@@ -23,6 +23,8 @@ public interface Document {
 
     CompletableFuture<Void> deleteDocument(String documentId);
 
+    CompletableFuture<Void> moveDocument(String documentId, String parentId);
+
     CompletableFuture<Void> updateDocument(DocumentDetail detail);
 
     CompletableFuture<DocumentDetail> getDocument(String documentId);

@@ -1,6 +1,5 @@
 package one.nem.lacerta.component.viewer;
 
-import android.app.AlertDialog;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.Toolbar;
@@ -13,11 +12,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import java.util.ArrayList;
 
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
+import one.nem.lacerta.component.common.LacertaSelectDirDialog;
+import one.nem.lacerta.component.common.LacertaSelectDirDialogListener;
 import one.nem.lacerta.data.Document;
 import one.nem.lacerta.model.document.page.Page;
 import one.nem.lacerta.utils.FeatureSwitch;
@@ -158,14 +161,18 @@ public class ViewerListFragment extends Fragment {
                             .commit();
                     return true;
                 } else if (item.getItemId() == R.id.action_rename) {
-                    // TODO-rca: デザインをMaterial Design 3に合わせたカスタムダイアログにする
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+                    MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireContext());
                     builder.setTitle("ファイル名の変更");
-                    builder.setMessage("ファイル名を入力してください");
-                    final android.widget.EditText input = new android.widget.EditText(getContext());
-                    input.setText(documentName);
-                    builder.setView(input);
-                    builder.setPositiveButton("作成", (dialog, which) -> {
+
+                    View view = LayoutInflater.from(requireContext()).inflate(one.nem.lacerta.shared.ui.R.layout.lacerta_dialog_edit_text_layout, null);
+                    final com.google.android.material.textfield.TextInputEditText input = view.findViewById(one.nem.lacerta.shared.ui.R.id.custom_edit_text);
+                    final com.google.android.material.textfield.TextInputLayout inputLayout = view.findViewById(one.nem.lacerta.shared.ui.R.id.custom_text_input_layout);
+                    inputLayout.setHint("ファイル名");
+
+                    builder.setView(view);
+
+                    builder.setPositiveButton("変更", (dialog, which) -> {
                         document.renameDocument(documentId, input.getText().toString()).thenAccept(aVoid -> {
                             getActivity().runOnUiThread(() -> {
                                 toolbar.setTitle(input.getText().toString());
@@ -176,12 +183,12 @@ public class ViewerListFragment extends Fragment {
                     builder.setNegativeButton("キャンセル", (dialog, which) -> {
                         dialog.cancel();
                     });
-                    builder.show();
 
+                    builder.show();
                     return true;
                 } else if (item.getItemId() == R.id.action_delete) {
                     // TODO-rca: デザインをMaterial Design 3に合わせたカスタムダイアログにする
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireContext());
                     builder.setTitle("ファイルの削除");
                     builder.setMessage("ファイルを削除しますか？");
                     builder.setPositiveButton("削除", (dialog, which) -> {
@@ -198,7 +205,30 @@ public class ViewerListFragment extends Fragment {
                     builder.show();
                     return true;
                 } else if (item.getItemId() == R.id.action_move) {
-                    Toast.makeText(getContext(), "Work in progress", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), "Work in progress", Toast.LENGTH_SHORT).show();
+                    LacertaSelectDirDialog lacertaSelectDirDialog = new LacertaSelectDirDialog();
+                    lacertaSelectDirDialog.setListener(new LacertaSelectDirDialogListener() {
+                        @Override
+                        public void onDirSelected(String name, String itemId) {
+                            logger.debug(TAG, "Selected dir: " + name + ", " + itemId);
+                            document.moveDocument(documentId, itemId).thenAccept(aVoid -> {
+                                getActivity().runOnUiThread(() -> {
+                                    // Stop Activity
+                                    getActivity().finish(); // TODO-rca: ファイル移動後に終了するべきかは検討
+                                });
+                            });
+                        }
+
+                        @Override
+                        public void onCanceled() {
+                            logger.debug(TAG, "Canceled");
+                        }
+                    });
+                    lacertaSelectDirDialog.setTitle("ファイルの移動")
+                                    .setMessage("ファイルを移動するフォルダを選択してください。")
+                                    .setPositiveButtonText("移動")
+                                    .setNegativeButtonText("キャンセル");
+                    lacertaSelectDirDialog.show(getParentFragmentManager(), "select_dir_dialog");
                     return true;
                 } else {
                     return false;
