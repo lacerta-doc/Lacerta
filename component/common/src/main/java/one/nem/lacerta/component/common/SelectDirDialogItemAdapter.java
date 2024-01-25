@@ -67,6 +67,18 @@ public class SelectDirDialogItemAdapter extends RecyclerView.Adapter<SelectDirDi
         }
     }
 
+    public String getCurrentPageTitle() {
+        if (this.libraryItemPage == null) {
+            return null;
+        } else {
+            if (this.libraryItemPage.getPageId() == null) {
+                return null;
+            } else {
+                return this.libraryItemPage.getPageTitle()
+            }
+        }
+    }
+
     public static class SelectDirDialogItemViewHolder extends RecyclerView.ViewHolder {
 
         TextView title;

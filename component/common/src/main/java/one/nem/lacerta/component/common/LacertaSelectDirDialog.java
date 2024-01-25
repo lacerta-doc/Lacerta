@@ -27,11 +27,48 @@ public class LacertaSelectDirDialog extends DialogFragment {
     @Inject
     LacertaLogger logger;
 
+    private LacertaSelectDirDialogListener listener;
+
+    private String title;
+
+    private String message;
+
+    private String positiveButtonText;
+
+    private String negativeButtonText;
+
     private SelectDirDialogItemAdapter adapter;
 
     private RecyclerView recyclerView;
 
     private TextView current_dir_text_view;
+
+    // Setter
+
+    public LacertaSelectDirDialog setListener(LacertaSelectDirDialogListener listener) {
+        this.listener = listener;
+        return this;
+    }
+
+    public LacertaSelectDirDialog setTitle(String title) {
+        this.title = title;
+        return this;
+    }
+
+    public LacertaSelectDirDialog setMessage(String message) {
+        this.message = message;
+        return this;
+    }
+
+    public LacertaSelectDirDialog setPositiveButtonText(String positiveButtonText) {
+        this.positiveButtonText = positiveButtonText;
+        return this;
+    }
+
+    public LacertaSelectDirDialog setNegativeButtonText(String negativeButtonText) {
+        this.negativeButtonText = negativeButtonText;
+        return this;
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -66,10 +103,20 @@ public class LacertaSelectDirDialog extends DialogFragment {
 
         showRecyclerViewItem(null); // get root folder
 
-        builder.setTitle("Select Directory");
-        builder.setMessage("Please select a directory.");
-        builder.setPositiveButton("OK", null);
-        builder.setNegativeButton("Cancel", null);
+        builder.setTitle(this.title == null ? "Select a directory" : this.title);
+        builder.setMessage(this.message == null ? "Select a directory" : this.message);
+        builder.setPositiveButton(this.positiveButtonText == null ? "OK" : this.positiveButtonText, (dialog, which) -> {
+            if (listener != null) {
+                listener.onDirSelected(
+                        adapter.getCurrentPageTitle() == null ? null : adapter.getCurrentPageTitle(),
+                        adapter.getCurrentId() == null ? null : adapter.getCurrentId());
+            }
+        });
+        builder.setNegativeButton(this.negativeButtonText == null ? "Cancel" : this.negativeButtonText, (dialog, which) -> {
+            if (listener != null) {
+                listener.onCanceled();
+            }
+        });
         return builder.create();
     }
 
