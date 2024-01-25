@@ -18,6 +18,7 @@ import one.nem.lacerta.model.ListItem;
 import one.nem.lacerta.model.ListItemType;
 import one.nem.lacerta.model.PublicPath;
 import one.nem.lacerta.model.document.DocumentDetail;
+import one.nem.lacerta.model.document.tag.DocumentTag;
 import one.nem.lacerta.source.database.LacertaDatabase;
 import one.nem.lacerta.source.database.common.DateTypeConverter;
 import one.nem.lacerta.source.database.entity.DocumentEntity;
@@ -203,6 +204,36 @@ public class LacertaLibraryImpl implements LacertaLibrary {
                 return null;
             }
         });
+    }
+
+    @Override
+    public CompletableFuture<ArrayList<DocumentTag>> getTagList() {
+        return null;
+    }
+
+    @Override
+    public CompletableFuture<Void> createTag(DocumentTag tag) {
+        return null;
+    }
+
+    @Override
+    public CompletableFuture<Void> updateTag(DocumentTag tag) {
+        return null;
+    }
+
+    @Override
+    public CompletableFuture<Void> deleteTag(String tagId) {
+        return null;
+    }
+
+    @Override
+    public CompletableFuture<Void> addTagToDocument(String documentId, String tagId) {
+        return null;
+    }
+
+    @Override
+    public CompletableFuture<Void> removeTagFromDocument(String documentId, String tagId) {
+        return null;
     }
 
     /**
