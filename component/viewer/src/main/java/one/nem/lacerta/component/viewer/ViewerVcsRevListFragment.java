@@ -34,15 +34,17 @@ public class ViewerVcsRevListFragment extends Fragment {
     LacertaVcs lacertaVcs;
 
     private String documentId;
+    private String documentName;
 
     public ViewerVcsRevListFragment() {
         // Required empty public constructor
     }
 
-    public static ViewerVcsRevListFragment newInstance(String documentId) {
+    public static ViewerVcsRevListFragment newInstance(String documentId, String documentName) {
         ViewerVcsRevListFragment fragment = new ViewerVcsRevListFragment();
         Bundle args = new Bundle();
         args.putString("documentId", documentId);
+        args.putString("documentName", documentName);
         fragment.setArguments(args);
         return fragment;
     }
@@ -66,17 +68,22 @@ public class ViewerVcsRevListFragment extends Fragment {
         // Init arg
         if (getArguments() != null) {
             this.documentId = getArguments().getString("documentId");
-            logger.debug("ViewerVcsRevListFragment", "documentId: " + documentId);
+            logger.debug("ViewerVcsRevListFragment", "documentId: " + this.documentId);
         }
 
         // Init vcs
-        lacertaVcs = lacertaVcsFactory.create(documentId);
+        lacertaVcs = lacertaVcsFactory.create(this.documentId);
 
         // Init view
         RecyclerView recyclerView = view.findViewById(R.id.rev_list);
 
         // Init adapter
-        RevAdapter revAdapter = new RevAdapter();
+        RevAdapter revAdapter = new RevAdapter(revisionId -> {
+            logger.debug("ViewerVcsRevListFragment", "Selected revisionId: " + revisionId);
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.nav_host_fragment, ViewerListFragment.newInstance(this.documentId, this.documentName, revisionId))
+                    .commit();
+        });
 
         // Set adapter
         recyclerView.setAdapter(revAdapter);

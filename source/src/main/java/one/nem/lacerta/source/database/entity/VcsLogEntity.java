@@ -41,6 +41,12 @@ public class VcsLogEntity {
     public Date createdAt;
 
     /**
+     * アクションタイプ
+     */
+    @ColumnInfo(name = "action_type")
+    public String actionType;
+
+    /**
      * 発生アクション
      */
     @ColumnInfo(name = "action")

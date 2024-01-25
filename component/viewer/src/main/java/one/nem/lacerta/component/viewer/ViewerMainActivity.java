@@ -2,7 +2,6 @@ package one.nem.lacerta.component.viewer;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -10,12 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.fragment.app.FragmentManager;
-import androidx.navigation.NavController;
-import androidx.navigation.fragment.NavHostFragment;
-import androidx.navigation.ui.NavigationUI;
-
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import javax.inject.Inject;
 
@@ -62,7 +55,7 @@ public class ViewerMainActivity extends AppCompatActivity {
 
         // Navigation
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.nav_host_fragment, ComponentViewerTopFragment.newInstance(documentId, documentName))
+                .replace(R.id.nav_host_fragment, ViewerListFragment.newInstance(documentId, documentName))
                 .commit();
     }
 }

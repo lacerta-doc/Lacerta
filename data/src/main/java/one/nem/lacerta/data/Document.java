@@ -6,6 +6,7 @@ import java.util.concurrent.CompletableFuture;
 
 import one.nem.lacerta.model.document.DocumentMeta;
 import one.nem.lacerta.model.document.DocumentDetail;
+import one.nem.lacerta.model.document.page.Page;
 import one.nem.lacerta.model.document.path.DocumentPath;
 import one.nem.lacerta.model.document.tag.DocumentTag;
 
@@ -25,4 +26,6 @@ public interface Document {
     CompletableFuture<Void> updateDocument(DocumentDetail detail);
 
     CompletableFuture<DocumentDetail> getDocument(String documentId);
+
+    CompletableFuture<ArrayList<Page>> getDocumentPageListByFileNameList(String documentId, ArrayList<String> fileNameList);
 }

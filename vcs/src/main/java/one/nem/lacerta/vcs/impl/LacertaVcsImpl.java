@@ -1,15 +1,13 @@
 package one.nem.lacerta.vcs.impl;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
-import javax.inject.Inject;
-
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedInject;
+import one.nem.lacerta.model.VcsLogModel;
 import one.nem.lacerta.model.VcsRevModel;
 import one.nem.lacerta.source.database.LacertaDatabase;
 import one.nem.lacerta.source.database.entity.VcsLogEntity;
@@ -18,7 +16,9 @@ import one.nem.lacerta.utils.LacertaLogger;
 import one.nem.lacerta.vcs.ActionType;
 import one.nem.lacerta.vcs.LacertaVcs;
 import one.nem.lacerta.vcs.internal.JsonUtils;
+import one.nem.lacerta.vcs.model.action.DeletePage;
 import one.nem.lacerta.vcs.model.action.InsertPage;
+import one.nem.lacerta.vcs.model.action.UpdatePage;
 
 public class LacertaVcsImpl implements LacertaVcs {
 
@@ -57,6 +57,7 @@ public class LacertaVcsImpl implements LacertaVcs {
         vcsLogEntity.documentId = documentId;
         vcsLogEntity.branchName = "master";
         vcsLogEntity.createdAt = new java.util.Date();
+        vcsLogEntity.actionType = ActionType.INSERT_PAGE.getValue();
         vcsLogEntity.action = JsonUtils.toJson(insertPage);
         database.vcsLogDao().insert(vcsLogEntity);
     }
@@ -64,6 +65,11 @@ public class LacertaVcsImpl implements LacertaVcs {
     @Override
     public void deletePage(int index) {
 
+    }
+
+    @Override
+    public void undo() {
+        database.vcsLogDao().deleteLatestByDocumentId(documentId);
     }
 
     @Override
@@ -75,7 +81,8 @@ public class LacertaVcsImpl implements LacertaVcs {
         vcsLogEntity.documentId = documentId;
         vcsLogEntity.branchName = "master";
         vcsLogEntity.createdAt = new java.util.Date();
-        vcsLogEntity.action = "ph-createDocument";
+        vcsLogEntity.actionType = ActionType.CREATE_DOCUMENT.getValue();
+        vcsLogEntity.action = "";
         database.vcsLogDao().insert(vcsLogEntity);
     }
 
@@ -144,6 +151,108 @@ public class LacertaVcsImpl implements LacertaVcs {
             });
 
             return vcsRevModels;
+        });
+    }
+
+    @Override
+    public CompletableFuture<ArrayList<VcsLogModel>> getLogHistory() {
+        return null;
+    }
+
+    @Override
+    public CompletableFuture<ArrayList<VcsLogModel>> getLogHistoryInRev(String revId) {
+        return CompletableFuture.supplyAsync(() -> {
+            logger.debug(TAG, "getLogHistoryInRev");
+            ArrayList<VcsLogModel> vcsLogModels = new ArrayList<>();
+
+            VcsRevEntity vcsRevEntity = database.vcsRevDao().findById(revId);
+            ArrayList<VcsLogEntity> vcsLogEntities = getLogInRevAsync(vcsRevEntity).join(); // TODO-rca: リファクタリング
+            vcsLogEntities.forEach(vcsLogEntity -> {
+                VcsLogModel vcsLogModel = new VcsLogModel();
+                vcsLogModel.setId(vcsLogEntity.id);
+                vcsLogModel.setDocumentId(vcsLogEntity.documentId);
+                vcsLogModel.setBranchName(vcsLogEntity.branchName);
+                vcsLogModel.setCreatedAt(vcsLogEntity.createdAt);
+                vcsLogModel.setAction(vcsLogEntity.action);
+                vcsLogModels.add(vcsLogModel);
+            });
+
+            return vcsLogModels;
+        });
+    }
+
+    private CompletableFuture<ArrayList<VcsRevEntity>> getRevBeforeTargetIdAsync(String revId){
+        return CompletableFuture.supplyAsync(() -> {
+            ArrayList<VcsRevEntity> vcsRevEntities = new ArrayList<>(database.vcsRevDao().findByDocumentId(this.documentId));
+            ArrayList<VcsRevEntity> vcsRevEntitiesBeforeTarget = new ArrayList<>();
+            vcsRevEntities.forEach(vcsRevEntity -> {
+                if(vcsRevEntity.id.equals(revId)){
+                    vcsRevEntitiesBeforeTarget.add(vcsRevEntity);
+                    return;
+                }
+                vcsRevEntitiesBeforeTarget.add(vcsRevEntity);
+            });
+            logger.debug(TAG, "getRevBeforeTargetIdAsync finished\nResult size: " + vcsRevEntitiesBeforeTarget.size());
+            return vcsRevEntitiesBeforeTarget;
+        });
+    }
+
+    private CompletableFuture<ArrayList<VcsLogEntity>> getLogInRevsAsync(ArrayList<VcsRevEntity> vcsRevEntities){
+        return CompletableFuture.supplyAsync(() -> {
+            List<String> logIds = new ArrayList<>();
+            vcsRevEntities.forEach(vcsRevEntity -> {
+                logIds.addAll(vcsRevEntity.logIds);
+            });
+            // TODO-rca: ソートしないといけないかも（順番が保証されているわけではない + 順番が変わるとほぼ確実に壊れる）
+            ArrayList<VcsLogEntity> vcsLogEntities = new ArrayList<>(database.vcsLogDao().findByIds(logIds));
+            logger.debug(TAG, "getLogInRevsAsync finished\nResult size: " + vcsLogEntities.size());
+            return vcsLogEntities;
+        });
+    }
+
+    private CompletableFuture<ArrayList<VcsLogEntity>> getLogInRevAsync(VcsRevEntity revEntity) {
+        return CompletableFuture.supplyAsync(() -> {
+            ArrayList<VcsLogEntity> vcsLogEntities = new ArrayList<>(database.vcsLogDao().findByIds(revEntity.logIds));
+            logger.debug(TAG, "getLogInRevAsync finished\nResult size: " + vcsLogEntities.size());
+            return vcsLogEntities;
+        });
+    }
+
+    @Override
+    public CompletableFuture<ArrayList<String>> getDocumentPagePathListRev(String revId) {
+        return CompletableFuture.supplyAsync(() -> {
+            logger.debug(TAG, "getDocumentPagePathListRev");
+            ArrayList<VcsLogEntity> vcsLogEntities = getRevBeforeTargetIdAsync(revId).thenCompose(this::getLogInRevsAsync).join();
+
+            ArrayList<String> fileNameList = new ArrayList<>();
+            for(VcsLogEntity vcsLogEntity : vcsLogEntities){
+                logger.debug(TAG, "getDocumentPagePathListRev: processing " + vcsLogEntity.id + "(Type: " + vcsLogEntity.actionType + ")");
+                if (vcsLogEntity.actionType.equals(ActionType.INSERT_PAGE.getValue())){
+                    InsertPage insertPage = (InsertPage) JsonUtils.fromJson(vcsLogEntity.action, ActionType.INSERT_PAGE);
+                    logger.debug(TAG, "getDocumentPagePathListRev: Inserting " + insertPage.getFileName() + " at " + insertPage.getIndex());
+                    if (fileNameList.size() <= insertPage.getIndex()) {
+                        logger.debug(TAG, "Index out of range, appending");
+                        fileNameList.add(insertPage.getFileName());
+                    } else {
+                        fileNameList.add(insertPage.getIndex(), insertPage.getFileName());
+                    }
+                } else if (vcsLogEntity.actionType.equals(ActionType.UPDATE_PAGE.getValue())){
+                    UpdatePage updatePage = (UpdatePage) JsonUtils.fromJson(vcsLogEntity.action, ActionType.UPDATE_PAGE);
+                    logger.debug(TAG, "getDocumentPagePathListRev: Updating " + updatePage.getFileName() + " at " + updatePage.getIndex());
+                    fileNameList.set(updatePage.getIndex(), updatePage.getFileName());
+                } else if (vcsLogEntity.actionType.equals(ActionType.DELETE_PAGE.getValue())){
+                    DeletePage deletePage = (DeletePage) JsonUtils.fromJson(vcsLogEntity.action, ActionType.DELETE_PAGE);
+                    logger.debug(TAG, "getDocumentPagePathListRev: Deleting " + deletePage.getIndex());
+                    fileNameList.remove(deletePage.getIndex());
+                } else if (vcsLogEntity.actionType.equals(ActionType.CREATE_DOCUMENT.getValue())) {
+                    // Ignore
+                    logger.debug(TAG, "getDocumentPagePathListRev: Ignored action type: " + vcsLogEntity.actionType);
+                } else {
+                    logger.error(TAG, "getDocumentPagePathListRev: Unknown action type");
+                }
+            }
+
+            return fileNameList;
         });
     }
 
