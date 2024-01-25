@@ -78,11 +78,9 @@ public class DocumentImpl implements Document {
             documentEntity.id = meta.getId();
             documentEntity.title = meta.getTitle();
             documentEntity.author = meta.getAuthor();
-            documentEntity.defaultBranch = meta.getDefaultBranch();
             documentEntity.updatedAt = meta.getUpdatedAt();
             documentEntity.createdAt = meta.getCreatedAt();
             documentEntity.parentId = meta.getParentId();
-            documentEntity.tagIds = meta.getTagIds();
 
             database.documentDao().insert(documentEntity);
 
@@ -103,11 +101,9 @@ public class DocumentImpl implements Document {
         meta.setId(UUID.randomUUID().toString());
         meta.setTitle("New Document");
         meta.setAuthor("author");
-        meta.setDefaultBranch("master");
         meta.setUpdatedAt(new Date());
         meta.setCreatedAt(new Date());
         meta.setParentId(null);
-        meta.setTags(new ArrayList<>());
         return createDocument(meta);
     }
 
@@ -168,11 +164,9 @@ public class DocumentImpl implements Document {
             meta.setId(documentEntity.id);
             meta.setTitle(documentEntity.title);
             meta.setAuthor(documentEntity.author);
-            meta.setDefaultBranch(documentEntity.defaultBranch);
             meta.setUpdatedAt(documentEntity.updatedAt);
             meta.setCreatedAt(documentEntity.createdAt);
             meta.setParentId(documentEntity.parentId);
-            meta.setTags(new ArrayList<>()); // TODO-rca: タグを取得する
 
             DocumentDetail detail = new DocumentDetail();
 
