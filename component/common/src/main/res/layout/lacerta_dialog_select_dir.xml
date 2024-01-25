@@ -5,23 +5,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!-- Currentのタイトルと戻るボタン -->
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/select_dir_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorSecondaryContainer"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:layout_constraintTop_toTopOf="parent"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/select_dir_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="8dp"
         android:background="@color/colorSurface"
-        android:padding="8dp"
         android:scrollbars="vertical"
         android:scrollbarStyle="outsideOverlay" />
 

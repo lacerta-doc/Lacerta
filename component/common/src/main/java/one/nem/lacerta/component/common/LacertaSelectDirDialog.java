@@ -32,12 +32,11 @@ public class LacertaSelectDirDialog extends DialogFragment {
         View view = inflater.inflate(R.layout.lacerta_dialog_select_dir, null);
 
         RecyclerView recyclerView = view.findViewById(R.id.select_dir_recycler_view);
-        recyclerView.setHasFixedSize(true);
 
         showRecyclerViewItem(null); // get root folder list
 
         this.adapter = new SelectDirDialogItemAdapter((name, itemId) -> {
-            Toast.makeText(getContext(), "Called: name", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Called:" + name, Toast.LENGTH_SHORT).show();
             showRecyclerViewItem(itemId);
             dismiss();
         });
