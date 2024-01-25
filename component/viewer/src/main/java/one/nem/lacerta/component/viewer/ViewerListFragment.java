@@ -187,7 +187,7 @@ public class ViewerListFragment extends Fragment {
                     return true;
                 } else if (item.getItemId() == R.id.action_delete) {
                     // TODO-rca: デザインをMaterial Design 3に合わせたカスタムダイアログにする
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireContext());
                     builder.setTitle("ファイルの削除");
                     builder.setMessage("ファイルを削除しますか？");
                     builder.setPositiveButton("削除", (dialog, which) -> {
