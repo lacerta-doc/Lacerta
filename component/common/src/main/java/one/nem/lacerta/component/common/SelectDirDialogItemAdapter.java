@@ -74,7 +74,7 @@ public class SelectDirDialogItemAdapter extends RecyclerView.Adapter<SelectDirDi
             if (this.libraryItemPage.getPageId() == null) {
                 return null;
             } else {
-                return this.libraryItemPage.getPageTitle()
+                return this.libraryItemPage.getPageTitle();
             }
         }
     }
