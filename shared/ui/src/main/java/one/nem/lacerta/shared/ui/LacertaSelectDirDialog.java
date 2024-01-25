@@ -23,7 +23,10 @@ public class LacertaSelectDirDialog extends DialogFragment {
         RecyclerView recyclerView = view.findViewById(R.id.select_dir_recycler_view);
         recyclerView.setHasFixedSize(true);
 
-        SelectDirDialogItemAdapter adapter = new SelectDirDialogItemAdapter();
+        SelectDirDialogItemAdapter adapter = new SelectDirDialogItemAdapter((name, itemId) -> {
+            Toast.makeText(getContext(), "Called", Toast.LENGTH_SHORT).show();
+            dismiss();
+        });
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(getContext()));
 
