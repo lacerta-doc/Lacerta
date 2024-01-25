@@ -136,7 +136,7 @@ public class LacertaLibraryImpl implements LacertaLibrary {
             if (targetDirId == null) { // When root folder
                 folderEntities = database.folderDao().findRootFolders();
                 libraryItemPage.setParentId(null);
-                libraryItemPage.setPageId(targetDirId);
+                libraryItemPage.setPageId(null);
                 libraryItemPage.setPageTitle("ライブラリ");
             } else {
                 folderEntities = database.folderDao().findByParentId(targetDirId);

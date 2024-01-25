@@ -21,12 +21,16 @@ import javax.inject.Inject;
 import dagger.hilt.android.AndroidEntryPoint;
 import one.nem.lacerta.data.LacertaLibrary;
 import one.nem.lacerta.model.ListItemType;
+import one.nem.lacerta.utils.LacertaLogger;
 
 @AndroidEntryPoint
 public class LacertaSelectDirDialog extends DialogFragment {
 
     @Inject
     LacertaLibrary lacertaLibrary;
+
+    @Inject
+    LacertaLogger logger;
 
     private SelectDirDialogItemAdapter adapter;
 
@@ -83,14 +87,29 @@ public class LacertaSelectDirDialog extends DialogFragment {
         lacertaLibrary.getFolderList(targetDirId).thenAccept(libraryItemPage -> {
             getActivity().runOnUiThread(() -> {
                 int currentCount = adapter.getItemCount();
-                if (targetDirId == null) { // When root folder
+                String currentDirId = adapter.getCurrentId();
+                if (currentDirId == null && libraryItemPage.getPageId() != null) {
+                    // Rootから推移してきた場合
                     adapter.setListItems(libraryItemPage);
                     adapter.notifyItemRangeRemoved(0, currentCount);
                     adapter.notifyItemRangeInserted(0, libraryItemPage.getListItems().size());
-                } else { // When child folder
+                } else if (libraryItemPage.getPageId() == null) {
+                    // Rootに推移した場合
+                    adapter.setListItems(libraryItemPage);
+                    adapter.notifyItemRangeRemoved(0, currentCount);
+                    adapter.notifyItemRangeInserted(0, libraryItemPage.getListItems().size());
+                } else if (currentDirId != null && libraryItemPage.getPageId() != null) {
+                    // 通常の遷移
                     adapter.setListItems(libraryItemPage);
                     adapter.notifyItemRangeRemoved(1, currentCount);
                     adapter.notifyItemRangeInserted(1, libraryItemPage.getListItems().size());
+                } else {
+                    // その他の遷移(安全側に倒すため全アイテム更新)
+                    logger.warn("LacertaSelectDirDialog", "Unknown transition.");
+                    logger.warn("LacertaSelectDirDialog", "currentDirId: " + currentDirId + ", libraryItemPage.getPageId(): " + libraryItemPage.getPageId());
+                    adapter.setListItems(libraryItemPage);
+                    adapter.notifyItemRangeRemoved(0, currentCount);
+                    adapter.notifyItemRangeInserted(0, libraryItemPage.getListItems().size());
                 }
             });
         });
