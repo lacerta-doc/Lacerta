@@ -1,6 +1,5 @@
 package one.nem.lacerta.component.common;
 
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +9,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-
 import one.nem.lacerta.model.LibraryItemPage;
 import one.nem.lacerta.model.ListItem;
 import one.nem.lacerta.model.ListItemType;
@@ -20,9 +17,9 @@ public class SelectDirDialogItemAdapter extends RecyclerView.Adapter<SelectDirDi
 
 
     private LibraryItemPage libraryItemPage;
-    LacertaSelectDirDialogEventListener listener;
+    LacertaSelectDirDialogInternalEventListener listener;
 
-    public SelectDirDialogItemAdapter(LacertaSelectDirDialogEventListener listener) {
+    public SelectDirDialogItemAdapter(LacertaSelectDirDialogInternalEventListener listener) {
         this.listener = listener;
     }
 

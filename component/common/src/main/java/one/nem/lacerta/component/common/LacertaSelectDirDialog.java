@@ -5,16 +5,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-
-import org.w3c.dom.Text;
 
 import javax.inject.Inject;
 
@@ -54,7 +49,7 @@ public class LacertaSelectDirDialog extends DialogFragment {
         this.recyclerView = view.findViewById(R.id.select_dir_recycler_view);
         this.current_dir_text_view = view.findViewById(R.id.current_dir_text_view);
 
-        this.adapter = new SelectDirDialogItemAdapter(new LacertaSelectDirDialogEventListener() {
+        this.adapter = new SelectDirDialogItemAdapter(new LacertaSelectDirDialogInternalEventListener() {
             @Override
             public void onDirSelected(String name, String itemId) {
                 showRecyclerViewItem(itemId);
