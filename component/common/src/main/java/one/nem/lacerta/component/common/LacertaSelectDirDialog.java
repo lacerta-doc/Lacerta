@@ -47,6 +47,10 @@ public class LacertaSelectDirDialog extends DialogFragment {
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.lacerta_dialog_select_dir, null);
 
+        // 高さを画面の60%にする
+        int height = (int) (getResources().getDisplayMetrics().heightPixels * 0.6);
+        view.setMinimumHeight(height);
+
         this.recyclerView = view.findViewById(R.id.select_dir_recycler_view);
         this.current_dir_text_view = view.findViewById(R.id.current_dir_text_view);
 
