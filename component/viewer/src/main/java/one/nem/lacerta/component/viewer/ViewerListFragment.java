@@ -22,6 +22,7 @@ import javax.inject.Inject;
 import dagger.hilt.android.AndroidEntryPoint;
 import one.nem.lacerta.data.Document;
 import one.nem.lacerta.model.document.page.Page;
+import one.nem.lacerta.shared.ui.LacertaSelectDirDialog;
 import one.nem.lacerta.utils.FeatureSwitch;
 import one.nem.lacerta.utils.LacertaLogger;
 import one.nem.lacerta.vcs.LacertaVcs;
@@ -204,7 +205,10 @@ public class ViewerListFragment extends Fragment {
                     builder.show();
                     return true;
                 } else if (item.getItemId() == R.id.action_move) {
-                    Toast.makeText(getContext(), "Work in progress", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), "Work in progress", Toast.LENGTH_SHORT).show();
+
+                    LacertaSelectDirDialog lacertaSelectDirDialog = new LacertaSelectDirDialog();
+                    lacertaSelectDirDialog.show(getParentFragmentManager(), "selectDirDialog");
                     return true;
                 } else {
                     return false;

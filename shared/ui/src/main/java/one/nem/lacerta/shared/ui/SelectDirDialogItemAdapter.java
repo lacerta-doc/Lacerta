@@ -24,7 +24,7 @@ public class SelectDirDialogItemAdapter extends RecyclerView.Adapter<SelectDirDi
 
         @Override
         public int getItemCount() {
-            return 3;
+            return 100;
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
