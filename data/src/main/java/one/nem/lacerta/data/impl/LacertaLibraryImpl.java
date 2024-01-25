@@ -271,7 +271,7 @@ public class LacertaLibraryImpl implements LacertaLibrary {
 
     @Override
     public CompletableFuture<Void> addTagToDocument(String documentId, String tagId) {
-        CompletableFuture.supplyAsync(() -> {
+        return CompletableFuture.supplyAsync(() -> {
             ToxiDocumentTagEntity toxiDocumentTagEntity = new ToxiDocumentTagEntity();
             toxiDocumentTagEntity.documentId = documentId;
             toxiDocumentTagEntity.tagId = tagId;
@@ -283,7 +283,7 @@ public class LacertaLibraryImpl implements LacertaLibrary {
 
     @Override
     public CompletableFuture<Void> removeTagFromDocument(String documentId, String tagId) {
-        CompletableFuture.supplyAsync(() -> {
+        return CompletableFuture.supplyAsync(() -> {
             database.toxiDocumentTagDao().deleteByDocumentIdAndTagId(documentId, tagId);
             logger.debug("LacertaLibraryImpl", "Database Query: Deleted ToxiDocumentTagEntity");
             return null;
