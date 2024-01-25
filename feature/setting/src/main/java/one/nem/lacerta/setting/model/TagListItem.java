@@ -4,13 +4,11 @@ public class TagListItem {
 
     String tagId;
     String tagName;
-    String tagDescription;
     String tagColor;
 
-    public TagListItem(String tagId, String tagName, String tagDescription, String tagColor) {
+    public TagListItem(String tagId, String tagName, String tagColor) {
         this.tagId = tagId;
         this.tagName = tagName;
-        this.tagDescription = tagDescription;
         this.tagColor = tagColor;
     }
 
@@ -31,14 +29,6 @@ public class TagListItem {
 
     public void setTagName(String tagName) {
         this.tagName = tagName;
-    }
-
-    public String getTagDescription() {
-        return tagDescription;
-    }
-
-    public void setTagDescription(String tagDescription) {
-        this.tagDescription = tagDescription;
     }
 
     public String getTagColor() {
