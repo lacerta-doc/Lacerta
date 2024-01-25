@@ -1,5 +1,7 @@
 package one.nem.lacerta.data.impl;
 
+import android.nfc.Tag;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
@@ -23,6 +25,7 @@ import one.nem.lacerta.source.database.LacertaDatabase;
 import one.nem.lacerta.source.database.common.DateTypeConverter;
 import one.nem.lacerta.source.database.entity.DocumentEntity;
 import one.nem.lacerta.source.database.entity.FolderEntity;
+import one.nem.lacerta.source.database.entity.TagEntity;
 import one.nem.lacerta.utils.FeatureSwitch;
 import one.nem.lacerta.utils.LacertaLogger;
 
@@ -206,6 +209,23 @@ public class LacertaLibraryImpl implements LacertaLibrary {
         });
     }
 
+    // Converter
+    private DocumentTag convertTagEntityToDocumentTag(TagEntity tagEntity) {
+        DocumentTag documentTag = new DocumentTag();
+        documentTag.setId(tagEntity.id);
+        documentTag.setName(tagEntity.tagName);
+        documentTag.setColor(tagEntity.color);
+        return documentTag;
+    }
+
+    private TagEntity convertDocumentTagToTagEntity(DocumentTag documentTag) {
+        TagEntity tagEntity = new TagEntity();
+        tagEntity.id = documentTag.getId();
+        tagEntity.tagName = documentTag.getName();
+        tagEntity.color = documentTag.getColor();
+        return tagEntity;
+    }
+
     @Override
     public CompletableFuture<ArrayList<DocumentTag>> getTagList() {
         return null;
@@ -213,7 +233,9 @@ public class LacertaLibraryImpl implements LacertaLibrary {
 
     @Override
     public CompletableFuture<Void> createTag(DocumentTag tag) {
-        return null;
+        return CompletableFuture.supplyAsync(() -> {
+
+        });
     }
 
     @Override
