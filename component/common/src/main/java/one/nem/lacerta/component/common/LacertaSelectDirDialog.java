@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -25,25 +26,28 @@ public class LacertaSelectDirDialog extends DialogFragment {
 
     private SelectDirDialogItemAdapter adapter;
 
+    private RecyclerView recyclerView;
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+        super.onCreateDialog(savedInstanceState);
+
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity());
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.lacerta_dialog_select_dir, null);
 
-        RecyclerView recyclerView = view.findViewById(R.id.select_dir_recycler_view);
+        this.recyclerView = view.findViewById(R.id.select_dir_recycler_view);
 
         this.adapter = new SelectDirDialogItemAdapter((name, itemId) -> {
             Toast.makeText(getContext(), "Called:" + name, Toast.LENGTH_SHORT).show();
             showRecyclerViewItem(itemId);
-            dismiss();
         });
 
-        recyclerView.setAdapter(this.adapter);
-        recyclerView.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(getContext()));
+        this.recyclerView.setAdapter(this.adapter);
         builder.setView(view);
 
-        showRecyclerViewItem(null); // get root folder list
+        showRecyclerViewItem(null); // get root folder
 
         builder.setTitle("Select Directory");
         builder.setMessage("Please select a directory.");
@@ -54,9 +58,12 @@ public class LacertaSelectDirDialog extends DialogFragment {
 
     private void showRecyclerViewItem(String parent) {
         lacertaLibrary.getFolderList(parent).thenAccept(listItems -> {
-            adapter.setListItems(listItems);
-            adapter.notifyDataSetChanged();
+            getActivity().runOnUiThread(() -> {
+                int currentCount = adapter.getItemCount();
+                adapter.notifyItemRangeRemoved(0, currentCount);
+                adapter.setListItems(listItems);
+                adapter.notifyItemRangeInserted(0, listItems.size());
+            });
         });
-
     }
 }

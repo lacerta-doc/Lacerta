@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 import one.nem.lacerta.model.ListItem;
 
-public class SelectDirDialogItemAdapter extends RecyclerView.Adapter<SelectDirDialogItemAdapter.ViewHolder> {
+public class SelectDirDialogItemAdapter extends RecyclerView.Adapter<SelectDirDialogItemAdapter.SelectDirDialogItemViewHolder> {
 
     ArrayList<ListItem> listItems;
     LacertaSelectDirDialogEventListener listener;
@@ -25,14 +25,15 @@ public class SelectDirDialogItemAdapter extends RecyclerView.Adapter<SelectDirDi
         this.listItems = listItems;
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public SelectDirDialogItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(one.nem.lacerta.shared.ui.R.layout.common_list_item, parent, false);
-        return new ViewHolder(view);
+        return new SelectDirDialogItemViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(SelectDirDialogItemViewHolder holder, int position) {
         ListItem listItem = listItems.get(position);
         holder.title.setText(listItem.getTitle());
         holder.description.setText(listItem.getDescription());
@@ -43,16 +44,16 @@ public class SelectDirDialogItemAdapter extends RecyclerView.Adapter<SelectDirDi
 
     @Override
     public int getItemCount() {
-        return listItems.size();
+        return listItems == null ? 0 : listItems.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class SelectDirDialogItemViewHolder extends RecyclerView.ViewHolder {
 
         TextView title;
         TextView description;
 
 
-        public ViewHolder(@NonNull View itemView) {
+        public SelectDirDialogItemViewHolder(@NonNull View itemView) {
             super(itemView);
 
             title = itemView.findViewById(one.nem.lacerta.shared.ui.R.id.item_title);
