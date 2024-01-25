@@ -1,5 +1,6 @@
 package one.nem.lacerta.setting;
 
+import android.graphics.Color;
 import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,7 +42,7 @@ public class TagListItemAdapter extends RecyclerView.Adapter<TagListItemAdapter.
 
         holder.tag_name.setText(documentTag.getName());
         try {
-            holder.tag_icon.setImageResource(one.nem.lacerta.shared.ui.R.drawable.class.getField(documentTag.getIcon()).getInt(null));
+            holder.tag_icon.setColorFilter(Color.parseColor(documentTag.getColor()));
         } catch (Exception e) {
             holder.tag_name.setText("Sorry, Parse Error occurred");
         }
