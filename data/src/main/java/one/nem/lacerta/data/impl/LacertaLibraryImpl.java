@@ -1,5 +1,7 @@
 package one.nem.lacerta.data.impl;
 
+import android.nfc.Tag;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
@@ -18,10 +20,13 @@ import one.nem.lacerta.model.ListItem;
 import one.nem.lacerta.model.ListItemType;
 import one.nem.lacerta.model.PublicPath;
 import one.nem.lacerta.model.document.DocumentDetail;
+import one.nem.lacerta.model.document.tag.DocumentTag;
 import one.nem.lacerta.source.database.LacertaDatabase;
 import one.nem.lacerta.source.database.common.DateTypeConverter;
 import one.nem.lacerta.source.database.entity.DocumentEntity;
 import one.nem.lacerta.source.database.entity.FolderEntity;
+import one.nem.lacerta.source.database.entity.TagEntity;
+import one.nem.lacerta.source.database.entity.ToxiDocumentTagEntity;
 import one.nem.lacerta.utils.FeatureSwitch;
 import one.nem.lacerta.utils.LacertaLogger;
 
@@ -202,6 +207,86 @@ public class LacertaLibraryImpl implements LacertaLibrary {
                 logger.warn("LacertaLibraryImpl", "Unknown ListItemType: " + itemType);
                 return null;
             }
+        });
+    }
+
+    // Converter
+    private DocumentTag convertTagEntityToDocumentTag(TagEntity tagEntity) {
+        DocumentTag documentTag = new DocumentTag();
+        documentTag.setId(tagEntity.id);
+        documentTag.setName(tagEntity.tagName);
+        documentTag.setColor(tagEntity.color);
+        return documentTag;
+    }
+
+    private TagEntity convertDocumentTagToTagEntity(DocumentTag documentTag) {
+        TagEntity tagEntity = new TagEntity();
+        tagEntity.id = documentTag.getId();
+        tagEntity.tagName = documentTag.getName();
+        tagEntity.color = documentTag.getColor();
+        return tagEntity;
+    }
+
+    @Override
+    public CompletableFuture<ArrayList<DocumentTag>> getTagList() {
+        return CompletableFuture.supplyAsync(() -> {
+            List<TagEntity> tagEntities = database.tagDao().findAll();
+            logger.debug("LacertaLibraryImpl", "Database Query: Get TagEntity List (Size: " + tagEntities.size() + ")");
+            ArrayList<DocumentTag> documentTags = new ArrayList<>();
+            for (TagEntity tagEntity : tagEntities) {
+                documentTags.add(convertTagEntityToDocumentTag(tagEntity));
+            }
+            return documentTags;
+        });
+    }
+
+    @Override
+    public CompletableFuture<Void> createTag(DocumentTag tag) {
+        return CompletableFuture.supplyAsync(() -> {
+            TagEntity tagEntity = convertDocumentTagToTagEntity(tag);
+            database.tagDao().insert(tagEntity);
+            logger.debug("LacertaLibraryImpl", "Database Query: Inserted TagEntity (" + tag.getId() + ")");
+            return null;
+        });
+    }
+
+    @Override
+    public CompletableFuture<Void> updateTag(DocumentTag tag) {
+        return CompletableFuture.supplyAsync(() -> {
+            TagEntity tagEntity = convertDocumentTagToTagEntity(tag);
+            database.tagDao().update(tagEntity);
+            logger.debug("LacertaLibraryImpl", "Database Query: Updated TagEntity (" + tag.getId() + ")");
+            return null;
+        });
+    }
+
+    @Override
+    public CompletableFuture<Void> deleteTag(String tagId) {
+        return CompletableFuture.supplyAsync(() -> {
+            database.tagDao().deleteById(tagId);
+            logger.debug("LacertaLibraryImpl", "Database Query: Deleted TagEntity (" + tagId + ")");
+            return null;
+        });
+    }
+
+    @Override
+    public CompletableFuture<Void> addTagToDocument(String documentId, String tagId) {
+        return CompletableFuture.supplyAsync(() -> {
+            ToxiDocumentTagEntity toxiDocumentTagEntity = new ToxiDocumentTagEntity();
+            toxiDocumentTagEntity.documentId = documentId;
+            toxiDocumentTagEntity.tagId = tagId;
+            database.toxiDocumentTagDao().insert(toxiDocumentTagEntity);
+            logger.debug("LacertaLibraryImpl", "Database Query: Inserted ToxiDocumentTagEntity");
+            return null;
+        });
+    }
+
+    @Override
+    public CompletableFuture<Void> removeTagFromDocument(String documentId, String tagId) {
+        return CompletableFuture.supplyAsync(() -> {
+            database.toxiDocumentTagDao().deleteByDocumentIdAndTagId(documentId, tagId);
+            logger.debug("LacertaLibraryImpl", "Database Query: Deleted ToxiDocumentTagEntity");
+            return null;
         });
     }
 

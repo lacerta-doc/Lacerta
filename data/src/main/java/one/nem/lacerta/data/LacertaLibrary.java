@@ -9,6 +9,7 @@ import one.nem.lacerta.model.ListItemType;
 import one.nem.lacerta.model.LibraryItemPage;
 import one.nem.lacerta.model.PublicPath;
 import one.nem.lacerta.model.document.DocumentDetail;
+import one.nem.lacerta.model.document.tag.DocumentTag;
 
 public interface LacertaLibrary {
 
@@ -29,4 +30,17 @@ public interface LacertaLibrary {
     // Get Public Path
     CompletableFuture<PublicPath> getPublicPath(String itemId, ListItemType itemType);
 
+
+    // Tag
+    CompletableFuture<ArrayList<DocumentTag>> getTagList();
+
+    CompletableFuture<Void> createTag(DocumentTag tag);
+
+    CompletableFuture<Void> updateTag(DocumentTag tag);
+
+    CompletableFuture<Void> deleteTag(String tagId);
+
+    CompletableFuture<Void> addTagToDocument(String documentId, String tagId);
+
+    CompletableFuture<Void> removeTagFromDocument(String documentId, String tagId);
 }

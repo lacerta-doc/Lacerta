@@ -34,12 +34,6 @@ public class DocumentEntity {
     @ColumnInfo(name = "author")
     public String author; // 作成者
 
-    @ColumnInfo(name = "default_branch")
-    public String defaultBranch; // デフォルトブランチ
-
-    @ColumnInfo(name = "tag_ids")
-    public List<String> tagIds; // タグ
-
     @ColumnInfo(name = "parent_id")
     public String parentId; // 親フォルダID
 }

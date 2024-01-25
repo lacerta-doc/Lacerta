@@ -37,6 +37,9 @@
             app:exitAnim="@anim/slide_to_left"
             app:popEnterAnim="@anim/slide_from_left"
             app:popExitAnim="@anim/slide_to_right" />
+        <action
+            android:id="@+id/action_settingTopFragment_to_settingTagManageFragment"
+            app:destination="@id/settingTagManageFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingAboutPageFragment"
@@ -58,4 +61,8 @@
         android:name="one.nem.lacerta.setting.SettingScanPageFragment"
         android:label="fragment_setting_scan_page"
         tools:layout="@layout/fragment_setting_scan_page" />
+    <fragment
+        android:id="@+id/settingTagManageFragment"
+        android:name="one.nem.lacerta.setting.SettingTagManageFragment"
+        android:label="SettingTagManageFragment" />
 </navigation>

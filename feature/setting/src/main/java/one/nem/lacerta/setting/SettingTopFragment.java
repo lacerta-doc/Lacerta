@@ -76,6 +76,15 @@ public class SettingTopFragment extends Fragment {
 
         settingListItems.add(
                 new SettingListItem(
+                        "タグ管理", // TODO-rca: リソースに移動
+                        "タグの追加・編集・削除", // TODO-rca: リソースに移動
+                        ContextCompat.getDrawable(getContext(), one.nem.lacerta.shared.ui.R.drawable.sell_24px),
+                        R.id.action_settingTopFragment_to_settingTagManageFragment
+                )
+        );
+
+        settingListItems.add(
+                new SettingListItem(
                         getResources().getString(one.nem.lacerta.shared.ui.R.string.setting_top_about_title),
                         getResources().getString(one.nem.lacerta.shared.ui.R.string.setting_top_about_description),
                         ContextCompat.getDrawable(getContext(), one.nem.lacerta.shared.ui.R.drawable.info_24px),
