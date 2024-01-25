@@ -28,7 +28,9 @@ public class SelectDirDialogItemAdapter extends RecyclerView.Adapter<SelectDirDi
 
     public void setListItems(LibraryItemPage libraryItemPage) {
         this.libraryItemPage = libraryItemPage;
-        this.libraryItemPage.getListItems().add(0, new ListItem("戻る", " ", ListItemType.ITEM_TYPE_ACTION_BACK, null));
+        if (this.libraryItemPage.getPageId() != null) { // ルートディレクトリの場合は戻るボタンを表示しない
+            this.libraryItemPage.getListItems().add(0, new ListItem("戻る", " ", ListItemType.ITEM_TYPE_ACTION_BACK, null));
+        }
     }
 
     @NonNull
