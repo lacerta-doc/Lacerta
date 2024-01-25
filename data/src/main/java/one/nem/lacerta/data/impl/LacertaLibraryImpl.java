@@ -128,6 +128,31 @@ public class LacertaLibraryImpl implements LacertaLibrary {
     }
 
     @Override
+    public CompletableFuture<ArrayList<ListItem>> getFolderList(String parentId) {
+        return CompletableFuture.supplyAsync(() -> {
+            List<FolderEntity> folderEntities;
+            if (parentId == null) { // When root folder
+                folderEntities = database.folderDao().findRootFolders();
+            } else {
+                folderEntities = database.folderDao().findByParentId(parentId);
+            }
+
+            ArrayList<ListItem> listItems = new ArrayList<>();
+            for (FolderEntity childFolderEntity : folderEntities) {
+                logger.debug("LacertaLibraryImpl", "childFolderEntity.name: " + childFolderEntity.name);
+                ListItem listItem = new ListItem();
+                listItem.setItemType(ListItemType.ITEM_TYPE_FOLDER);
+                listItem.setTitle(childFolderEntity.name);
+                listItem.setDescription("フォルダ"); // TODO-rca: ハードコーディングやめる
+                listItem.setItemId(childFolderEntity.id);
+                listItems.add(listItem);
+            }
+
+            return listItems;
+        });
+    }
+
+    @Override
     public CompletableFuture<String> createFolder(String parentId, String name) {
         return CompletableFuture.supplyAsync(() -> {
             FolderEntity folderEntity = new FolderEntity();
