@@ -1,11 +1,8 @@
 package one.nem.lacerta.feature.library;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -14,34 +11,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
-
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import one.nem.lacerta.component.viewer.ViewerMainActivity;
-import one.nem.lacerta.data.Document;
 import one.nem.lacerta.data.LacertaLibrary;
-import one.nem.lacerta.model.FragmentNavigation;
 import one.nem.lacerta.model.LibraryItemPage;
-import one.nem.lacerta.model.PublicPath;
 import one.nem.lacerta.utils.FeatureSwitch;
 import one.nem.lacerta.utils.LacertaLogger;
 
@@ -221,12 +202,36 @@ public class LibraryPageFragment extends Fragment {
      */
     private void createFolder(String pageId) {
         // TODO-rca: デザインをMaterial Design 3に合わせたカスタムダイアログにする
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+//        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+//        builder.setTitle("フォルダの作成");
+//        builder.setMessage("フォルダ名を入力してください");
+//        final android.widget.EditText input = new android.widget.EditText(getContext());
+//        input.setText("フォルダ名");
+//        builder.setView(input);
+//        builder.setPositiveButton("作成", (dialog, which) -> {
+//            lacertaLibrary.createFolder(pageId, input.getText().toString()).thenAccept(folderId -> {
+//                // Refresh
+//                updateItem(pageId);
+//            });
+//        });
+//        builder.setNegativeButton("キャンセル", (dialog, which) -> {
+//            dialog.cancel();
+//        });
+//        builder.show();
+//
+//        LacertaTextInputDialog lacertaTextInputDialog = LacertaTextInputDialog.newInstance("フォルダの作成", "フォルダ名を入力してください");
+//        lacertaTextInputDialog.show(((AppCompatActivity) requireActivity()).getSupportFragmentManager(), "create_folder_dialog");
+
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireContext());
         builder.setTitle("フォルダの作成");
         builder.setMessage("フォルダ名を入力してください");
-        final android.widget.EditText input = new android.widget.EditText(getContext());
+
+        View view = LayoutInflater.from(requireContext()).inflate(one.nem.lacerta.shared.ui.R.layout.lacerta_dialog_edit_text_layout, null);
+        final android.widget.EditText input = view.findViewById(one.nem.lacerta.shared.ui.R.id.custom_edit_text);
         input.setText("フォルダ名");
-        builder.setView(input);
+
+        builder.setView(view);
+        
         builder.setPositiveButton("作成", (dialog, which) -> {
             lacertaLibrary.createFolder(pageId, input.getText().toString()).thenAccept(folderId -> {
                 // Refresh
@@ -236,6 +241,7 @@ public class LibraryPageFragment extends Fragment {
         builder.setNegativeButton("キャンセル", (dialog, which) -> {
             dialog.cancel();
         });
+
         builder.show();
     }
 
