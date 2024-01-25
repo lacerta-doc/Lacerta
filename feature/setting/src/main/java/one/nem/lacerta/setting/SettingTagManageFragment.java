@@ -2,11 +2,14 @@ package one.nem.lacerta.setting;
 
 import android.os.Bundle;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,5 +39,43 @@ public class SettingTagManageFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_setting_tag_manage, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+    /**
+     * ToolbarをInitする
+     *
+     * @param toolbar Toolbar
+     * @param showBackButton 戻るボタンを表示するか
+     * @param title タイトル
+     */
+    private void toolbarSetup(Toolbar toolbar, boolean showBackButton, String title) {
+        getActivity().runOnUiThread(() -> {
+            if (showBackButton) {
+                toolbar.setNavigationIcon(one.nem.lacerta.shared.ui.R.drawable.arrow_back_24px);
+                toolbar.setNavigationOnClickListener(v -> {
+                    //this.libraryItemPage = lacertaLibrary.getLibraryPage(this.libraryItemPage.getParentId(), 10).join();
+                    // Back
+                    Navigation.findNavController(requireView()).popBackStack();
+                });
+            } else {
+                toolbar.setNavigationIcon(null);
+            }
+            toolbar.setTitle(title);
+            toolbar.getMenu().clear();
+            toolbar.inflateMenu(R.menu.setting_tag_manage_menu);
+            toolbar.setOnMenuItemClickListener(item -> {
+                if (item.getItemId() == R.id.setting_tag_manage_menu_add) {
+                    Toast.makeText(getContext(), "Add Clicked", Toast.LENGTH_SHORT).show();
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+        });
     }
 }
