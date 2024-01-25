@@ -9,7 +9,7 @@
         android:id="@+id/current_dir_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp" />
+        android:layout_marginStart="32dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/select_dir_recycler_view"
