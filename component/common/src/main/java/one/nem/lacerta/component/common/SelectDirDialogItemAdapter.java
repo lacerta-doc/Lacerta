@@ -59,7 +59,15 @@ public class SelectDirDialogItemAdapter extends RecyclerView.Adapter<SelectDirDi
     }
 
     public String getCurrentId() {
-        return this.libraryItemPage == null ? null : this.libraryItemPage.getPageId();
+        if (this.libraryItemPage == null) {
+            return null;
+        } else {
+            if (this.libraryItemPage.getPageId() == null) {
+                return null;
+            } else {
+                return this.libraryItemPage.getPageId();
+            }
+        }
     }
 
     public static class SelectDirDialogItemViewHolder extends RecyclerView.ViewHolder {

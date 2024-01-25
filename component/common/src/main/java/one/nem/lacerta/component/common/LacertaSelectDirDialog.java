@@ -88,18 +88,18 @@ public class LacertaSelectDirDialog extends DialogFragment {
             getActivity().runOnUiThread(() -> {
                 int currentCount = adapter.getItemCount();
                 String currentDirId = adapter.getCurrentId();
-                if (currentDirId == null && libraryItemPage.getPageId() != null) {
-                    // Rootから推移してきた場合
+                if (currentDirId == null) {
+                    // Rootが関わる推移 (Rootからの推移)
                     adapter.setListItems(libraryItemPage);
                     adapter.notifyItemRangeRemoved(0, currentCount);
                     adapter.notifyItemRangeInserted(0, libraryItemPage.getListItems().size());
                 } else if (libraryItemPage.getPageId() == null) {
-                    // Rootに推移した場合
+                    // Rootが関わる推移 (Rootへの推移)
                     adapter.setListItems(libraryItemPage);
                     adapter.notifyItemRangeRemoved(0, currentCount);
                     adapter.notifyItemRangeInserted(0, libraryItemPage.getListItems().size());
-                } else if (currentDirId != null && libraryItemPage.getPageId() != null) {
-                    // 通常の遷移
+                } else if (libraryItemPage.getPageId() != null) {
+                    // Rootが関わらない推移
                     adapter.setListItems(libraryItemPage);
                     adapter.notifyItemRangeRemoved(1, currentCount);
                     adapter.notifyItemRangeInserted(1, libraryItemPage.getListItems().size());
