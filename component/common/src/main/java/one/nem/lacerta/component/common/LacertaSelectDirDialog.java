@@ -29,9 +29,9 @@ public class LacertaSelectDirDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity());
         LayoutInflater inflater = requireActivity().getLayoutInflater();
-        View view = inflater.inflate(one.nem.lacerta.shared.ui.R.layout.lacerta_dialog_select_dir, null);
+        View view = inflater.inflate(R.layout.lacerta_dialog_select_dir, null);
 
-        RecyclerView recyclerView = view.findViewById(one.nem.lacerta.shared.ui.R.id.select_dir_recycler_view);
+        RecyclerView recyclerView = view.findViewById(R.id.select_dir_recycler_view);
         recyclerView.setHasFixedSize(true);
 
         showRecyclerViewItem(null); // get root folder list
@@ -44,12 +44,6 @@ public class LacertaSelectDirDialog extends DialogFragment {
 
         recyclerView.setAdapter(this.adapter);
         recyclerView.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(getContext()));
-
-        Toolbar toolbar = view.findViewById(one.nem.lacerta.shared.ui.R.id.select_dir_toolbar);
-        toolbar.setNavigationOnClickListener(v -> {
-            Toast.makeText(getContext(), "Called", Toast.LENGTH_SHORT).show();
-            dismiss();
-        });
 
         builder.setView(view);
 
