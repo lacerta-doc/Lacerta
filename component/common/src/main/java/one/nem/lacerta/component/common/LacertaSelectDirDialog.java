@@ -33,8 +33,6 @@ public class LacertaSelectDirDialog extends DialogFragment {
 
         RecyclerView recyclerView = view.findViewById(R.id.select_dir_recycler_view);
 
-        showRecyclerViewItem(null); // get root folder list
-
         this.adapter = new SelectDirDialogItemAdapter((name, itemId) -> {
             Toast.makeText(getContext(), "Called:" + name, Toast.LENGTH_SHORT).show();
             showRecyclerViewItem(itemId);
@@ -43,8 +41,9 @@ public class LacertaSelectDirDialog extends DialogFragment {
 
         recyclerView.setAdapter(this.adapter);
         recyclerView.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(getContext()));
-
         builder.setView(view);
+
+        showRecyclerViewItem(null); // get root folder list
 
         builder.setTitle("Select Directory");
         builder.setMessage("Please select a directory.");
