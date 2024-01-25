@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.com.android.library)
-    id 'com.google.dagger.hilt.android'
 }
 
 android {
@@ -35,10 +34,6 @@ dependencies {
     androidTestImplementation libs.androidx.test.espresso.core
 
     implementation project(':data')
-    implementation project(':model')
     implementation project(':utils')
 
-    // Hilt (DI)
-    implementation libs.com.google.dagger.hilt.android
-    annotationProcessor libs.com.google.dagger.hilt.compiler
 }
