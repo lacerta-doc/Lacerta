@@ -59,6 +59,6 @@ dependencies {
     implementation project(':component:common')
 
     // TODO-rca: バージョンカタログに切り出す
-    implementation "com.hendraanggrian.material:collapsingtoolbarlayout-subtitle:1.10.0"
+    implementation "com.hendraanggrian.material:collapsingtoolbarlayout-subtitle:1.5.0"
 
 }
