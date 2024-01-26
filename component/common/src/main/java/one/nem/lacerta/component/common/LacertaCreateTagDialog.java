@@ -57,17 +57,23 @@ public class LacertaCreateTagDialog extends DialogFragment {
 
         // TextEdit
         EditText tag_name_edit_text = view.findViewById(R.id.tag_name_edit_text);
+        com.google.android.material.textfield.TextInputLayout tag_name_text_input_layout = view.findViewById(R.id.tag_name_text_input_layout);
+        tag_name_text_input_layout.setHint("タグの名前");
         EditText tag_color_edit_text = view.findViewById(R.id.tag_color_edit_text);
+        com.google.android.material.textfield.TextInputLayout tag_color_text_input_layout = view.findViewById(R.id.tag_color_text_input_layout);
+        tag_color_text_input_layout.setHint("タグの色(カラーコード)");
+
+        builder.setTitle(this.title == null ? "Create new tag" : this.title);
 
         // Button
-        builder.setPositiveButton(positiveButtonText, (dialog, which) -> {
+        builder.setPositiveButton(positiveButtonText == null ? "OK" : positiveButtonText, (dialog, which) -> {
             String tag_name = tag_name_edit_text.getText().toString();
             String tag_color = tag_color_edit_text.getText().toString();
             if (listener != null) {
                 listener.onPositiveClick(tag_name, tag_color);
             }
         });
-        builder.setNegativeButton(negativeButtonText, (dialog, which) -> {
+        builder.setNegativeButton(negativeButtonText == null ? "Cancel" : negativeButtonText, (dialog, which) -> {
             if (listener != null) {
                 listener.onNegativeClick();
             }
