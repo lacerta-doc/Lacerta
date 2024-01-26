@@ -106,20 +106,22 @@ public class HomeTopFragment extends Fragment {
     }
 
     private void updateList() {
+        long startTime = System.currentTimeMillis();
         lacertaLibrary.getRecentDocument(10).thenAccept(listItems -> {
+            long endTime = System.currentTimeMillis();
             if (listItems == null) {
                 return;
             }
             this.listItemAdapter.setListItems(listItems);
-            getActivity().runOnUiThread(() -> {
-                Log.d("HomeTopFragment", "onViewCreated: " + listItems.size());
-                if (FeatureSwitch.RecyclerView.useSimpleNotifyMethod) {
+            if (endTime - startTime > 500) { // 500ms以上かかった場合は表示アニメーションをする
+                getActivity().runOnUiThread(() -> {
+                    this.listItemAdapter.notifyItemRangeInserted(0, listItems.size());
+                });
+            } else {
+                getActivity().runOnUiThread(() -> {
                     this.listItemAdapter.notifyDataSetChanged();
-                } else {
-                    // IndexOutOfBoundsExceptionを吐くことがあったので いったん
-                    this.listItemAdapter.notifyItemRangeInserted(0, listItems.size() - 1);
-                }
-            });
+                });
+            }
         });
     }
 
