@@ -219,13 +219,12 @@ public class LibraryPageFragment extends Fragment {
             long endTime = System.currentTimeMillis();
             this.libraryItemPage = libraryItemPage;
             logger.debug("LibraryTopFragment", "Item selected! libraryItemPage.getListItems().size(): " + libraryItemPage.getListItems().size());
+            listItemAdapter.setLibraryItemPage(libraryItemPage);
             if (endTime - startTime > 500) { // 500ms以上かかった場合は表示アニメーションをする
                 getActivity().runOnUiThread(() -> {
-                    listItemAdapter.setLibraryItemPage(libraryItemPage);
                     listItemAdapter.notifyItemRangeInserted(0, this.libraryItemPage.getListItems().size());
                 });
             } else {
-                listItemAdapter.setLibraryItemPage(libraryItemPage);
                 getActivity().runOnUiThread(() -> {
                     listItemAdapter.notifyDataSetChanged();
                 });
