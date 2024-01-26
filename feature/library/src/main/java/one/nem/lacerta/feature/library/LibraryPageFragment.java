@@ -178,33 +178,7 @@ public class LibraryPageFragment extends Fragment {
 
         // Get library page and update RecyclerView items
 
-        lacertaLibrary.getLibraryPage(this.folderId, 10).thenAccept(libraryItemPage -> {
-            this.libraryItemPage = libraryItemPage;
-
-            if (this.parentId == null) {
-                this.parentId = libraryItemPage.getParentId();
-            }
-            if (this.title == null) {
-                this.title = libraryItemPage.getPageTitle();
-                // Toolbar init again
-                toolbarSetup(view.findViewById(R.id.library_toolbar), this.folderId != null, this.title != null ? this.title : "ライブラリ");
-            }
-
-            logger.debug("LibraryTopFragment", "Item selected! Total item page: " + this.libraryItemPage.getListItems().size());
-            if (!FeatureSwitch.RecyclerView.useSimpleNotifyMethod) {
-                getActivity().runOnUiThread(() -> { // TODO-rca: 実行条件を考える？
-                    listItemAdapter.notifyItemRangeRemoved(0, this.libraryItemPage.getListItems().size() - 1);
-                });
-            }
-            listItemAdapter.setLibraryItemPage(this.libraryItemPage);
-            getActivity().runOnUiThread(() -> {
-                if (FeatureSwitch.RecyclerView.useSimpleNotifyMethod) {
-                    listItemAdapter.notifyDataSetChanged();
-                } else {
-                    listItemAdapter.notifyItemRangeInserted(0, this.libraryItemPage.getListItems().size() - 1);
-                }
-            });
-        });
+        updateItem(this.folderId);
     }
 
     /**
