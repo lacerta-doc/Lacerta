@@ -19,6 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 import one.nem.lacerta.component.common.LacertaCreateTagDialog;
 import one.nem.lacerta.component.common.LacertaCreateTagDialogListener;
 import one.nem.lacerta.data.LacertaLibrary;
+import one.nem.lacerta.model.document.tag.DocumentTag;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -109,6 +110,10 @@ public class SettingTagManageFragment extends Fragment {
                         @Override
                         public void onPositiveClick(String tagName, String tagColor) {
                             Toast.makeText(getContext(), "Positive Clicked", Toast.LENGTH_SHORT).show();
+                            DocumentTag newTag = new DocumentTag();
+                            newTag.setName(tagName);
+                            newTag.setColor(tagColor);
+                            lacertaLibrary.createTag(newTag).join();
                         }
 
                         @Override
