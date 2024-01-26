@@ -214,16 +214,22 @@ public class LibraryPageFragment extends Fragment {
      * RecyclerViewのアイテムとUIを更新する
      */
     private void updateItem(String pageId) {
+        long startTime = System.currentTimeMillis();
         lacertaLibrary.getLibraryPage(pageId, 10).thenAccept(libraryItemPage -> {
+            long endTime = System.currentTimeMillis();
             this.libraryItemPage = libraryItemPage;
             logger.debug("LibraryTopFragment", "Item selected! libraryItemPage.getListItems().size(): " + libraryItemPage.getListItems().size());
-            getActivity().runOnUiThread(() -> {
-                listItemAdapter.notifyItemRangeRemoved(0, libraryItemPage.getListItems().size() - 1);
-            });
-            listItemAdapter.setLibraryItemPage(libraryItemPage);
-            getActivity().runOnUiThread(() -> {
-                listItemAdapter.notifyItemRangeInserted(0, libraryItemPage.getListItems().size() - 1);
-            });
+            if (endTime - startTime > 500) { // 500ms以上かかった場合は表示アニメーションをする
+                getActivity().runOnUiThread(() -> {
+                    listItemAdapter.setLibraryItemPage(libraryItemPage);
+                    listItemAdapter.notifyItemRangeInserted(0, this.libraryItemPage.getListItems().size());
+                });
+            } else {
+                listItemAdapter.setLibraryItemPage(libraryItemPage);
+                getActivity().runOnUiThread(() -> {
+                    listItemAdapter.notifyDataSetChanged();
+                });
+            }
         });
     }
 
