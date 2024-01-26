@@ -16,7 +16,10 @@ import android.widget.Toast;
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
+import one.nem.lacerta.component.common.LacertaCreateTagDialog;
+import one.nem.lacerta.component.common.LacertaCreateTagDialogListener;
 import one.nem.lacerta.data.LacertaLibrary;
+import one.nem.lacerta.model.document.tag.DocumentTag;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,6 +31,10 @@ public class SettingTagManageFragment extends Fragment {
 
     @Inject
     LacertaLibrary lacertaLibrary;
+
+    private RecyclerView recyclerView;
+
+    private TagListItemAdapter adapter;
 
     public SettingTagManageFragment() {
         // Required empty public constructor
@@ -62,19 +69,29 @@ public class SettingTagManageFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        RecyclerView recyclerView = view.findViewById(R.id.tag_item_recycler_view);
-        TagListItemAdapter adapter = new TagListItemAdapter((tagId, tagName, tagColor) -> {
+        this.recyclerView = view.findViewById(R.id.tag_item_recycler_view);
+        this.adapter = new TagListItemAdapter((tagId, tagName, tagColor) -> {
             Toast.makeText(getContext(), "Tag Clicked", Toast.LENGTH_SHORT).show();
         });
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        lacertaLibrary.getTagList().thenAccept(documentTags -> {
-            adapter.setDocumentTags(documentTags);
-            adapter.notifyDataSetChanged();
-        });
+        updateTagList();
+    }
 
+    /**
+     * タグリストを更新する
+     */
+    private void updateTagList() {
+        lacertaLibrary.getTagList().thenAccept(documentTags -> {
+            int currentTagCount = this.adapter.getItemCount();
+            this.adapter.setDocumentTags(documentTags);
+            if (currentTagCount != this.adapter.getItemCount()) {
+                this.adapter.notifyItemRangeRemoved(0, currentTagCount);
+                this.adapter.notifyItemRangeInserted(0, this.adapter.getItemCount());
+            }
+        });
     }
 
     /**
@@ -102,6 +119,25 @@ public class SettingTagManageFragment extends Fragment {
             toolbar.setOnMenuItemClickListener(item -> {
                 if (item.getItemId() == R.id.setting_tag_manage_menu_add) {
                     Toast.makeText(getContext(), "Add Clicked", Toast.LENGTH_SHORT).show();
+                    LacertaCreateTagDialog dialog = new LacertaCreateTagDialog();
+                    dialog.setListener(new LacertaCreateTagDialogListener() {
+                        @Override
+                        public void onPositiveClick(String tagName, String tagColor) {
+                            Toast.makeText(getContext(), "Positive Clicked", Toast.LENGTH_SHORT).show();
+                            DocumentTag newTag = new DocumentTag();
+                            newTag.setName(tagName);
+                            newTag.setColor(tagColor);
+                            lacertaLibrary.createTag(newTag).join();
+                            updateTagList();
+                        }
+
+                        @Override
+                        public void onNegativeClick() {
+                            Toast.makeText(getContext(), "Negative Clicked", Toast.LENGTH_SHORT).show();
+                            updateTagList();
+                        }
+                    });
+                    dialog.show(getParentFragmentManager(), "create_tag_dialog");
                     return true;
                 } else {
                     return false;

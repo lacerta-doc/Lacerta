@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
@@ -244,6 +245,9 @@ public class LacertaLibraryImpl implements LacertaLibrary {
     public CompletableFuture<Void> createTag(DocumentTag tag) {
         return CompletableFuture.supplyAsync(() -> {
             TagEntity tagEntity = convertDocumentTagToTagEntity(tag);
+            if (Objects.isNull(tagEntity.id) || tagEntity.id.isEmpty()) {
+                tagEntity.id = UUID.randomUUID().toString();
+            }
             database.tagDao().insert(tagEntity);
             logger.debug("LacertaLibraryImpl", "Database Query: Inserted TagEntity (" + tag.getId() + ")");
             return null;
