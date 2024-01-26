@@ -17,6 +17,7 @@ import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import one.nem.lacerta.component.common.LacertaCreateTagDialog;
+import one.nem.lacerta.component.common.LacertaCreateTagDialogListener;
 import one.nem.lacerta.data.LacertaLibrary;
 
 /**
@@ -104,6 +105,17 @@ public class SettingTagManageFragment extends Fragment {
                 if (item.getItemId() == R.id.setting_tag_manage_menu_add) {
                     Toast.makeText(getContext(), "Add Clicked", Toast.LENGTH_SHORT).show();
                     LacertaCreateTagDialog dialog = new LacertaCreateTagDialog();
+                    dialog.setListener(new LacertaCreateTagDialogListener() {
+                        @Override
+                        public void onPositiveClick(String tagName, String tagColor) {
+                            Toast.makeText(getContext(), "Positive Clicked", Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onNegativeClick() {
+                            Toast.makeText(getContext(), "Negative Clicked", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                     dialog.show(getParentFragmentManager(), "create_tag_dialog");
                     return true;
                 } else {
