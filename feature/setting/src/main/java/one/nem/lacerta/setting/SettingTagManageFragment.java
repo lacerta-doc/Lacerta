@@ -32,6 +32,10 @@ public class SettingTagManageFragment extends Fragment {
     @Inject
     LacertaLibrary lacertaLibrary;
 
+    private RecyclerView recyclerView;
+
+    private TagListItemAdapter adapter;
+
     public SettingTagManageFragment() {
         // Required empty public constructor
     }
@@ -65,19 +69,22 @@ public class SettingTagManageFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        RecyclerView recyclerView = view.findViewById(R.id.tag_item_recycler_view);
-        TagListItemAdapter adapter = new TagListItemAdapter((tagId, tagName, tagColor) -> {
+        this.recyclerView = view.findViewById(R.id.tag_item_recycler_view);
+        this.adapter = new TagListItemAdapter((tagId, tagName, tagColor) -> {
             Toast.makeText(getContext(), "Tag Clicked", Toast.LENGTH_SHORT).show();
         });
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        lacertaLibrary.getTagList().thenAccept(documentTags -> {
-            adapter.setDocumentTags(documentTags);
-            adapter.notifyDataSetChanged();
-        });
+        updateTagList();
+    }
 
+    private void updateTagList() {
+        lacertaLibrary.getTagList().thenAccept(documentTags -> {
+            this.adapter.setDocumentTags(documentTags);
+            this.adapter.notifyDataSetChanged();
+        });
     }
 
     /**
@@ -114,6 +121,7 @@ public class SettingTagManageFragment extends Fragment {
                             newTag.setName(tagName);
                             newTag.setColor(tagColor);
                             lacertaLibrary.createTag(newTag).join();
+                            updateTagList();
                         }
 
                         @Override
