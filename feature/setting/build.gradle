@@ -46,6 +46,8 @@ dependencies {
     // shared
     implementation project(':shared:ui')
 
+    implementation project(':component:common')
+
     implementation project(':data')
 
     implementation project(':model')
