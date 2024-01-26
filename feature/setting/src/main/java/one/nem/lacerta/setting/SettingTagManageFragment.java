@@ -80,10 +80,17 @@ public class SettingTagManageFragment extends Fragment {
         updateTagList();
     }
 
+    /**
+     * タグリストを更新する
+     */
     private void updateTagList() {
         lacertaLibrary.getTagList().thenAccept(documentTags -> {
+            int currentTagCount = this.adapter.getItemCount();
             this.adapter.setDocumentTags(documentTags);
-            this.adapter.notifyDataSetChanged();
+            if (currentTagCount != this.adapter.getItemCount()) {
+                this.adapter.notifyItemRangeRemoved(0, currentTagCount);
+                this.adapter.notifyItemRangeInserted(0, this.adapter.getItemCount());
+            }
         });
     }
 
