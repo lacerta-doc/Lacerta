@@ -22,6 +22,8 @@ import dagger.hilt.android.AndroidEntryPoint;
 import one.nem.lacerta.component.common.LacertaSelectDirDialog;
 import one.nem.lacerta.component.common.LacertaSelectDirDialogListener;
 import one.nem.lacerta.data.Document;
+import one.nem.lacerta.data.LacertaLibrary;
+import one.nem.lacerta.model.ListItemType;
 import one.nem.lacerta.model.document.page.Page;
 import one.nem.lacerta.utils.FeatureSwitch;
 import one.nem.lacerta.utils.LacertaLogger;
@@ -38,6 +40,9 @@ public class ViewerListFragment extends Fragment {
 
     @Inject
     Document document;
+
+    @Inject
+    LacertaLibrary lacertaLibrary;
 
     @Inject
     LacertaLogger logger;
@@ -92,7 +97,7 @@ public class ViewerListFragment extends Fragment {
 
         // Toolbar
         Toolbar toolbar = view.findViewById(R.id.toolbar);
-        toolbarSetup(toolbar, true, this.documentName == null ? "Document" : this.documentName);
+        toolbarSetup(toolbar, true, this.documentName == null ? "Document" : this.documentName, null);
 
         RecyclerView recyclerView = view.findViewById(R.id.body_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -112,6 +117,8 @@ public class ViewerListFragment extends Fragment {
                     viewerBodyAdapter.notifyItemRangeChanged(0, pages.size());
                     if (FeatureSwitch.Viewer.showProgressBarWhenLoading) view.findViewById(R.id.loading_progress_bar).setVisibility(View.GONE);
                 });
+            }).thenCompose(aVoid -> lacertaLibrary.getPublicPath(documentId, ListItemType.ITEM_TYPE_DOCUMENT)).thenAccept(publicPath -> {
+                updateToolbarSubtitle(toolbar, "/" + publicPath.parent().getStringPath());
             });
         } else {
             logger.debug(TAG, "revisionId: " + revisionId);
@@ -127,10 +134,22 @@ public class ViewerListFragment extends Fragment {
                         if (FeatureSwitch.Viewer.showProgressBarWhenLoading) view.findViewById(R.id.loading_progress_bar).setVisibility(View.GONE);
                     });
                 });
+            }).thenCompose(aVoid -> lacertaLibrary.getPublicPath(documentId, ListItemType.ITEM_TYPE_DOCUMENT)).thenAccept(publicPath -> {
+                updateToolbarSubtitle(toolbar, "/" + publicPath.parent().getStringPath()); // TODO-rca: リビジョンの場合はリビジョン名を表示する?
             });
         }
 
         return view;
+    }
+
+    /**
+     * Toolbarのサブタイトルを更新
+     * @param subtitle サブタイトル
+     */
+    private void updateToolbarSubtitle(Toolbar toolbar, String subtitle) {
+        getActivity().runOnUiThread(() -> {
+            toolbar.setSubtitle(subtitle);
+        });
     }
 
     /**
@@ -140,7 +159,7 @@ public class ViewerListFragment extends Fragment {
      * @param showBackButton 戻るボタンを表示するか
      * @param title タイトル
      */
-    private void toolbarSetup(Toolbar toolbar, boolean showBackButton, String title) {
+    private void toolbarSetup(Toolbar toolbar, boolean showBackButton, String title, String Subtitle) {
         getActivity().runOnUiThread(() -> {
             if (showBackButton) {
                 toolbar.setNavigationIcon(one.nem.lacerta.shared.ui.R.drawable.arrow_back_24px);
@@ -152,6 +171,7 @@ public class ViewerListFragment extends Fragment {
                 toolbar.setNavigationIcon(null);
             }
             toolbar.setTitle(title);
+            if (Subtitle != null) toolbar.setSubtitle(Subtitle);
             toolbar.inflateMenu(R.menu.viewer_menu);
             toolbar.setOnMenuItemClickListener(item -> {
                 if (item.getItemId() == R.id.action_open_vcs_rev_list) {
