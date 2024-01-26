@@ -134,6 +134,7 @@ public class SettingTagManageFragment extends Fragment {
                         @Override
                         public void onNegativeClick() {
                             Toast.makeText(getContext(), "Negative Clicked", Toast.LENGTH_SHORT).show();
+                            updateTagList();
                         }
                     });
                     dialog.show(getParentFragmentManager(), "create_tag_dialog");
