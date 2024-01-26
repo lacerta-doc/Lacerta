@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 
 import androidx.fragment.app.DialogFragment;
 
@@ -19,7 +20,14 @@ public class LacertaCreateTagDialog extends DialogFragment {
 
     private String negativeButtonText;
 
+    private LacertaCreateTagDialogListener listener;
 
+    // Setter
+
+    public LacertaCreateTagDialog setListener(LacertaCreateTagDialogListener listener) {
+        this.listener = listener;
+        return this;
+    }
 
     public LacertaCreateTagDialog setTitle(String title) {
         this.title = title;
@@ -46,6 +54,25 @@ public class LacertaCreateTagDialog extends DialogFragment {
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity());
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.lacerta_dialog_create_tag, null);
+
+        // TextEdit
+        EditText tag_name_edit_text = view.findViewById(R.id.tag_name_edit_text);
+        EditText tag_color_edit_text = view.findViewById(R.id.tag_color_edit_text);
+
+        // Button
+        builder.setPositiveButton(positiveButtonText, (dialog, which) -> {
+            String tag_name = tag_name_edit_text.getText().toString();
+            String tag_color = tag_color_edit_text.getText().toString();
+            if (listener != null) {
+                listener.onPositiveClick(tag_name, tag_color);
+            }
+        });
+        builder.setNegativeButton(negativeButtonText, (dialog, which) -> {
+            if (listener != null) {
+                listener.onNegativeClick();
+            }
+        });
+
         builder.setView(view);
         return builder.create();
     }
