@@ -43,4 +43,16 @@ public interface LacertaLibrary {
     CompletableFuture<Void> addTagToDocument(String documentId, String tagId);
 
     CompletableFuture<Void> removeTagFromDocument(String documentId, String tagId);
+
+    // Combined Document
+
+    CompletableFuture<Void> combineDocument(String parentId, String childId);
+
+    CompletableFuture<Void> uncombineDocument(String parentId, String childId);
+
+//    CompletableFuture<Void> combineDocument(String parentId, ArrayList<String> childIdList);
+//
+//    CompletableFuture<Void> uncombineDocument(String parentId, ArrayList<String> childIdList);
+
+    CompletableFuture<ArrayList<DocumentDetail>> getCombinedDocumentList(String parentId);
 }
