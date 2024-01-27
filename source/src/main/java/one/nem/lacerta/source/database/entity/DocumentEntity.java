@@ -36,4 +36,7 @@ public class DocumentEntity {
 
     @ColumnInfo(name = "parent_id")
     public String parentId; // 親フォルダID
+
+    @ColumnInfo(name = "is_combined")
+    public boolean isCombined; // 結合されたドキュメントかどうか
 }
