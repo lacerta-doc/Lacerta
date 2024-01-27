@@ -36,6 +36,10 @@ public class DocumentMeta { // TODO-rca: JavaDoc対応
 
     String author;
 
+    boolean isCombineChild;
+
+    boolean isCombineParent;
+
     // Constructor
 
     public DocumentMeta() {
@@ -48,6 +52,8 @@ public class DocumentMeta { // TODO-rca: JavaDoc対応
         this.parentId = null;
         this.updatedAt = new Date();
         this.createdAt = new Date();
+        this.isCombineChild = false;
+        this.isCombineParent = false;
     }
 
     public DocumentMeta(String title, String author) {
@@ -71,6 +77,17 @@ public class DocumentMeta { // TODO-rca: JavaDoc対応
         this.createdAt = createdAt;
         this.parentId = parentId;
         this.author = author;
+    }
+
+    public DocumentMeta(String id, String title, Date updatedAt, Date createdAt, String parentId, String author, boolean isCombineChild, boolean isCombineParent) {
+        this.id = id;
+        this.title = title;
+        this.updatedAt = updatedAt;
+        this.createdAt = createdAt;
+        this.parentId = parentId;
+        this.author = author;
+        this.isCombineChild = isCombineChild;
+        this.isCombineParent = isCombineParent;
     }
 
     // Getter
@@ -115,6 +132,20 @@ public class DocumentMeta { // TODO-rca: JavaDoc対応
      */
     public String getAuthor() {
         return author;
+    }
+
+    /**
+     * ドキュメントの結合子フラグ(boolean)を取得する
+     */
+    public boolean getIsCombineChild() {
+        return isCombineChild;
+    }
+
+    /**
+     * ドキュメントの結合親フラグ(boolean)を取得する
+     */
+    public boolean getIsCombineParent() {
+        return isCombineParent;
     }
 
     // Setter
@@ -165,6 +196,22 @@ public class DocumentMeta { // TODO-rca: JavaDoc対応
      */
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    /**
+     * ドキュメントの結合子フラグ(boolean)を設定する
+     * @param isCombineChild ドキュメントの結合子フラグ
+     */
+    public void setIsCombineChild(boolean isCombineChild) {
+        this.isCombineChild = isCombineChild;
+    }
+
+    /**
+     * ドキュメントの結合親フラグ(boolean)を設定する
+     * @param isCombineParent ドキュメントの結合親フラグ
+     */
+    public void setIsCombineParent(boolean isCombineParent) {
+        this.isCombineParent = isCombineParent;
     }
 
     /**
