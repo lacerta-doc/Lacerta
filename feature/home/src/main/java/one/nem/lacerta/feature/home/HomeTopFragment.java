@@ -90,7 +90,7 @@ public class HomeTopFragment extends Fragment {
                 Log.d("HomeTopFragment", "onDocumentSelect: " + documentId + " " + documentName);
                 intent.putExtra("documentId", documentId);
                 intent.putExtra("documentName", documentName);
-                startActivity(intent, ActivityOptions.makeCustomAnimation(getContext(), 0, 0).toBundle());
+                startActivity(intent, ActivityOptions.makeCustomAnimation(getContext(), one.nem.lacerta.shared.ui.R.anim.nav_up_enter_anim, one.nem.lacerta.shared.ui.R.anim.nav_up_exit_anim).toBundle());
             }
         });
         recyclerView.setAdapter(listItemAdapter);
