@@ -182,8 +182,6 @@ public class ViewerListFragment extends Fragment {
                     lacertaSelectRevDialog.setListener(new LacertaSelectRevDialogListener() {
                         @Override
                         public void onItemSelected(String revId) {
-                            // Do something
-                            Toast.makeText(getContext(), "Selected revId: " + revId, Toast.LENGTH_SHORT).show();
                             getParentFragmentManager().beginTransaction()
                                     .replace(R.id.nav_host_fragment, ViewerListFragment.newInstance(documentId, documentName, revisionId))
                                     .commit();
@@ -191,8 +189,7 @@ public class ViewerListFragment extends Fragment {
 
                         @Override
                         public void onDialogCanceled() {
-                            // Do something
-                            Toast.makeText(getContext(), "Canceled", Toast.LENGTH_SHORT).show();
+                            logger.debug(TAG, "Canceled");
                         }
                     });
                     lacertaSelectRevDialog.show(getParentFragmentManager(), "select_rev_dialog");
@@ -242,7 +239,6 @@ public class ViewerListFragment extends Fragment {
                     builder.show();
                     return true;
                 } else if (item.getItemId() == R.id.action_move) {
-//                    Toast.makeText(getContext(), "Work in progress", Toast.LENGTH_SHORT).show();
                     LacertaSelectDirDialog lacertaSelectDirDialog = new LacertaSelectDirDialog();
                     lacertaSelectDirDialog.setListener(new LacertaSelectDirDialogListener() {
                         @Override
