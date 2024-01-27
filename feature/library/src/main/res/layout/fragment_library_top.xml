@@ -13,7 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.google.android.material.appbar.CollapsingToolbarLayout
+            <com.google.android.material.appbar.SubtitleCollapsingToolbarLayout
                 android:id="@+id/collapsing_toolbar"
                 app:contentScrim="@color/colorSecondaryContainer"
                 android:background="@color/colorSurface"
@@ -35,7 +35,7 @@
                     app:layout_collapseMode="pin"
                     app:title="HOGE" />
 
-            </com.google.android.material.appbar.CollapsingToolbarLayout>
+            </com.google.android.material.appbar.SubtitleCollapsingToolbarLayout>
 
         </com.google.android.material.appbar.AppBarLayout>
 

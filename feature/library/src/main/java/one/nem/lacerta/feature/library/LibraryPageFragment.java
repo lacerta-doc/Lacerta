@@ -23,6 +23,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 import one.nem.lacerta.component.viewer.ViewerMainActivity;
 import one.nem.lacerta.data.LacertaLibrary;
 import one.nem.lacerta.model.LibraryItemPage;
+import one.nem.lacerta.model.ListItemType;
 import one.nem.lacerta.utils.FeatureSwitch;
 import one.nem.lacerta.utils.LacertaLogger;
 
@@ -43,6 +44,7 @@ public class LibraryPageFragment extends Fragment {
     String folderId;
     String title;
     String parentId;
+    Toolbar toolbar;
 
 
     @Inject
@@ -128,12 +130,19 @@ public class LibraryPageFragment extends Fragment {
             logger.debug("LibraryTopFragment", "getArguments() is null(maybe root)");
             this.libraryItemPage = new LibraryItemPage();
         }
+        this.toolbar = view.findViewById(R.id.library_toolbar);
 
         // Toolbar Setup
-        toolbarSetup(view.findViewById(R.id.library_toolbar), this.folderId != null, this.title != null ? this.title : "ライブラリ");
+        toolbarSetup(this.toolbar, this.folderId != null, this.title != null ? this.title : "ライブラリ");
+        if(this.folderId == null) {
+            updateToolbarSubtitle(this.toolbar, null); //負荷軽減のため+邪魔なので（folderIdがnullの場合は、ルートフォルダを表示しているので）
+        } else {
+            lacertaLibrary.getPublicPath(this.folderId, ListItemType.ITEM_TYPE_FOLDER).thenAccept(publicPath -> {
+                updateToolbarSubtitle(this.toolbar, "/" + publicPath.parent().getStringPath());
+            });
+        }
 
         // RecyclerView Setup
-
         RecyclerView recyclerView = view.findViewById(R.id.library_item_recycler_view);
         this.listItemAdapter = new ListItemAdapter(new DocumentSelectListener() {
             @Override
@@ -168,33 +177,8 @@ public class LibraryPageFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         // Get library page and update RecyclerView items
-        lacertaLibrary.getLibraryPage(this.folderId, 10).thenAccept(libraryItemPage -> {
-            this.libraryItemPage = libraryItemPage;
 
-            if (this.parentId == null) {
-                this.parentId = libraryItemPage.getParentId();
-            }
-            if (this.title == null) {
-                this.title = libraryItemPage.getPageTitle();
-                // Toolbar init again
-                toolbarSetup(view.findViewById(R.id.library_toolbar), this.folderId != null, this.title != null ? this.title : "ライブラリ");
-            }
-
-            logger.debug("LibraryTopFragment", "Item selected! Total item page: " + this.libraryItemPage.getListItems().size());
-            if (!FeatureSwitch.RecyclerView.useSimpleNotifyMethod) {
-                getActivity().runOnUiThread(() -> { // TODO-rca: 実行条件を考える？
-                    listItemAdapter.notifyItemRangeRemoved(0, this.libraryItemPage.getListItems().size() - 1);
-                });
-            }
-            listItemAdapter.setLibraryItemPage(this.libraryItemPage);
-            getActivity().runOnUiThread(() -> {
-                if (FeatureSwitch.RecyclerView.useSimpleNotifyMethod) {
-                    listItemAdapter.notifyDataSetChanged();
-                } else {
-                    listItemAdapter.notifyItemRangeInserted(0, this.libraryItemPage.getListItems().size() - 1);
-                }
-            });
-        });
+        updateItem(this.folderId);
     }
 
     /**
@@ -216,6 +200,7 @@ public class LibraryPageFragment extends Fragment {
             lacertaLibrary.createFolder(pageId, input.getText().toString()).thenAccept(folderId -> {
                 // Refresh
                 updateItem(pageId);
+
             });
         });
         builder.setNegativeButton("キャンセル", (dialog, which) -> {
@@ -226,19 +211,34 @@ public class LibraryPageFragment extends Fragment {
     }
 
     /**
-     * RecyclerViewのアイテムを更新する
+     * RecyclerViewのアイテムとUIを更新する
      */
     private void updateItem(String pageId) {
+        long startTime = System.currentTimeMillis();
         lacertaLibrary.getLibraryPage(pageId, 10).thenAccept(libraryItemPage -> {
+            long endTime = System.currentTimeMillis();
             this.libraryItemPage = libraryItemPage;
             logger.debug("LibraryTopFragment", "Item selected! libraryItemPage.getListItems().size(): " + libraryItemPage.getListItems().size());
-            getActivity().runOnUiThread(() -> {
-                listItemAdapter.notifyItemRangeRemoved(0, libraryItemPage.getListItems().size() - 1);
-            });
             listItemAdapter.setLibraryItemPage(libraryItemPage);
-            getActivity().runOnUiThread(() -> {
-                listItemAdapter.notifyItemRangeInserted(0, libraryItemPage.getListItems().size() - 1);
-            });
+            if (endTime - startTime > 500) { // 500ms以上かかった場合は表示アニメーションをする
+                getActivity().runOnUiThread(() -> {
+                    listItemAdapter.notifyItemRangeInserted(0, this.libraryItemPage.getListItems().size());
+                });
+            } else {
+                getActivity().runOnUiThread(() -> {
+                    listItemAdapter.notifyDataSetChanged();
+                });
+            }
+        });
+    }
+
+    /**
+     * Toolbarのサブタイトルを更新
+     * @param subtitle サブタイトル
+     */
+    private void updateToolbarSubtitle(Toolbar toolbar, String subtitle) {
+        getActivity().runOnUiThread(() -> {
+            toolbar.setSubtitle(subtitle);
         });
     }
 

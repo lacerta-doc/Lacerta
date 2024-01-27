@@ -21,7 +21,11 @@ import javax.inject.Inject;
 import dagger.hilt.android.AndroidEntryPoint;
 import one.nem.lacerta.component.common.LacertaSelectDirDialog;
 import one.nem.lacerta.component.common.LacertaSelectDirDialogListener;
+import one.nem.lacerta.component.common.LacertaSelectRevDialog;
+import one.nem.lacerta.component.common.LacertaSelectRevDialogListener;
 import one.nem.lacerta.data.Document;
+import one.nem.lacerta.data.LacertaLibrary;
+import one.nem.lacerta.model.ListItemType;
 import one.nem.lacerta.model.document.page.Page;
 import one.nem.lacerta.utils.FeatureSwitch;
 import one.nem.lacerta.utils.LacertaLogger;
@@ -38,6 +42,9 @@ public class ViewerListFragment extends Fragment {
 
     @Inject
     Document document;
+
+    @Inject
+    LacertaLibrary lacertaLibrary;
 
     @Inject
     LacertaLogger logger;
@@ -92,7 +99,7 @@ public class ViewerListFragment extends Fragment {
 
         // Toolbar
         Toolbar toolbar = view.findViewById(R.id.toolbar);
-        toolbarSetup(toolbar, true, this.documentName == null ? "Document" : this.documentName);
+        toolbarSetup(toolbar, true, this.documentName == null ? "Document" : this.documentName, null);
 
         RecyclerView recyclerView = view.findViewById(R.id.body_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -112,6 +119,8 @@ public class ViewerListFragment extends Fragment {
                     viewerBodyAdapter.notifyItemRangeChanged(0, pages.size());
                     if (FeatureSwitch.Viewer.showProgressBarWhenLoading) view.findViewById(R.id.loading_progress_bar).setVisibility(View.GONE);
                 });
+            }).thenCompose(aVoid -> lacertaLibrary.getPublicPath(documentId, ListItemType.ITEM_TYPE_DOCUMENT)).thenAccept(publicPath -> {
+                updateToolbarSubtitle(toolbar, "/" + publicPath.parent().getStringPath());
             });
         } else {
             logger.debug(TAG, "revisionId: " + revisionId);
@@ -127,6 +136,8 @@ public class ViewerListFragment extends Fragment {
                         if (FeatureSwitch.Viewer.showProgressBarWhenLoading) view.findViewById(R.id.loading_progress_bar).setVisibility(View.GONE);
                     });
                 });
+            }).thenCompose(aVoid -> lacertaLibrary.getPublicPath(documentId, ListItemType.ITEM_TYPE_DOCUMENT)).thenAccept(publicPath -> {
+                updateToolbarSubtitle(toolbar, "/" + publicPath.parent().getStringPath()); // TODO-rca: リビジョンの場合はリビジョン名を表示する?
             });
         }
 
@@ -134,16 +145,26 @@ public class ViewerListFragment extends Fragment {
     }
 
     /**
+     * Toolbarのサブタイトルを更新
+     * @param subtitle サブタイトル
+     */
+    private void updateToolbarSubtitle(Toolbar toolbar, String subtitle) {
+        getActivity().runOnUiThread(() -> {
+            toolbar.setSubtitle(subtitle);
+        });
+    }
+
+    /**
      * ToolbarをInitする
      *
      * @param toolbar Toolbar
-     * @param showBackButton 戻るボタンを表示するか
+     * @param showCloseButton 戻るボタンを表示するか
      * @param title タイトル
      */
-    private void toolbarSetup(Toolbar toolbar, boolean showBackButton, String title) {
+    private void toolbarSetup(Toolbar toolbar, boolean showCloseButton, String title, String Subtitle) {
         getActivity().runOnUiThread(() -> {
-            if (showBackButton) {
-                toolbar.setNavigationIcon(one.nem.lacerta.shared.ui.R.drawable.arrow_back_24px);
+            if (showCloseButton) {
+                toolbar.setNavigationIcon(one.nem.lacerta.shared.ui.R.drawable.close_24px);
                 toolbar.setNavigationOnClickListener(v -> {
                     // Stop Activity
                     getActivity().finish();
@@ -152,13 +173,26 @@ public class ViewerListFragment extends Fragment {
                 toolbar.setNavigationIcon(null);
             }
             toolbar.setTitle(title);
+            if (Subtitle != null) toolbar.setSubtitle(Subtitle);
             toolbar.inflateMenu(R.menu.viewer_menu);
             toolbar.setOnMenuItemClickListener(item -> {
                 if (item.getItemId() == R.id.action_open_vcs_rev_list) {
-                    // Open vcs rev list
-                    getParentFragmentManager().beginTransaction()
-                            .replace(R.id.nav_host_fragment, ViewerVcsRevListFragment.newInstance(documentId, documentName))
-                            .commit();
+                    LacertaSelectRevDialog lacertaSelectRevDialog = new LacertaSelectRevDialog();
+                    lacertaSelectRevDialog.setDocumentId(this.documentId).setTitle("リビジョンの選択").setMessage("リビジョンを選択してください。").setNegativeButtonText("キャンセル");
+                    lacertaSelectRevDialog.setListener(new LacertaSelectRevDialogListener() {
+                        @Override
+                        public void onItemSelected(String revId) {
+                            getParentFragmentManager().beginTransaction()
+                                    .replace(R.id.nav_host_fragment, ViewerListFragment.newInstance(documentId, documentName, revisionId))
+                                    .commit();
+                        }
+
+                        @Override
+                        public void onDialogCanceled() {
+                            logger.debug(TAG, "Canceled");
+                        }
+                    });
+                    lacertaSelectRevDialog.show(getParentFragmentManager(), "select_rev_dialog");
                     return true;
                 } else if (item.getItemId() == R.id.action_rename) {
 
@@ -205,7 +239,6 @@ public class ViewerListFragment extends Fragment {
                     builder.show();
                     return true;
                 } else if (item.getItemId() == R.id.action_move) {
-//                    Toast.makeText(getContext(), "Work in progress", Toast.LENGTH_SHORT).show();
                     LacertaSelectDirDialog lacertaSelectDirDialog = new LacertaSelectDirDialog();
                     lacertaSelectDirDialog.setListener(new LacertaSelectDirDialogListener() {
                         @Override

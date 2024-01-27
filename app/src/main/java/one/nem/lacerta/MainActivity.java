@@ -8,9 +8,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -60,6 +62,19 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigatio
             assert navHostFragment != null;
             NavController navController = navHostFragment.getNavController();
             NavigationUI.setupWithNavController(bottomNavigationView, navController);
+
+            bottomNavigationView.setOnItemSelectedListener(item -> {
+                NavOptions navOptions = new NavOptions.Builder()
+                        .setLaunchSingleTop(true)
+                        .setEnterAnim(androidx.navigation.ui.R.anim.nav_default_enter_anim)
+                        .setExitAnim(androidx.navigation.ui.R.anim.nav_default_exit_anim)
+                        .setPopEnterAnim(androidx.navigation.ui.R.anim.nav_default_pop_enter_anim)
+                        .setPopExitAnim(androidx.navigation.ui.R.anim.nav_default_pop_exit_anim)
+                        .build();
+
+                navController.navigate(item.getItemId(), null, navOptions);
+                return true;
+            });
         }
         catch (Exception e) {
             Log.e("Init", "Failed to init navigation");
@@ -83,7 +98,8 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigatio
         findViewById(R.id.scanFab).setOnClickListener(v -> {
             Toast.makeText(this, "Scan", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this.getApplicationContext(), ScannerManagerActivity.class);
-            startActivity(intent);
+//            startActivity(intent);
+            startActivity(intent, ActivityOptions.makeCustomAnimation(this, one.nem.lacerta.shared.ui.R.anim.nav_up_enter_anim, one.nem.lacerta.shared.ui.R.anim.nav_up_exit_anim).toBundle());
         });
 
     }
