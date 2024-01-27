@@ -60,6 +60,8 @@ public class DocumentMeta { // TODO-rca: JavaDoc対応
         this.id = UUID.randomUUID().toString();
         this.title = title;
         this.author = author;
+        this.isCombineChild = false;
+        this.isCombineParent = false;
     }
 
     public DocumentMeta(String id, String title, Date updatedAt, Date createdAt, String author) {
@@ -68,6 +70,8 @@ public class DocumentMeta { // TODO-rca: JavaDoc対応
         this.updatedAt = updatedAt;
         this.createdAt = createdAt;
         this.author = author;
+        this.isCombineChild = false;
+        this.isCombineParent = false;
     }
 
     public DocumentMeta(String id, String title, Date updatedAt, Date createdAt, String parentId, String author) {
@@ -77,6 +81,8 @@ public class DocumentMeta { // TODO-rca: JavaDoc対応
         this.createdAt = createdAt;
         this.parentId = parentId;
         this.author = author;
+        this.isCombineChild = false;
+        this.isCombineParent = false;
     }
 
     public DocumentMeta(String id, String title, Date updatedAt, Date createdAt, String parentId, String author, boolean isCombineChild, boolean isCombineParent) {
