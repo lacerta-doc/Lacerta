@@ -5,6 +5,7 @@ import androidx.room.RoomDatabase;
 
 // Entities
 import one.nem.lacerta.source.database.dao.FolderDao;
+import one.nem.lacerta.source.database.dao.ToxiDocumentDao;
 import one.nem.lacerta.source.database.dao.ToxiDocumentTagDao;
 import one.nem.lacerta.source.database.entity.FolderEntity;
 import one.nem.lacerta.source.database.entity.TagEntity;
@@ -27,6 +28,7 @@ public abstract class LacertaDatabase extends RoomDatabase {
     public abstract TagDao tagDao();
     public abstract DocumentDao documentDao();
     public abstract ToxiDocumentTagDao toxiDocumentTagDao();
+    public abstract ToxiDocumentDao toxiDocumentDao();
     public abstract LibraryDao libraryDao();
     public abstract VcsRevDao vcsRevDao();
     public abstract VcsLogDao vcsLogDao();
