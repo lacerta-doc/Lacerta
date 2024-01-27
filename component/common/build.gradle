@@ -42,4 +42,6 @@ dependencies {
     implementation project(':utils')
     implementation project(':model')
     implementation project(':data')
+
+    implementation project(':vcs')
 }
