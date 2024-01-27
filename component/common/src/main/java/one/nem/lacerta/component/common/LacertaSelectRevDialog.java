@@ -78,11 +78,10 @@ public class LacertaSelectRevDialog extends DialogFragment {
         SelectRevDialogItemAdapter adapter = new SelectRevDialogItemAdapter(revId -> {
             if (listener != null) {
                 listener.onItemSelected(revId);
+                dismiss();
             }
-            dismiss();
         });
-
-        recyclerView.setAdapter(adapter);
+                recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         builder.setView(view);
 

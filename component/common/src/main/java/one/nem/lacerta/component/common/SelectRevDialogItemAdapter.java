@@ -41,6 +41,8 @@ public class SelectRevDialogItemAdapter extends RecyclerView.Adapter<SelectRevDi
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         holder.description.setText(simpleDateFormat.format(rev.getCreatedAt()));
         holder.revId.setText("RevID: " + rev.getId());
+
+        holder.itemView.setOnClickListener(v -> listener.onItemSelected(rev.getId()));
     }
 
     @Override
