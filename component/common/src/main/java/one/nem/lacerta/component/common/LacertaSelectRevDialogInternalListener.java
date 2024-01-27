@@ -1,8 +1,6 @@
 package one.nem.lacerta.component.common;
 
-public interface LacertaSelectRevDialogListener {
+public interface LacertaSelectRevDialogInternalListener {
 
     void onItemSelected(String revId);
-
-    void onDialogCanceled();
 }

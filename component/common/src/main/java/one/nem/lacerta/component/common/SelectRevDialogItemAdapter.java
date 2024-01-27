@@ -17,9 +17,9 @@ public class SelectRevDialogItemAdapter extends RecyclerView.Adapter<SelectRevDi
 
     ArrayList<VcsRevModel> revList;
 
-    LacertaSelectRevDialogListener listener;
+    LacertaSelectRevDialogInternalListener listener;
 
-    public SelectRevDialogItemAdapter(LacertaSelectRevDialogListener listener) {
+    public SelectRevDialogItemAdapter(LacertaSelectRevDialogInternalListener listener) {
         this.listener = listener;
     }
 

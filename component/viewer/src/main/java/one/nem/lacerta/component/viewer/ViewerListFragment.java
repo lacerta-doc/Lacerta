@@ -21,6 +21,7 @@ import javax.inject.Inject;
 import dagger.hilt.android.AndroidEntryPoint;
 import one.nem.lacerta.component.common.LacertaSelectDirDialog;
 import one.nem.lacerta.component.common.LacertaSelectDirDialogListener;
+import one.nem.lacerta.component.common.LacertaSelectRevDialog;
 import one.nem.lacerta.data.Document;
 import one.nem.lacerta.data.LacertaLibrary;
 import one.nem.lacerta.model.ListItemType;
@@ -176,9 +177,12 @@ public class ViewerListFragment extends Fragment {
             toolbar.setOnMenuItemClickListener(item -> {
                 if (item.getItemId() == R.id.action_open_vcs_rev_list) {
                     // Open vcs rev list
-                    getParentFragmentManager().beginTransaction()
-                            .replace(R.id.nav_host_fragment, ViewerVcsRevListFragment.newInstance(documentId, documentName))
-                            .commit();
+//                    getParentFragmentManager().beginTransaction()
+//                            .replace(R.id.nav_host_fragment, ViewerVcsRevListFragment.newInstance(documentId, documentName))
+//                            .commit();
+
+                    LacertaSelectRevDialog lacertaSelectRevDialog = new LacertaSelectRevDialog();
+                    lacertaSelectRevDialog.show(getParentFragmentManager(), "select_rev_dialog");
                     return true;
                 } else if (item.getItemId() == R.id.action_rename) {
 
