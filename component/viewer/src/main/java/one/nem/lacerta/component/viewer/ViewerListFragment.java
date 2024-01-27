@@ -22,6 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 import one.nem.lacerta.component.common.LacertaSelectDirDialog;
 import one.nem.lacerta.component.common.LacertaSelectDirDialogListener;
 import one.nem.lacerta.component.common.LacertaSelectRevDialog;
+import one.nem.lacerta.component.common.LacertaSelectRevDialogListener;
 import one.nem.lacerta.data.Document;
 import one.nem.lacerta.data.LacertaLibrary;
 import one.nem.lacerta.model.ListItemType;
@@ -182,6 +183,20 @@ public class ViewerListFragment extends Fragment {
 //                            .commit();
 
                     LacertaSelectRevDialog lacertaSelectRevDialog = new LacertaSelectRevDialog();
+                    lacertaSelectRevDialog.setDocumentId(this.documentId);
+                    lacertaSelectRevDialog.setListener(new LacertaSelectRevDialogListener() {
+                        @Override
+                        public void onItemSelected(String revId) {
+                            // Do something
+                            Toast.makeText(getContext(), "Selected revId: " + revId, Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onDialogCanceled() {
+                            // Do something
+                            Toast.makeText(getContext(), "Canceled", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                     lacertaSelectRevDialog.show(getParentFragmentManager(), "select_rev_dialog");
                     return true;
                 } else if (item.getItemId() == R.id.action_rename) {
