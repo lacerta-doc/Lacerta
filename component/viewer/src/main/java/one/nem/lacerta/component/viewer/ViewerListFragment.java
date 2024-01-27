@@ -189,6 +189,9 @@ public class ViewerListFragment extends Fragment {
                         public void onItemSelected(String revId) {
                             // Do something
                             Toast.makeText(getContext(), "Selected revId: " + revId, Toast.LENGTH_SHORT).show();
+                            getParentFragmentManager().beginTransaction()
+                                    .replace(R.id.nav_host_fragment, ViewerListFragment.newInstance(documentId, documentName, revisionId))
+                                    .commit();
                         }
 
                         @Override
