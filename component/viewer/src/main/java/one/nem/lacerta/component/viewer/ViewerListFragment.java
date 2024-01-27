@@ -177,13 +177,8 @@ public class ViewerListFragment extends Fragment {
             toolbar.inflateMenu(R.menu.viewer_menu);
             toolbar.setOnMenuItemClickListener(item -> {
                 if (item.getItemId() == R.id.action_open_vcs_rev_list) {
-                    // Open vcs rev list
-//                    getParentFragmentManager().beginTransaction()
-//                            .replace(R.id.nav_host_fragment, ViewerVcsRevListFragment.newInstance(documentId, documentName))
-//                            .commit();
-
                     LacertaSelectRevDialog lacertaSelectRevDialog = new LacertaSelectRevDialog();
-                    lacertaSelectRevDialog.setDocumentId(this.documentId);
+                    lacertaSelectRevDialog.setDocumentId(this.documentId).setTitle("リビジョンの選択").setMessage("リビジョンを選択してください。").setNegativeButtonText("キャンセル");
                     lacertaSelectRevDialog.setListener(new LacertaSelectRevDialogListener() {
                         @Override
                         public void onItemSelected(String revId) {
