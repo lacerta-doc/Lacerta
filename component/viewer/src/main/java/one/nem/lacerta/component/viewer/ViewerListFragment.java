@@ -158,12 +158,12 @@ public class ViewerListFragment extends Fragment {
      * ToolbarをInitする
      *
      * @param toolbar Toolbar
-     * @param showBackButton 戻るボタンを表示するか
+     * @param showCloseButton 戻るボタンを表示するか
      * @param title タイトル
      */
-    private void toolbarSetup(Toolbar toolbar, boolean showBackButton, String title, String Subtitle) {
+    private void toolbarSetup(Toolbar toolbar, boolean showCloseButton, String title, String Subtitle) {
         getActivity().runOnUiThread(() -> {
-            if (showBackButton) {
+            if (showCloseButton) {
                 toolbar.setNavigationIcon(one.nem.lacerta.shared.ui.R.drawable.close_24px);
                 toolbar.setNavigationOnClickListener(v -> {
                     // Stop Activity
