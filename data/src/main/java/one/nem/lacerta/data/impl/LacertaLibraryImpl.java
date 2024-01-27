@@ -294,6 +294,21 @@ public class LacertaLibraryImpl implements LacertaLibrary {
         });
     }
 
+    @Override
+    public CompletableFuture<Void> combineDocument(String parentId, String childId) {
+        return null;
+    }
+
+    @Override
+    public CompletableFuture<Void> uncombineDocument(String parentId, String childId) {
+        return null;
+    }
+
+    @Override
+    public CompletableFuture<ArrayList<DocumentDetail>> getCombinedDocumentList(String parentId) {
+        return null;
+    }
+
     /**
      * 再帰的にパスを解決する
      *
