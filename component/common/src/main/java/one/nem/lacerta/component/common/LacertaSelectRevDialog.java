@@ -100,7 +100,7 @@ public class LacertaSelectRevDialog extends DialogFragment {
 
         builder.setTitle(title == null ? "Select Rev" : title);
         builder.setMessage(message == null ? "Select Rev" : message);
-        builder.setNegativeButton(negativeButtonText, (dialog, which) -> {
+        builder.setNegativeButton(negativeButtonText == null ? "Cancel" : negativeButtonText, (dialog, which) -> {
             if (listener != null) {
                 listener.onDialogCanceled();
                 dismiss();
