@@ -81,6 +81,8 @@ public class DocumentImpl implements Document {
             documentEntity.updatedAt = meta.getUpdatedAt();
             documentEntity.createdAt = meta.getCreatedAt();
             documentEntity.parentId = meta.getParentId();
+            documentEntity.isCombineChild = meta.getIsCombineChild();
+            documentEntity.isCombineParent = meta.getIsCombineParent();
 
             database.documentDao().insert(documentEntity);
 
@@ -104,6 +106,8 @@ public class DocumentImpl implements Document {
         meta.setUpdatedAt(new Date());
         meta.setCreatedAt(new Date());
         meta.setParentId(null);
+        meta.setIsCombineChild(false);
+        meta.setIsCombineParent(false);
         return createDocument(meta);
     }
 
