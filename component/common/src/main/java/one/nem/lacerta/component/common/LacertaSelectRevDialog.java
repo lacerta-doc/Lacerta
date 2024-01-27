@@ -12,9 +12,26 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
+import one.nem.lacerta.data.LacertaLibrary;
+import one.nem.lacerta.utils.LacertaLogger;
+import one.nem.lacerta.vcs.LacertaVcs;
+import one.nem.lacerta.vcs.factory.LacertaVcsFactory;
+
+
+@AndroidEntryPoint
 public class LacertaSelectRevDialog extends DialogFragment {
 
+    @Inject
+    LacertaVcsFactory lacertaVcsFactory;
+
+    @Inject
+    LacertaLogger logger;
+
     String title;
+    String documentId;
     String message;
     String negativeButtonText;
 
@@ -22,6 +39,11 @@ public class LacertaSelectRevDialog extends DialogFragment {
 
     public LacertaSelectRevDialog setTitle(String title) {
         this.title = title;
+        return this;
+    }
+
+    public LacertaSelectRevDialog setDocumentId(String documentId) {
+        this.documentId = documentId;
         return this;
     }
 
@@ -62,8 +84,21 @@ public class LacertaSelectRevDialog extends DialogFragment {
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
         builder.setView(view);
+
+        if (this.documentId == null) {
+            logger.error("SelectRevDialog", "documentId is null");
+            logger.e_code("0296fb0c-07a3-4971-a280-bd1a61461bb7");
+            Toast.makeText(getContext(), "Sorry, something went wrong", Toast.LENGTH_SHORT).show();
+            dismiss();
+        }
+        LacertaVcs lacertaVcs = lacertaVcsFactory.create(this.documentId);
+        lacertaVcs.getRevisionHistory().thenAccept(revList -> {
+            adapter.setRevList(revList);
+            adapter.notifyDataSetChanged(); // TODO-rca:時間に応じてアニメーションをつける
+        });
+
+
         builder.setTitle(title == null ? "Select Rev" : title);
         builder.setMessage(message == null ? "Select Rev" : message);
         builder.setNegativeButton(negativeButtonText, (dialog, which) -> {
