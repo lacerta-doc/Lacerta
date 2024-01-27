@@ -164,7 +164,7 @@ public class ViewerListFragment extends Fragment {
     private void toolbarSetup(Toolbar toolbar, boolean showBackButton, String title, String Subtitle) {
         getActivity().runOnUiThread(() -> {
             if (showBackButton) {
-                toolbar.setNavigationIcon(one.nem.lacerta.shared.ui.R.drawable.arrow_back_24px);
+                toolbar.setNavigationIcon(one.nem.lacerta.shared.ui.R.drawable.close_24px);
                 toolbar.setNavigationOnClickListener(v -> {
                     // Stop Activity
                     getActivity().finish();
