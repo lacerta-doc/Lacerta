@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigatio
             Toast.makeText(this, "Scan", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this.getApplicationContext(), ScannerManagerActivity.class);
 //            startActivity(intent);
-            startActivity(intent, ActivityOptions.makeCustomAnimation(this, 0, 0).toBundle());
+            startActivity(intent, ActivityOptions.makeCustomAnimation(this, one.nem.lacerta.shared.ui.R.anim.nav_up_enter_anim, one.nem.lacerta.shared.ui.R.anim.nav_up_exit_anim).toBundle());
         });
 
     }
