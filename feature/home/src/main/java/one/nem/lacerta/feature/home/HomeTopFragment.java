@@ -1,5 +1,6 @@
 package one.nem.lacerta.feature.home;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -89,7 +90,7 @@ public class HomeTopFragment extends Fragment {
                 Log.d("HomeTopFragment", "onDocumentSelect: " + documentId + " " + documentName);
                 intent.putExtra("documentId", documentId);
                 intent.putExtra("documentName", documentName);
-                startActivity(intent);
+                startActivity(intent, ActivityOptions.makeCustomAnimation(getContext(), 0, 0).toBundle());
             }
         });
         recyclerView.setAdapter(listItemAdapter);

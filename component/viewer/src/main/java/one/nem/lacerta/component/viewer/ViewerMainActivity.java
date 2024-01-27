@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -41,6 +42,9 @@ public class ViewerMainActivity extends AppCompatActivity {
             return insets;
         });
 
+//        // Transition
+//        overridePendingTransition(one.nem.lacerta.shared.ui.R.anim.nav_up_enter_anim, one.nem.lacerta.shared.ui.R.anim.nav_up_exit_anim);
+
         Intent intent = getIntent();
         try {
             documentId = intent.getStringExtra("documentId");
@@ -58,4 +62,5 @@ public class ViewerMainActivity extends AppCompatActivity {
                 .replace(R.id.nav_host_fragment, ViewerListFragment.newInstance(documentId, documentName))
                 .commit();
     }
+
 }
