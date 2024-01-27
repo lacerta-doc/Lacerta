@@ -37,6 +37,9 @@ public class DocumentEntity {
     @ColumnInfo(name = "parent_id")
     public String parentId; // 親フォルダID
 
-    @ColumnInfo(name = "is_combined")
-    public boolean isCombined; // 結合されたドキュメントかどうか
+    @ColumnInfo(name = "is_combine_child")
+    public boolean isCombineChild; // 結合されたドキュメントの子かどうか
+
+    @ColumnInfo(name = "is_combine_parent")
+    public boolean isCombineParent; // 結合されたドキュメントの親かどうか
 }
