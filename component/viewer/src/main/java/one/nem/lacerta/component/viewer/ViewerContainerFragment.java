@@ -11,9 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
+import one.nem.lacerta.data.Document;
 import one.nem.lacerta.data.LacertaLibrary;
 import one.nem.lacerta.model.document.page.Page;
 import one.nem.lacerta.model.pref.ToxiDocumentModel;
@@ -34,6 +39,9 @@ public class ViewerContainerFragment extends Fragment {
 
     @Inject
     LacertaLibrary lacertaLibrary;
+
+    @Inject
+    Document document;
 
     // Variables
     private String documentId;
@@ -133,7 +141,7 @@ public class ViewerContainerFragment extends Fragment {
                     Toast.makeText(getContext(), "Work in progress", Toast.LENGTH_SHORT).show();
                     return true;
                 } else if (item.getItemId() == R.id.action_rename) {
-                    Toast.makeText(getContext(), "Work in progress", Toast.LENGTH_SHORT).show();
+                    renameDocument();
                     return true;
                 } else if (item.getItemId() == R.id.action_delete) {
                     Toast.makeText(getContext(), "Work in progress", Toast.LENGTH_SHORT).show();
@@ -146,5 +154,32 @@ public class ViewerContainerFragment extends Fragment {
                 }
             });
         });
+    }
+
+    private void renameDocument() {
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext());
+        builder.setTitle("ファイル名の変更");
+        builder.setMessage("ファイル名を入力してください");
+
+        View view = LayoutInflater.from(getContext()).inflate(one.nem.lacerta.shared.ui.R.layout.lacerta_dialog_edit_text_layout, null);
+        TextInputEditText textInputEditText = view.findViewById(one.nem.lacerta.shared.ui.R.id.custom_edit_text);
+        TextInputLayout textInputLayout = view.findViewById(one.nem.lacerta.shared.ui.R.id.custom_text_input_layout);
+        textInputEditText.setText(documentName);
+        textInputLayout.setHint("ファイル名");
+        builder.setView(view);
+
+        builder.setPositiveButton("変更", (dialog, which) -> {
+            document.renameDocument(documentId, textInputEditText.getText().toString()).thenAccept(aVoid -> {
+                getActivity().runOnUiThread(() -> {
+                    this.documentName = textInputEditText.getText().toString();
+                    // TODO-rca: Toolbarのタイトルも変更する
+                });
+            });
+        });
+        builder.setNegativeButton("キャンセル", (dialog, which) -> {
+            dialog.cancel();
+        });
+
+        builder.show();
     }
 }
