@@ -27,6 +27,7 @@ import one.nem.lacerta.source.database.common.DateTypeConverter;
 import one.nem.lacerta.source.database.entity.DocumentEntity;
 import one.nem.lacerta.source.database.entity.FolderEntity;
 import one.nem.lacerta.source.database.entity.TagEntity;
+import one.nem.lacerta.source.database.entity.ToxiDocumentEntity;
 import one.nem.lacerta.source.database.entity.ToxiDocumentTagEntity;
 import one.nem.lacerta.utils.FeatureSwitch;
 import one.nem.lacerta.utils.LacertaLogger;
@@ -296,7 +297,26 @@ public class LacertaLibraryImpl implements LacertaLibrary {
 
     @Override
     public CompletableFuture<Void> combineDocument(String parentId, String childId) {
-        return null;
+        return CompletableFuture.supplyAsync(() -> {
+            DocumentEntity parentDocumentEntity = database.documentDao().findById(parentId);
+            DocumentEntity childDocumentEntity = database.documentDao().findById(childId);
+            if (parentDocumentEntity == null || childDocumentEntity == null) {
+                logger.warn("LacertaLibraryImpl", "DocumentEntity is not found.");
+                return null;
+            }
+            parentDocumentEntity.isCombineParent = true;
+            childDocumentEntity.isCombineChild = true;
+            database.documentDao().update(parentDocumentEntity);
+            database.documentDao().update(childDocumentEntity);
+            logger.debug("LacertaLibraryImpl", "Database Query: Updated DocumentEntity");
+
+            ToxiDocumentEntity toxiDocumentEntity = new ToxiDocumentEntity();
+            toxiDocumentEntity.parentDocumentId = parentId;
+            toxiDocumentEntity.childDocumentId = childId;
+            database.toxiDocumentDao().insert(toxiDocumentEntity);
+            logger.debug("LacertaLibraryImpl", "Database Query: Inserted ToxiDocumentEntity");
+            return null;
+        });
     }
 
     @Override
