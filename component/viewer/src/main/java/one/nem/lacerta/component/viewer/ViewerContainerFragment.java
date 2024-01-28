@@ -105,7 +105,6 @@ public class ViewerContainerFragment extends Fragment {
 
         // Init tab layout
         TabLayout tabLayout = view.findViewById(R.id.tab_layout);
-        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> tab.setText(viewerViewPagerAdapter.getTabTitle(position))).attach();
 
         // Init toolbar
         Toolbar toolbar = view.findViewById(R.id.toolbar);
@@ -116,16 +115,22 @@ public class ViewerContainerFragment extends Fragment {
             lacertaLibrary.getCombinedDocumentToxiList(documentId).thenAccept(combinedDocumentToxiList -> {
                 logger.debug("ViewerContainerFragment", "combinedDocumentToxiList: " + combinedDocumentToxiList.size());
                 for (ToxiDocumentModel toxiDocumentModel : combinedDocumentToxiList) {
+                    logger.debug("ViewerContainerFragment", "titleCache: " + toxiDocumentModel.getTitleCache());
                     viewerViewPagerAdapter
                             .addFragment(ViewerBodyFragment.newInstance(toxiDocumentModel.getChildDocumentId(), toxiDocumentModel.getTitleCache()),
                                     toxiDocumentModel.getTitleCache());
                 }
+                viewerViewPagerAdapter.notifyItemRangeChanged(0, combinedDocumentToxiList.size());
             });
         } else {
             logger.debug("ViewerContainerFragment", "hasCombined: " + hasCombined);
             tabLayout.setVisibility(View.GONE);
             viewerViewPagerAdapter.addFragment(ViewerBodyFragment.newInstance(documentId, documentName), documentName);
+            viewerViewPagerAdapter.notifyItemRangeChanged(0, 1);
         }
+
+        // Attach tab layout to view pager
+        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> tab.setText(viewerViewPagerAdapter.getTabTitle(position))).attach();
     }
 
     /**
