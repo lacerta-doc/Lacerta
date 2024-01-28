@@ -56,6 +56,7 @@ public class LacertaLibraryImpl implements LacertaLibrary {
                 listItem.setTitle(documentEntity.title);
                 listItem.setDescription(DateFormat.getDateInstance().format(documentEntity.updatedAt));
                 listItem.setItemId(documentEntity.id);
+                listItem.setHasCombined(documentEntity.isCombineParent);
                 listItems.add(listItem);
             }
 
@@ -105,6 +106,7 @@ public class LacertaLibraryImpl implements LacertaLibrary {
                 listItem.setTitle(childFolderEntity.name);
                 listItem.setDescription("フォルダ"); // TODO-rca: ハードコーディングやめる
                 listItem.setItemId(childFolderEntity.id);
+                listItem.setHasCombined(false);
                 listItems.add(listItem);
             }
 
@@ -117,6 +119,7 @@ public class LacertaLibraryImpl implements LacertaLibrary {
                 listItem.setTitle(documentEntity.title);
                 listItem.setDescription(simpleDateFormat.format(documentEntity.updatedAt));
                 listItem.setItemId(documentEntity.id);
+                listItem.setHasCombined(documentEntity.isCombineParent);
                 listItems.add(listItem);
             }
 
@@ -166,6 +169,7 @@ public class LacertaLibraryImpl implements LacertaLibrary {
                 listItem.setTitle(childFolderEntity.name);
                 listItem.setDescription("フォルダ"); // TODO-rca: ハードコーディングやめる
                 listItem.setItemId(childFolderEntity.id);
+                listItem.setHasCombined(false);
                 listItems.add(listItem);
             }
 
