@@ -68,6 +68,9 @@ public class LacertaFilePickerSelectDocumentDialog extends DialogFragment {
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        builder.setTitle("Test");
+
+        builder.setView(view);
 
         lacertaLibrary.getCombinedDocumentToxiList(this.documentId).thenAccept(toxiDocumentModels -> {
             ArrayList<ListItem> listItems = new ArrayList<>();
@@ -78,7 +81,6 @@ public class LacertaFilePickerSelectDocumentDialog extends DialogFragment {
             adapter.notifyDataSetChanged();
         });
 
-        builder.setView(view);
         return builder.create();
     }
 

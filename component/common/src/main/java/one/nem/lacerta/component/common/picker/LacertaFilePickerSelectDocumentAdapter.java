@@ -41,7 +41,7 @@ public class LacertaFilePickerSelectDocumentAdapter extends RecyclerView.Adapter
     @NonNull
     @Override
     public LacertaFilePickerSelectDocumentAdapter.LacertaFilePickerSelectDocumentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(one.nem.lacerta.shared.ui.R.layout.common_list_item, null);
+        View view = LayoutInflater.from(parent.getContext()).inflate(one.nem.lacerta.shared.ui.R.layout.common_list_item, parent, false);
         return new LacertaFilePickerSelectDocumentViewHolder(view);
     }
 
@@ -49,7 +49,6 @@ public class LacertaFilePickerSelectDocumentAdapter extends RecyclerView.Adapter
     public void onBindViewHolder(@NonNull LacertaFilePickerSelectDocumentAdapter.LacertaFilePickerSelectDocumentViewHolder holder, int position) {
         ListItem listItem = listItems.get(position);
         holder.title.setText(listItem.getTitle());
-        holder.description.setVisibility(View.GONE);
         holder.icon.setImageResource(listItem.getItemType().getIconId());
         holder.itemView.setOnClickListener(v -> listener.onDocumentSelected(listItem.getItemId()));
     }
