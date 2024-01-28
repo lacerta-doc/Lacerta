@@ -1,6 +1,7 @@
 package one.nem.lacerta.vcs.impl;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
@@ -195,16 +196,20 @@ public class LacertaVcsImpl implements LacertaVcs {
     }
 
     private CompletableFuture<ArrayList<VcsRevEntity>> getRevBeforeTargetIdAsync(String revId){
+        logger.debug(TAG, "getRevBeforeTargetIdAsync called: " + revId);
         return CompletableFuture.supplyAsync(() -> {
             ArrayList<VcsRevEntity> vcsRevEntities = new ArrayList<>(database.vcsRevDao().findByDocumentId(this.documentId));
+            // 古い順に並び替え
+            vcsRevEntities.sort(Comparator.comparing(a -> a.createdAt));
             ArrayList<VcsRevEntity> vcsRevEntitiesBeforeTarget = new ArrayList<>();
-            vcsRevEntities.forEach(vcsRevEntity -> {
+            for (VcsRevEntity vcsRevEntity : vcsRevEntities) {
                 if(vcsRevEntity.id.equals(revId)){
+                    logger.debug(TAG, "getRevBeforeTargetIdAsync: Target found");
                     vcsRevEntitiesBeforeTarget.add(vcsRevEntity);
-                    return;
+                    break;
                 }
                 vcsRevEntitiesBeforeTarget.add(vcsRevEntity);
-            });
+            }
             logger.debug(TAG, "getRevBeforeTargetIdAsync finished\nResult size: " + vcsRevEntitiesBeforeTarget.size());
             return vcsRevEntitiesBeforeTarget;
         });
@@ -216,8 +221,8 @@ public class LacertaVcsImpl implements LacertaVcs {
             vcsRevEntities.forEach(vcsRevEntity -> {
                 logIds.addAll(vcsRevEntity.logIds);
             });
-            // TODO-rca: ソートしないといけないかも（順番が保証されているわけではない + 順番が変わるとほぼ確実に壊れる）
             ArrayList<VcsLogEntity> vcsLogEntities = new ArrayList<>(database.vcsLogDao().findByIds(logIds));
+            vcsLogEntities.sort(Comparator.comparing(a -> a.createdAt));
             logger.debug(TAG, "getLogInRevsAsync finished\nResult size: " + vcsLogEntities.size());
             return vcsLogEntities;
         });
@@ -235,7 +240,13 @@ public class LacertaVcsImpl implements LacertaVcs {
     public CompletableFuture<ArrayList<String>> getDocumentPagePathListRev(String revId) {
         return CompletableFuture.supplyAsync(() -> {
             logger.debug(TAG, "getDocumentPagePathListRev");
-            ArrayList<VcsLogEntity> vcsLogEntities = getRevBeforeTargetIdAsync(revId).thenCompose(this::getLogInRevsAsync).join();
+            ArrayList<VcsRevEntity> vcsRevEntities = getRevBeforeTargetIdAsync(revId).join();
+
+            logger.debug(TAG, "getDocumentPagePathListRev: vcsRevEntities size: " + vcsRevEntities.size());
+
+            ArrayList<VcsLogEntity> vcsLogEntities = getLogInRevsAsync(vcsRevEntities).join();
+
+            logger.debug(TAG, "getDocumentPagePathListRev: vcsLogEntities size: " + vcsLogEntities.size());
 
             ArrayList<String> fileNameList = new ArrayList<>();
             for(VcsLogEntity vcsLogEntity : vcsLogEntities){
