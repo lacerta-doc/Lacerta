@@ -19,13 +19,18 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.util.ArrayList;
+import java.util.stream.Collectors;
+
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
+import one.nem.lacerta.component.common.LacertaApplyTagDialog;
 import one.nem.lacerta.component.common.picker.LacertaFilePickerDialog;
 import one.nem.lacerta.data.Document;
 import one.nem.lacerta.data.LacertaLibrary;
 import one.nem.lacerta.model.document.page.Page;
+import one.nem.lacerta.model.document.tag.DocumentTag;
 import one.nem.lacerta.model.pref.ToxiDocumentModel;
 import one.nem.lacerta.utils.LacertaLogger;
 
@@ -52,6 +57,7 @@ public class ViewerContainerFragment extends Fragment {
     private String documentId;
     private String documentName;
     private boolean hasCombined = false;
+    private ViewerViewPagerAdapter viewerViewPagerAdapter;
 
     public ViewerContainerFragment() {
         // Required empty public constructor
@@ -102,7 +108,7 @@ public class ViewerContainerFragment extends Fragment {
         ViewPager2 viewPager = view.findViewById(R.id.view_pager);
 
         // Init view pager adapter
-        ViewerViewPagerAdapter viewerViewPagerAdapter = new ViewerViewPagerAdapter(requireActivity());
+        this.viewerViewPagerAdapter = new ViewerViewPagerAdapter(requireActivity());
         viewPager.setAdapter(viewerViewPagerAdapter);
 
         // Init tab layout
@@ -112,22 +118,24 @@ public class ViewerContainerFragment extends Fragment {
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         initToolbar(toolbar, true, documentName);
 
-        if (this.hasCombined) {
+        // Get document page
+        if (this.hasCombined) { // 結合親の場合
             logger.debug("ViewerContainerFragment", "hasCombined: " + hasCombined);
             lacertaLibrary.getCombinedDocumentToxiList(documentId).thenAccept(combinedDocumentToxiList -> {
                 logger.debug("ViewerContainerFragment", "combinedDocumentToxiList: " + combinedDocumentToxiList.size());
-                for (ToxiDocumentModel toxiDocumentModel : combinedDocumentToxiList) {
-                    logger.debug("ViewerContainerFragment", "titleCache: " + toxiDocumentModel.getTitleCache());
-                    viewerViewPagerAdapter
-                            .addFragment(ViewerBodyFragment.newInstance(toxiDocumentModel.getChildDocumentId(), toxiDocumentModel.getTitleCache()),
-                                    toxiDocumentModel.getTitleCache());
-                }
+
+                viewerViewPagerAdapter.setFragmentTargetIdList(
+                        combinedDocumentToxiList.stream().map(ToxiDocumentModel::getChildDocumentId).collect(Collectors.toCollection(ArrayList::new)));
+                viewerViewPagerAdapter.setFragmentTitleList(
+                        combinedDocumentToxiList.stream().map(ToxiDocumentModel::getTitleCache).collect(Collectors.toCollection(ArrayList::new)));
+
                 viewerViewPagerAdapter.notifyItemRangeChanged(0, combinedDocumentToxiList.size());
             });
-        } else {
+        } else { // それ以外の場合
             logger.debug("ViewerContainerFragment", "hasCombined: " + hasCombined);
             tabLayout.setVisibility(View.GONE);
-            viewerViewPagerAdapter.addFragment(ViewerBodyFragment.newInstance(documentId, documentName), documentName);
+            viewerViewPagerAdapter.setFragmentTargetIdList(new ArrayList<String>(){{add(documentId);}}); // TODO-rca: 読みにくいので直接追加できるようにする
+            viewerViewPagerAdapter.setFragmentTitleList(new ArrayList<String>(){{add(documentName);}});
             viewerViewPagerAdapter.notifyItemRangeChanged(0, 1);
         }
 
@@ -140,11 +148,52 @@ public class ViewerContainerFragment extends Fragment {
 
             ImageButton imageButton = customView.findViewById(R.id.tab_modify);
             imageButton.setOnClickListener(v -> {
-                Toast.makeText(getContext(), "Working!, Index:" + position, Toast.LENGTH_SHORT).show();
+                renameCombinedDocument(
+                        this.documentId,
+                        viewerViewPagerAdapter.getFragmentTargetId(position),
+                        viewerViewPagerAdapter.getFragmentTitle(position),
+                        position);
             });
 
             tab.setCustomView(customView);
         }).attach();
+    }
+
+    private void renameCombinedDocument(String parentId, String childId, String current, int position) { // TODO-rca: 無理やりpositionを渡してるのでなんとかする
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext());
+        builder.setTitle("アイテム名の変更");
+        builder.setMessage("アイテム名を入力してください");
+
+        View view = LayoutInflater.from(getContext()).inflate(one.nem.lacerta.shared.ui.R.layout.lacerta_dialog_edit_text_layout, null);
+        TextInputEditText textInputEditText = view.findViewById(one.nem.lacerta.shared.ui.R.id.custom_edit_text);
+        TextInputLayout textInputLayout = view.findViewById(one.nem.lacerta.shared.ui.R.id.custom_text_input_layout);
+        textInputEditText.setText(current);
+        textInputLayout.setHint("アイテム名");
+        builder.setView(view);
+
+        builder.setPositiveButton("変更", (dialog, which) -> {
+            document.renameDocument(childId, textInputEditText.getText().toString()).thenCombine(
+                lacertaLibrary.updateTitleCache(parentId, childId, textInputEditText.getText().toString()), (aVoid, aVoid2) -> {
+                    getActivity().runOnUiThread(() -> {
+                        Toast.makeText(getContext(), "変更しました", Toast.LENGTH_SHORT).show();
+                        updateTabTitle(position, textInputEditText.getText().toString());
+                        dialog.dismiss();
+                    });
+                    return null;
+                });
+        });
+        builder.setNegativeButton("キャンセル", (dialog, which) -> {
+            dialog.cancel();
+        });
+
+        builder.show();
+    }
+
+    private void updateTabTitle(int position, String title) {
+        ArrayList<String> fragmentTitleList = viewerViewPagerAdapter.getFragmentTitleList();
+        fragmentTitleList.set(position, title);
+        viewerViewPagerAdapter.setFragmentTitleList(fragmentTitleList);
+        viewerViewPagerAdapter.notifyItemChanged(position);
     }
 
     /**
@@ -187,11 +236,41 @@ public class ViewerContainerFragment extends Fragment {
                 } else if (item.getItemId() == R.id.action_combine) {
                     combineDocument();
                     return true;
+                } else if (item.getItemId() == R.id.action_apply_tag) {
+                    applyTag();
+                    return true;
                 } else {
                     return false;
                 }
             });
         });
+    }
+
+    private void applyTag() {
+        LacertaApplyTagDialog lacertaApplyTagDialog = new LacertaApplyTagDialog();
+        lacertaApplyTagDialog
+                .setTitle("タグの適用")
+                .setMessage("タグを適用するファイルを選択してください")
+                .setNegativeButtonText("キャンセル")
+                .setDocumentId(documentId)
+                .setListener(new LacertaApplyTagDialog.LacertaApplyTagDialogListener() {
+                    @Override
+                    public void onDialogPositiveClick(ArrayList<DocumentTag> appliedTags) {
+                        logger.debug("ViewerContainerFragment", "Dialog Result: appliedTags: " + appliedTags.size());
+                        lacertaLibrary.applyTagListToDocument(documentId, appliedTags).thenAccept(aVoid -> {
+                            getActivity().runOnUiThread(() -> {
+                                Toast.makeText(getContext(), "タグを適用しました", Toast.LENGTH_SHORT).show();
+                                lacertaApplyTagDialog.dismiss();
+                            });
+                        });
+                    }
+
+                    @Override
+                    public void onDialogNegativeClick() {
+                        lacertaApplyTagDialog.dismiss();
+                    }
+                })
+                .show(getChildFragmentManager(), "LacertaApplyTagDialog");
     }
 
     private void combineDocument() {

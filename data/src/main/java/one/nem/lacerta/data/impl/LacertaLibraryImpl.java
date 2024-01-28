@@ -322,6 +322,20 @@ public class LacertaLibraryImpl implements LacertaLibrary {
     }
 
     @Override
+    public CompletableFuture<Void> applyTagListToDocument(String documentId, ArrayList<DocumentTag> tagArrayList) {
+        return CompletableFuture.supplyAsync(() -> { // TODO-rca: 必要なものだけInsertするべき, 時間があれば...
+            // 一旦全てのタグを削除
+            database.toxiDocumentTagDao().deleteByDocumentId(documentId);
+            logger.debug("LacertaLibraryImpl", "Database Query: Deleted ToxiDocumentTagEntity");
+            // タグを追加
+            for (DocumentTag documentTag : tagArrayList) {
+                addTagToDocument(documentId, documentTag.getId());
+            }
+            return null;
+        });
+    }
+
+    @Override
     public CompletableFuture<Void> removeTagFromDocument(String documentId, String tagId) {
         return CompletableFuture.supplyAsync(() -> {
             database.toxiDocumentTagDao().deleteByDocumentIdAndTagId(documentId, tagId);
@@ -373,6 +387,21 @@ public class LacertaLibraryImpl implements LacertaLibrary {
         toxiDocumentEntity.titleCache = titleCache;
         database.toxiDocumentDao().insert(toxiDocumentEntity);
         logger.debug("LacertaLibraryImpl", "Database Query: Inserted ToxiDocumentEntity");
+    }
+
+    @Override
+    public CompletableFuture<Void> updateTitleCache(String parentId, String documentId, String titleCache) {
+        return CompletableFuture.supplyAsync(() -> {
+            ToxiDocumentEntity toxiDocumentEntity = database.toxiDocumentDao().findByParentIdAndChildId(parentId, documentId);
+            if (toxiDocumentEntity == null) {
+                logger.warn("LacertaLibraryImpl", "ToxiDocumentEntity is not found.");
+                return null;
+            }
+            toxiDocumentEntity.titleCache = titleCache;
+            database.toxiDocumentDao().update(toxiDocumentEntity);
+            logger.debug("LacertaLibraryImpl", "Database Query: Updated ToxiDocumentEntity");
+            return null;
+        });
     }
 
     @Override

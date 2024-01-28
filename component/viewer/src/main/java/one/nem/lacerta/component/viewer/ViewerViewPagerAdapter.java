@@ -13,13 +13,17 @@ import java.util.ArrayList;
 public class ViewerViewPagerAdapter extends FragmentStateAdapter {
 
     // Variables
-    private ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
+    private ArrayList<String> fragmentTargetIdList = new ArrayList<>();
     private ArrayList<String> fragmentTitleList = new ArrayList<>();
 
     // Setter
-    public void addFragment(Fragment fragment, String title){
-        fragmentArrayList.add(fragment);
-        fragmentTitleList.add(title);
+
+    public void setFragmentTargetIdList(ArrayList<String> fragmentTargetIdList) {
+        this.fragmentTargetIdList = fragmentTargetIdList;
+    }
+
+    public void setFragmentTitleList(ArrayList<String> fragmentTitleList) {
+        this.fragmentTitleList = fragmentTitleList;
     }
 
     public ViewerViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
@@ -29,16 +33,40 @@ public class ViewerViewPagerAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        return fragmentArrayList.get(position);
+        return ViewerBodyFragment.newInstance(fragmentTargetIdList.get(position), fragmentTitleList.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return fragmentArrayList == null ? 0 : fragmentArrayList.size();
+        if (fragmentTargetIdList == null || fragmentTitleList == null) {
+            return 0;
+        } else if (fragmentTargetIdList.size() != fragmentTitleList.size()) {
+            throw new IllegalStateException("fragmentTargetIdList.size() != fragmentTitleList.size()");
+        } else {
+            return fragmentTargetIdList.size();
+        }
     }
 
     @Nullable
     public CharSequence getTabTitle(int position) {
         return fragmentTitleList.get(position);
+    }
+
+    // Getter
+
+    public String getFragmentTargetId(int position) {
+        return fragmentTargetIdList.get(position);
+    }
+
+    public String getFragmentTitle(int position) {
+        return fragmentTitleList.get(position);
+    }
+
+    public ArrayList<String> getFragmentTargetIdList() {
+        return fragmentTargetIdList;
+    }
+
+    public ArrayList<String> getFragmentTitleList() {
+        return fragmentTitleList;
     }
 }
