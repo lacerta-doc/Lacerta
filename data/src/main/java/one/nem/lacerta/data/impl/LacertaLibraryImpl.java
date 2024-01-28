@@ -342,7 +342,14 @@ public class LacertaLibraryImpl implements LacertaLibrary {
 
     @Override
     public CompletableFuture<ArrayList<String>> getCombinedDocumentIdList(String parentId) {
-
+        return CompletableFuture.supplyAsync(() -> {
+            List<ToxiDocumentEntity> toxiDocumentEntities = database.toxiDocumentDao().findByParentId(parentId);
+            ArrayList<String> documentIdList = new ArrayList<>();
+            for (ToxiDocumentEntity toxiDocumentEntity : toxiDocumentEntities) {
+                documentIdList.add(toxiDocumentEntity.childDocumentId);
+            }
+            return documentIdList;
+        });
     }
 
     /**
