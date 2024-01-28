@@ -160,18 +160,20 @@ public class LacertaApplyTagDialog extends DialogFragment {
     }
 
     private CompletableFuture<Void> setAppliedTagList(String documentId) {
-        return CompletableFuture.runAsync(() -> {
+        return CompletableFuture.supplyAsync(() -> {
             lacertaLibrary.getAppliedTagList(documentId).thenAccept(documentTags -> {
                 this.appliedTags = documentTags;
             });
+            return null;
         });
     }
 
     private CompletableFuture<Void> setRegisteredTagList() {
-        return CompletableFuture.runAsync(() -> {
+        return CompletableFuture.supplyAsync(() -> {
             lacertaLibrary.getTagList().thenAccept(documentTags -> {
                 this.registeredTags = documentTags;
             });
+            return null;
         });
     }
 
