@@ -34,7 +34,13 @@ public class ViewerViewPagerAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        return fragmentTargetIdList == null ? 0 : fragmentTargetIdList.size();
+        if (fragmentTargetIdList == null || fragmentTitleList == null) {
+            return 0;
+        } else if (fragmentTargetIdList.size() != fragmentTitleList.size()) {
+            throw new IllegalStateException("fragmentTargetIdList.size() != fragmentTitleList.size()");
+        } else {
+            return fragmentTargetIdList.size();
+        }
     }
 
     @Nullable
