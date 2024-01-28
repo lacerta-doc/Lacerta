@@ -35,6 +35,8 @@ public interface LacertaLibrary {
     // Tag
     CompletableFuture<ArrayList<DocumentTag>> getTagList();
 
+    CompletableFuture<ArrayList<DocumentTag>> getAppliedTagList(String documentId);
+
     CompletableFuture<Void> createTag(DocumentTag tag);
 
     CompletableFuture<Void> updateTag(DocumentTag tag);
