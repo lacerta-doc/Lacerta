@@ -23,6 +23,7 @@ import one.nem.lacerta.component.common.LacertaSelectDirDialog;
 import one.nem.lacerta.component.common.LacertaSelectDirDialogListener;
 import one.nem.lacerta.component.common.LacertaSelectRevDialog;
 import one.nem.lacerta.component.common.LacertaSelectRevDialogListener;
+import one.nem.lacerta.component.common.picker.LacertaDirPickerDialog;
 import one.nem.lacerta.data.Document;
 import one.nem.lacerta.data.LacertaLibrary;
 import one.nem.lacerta.model.ListItemType;
@@ -239,29 +240,21 @@ public class ViewerListFragment extends Fragment {
                     builder.show();
                     return true;
                 } else if (item.getItemId() == R.id.action_move) {
-                    LacertaSelectDirDialog lacertaSelectDirDialog = new LacertaSelectDirDialog();
-                    lacertaSelectDirDialog.setListener(new LacertaSelectDirDialogListener() {
-                        @Override
-                        public void onDirSelected(String name, String itemId) {
-                            logger.debug(TAG, "Selected dir: " + name + ", " + itemId);
-                            document.moveDocument(documentId, itemId).thenAccept(aVoid -> {
-                                getActivity().runOnUiThread(() -> {
-                                    // Stop Activity
-                                    getActivity().finish(); // TODO-rca: ファイル移動後に終了するべきかは検討
-                                });
+                    LacertaDirPickerDialog lacertaDirPickerDialog = new LacertaDirPickerDialog();
+                    lacertaDirPickerDialog.setListener((name, dirId) -> {
+                        logger.debug(TAG, "Selected dir: " + name + ", " + dirId);
+                        document.moveDocument(documentId, dirId).thenAccept(aVoid -> {
+                            getActivity().runOnUiThread(() -> {
+                                // Stop Activity
+                                getActivity().finish(); // TODO-rca: ファイル移動後に終了するべきかは検討
                             });
-                        }
-
-                        @Override
-                        public void onCanceled() {
-                            logger.debug(TAG, "Canceled");
-                        }
+                        });
                     });
-                    lacertaSelectDirDialog.setTitle("ファイルの移動")
-                                    .setMessage("ファイルを移動するフォルダを選択してください。")
-                                    .setPositiveButtonText("移動")
-                                    .setNegativeButtonText("キャンセル");
-                    lacertaSelectDirDialog.show(getParentFragmentManager(), "select_dir_dialog");
+                    lacertaDirPickerDialog.setTitle("ファイルの移動")
+                            .setMessage("ファイルを移動するフォルダを選択してください。")
+                            .setPositiveButtonText("移動")
+                            .setNegativeButtonText("キャンセル");
+                    lacertaDirPickerDialog.show(getParentFragmentManager(), "select_dir_dialog");
                     return true;
                 } else {
                     return false;
