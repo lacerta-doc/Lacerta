@@ -30,6 +30,7 @@ public class ViewerMainActivity extends AppCompatActivity {
     private static final String TAG = "ViewerMainActivity";
     String documentId;
     String documentName;
+    boolean hasCombined = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +50,7 @@ public class ViewerMainActivity extends AppCompatActivity {
         try {
             documentId = intent.getStringExtra("documentId");
             documentName = intent.getStringExtra("documentName");
+            hasCombined = intent.getBooleanExtra("hasCombined", false);
         }
         catch (Exception e) {
             logger.error(TAG, "Failed to get documentId from intent");
@@ -58,9 +60,18 @@ public class ViewerMainActivity extends AppCompatActivity {
         }
 
         // Navigation
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.nav_host_fragment, ViewerListFragment.newInstance(documentId, documentName))
-                .commit();
+//        getSupportFragmentManager().beginTransaction()
+//                .replace(R.id.nav_host_fragment, ViewerListFragment.newInstance(documentId, documentName))
+//                .commit();
+        if (hasCombined) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.nav_host_fragment, ViewerContainerFragment.newInstance(documentId, documentName, hasCombined))
+                    .commit();
+        } else {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.nav_host_fragment, ViewerContainerFragment.newInstance(documentId, documentName))
+                    .commit();
+        }
     }
 
 }
