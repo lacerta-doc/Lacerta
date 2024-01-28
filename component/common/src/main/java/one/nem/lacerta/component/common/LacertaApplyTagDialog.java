@@ -49,6 +49,7 @@ public class LacertaApplyTagDialog extends DialogFragment {
     private String negativeButtonText;
     private String documentId;
     private LacertaApplyTagDialogListener listener;
+    private ArrayList<DocumentTag> appliedTags;
 
     // Setter
 
@@ -133,11 +134,11 @@ public class LacertaApplyTagDialog extends DialogFragment {
         return CompletableFuture.supplyAsync(() -> {
             ArrayList<DocumentTagApplyTagDialogExtendedModel> documentTagArrayList = new ArrayList<>();
             lacertaLibrary.getTagList().thenAccept(documentTags -> {
-                ArrayList<DocumentTag> appliedTags = lacertaLibrary.getAppliedTagList(documentId).join();
+                setAppliedTagList(documentId);
                 for (int i = 0; i < documentTags.size(); i++) {
                     boolean isChecked = false;
-                    for (int j = 0; j < appliedTags.size(); j++) {
-                        if (documentTags.get(i).getId().equals(appliedTags.get(j).getId())) {
+                    for (int j = 0; j < this.appliedTags.size(); j++) {
+                        if (documentTags.get(i).getId().equals(this.appliedTags.get(j).getId())) {
                             isChecked = true;
                             break;
                         }
@@ -148,6 +149,12 @@ public class LacertaApplyTagDialog extends DialogFragment {
             });
 
             return documentTagArrayList;
+        });
+    }
+
+    private void setAppliedTagList(String documentId) {
+        lacertaLibrary.getAppliedTagList(documentId).thenAccept(documentTags -> {
+            this.appliedTags = documentTags;
         });
     }
 
