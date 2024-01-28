@@ -46,7 +46,13 @@ public class LacertaDirPickerDialog extends LacertaFilePickerDialogBase {
         super.onCreateDialog(savedInstanceState);
 
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity());
+
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.lacerta_dialog_select_dir, null);
+
+        // 高さを画面の40%にする
+        int height = (int) (getResources().getDisplayMetrics().heightPixels * 0.4);
+        view.setMinimumHeight(height);
+
         RecyclerView recyclerView = view.findViewById(R.id.select_dir_recycler_view);
         TextView currentDirTextView = view.findViewById(R.id.current_dir_text_view);
 
@@ -92,7 +98,7 @@ public class LacertaDirPickerDialog extends LacertaFilePickerDialogBase {
 
     private void updatePublicPath(TextView currentDirTextView, String folderId) {
         lacertaLibrary.getPublicPath(folderId, ListItemType.ITEM_TYPE_FOLDER).thenAccept(publicPath -> {
-            this.updatePathTextView(currentDirTextView, publicPath);
+            this.updatePathTextView(currentDirTextView, publicPath, ListItemType.ITEM_TYPE_FOLDER);
         });
     }
 
