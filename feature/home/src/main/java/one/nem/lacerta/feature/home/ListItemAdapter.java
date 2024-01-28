@@ -46,7 +46,7 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ListIt
         holder.description.setText(listItem.getDescription());
 
         holder.itemView.setOnClickListener( v -> {
-            listener.onDocumentSelect(listItem.getItemId(), listItem.getTitle());
+            listener.onDocumentSelect(listItem.getItemId(), listItem.getTitle(), listItem.getHasCombined());
         });
     }
 
