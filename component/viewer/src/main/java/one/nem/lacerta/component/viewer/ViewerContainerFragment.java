@@ -15,20 +15,30 @@ import android.view.ViewGroup;
  */
 public class ViewerContainerFragment extends Fragment {
 
+    // Variables
+    private String documentId;
+    private String documentName;
+
     public ViewerContainerFragment() {
         // Required empty public constructor
     }
 
-    public static ViewerContainerFragment newInstance() {
+    public static ViewerContainerFragment newInstance(String documentId, String documentName) {
         ViewerContainerFragment fragment = new ViewerContainerFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
+        args.putString("documentId", documentId);
+        args.putString("documentName", documentName);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null){
+            documentId = getArguments().getString("documentId");
+            documentName = getArguments().getString("documentName");
+        }
     }
 
     @Override
