@@ -41,7 +41,20 @@ public class LacertaVcsImpl implements LacertaVcs {
 
     @Override
     public void updatePage(int index, String fileName) {
+        logger.debug(TAG, "updatePage");
 
+        // UpdatePage
+        UpdatePage updatePage = new UpdatePage(index, fileName);
+        updatePage.setActionType(ActionType.UPDATE_PAGE);
+
+        VcsLogEntity vcsLogEntity = new VcsLogEntity();
+        vcsLogEntity.id = UUID.randomUUID().toString();
+        vcsLogEntity.documentId = documentId;
+        vcsLogEntity.branchName = "master";
+        vcsLogEntity.createdAt = new java.util.Date();
+        vcsLogEntity.actionType = ActionType.UPDATE_PAGE.getValue();
+        vcsLogEntity.action = JsonUtils.toJson(updatePage);
+        database.vcsLogDao().insert(vcsLogEntity);
     }
 
     @Override
