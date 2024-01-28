@@ -103,6 +103,7 @@ public class ScannerManagerActivity extends AppCompatActivity {
                 // an error happened
                 logger.error(TAG, "Error: " + errorMessage);
                 logger.e_code("543a230e-cb9a-47a2-8131-3beecfe1c458");
+                finish();
                 return null;
             },
             () -> {
