@@ -17,8 +17,8 @@ public class LacertaApplyTagAdapter extends RecyclerView.Adapter<LacertaApplyTag
 
     // Listener
     public interface LacertaApplyTagDialogListener {
-        void itemChecked(View view, int position);
-        void itemUnchecked(View view, int position);
+        void itemChecked(View view, String tagId);
+        void itemUnchecked(View view, String tagId);
     }
 
     // Variables
@@ -54,9 +54,9 @@ public class LacertaApplyTagAdapter extends RecyclerView.Adapter<LacertaApplyTag
         holder.checkBox.setChecked(documentTag.getIsChecked());
         holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
-                listener.itemChecked(buttonView, position);
+                listener.itemChecked(buttonView, documentTag.getId());
             } else {
-                listener.itemUnchecked(buttonView, position);
+                listener.itemUnchecked(buttonView, documentTag.getId());
             }
         });
     }
