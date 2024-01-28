@@ -184,6 +184,13 @@ public class ViewerContainerFragment extends Fragment {
         builder.show();
     }
 
+    private void updateTabTitle(int position, String title) {
+        ArrayList<String> fragmentTitleList = viewerViewPagerAdapter.getFragmentTitleList();
+        fragmentTitleList.set(position, title);
+        viewerViewPagerAdapter.setFragmentTitleList(fragmentTitleList);
+        viewerViewPagerAdapter.notifyItemChanged(position);
+    }
+
     /**
      * Toolbarをinitする
      *
