@@ -16,6 +16,11 @@ public class DocumentTagApplyTagDialogExtendedModel extends DocumentTag {
         super(documentTag.getId(), documentTag.getName(), documentTag.getColor());
     }
 
+    public DocumentTagApplyTagDialogExtendedModel(DocumentTag documentTag, boolean isChecked) {
+        super(documentTag.getId(), documentTag.getName(), documentTag.getColor());
+        this.isChecked = isChecked;
+    }
+
     public boolean getIsChecked() {
         return isChecked;
     }
