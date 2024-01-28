@@ -13,13 +13,13 @@ import java.util.ArrayList;
 public class ViewerViewPagerAdapter extends FragmentStateAdapter {
 
     // Variables
-    private ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
+    private ArrayList<String> fragmentTargetIdList = new ArrayList<>();
     private ArrayList<String> fragmentTitleList = new ArrayList<>();
 
     // Setter
-    public void addFragment(Fragment fragment, String title){
-        fragmentArrayList.add(fragment);
-        fragmentTitleList.add(title);
+
+    public void setFragmentTargetIdList(ArrayList<String> fragmentTargetIdList) {
+        this.fragmentTargetIdList = fragmentTargetIdList;
     }
 
     public ViewerViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
@@ -29,12 +29,12 @@ public class ViewerViewPagerAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        return fragmentArrayList.get(position);
+        return ViewerListFragment.newInstance(fragmentTargetIdList.get(position), fragmentTitleList.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return fragmentArrayList == null ? 0 : fragmentArrayList.size();
+        return fragmentTargetIdList == null ? 0 : fragmentTargetIdList.size();
     }
 
     @Nullable
