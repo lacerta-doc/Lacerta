@@ -24,6 +24,8 @@ import one.nem.lacerta.component.common.LacertaSelectDirDialogListener;
 import one.nem.lacerta.component.common.LacertaSelectRevDialog;
 import one.nem.lacerta.component.common.LacertaSelectRevDialogListener;
 import one.nem.lacerta.component.common.picker.LacertaDirPickerDialog;
+import one.nem.lacerta.component.common.picker.LacertaFilePickerAdapter;
+import one.nem.lacerta.component.common.picker.LacertaFilePickerDialog;
 import one.nem.lacerta.data.Document;
 import one.nem.lacerta.data.LacertaLibrary;
 import one.nem.lacerta.model.ListItemType;
@@ -255,6 +257,21 @@ public class ViewerListFragment extends Fragment {
                             .setPositiveButtonText("移動")
                             .setNegativeButtonText("キャンセル");
                     lacertaDirPickerDialog.show(getParentFragmentManager(), "select_dir_dialog");
+                    return true;
+                } else if(item.getItemId() == R.id.action_combine) {
+                    LacertaFilePickerDialog lacertaFilePickerDialog = new LacertaFilePickerDialog();
+                    lacertaFilePickerDialog.setListener((name, fileId) -> {
+                        lacertaLibrary.combineDocument(documentId, fileId).thenAccept(aVoid -> {
+                            getActivity().runOnUiThread(() -> {
+                                // Stop Activity
+                                getActivity().finish(); // TODO-rca: 終了せずにUIを更新したい
+                            });
+                        });
+                    });
+                    lacertaFilePickerDialog.setTitle("ファイルの結合")
+                            .setMessage("結合するファイルを選択してください。")
+                            .setNegativeButtonText("キャンセル");
+                    lacertaFilePickerDialog.show(getParentFragmentManager(), "select_file_dialog");
                     return true;
                 } else {
                     return false;

@@ -45,7 +45,7 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ListIt
 
         holder.itemView.setOnClickListener( v -> {
             if (listItem.getItemType() == ListItemType.ITEM_TYPE_DOCUMENT) {
-                listener.onDocumentSelected(listItem.getItemId(), listItem.getTitle());
+                listener.onDocumentSelected(listItem.getItemId(), listItem.getTitle(), listItem.getHasCombined());
             }
             else if (listItem.getItemType() == ListItemType.ITEM_TYPE_FOLDER) {
                 listener.onFolderSelected(listItem.getItemId(), listItem.getTitle());

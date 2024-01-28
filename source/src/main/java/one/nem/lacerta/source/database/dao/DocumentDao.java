@@ -29,13 +29,13 @@ public interface DocumentDao {
     @Query("SELECT * FROM Document WHERE id IN (:ids)")
     List<DocumentEntity> findByIds(List<String> ids);
 
-    @Query("SELECT * FROM Document WHERE parent_id = :parentId")
+    @Query("SELECT * FROM Document WHERE parent_id = :parentId AND is_combine_child = 0 ORDER BY created_at DESC")
     List<DocumentEntity> findByParentId(String parentId);
 
-    @Query("SELECT * FROM Document WHERE parent_id IS NULL")
+    @Query("SELECT * FROM Document WHERE parent_id IS NULL AND is_combine_child = 0 ORDER BY created_at DESC")
     List<DocumentEntity> findRootDocuments();
 
-    @Query("SELECT * FROM Document ORDER BY created_at DESC LIMIT :limit")
+    @Query("SELECT * FROM Document WHERE is_combine_child = 0 ORDER BY created_at DESC LIMIT :limit")
     List<DocumentEntity> getRecentDocument(int limit);
 
     // Insert

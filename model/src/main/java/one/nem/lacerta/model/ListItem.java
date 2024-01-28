@@ -10,6 +10,7 @@ public class ListItem {
     String description;
     ListItemType itemType;
     String itemId;
+    boolean hasCombined;
 
     // Constructor
 
@@ -18,6 +19,14 @@ public class ListItem {
         this.description = description;
         this.itemType = itemType;
         this.itemId = itemId;
+    }
+
+    public ListItem(String title, String description, ListItemType itemType, String itemId, boolean hasCombined) {
+        this.title = title;
+        this.description = description;
+        this.itemType = itemType;
+        this.itemId = itemId;
+        this.hasCombined = hasCombined;
     }
 
     public ListItem() {
@@ -42,6 +51,10 @@ public class ListItem {
         return itemId;
     }
 
+    public boolean getHasCombined() {
+        return hasCombined;
+    }
+
     // Setter
 
     public void setTitle(String title) {
@@ -58,6 +71,10 @@ public class ListItem {
 
     public void setItemId(String itemId) {
         this.itemId = itemId;
+    }
+
+    public void setHasCombined(boolean hasCombined) {
+        this.hasCombined = hasCombined;
     }
 
 }

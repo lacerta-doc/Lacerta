@@ -85,11 +85,12 @@ public class HomeTopFragment extends Fragment {
 
         this.listItemAdapter = new ListItemAdapter(new DocumentSelectListener() {
             @Override
-            public void onDocumentSelect(String documentId, String documentName) {
+            public void onDocumentSelect(String documentId, String documentName, boolean hasCombined) {
                 Intent intent = new Intent(getContext(), ViewerMainActivity.class);
                 Log.d("HomeTopFragment", "onDocumentSelect: " + documentId + " " + documentName);
                 intent.putExtra("documentId", documentId);
                 intent.putExtra("documentName", documentName);
+                intent.putExtra("hasCombined", hasCombined);
                 startActivity(intent, ActivityOptions.makeCustomAnimation(getContext(), one.nem.lacerta.shared.ui.R.anim.nav_up_enter_anim, one.nem.lacerta.shared.ui.R.anim.nav_up_exit_anim).toBundle());
             }
         });

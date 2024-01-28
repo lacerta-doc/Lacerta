@@ -16,4 +16,8 @@
         android:id="@+id/action_move"
         android:title="移動" />
 
+    <item
+        android:id="@+id/action_combine"
+        android:title="結合" />
+
 </menu>
