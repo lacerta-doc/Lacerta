@@ -9,6 +9,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -130,7 +131,14 @@ public class ViewerContainerFragment extends Fragment {
         }
 
         // Attach tab layout to view pager
-        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> tab.setText(viewerViewPagerAdapter.getTabTitle(position))).attach();
+        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
+            View customView = LayoutInflater.from(getContext()).inflate(R.layout.viewer_custom_tab, null);
+
+            TextView textView = customView.findViewById(R.id.tab_title);
+            textView.setText(viewerViewPagerAdapter.getTabTitle(position));
+
+            tab.setCustomView(customView);
+        }).attach();
     }
 
     /**
