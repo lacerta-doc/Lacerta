@@ -7,7 +7,19 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import java.util.ArrayList;
+
 public class ViewerViewPagerAdapter extends FragmentStateAdapter {
+
+    // Variables
+    private ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
+    private ArrayList<String> fragmentTitleList = new ArrayList<>();
+
+    // Setter
+    public void addFragment(Fragment fragment, String title){
+        fragmentArrayList.add(fragment);
+        fragmentTitleList.add(title);
+    }
 
     public ViewerViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
@@ -16,11 +28,11 @@ public class ViewerViewPagerAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        return null;
+        return fragmentArrayList.get(position);
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return fragmentArrayList == null ? 0 : fragmentArrayList.size();
     }
 }
