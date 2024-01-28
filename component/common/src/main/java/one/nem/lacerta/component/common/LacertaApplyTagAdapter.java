@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import one.nem.lacerta.component.common.model.DocumentTagApplyTagDialogExtendedModel;
 import one.nem.lacerta.model.document.tag.DocumentTag;
 
 public class LacertaApplyTagAdapter extends RecyclerView.Adapter<LacertaApplyTagAdapter.LacertaApplyTagViewHolder>{
@@ -21,7 +22,7 @@ public class LacertaApplyTagAdapter extends RecyclerView.Adapter<LacertaApplyTag
     }
 
     // Variables
-    private ArrayList<DocumentTag> documentTagArrayList;
+    private ArrayList<DocumentTagApplyTagDialogExtendedModel> documentTagArrayList;
     private LacertaApplyTagDialogListener listener;
 
     // Setter
@@ -30,14 +31,13 @@ public class LacertaApplyTagAdapter extends RecyclerView.Adapter<LacertaApplyTag
         return this;
     }
 
-    public LacertaApplyTagAdapter setDocumentTagArrayList(ArrayList<DocumentTag> documentTagArrayList) {
+    public LacertaApplyTagAdapter setDocumentTagArrayList(ArrayList<DocumentTagApplyTagDialogExtendedModel> documentTagArrayList) {
         this.documentTagArrayList = documentTagArrayList;
         return this;
     }
 
-    // Constructor
-    public LacertaApplyTagAdapter(ArrayList<DocumentTag> documentTagArrayList) {
-        this.documentTagArrayList = documentTagArrayList;
+    // Empty constructor
+    public LacertaApplyTagAdapter() {
     }
 
     @NonNull
@@ -49,8 +49,9 @@ public class LacertaApplyTagAdapter extends RecyclerView.Adapter<LacertaApplyTag
 
     @Override
     public void onBindViewHolder(@NonNull LacertaApplyTagAdapter.LacertaApplyTagViewHolder holder, int position) {
-        DocumentTag documentTag = documentTagArrayList.get(position);
+        DocumentTagApplyTagDialogExtendedModel documentTag = documentTagArrayList.get(position);
         holder.checkBox.setText(documentTag.getName());
+        holder.checkBox.setChecked(documentTag.getIsChecked());
         holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 listener.itemChecked(buttonView, position);
