@@ -135,21 +135,20 @@ public class LacertaApplyTagDialog extends DialogFragment {
     private CompletableFuture<ArrayList<DocumentTagApplyTagDialogExtendedModel>> getDocumentTagArrayList(String documentId) {
         return CompletableFuture.supplyAsync(() -> {
             ArrayList<DocumentTagApplyTagDialogExtendedModel> documentTagArrayList = new ArrayList<>();
-            lacertaLibrary.getTagList().thenAccept(documentTags -> {
-                setAppliedTagList(documentId);
-                for (int i = 0; i < documentTags.size(); i++) {
+            setRegisteredTagList().thenAccept(Void -> {
+                setAppliedTagList(documentId).join();
+                for (int i = 0; i < this.registeredTags.size(); i++) {
                     boolean isChecked = false;
                     for (int j = 0; j < this.appliedTags.size(); j++) {
-                        if (documentTags.get(i).getId().equals(this.appliedTags.get(j).getId())) {
+                        if (this.registeredTags.get(i).getId().equals(this.appliedTags.get(j).getId())) {
                             isChecked = true;
                             break;
                         }
                     }
                     documentTagArrayList.add(new DocumentTagApplyTagDialogExtendedModel(
-                            new DocumentTag(documentTags.get(i).getId(), documentTags.get(i).getName(), documentTags.get(i).getColor()), isChecked));
+                            new DocumentTag(this.registeredTags.get(i).getId(), this.registeredTags.get(i).getName(), this.registeredTags.get(i).getColor()), isChecked));
                 }
             });
-
             return documentTagArrayList;
         });
     }
@@ -162,9 +161,11 @@ public class LacertaApplyTagDialog extends DialogFragment {
         });
     }
 
-    private void setRegisteredTagList() {
-        lacertaLibrary.getTagList().thenAccept(documentTags -> {
-            this.registeredTags = documentTags;
+    private CompletableFuture<Void> setRegisteredTagList() {
+        return CompletableFuture.runAsync(() -> {
+            lacertaLibrary.getTagList().thenAccept(documentTags -> {
+                this.registeredTags = documentTags;
+            });
         });
     }
 
