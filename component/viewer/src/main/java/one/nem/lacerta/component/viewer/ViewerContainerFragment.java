@@ -163,6 +163,9 @@ public class ViewerContainerFragment extends Fragment {
         });
     }
 
+    /**
+     * ドキュメント名を変更する
+     */
     private void renameDocument() {
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext());
         builder.setTitle("ファイル名の変更");
