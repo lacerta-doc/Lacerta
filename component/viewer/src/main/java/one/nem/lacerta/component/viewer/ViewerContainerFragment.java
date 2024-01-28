@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -112,6 +113,8 @@ public class ViewerContainerFragment extends Fragment {
                 }
             });
         } else {
+            TabLayout tabLayout = view.findViewById(R.id.tab_layout);
+            tabLayout.setVisibility(View.GONE);
             viewerViewPagerAdapter.addFragment(ViewerBodyFragment.newInstance(documentId, documentName), documentName);
         }
     }
