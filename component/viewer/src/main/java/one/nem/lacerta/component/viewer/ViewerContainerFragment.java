@@ -57,7 +57,6 @@ public class ViewerContainerFragment extends Fragment {
     private String documentId;
     private String documentName;
     private boolean hasCombined = false;
-    private ViewerViewPagerAdapter viewerViewPagerAdapter;
 
     public ViewerContainerFragment() {
         // Required empty public constructor
@@ -108,7 +107,7 @@ public class ViewerContainerFragment extends Fragment {
         ViewPager2 viewPager = view.findViewById(R.id.view_pager);
 
         // Init view pager adapter
-        this.viewerViewPagerAdapter = new ViewerViewPagerAdapter(requireActivity());
+        ViewerViewPagerAdapter viewerViewPagerAdapter = new ViewerViewPagerAdapter(requireActivity());
         viewPager.setAdapter(viewerViewPagerAdapter);
 
         // Init tab layout
