@@ -1,6 +1,7 @@
 package one.nem.lacerta.component.viewer;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
@@ -34,5 +35,10 @@ public class ViewerViewPagerAdapter extends FragmentStateAdapter {
     @Override
     public int getItemCount() {
         return fragmentArrayList == null ? 0 : fragmentArrayList.size();
+    }
+
+    @Nullable
+    public CharSequence getTabTitle(int position) {
+        return fragmentTitleList.get(position);
     }
 }

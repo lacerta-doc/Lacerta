@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -102,6 +103,10 @@ public class ViewerContainerFragment extends Fragment {
         ViewerViewPagerAdapter viewerViewPagerAdapter = new ViewerViewPagerAdapter(requireActivity());
         viewPager.setAdapter(viewerViewPagerAdapter);
 
+        // Init tab layout
+        TabLayout tabLayout = view.findViewById(R.id.tab_layout);
+        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> tab.setText(viewerViewPagerAdapter.getTabTitle(position))).attach();
+
         // Init toolbar
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         initToolbar(toolbar, true, documentName);
@@ -119,7 +124,6 @@ public class ViewerContainerFragment extends Fragment {
             });
         } else {
             logger.debug("ViewerContainerFragment", "hasCombined: " + hasCombined);
-            TabLayout tabLayout = view.findViewById(R.id.tab_layout);
             tabLayout.setVisibility(View.GONE);
             viewerViewPagerAdapter.addFragment(ViewerBodyFragment.newInstance(documentId, documentName), documentName);
         }
