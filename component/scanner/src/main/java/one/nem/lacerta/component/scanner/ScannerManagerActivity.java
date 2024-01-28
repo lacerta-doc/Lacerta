@@ -108,6 +108,7 @@ public class ScannerManagerActivity extends AppCompatActivity {
             () -> {
                 // user canceled document scan
                 logger.debug(TAG, "User canceled document scan");
+                finish();
                 return null;
             },
             null,
