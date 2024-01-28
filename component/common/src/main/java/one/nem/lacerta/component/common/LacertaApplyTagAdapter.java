@@ -44,7 +44,7 @@ public class LacertaApplyTagAdapter extends RecyclerView.Adapter<LacertaApplyTag
     @NonNull
     @Override
     public LacertaApplyTagAdapter.LacertaApplyTagViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.lacerta_dialog_apply_tag, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.apply_tag_list_item, parent, false);
         return new LacertaApplyTagAdapter.LacertaApplyTagViewHolder(view);
     }
 
