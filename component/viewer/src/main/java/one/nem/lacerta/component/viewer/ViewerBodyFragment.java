@@ -98,6 +98,8 @@ public class ViewerBodyFragment extends Fragment {
             // TODO-rca: なにか処理をもたせる
         });
         recyclerView.setAdapter(viewerBodyAdapter);
+
+        loadDocument(viewerBodyAdapter, documentId, revisionId);
     }
 
     private void loadDocument(ViewerBodyAdapter adapter, String documentId, String revisionId) {
