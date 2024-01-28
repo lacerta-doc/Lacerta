@@ -44,8 +44,9 @@ public class ViewerBodyAdapter extends RecyclerView.Adapter<ViewerBodyAdapter.Vi
     public void onBindViewHolder(@NonNull ViewerBodyAdapter.ViewHolder holder, int position) {
         Bitmap bitmap = pages.get(position).getBitmap();
         holder.image.setImageBitmap(bitmap);
-        holder.itemView.setOnClickListener(v -> {
-
+        holder.itemView.setOnLongClickListener(v -> {
+            listener.onItemLongClick(pages.get(position).getFileName(), position);
+            return true;
         });
     }
 
