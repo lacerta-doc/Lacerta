@@ -119,11 +119,11 @@ public class LacertaApplyTagDialog extends DialogFragment {
         builder.setTitle(title)
                 .setMessage(message)
                 .setView(view)
-                .setPositiveButton(positiveButtonText, (dialog, id) -> {
+                .setPositiveButton(positiveButtonText == null ? "OK" : positiveButtonText, (dialog, id) -> {
                     // Send the positive button event back to the host activity
                     listener.onDialogPositiveClick(LacertaApplyTagDialog.this);
                 })
-                .setNegativeButton(negativeButtonText, (dialog, id) -> {
+                .setNegativeButton(negativeButtonText == null ? "Cancel" : negativeButtonText, (dialog, id) -> {
                     // Send the negative button event back to the host activity
                     listener.onDialogNegativeClick(LacertaApplyTagDialog.this);
                 });
