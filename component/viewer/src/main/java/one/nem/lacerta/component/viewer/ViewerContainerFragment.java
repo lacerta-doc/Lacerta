@@ -19,6 +19,8 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.util.ArrayList;
+
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -27,6 +29,7 @@ import one.nem.lacerta.component.common.picker.LacertaFilePickerDialog;
 import one.nem.lacerta.data.Document;
 import one.nem.lacerta.data.LacertaLibrary;
 import one.nem.lacerta.model.document.page.Page;
+import one.nem.lacerta.model.document.tag.DocumentTag;
 import one.nem.lacerta.model.pref.ToxiDocumentModel;
 import one.nem.lacerta.utils.LacertaLogger;
 
@@ -205,6 +208,17 @@ public class ViewerContainerFragment extends Fragment {
                 .setMessage("タグを適用するファイルを選択してください")
                 .setNegativeButtonText("キャンセル")
                 .setDocumentId(documentId)
+                .setListener(new LacertaApplyTagDialog.LacertaApplyTagDialogListener() {
+                    @Override
+                    public void onDialogPositiveClick(ArrayList<DocumentTag> appliedTags) {
+                        // 適用
+                    }
+
+                    @Override
+                    public void onDialogNegativeClick() {
+                        lacertaApplyTagDialog.dismiss();
+                    }
+                })
                 .show(getChildFragmentManager(), "LacertaApplyTagDialog");
     }
 

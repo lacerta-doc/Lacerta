@@ -39,8 +39,8 @@ public class LacertaApplyTagDialog extends DialogFragment {
 
     // Listener
     public interface LacertaApplyTagDialogListener {
-        void onDialogPositiveClick(DialogFragment dialog);
-        void onDialogNegativeClick(DialogFragment dialog);
+        void onDialogPositiveClick(ArrayList<DocumentTag> appliedTags);
+        void onDialogNegativeClick();
     }
 
     // Variables
@@ -121,11 +121,11 @@ public class LacertaApplyTagDialog extends DialogFragment {
                 .setView(view)
                 .setPositiveButton(positiveButtonText == null ? "OK" : positiveButtonText, (dialog, id) -> {
                     // Send the positive button event back to the host activity
-                    listener.onDialogPositiveClick(LacertaApplyTagDialog.this);
+                    listener.onDialogPositiveClick(this.appliedTags);
                 })
                 .setNegativeButton(negativeButtonText == null ? "Cancel" : negativeButtonText, (dialog, id) -> {
                     // Send the negative button event back to the host activity
-                    listener.onDialogNegativeClick(LacertaApplyTagDialog.this);
+                    listener.onDialogNegativeClick();
                 });
         return builder.create();
     }
