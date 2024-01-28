@@ -2,17 +2,20 @@ package one.nem.lacerta.component.viewer;
 
 import android.os.Bundle;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import one.nem.lacerta.data.LacertaLibrary;
+import one.nem.lacerta.model.document.page.Page;
 import one.nem.lacerta.model.pref.ToxiDocumentModel;
 import one.nem.lacerta.utils.LacertaLogger;
 
@@ -99,5 +102,49 @@ public class ViewerContainerFragment extends Fragment {
         } else {
             viewerViewPagerAdapter.addFragment(ViewerBodyFragment.newInstance(documentId, documentName), documentName);
         }
+    }
+
+    /**
+     * Toolbarをinitする
+     *
+     * @param toolbar Toolbar
+     * @param showCloseButton Closeボタンを表示するかどうか
+     * @param title タイトル
+     */
+    private void initToolbar(Toolbar toolbar, boolean showCloseButton, String title) {
+        getActivity().runOnUiThread(() -> {
+            // Close button
+            if (showCloseButton) {
+                toolbar.setNavigationIcon(one.nem.lacerta.shared.ui.R.drawable.close_24px);
+                toolbar.setNavigationOnClickListener(v -> {
+                    getActivity().finish();
+                });
+            } else {
+                toolbar.setNavigationIcon(null);
+            }
+
+            // Title
+            toolbar.setTitle(title);
+
+            // Menu
+            toolbar.inflateMenu(R.menu.viewer_menu);
+            toolbar.setOnMenuItemClickListener(item -> {
+                if (item.getItemId() == R.id.action_open_vcs_rev_list) {
+                    Toast.makeText(getContext(), "Work in progress", Toast.LENGTH_SHORT).show();
+                    return true;
+                } else if (item.getItemId() == R.id.action_rename) {
+                    Toast.makeText(getContext(), "Work in progress", Toast.LENGTH_SHORT).show();
+                    return true;
+                } else if (item.getItemId() == R.id.action_delete) {
+                    Toast.makeText(getContext(), "Work in progress", Toast.LENGTH_SHORT).show();
+                    return true;
+                } else if (item.getItemId() == R.id.action_move) {
+                    Toast.makeText(getContext(), "Work in progress", Toast.LENGTH_SHORT).show();
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+        });
     }
 }
