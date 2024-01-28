@@ -143,8 +143,7 @@ public class LacertaApplyTagDialog extends DialogFragment {
     private CompletableFuture<ArrayList<DocumentTagApplyTagDialogExtendedModel>> getDocumentTagArrayList(String documentId) {
         return CompletableFuture.supplyAsync(() -> {
             ArrayList<DocumentTagApplyTagDialogExtendedModel> documentTagArrayList = new ArrayList<>();
-
-            setRegisteredTagList().thenRun(() -> setAppliedTagList(documentId)).thenAccept(Void -> {
+            setRegisteredTagList().thenRun(() -> setAppliedTagList(documentId).join()).thenAccept(Void -> {
                 logger.debug("getDocumentTagArrayList", "this.registeredTags.size(): " + this.registeredTags.size());
                 logger.debug("getDocumentTagArrayList", "this.appliedTags.size(): " + this.appliedTags.size());
 
