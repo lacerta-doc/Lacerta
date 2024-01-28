@@ -44,20 +44,24 @@ public class ScannerManagerActivity extends AppCompatActivity {
 
     String TAG = "ScannerManagerActivity";
 
-    @Inject
     LacertaLogger logger;
 
-    @Inject
     Document document;
 
-    @Inject
     LacertaLibrary lacertaLibrary;
 
-    @Inject
     DocumentProcessorFactory documentProcessorFactory;
 
-    @Inject
     LacertaVcsFactory lacertaVcsFactory;
+
+    @Inject
+    public ScannerManagerActivity(LacertaLogger logger, Document document, LacertaLibrary lacertaLibrary, DocumentProcessorFactory documentProcessorFactory, LacertaVcsFactory lacertaVcsFactory) {
+        this.logger = logger;
+        this.document = document;
+        this.lacertaLibrary = lacertaLibrary;
+        this.documentProcessorFactory = documentProcessorFactory;
+        this.lacertaVcsFactory = lacertaVcsFactory;
+    }
 
     // Variables
     private ArrayList<Bitmap> croppedImages = new ArrayList<>();
@@ -253,6 +257,8 @@ public class ScannerManagerActivity extends AppCompatActivity {
                 finish();
             });
         }));
+        dialog.setTitle("追加するドキュメントを選択");
+        dialog.show(getSupportFragmentManager(), "LacertaFilePickerDialog");
     }
 
     private void updateResultView(ArrayList<Bitmap> resultImages) {
