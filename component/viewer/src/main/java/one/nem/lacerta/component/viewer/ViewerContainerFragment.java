@@ -19,6 +19,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
+import one.nem.lacerta.component.common.picker.LacertaFilePickerDialog;
 import one.nem.lacerta.data.Document;
 import one.nem.lacerta.data.LacertaLibrary;
 import one.nem.lacerta.model.document.page.Page;
@@ -156,11 +157,31 @@ public class ViewerContainerFragment extends Fragment {
                 } else if (item.getItemId() == R.id.action_move) {
                     Toast.makeText(getContext(), "Work in progress", Toast.LENGTH_SHORT).show();
                     return true;
+                } else if (item.getItemId() == R.id.action_combine) {
+                    combineDocument();
+                    return true;
                 } else {
                     return false;
                 }
             });
         });
+    }
+
+    private void combineDocument() {
+        LacertaFilePickerDialog lacertaFilePickerDialog = new LacertaFilePickerDialog();
+        lacertaFilePickerDialog.setListener((fileName, selectedId) -> {
+            lacertaLibrary.combineDocument(documentId, selectedId).thenAccept(aVoid -> {
+                getActivity().runOnUiThread(() -> {
+                    Toast.makeText(getContext(), "結合しました", Toast.LENGTH_SHORT).show();
+                    getActivity().finish(); // TODO-rca: 終了させずにUIを更新したい
+                });
+            });
+        });
+        lacertaFilePickerDialog
+                .setTitle("ファイルの結合")
+                .setMessage("結合するファイルを選択してください")
+                .setNegativeButtonText("キャンセル")
+                .show(getChildFragmentManager(), "LacertaFilePickerDialog");
     }
 
     /**
