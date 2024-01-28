@@ -133,10 +133,6 @@ public class LacertaApplyTagDialog extends DialogFragment {
     }
 
     private void applyChangeToVariable(boolean isChecked, String tagId) {
-        logger.debug("applyChangeToVariable", "isChecked: " + isChecked);
-        logger.debug("applyChangeToVariable", "tagId: " + tagId);
-        logger.debug("applyChangeToVariable", "this.registeredTags.size(): " + this.registeredTags.size());
-        logger.debug("applyChangeToVariable", "this.appliedTags.size(): " + this.appliedTags.size());
         if (isChecked) {
             this.registeredTags.stream().filter(tag -> tag.getId().equals(tagId)).findFirst().ifPresent(tag -> this.appliedTags.add(tag));
         } else {
