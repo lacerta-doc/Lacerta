@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -147,17 +148,14 @@ public class LacertaApplyTagDialog extends DialogFragment {
                 logger.debug("getDocumentTagArrayList", "this.registeredTags.size(): " + this.registeredTags.size());
                 logger.debug("getDocumentTagArrayList", "this.appliedTags.size(): " + this.appliedTags.size());
 
-                for (int i = 0; i < this.registeredTags.size(); i++) {
-                    boolean isChecked = false;
-                    for (int j = 0; j < this.appliedTags.size(); j++) {
-                        if (this.registeredTags.get(i).getId().equals(this.appliedTags.get(j).getId())) {
-                            isChecked = true;
-                            break;
-                        }
-                    }
-                    documentTagArrayList.add(new DocumentTagApplyTagDialogExtendedModel(
-                            new DocumentTag(this.registeredTags.get(i).getId(), this.registeredTags.get(i).getName(), this.registeredTags.get(i).getColor()), isChecked));
-                }
+                documentTagArrayList.addAll(this.registeredTags.stream().map(tag -> {
+                    DocumentTagApplyTagDialogExtendedModel documentTag = new DocumentTagApplyTagDialogExtendedModel(
+                            new DocumentTag(tag.getId(), tag.getName(), tag.getColor()),
+                            this.appliedTags.stream().anyMatch(appliedTag -> appliedTag.getId().equals(tag.getId()))
+                    );
+                    return documentTag;
+                }).collect(Collectors.toCollection(ArrayList::new)));
+
             }).join();
             return documentTagArrayList;
         });
