@@ -57,8 +57,7 @@ public class ScannerManagerActivity extends AppCompatActivity {
     // Variables
     private ArrayList<Bitmap> croppedImages = new ArrayList<>();
 
-    private int maxPage = 0;
-    private boolean withOutLimit = false;
+    private boolean single = false;
 
     View view;
 
@@ -86,8 +85,36 @@ public class ScannerManagerActivity extends AppCompatActivity {
             },
             null,
             null,
-            withOutLimit ? null : maxPage
+            null
     );
+
+    DocumentScanner documentScannerSingle = new DocumentScanner( // TODO-rca: ひどすぎるのでなんとかする
+            this,
+            (croppedImageResults) -> {
+                logger.debug(TAG, "croppedImage size: " + croppedImageResults.size());
+                ArrayList<Bitmap> croppedImages = new ArrayList<>();
+                for (String result : croppedImageResults) {
+                    croppedImages.add(BitmapFactory.decodeFile(result));
+                }
+                processResult(croppedImages);
+                return null;
+            },
+            (errorMessage) -> {
+                // an error happened
+                logger.error(TAG, "Error: " + errorMessage);
+                logger.e_code("543a230e-cb9a-47a2-8131-3beecfe1c458");
+                return null;
+            },
+            () -> {
+                // user canceled document scan
+                logger.debug(TAG, "User canceled document scan");
+                return null;
+            },
+            null,
+            null,
+            1
+    );
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,17 +139,21 @@ public class ScannerManagerActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        if (bundle != null) {
+            this.single = bundle.getBoolean("single", false);
+        }
+
+        if (this.single) {
+            documentScanner = documentScannerSingle;
+        }
         documentScanner.startScan();
         // Init
 
         this.view = findViewById(R.id.main); // TODO-rca:なんとかする
 
-        Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
-        if (bundle != null) {
-            this.maxPage = bundle.getInt("maxPage", 0);
-            this.withOutLimit = bundle.getBoolean("withOutLimit", false);
-        }
+
     }
 
     @Override
