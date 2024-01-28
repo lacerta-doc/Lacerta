@@ -164,11 +164,12 @@ public class LibraryPageFragment extends Fragment {
             }
 
             @Override
-            public void onDocumentSelected(String documentId, String documentName) {
+            public void onDocumentSelected(String documentId, String documentName, boolean hasCombined) {
                 Intent intent = new Intent(getContext(), ViewerMainActivity.class);
                 logger.debug("LibraryTopFragment", "Document selected! documentId: " + documentId + ", documentName: " + documentName);
                 intent.putExtra("documentId", documentId);
                 intent.putExtra("documentName", documentName);
+                intent.putExtra("hasCombined", hasCombined);
                 startActivity(intent);
             }
         });
