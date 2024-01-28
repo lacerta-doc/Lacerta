@@ -51,4 +51,14 @@ public class ViewerViewPagerAdapter extends FragmentStateAdapter {
     public CharSequence getTabTitle(int position) {
         return fragmentTitleList.get(position);
     }
+
+    // Getter
+
+    public String getFragmentTargetId(int position) {
+        return fragmentTargetIdList.get(position);
+    }
+
+    public String getFragmentTitle(int position) {
+        return fragmentTitleList.get(position);
+    }
 }
