@@ -7,6 +7,7 @@ import androidx.fragment.app.DialogFragment;
 import javax.inject.Inject;
 
 import one.nem.lacerta.model.LibraryItemPage;
+import one.nem.lacerta.model.ListItemType;
 import one.nem.lacerta.model.PublicPath;
 import one.nem.lacerta.utils.LacertaLogger;
 
@@ -43,11 +44,15 @@ public class LacertaFilePickerDialogBase extends DialogFragment {
 
     // Methods
 
-    protected void updatePathTextView(TextView currentDirTextView, PublicPath publicPath) {
+    protected void updatePathTextView(TextView currentDirTextView, PublicPath publicPath, ListItemType listItemType) {
         if (publicPath == null) {
             currentDirTextView.setText("/");
         } else {
-            currentDirTextView.setText("/" + publicPath.parent().getStringPath()); // TODO-rca: PublicPath側の実装を治すべき
+            if (listItemType == ListItemType.ITEM_TYPE_FOLDER) {
+                currentDirTextView.setText("/" + publicPath.getStringPath()); // TODO-rca: PublicPath側の実装を治すべき
+            } else {
+                currentDirTextView.setText("/" + publicPath.parent().getStringPath()); // TODO-rca: PublicPath側の実装を治すべき
+            }
         }
     }
     protected void updateListView(LacertaFilePickerAdapterBase adapter, LibraryItemPage libraryItemPage, int currentCount, String currentDirId) {
