@@ -2,6 +2,7 @@ package one.nem.lacerta.component.scanner;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -56,6 +57,9 @@ public class ScannerManagerActivity extends AppCompatActivity {
     // Variables
     private ArrayList<Bitmap> croppedImages = new ArrayList<>();
 
+    private int maxPage = 0;
+    private boolean singlePage = false;
+
     View view;
 
     DocumentScanner documentScanner = new DocumentScanner(
@@ -82,7 +86,7 @@ public class ScannerManagerActivity extends AppCompatActivity {
             },
             null,
             null,
-            null
+            singlePage ? 1 : maxPage
     );
 
     @Override
@@ -113,6 +117,12 @@ public class ScannerManagerActivity extends AppCompatActivity {
 
         this.view = findViewById(R.id.main); // TODO-rca:なんとかする
 
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        if (bundle != null) {
+            this.maxPage = bundle.getInt("maxPage", 0);
+            this.singlePage = bundle.getBoolean("singlePage", false);
+        }
     }
 
     @Override
