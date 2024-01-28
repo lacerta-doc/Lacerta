@@ -237,7 +237,7 @@ public class ScannerManagerActivity extends AppCompatActivity {
             Bitmap[] bitmaps = new Bitmap[croppedImages.size()];
             croppedImages.toArray(bitmaps);
             logger.debug(TAG, "bitmaps.length: " + bitmaps.length);
-            addPagesToDocumentDetail(documentDetail, bitmaps, null).join();
+            addPagesToDocumentDetail(documentDetail, bitmaps, "Initial Commit").join();
             document.updateDocument(documentDetail).join();
             dialog.dismiss();
             finish();
@@ -249,7 +249,7 @@ public class ScannerManagerActivity extends AppCompatActivity {
         return CompletableFuture.runAsync(() -> {
             try {
                 document.updateDocument(documentProcessorFactory.create(documentDetail).addNewPagesToLast(bitmaps).getDocumentDetail()).join();
-                lacertaVcsFactory.create(documentDetail.getMeta().getId()).generateRevisionAtCurrent(commitMessage == null ? "Update" : commitMessage);
+                lacertaVcsFactory.create(documentDetail.getMeta().getId()).generateRevisionAtCurrent(commitMessage == null ? "NONE" : commitMessage);
             } catch (Exception e) {
                 logger.error(TAG, "Error: " + e.getMessage());
                 logger.e_code("9dff2a28-20e8-4ccd-9d04-f0c7646faa6a");
@@ -278,9 +278,8 @@ public class ScannerManagerActivity extends AppCompatActivity {
                 return;
             }
             documentProcessor.updatePageAtIndex(croppedImages.get(0), index);
-            logger.debug(TAG, "documentProcessor.getPageCount(): " + documentProcessor.getPageCount()
-                + ", documentDetail.getPages().size(): " + documentDetail.getPages().size());
             document.updateDocument(documentProcessor.getDocumentDetail()).join();
+            lacertaVcsFactory.create(documentDetail.getMeta().getId()).generateRevisionAtCurrent(index + "ページ目を更新"); // TODO-rca: メッセージを動的にする, 指定できるようにする
             dialog.dismiss();
         });
     }

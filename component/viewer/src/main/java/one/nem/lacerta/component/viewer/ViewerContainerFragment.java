@@ -27,6 +27,8 @@ import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import one.nem.lacerta.component.common.LacertaApplyTagDialog;
+import one.nem.lacerta.component.common.LacertaSelectRevDialog;
+import one.nem.lacerta.component.common.LacertaSelectRevDialogListener;
 import one.nem.lacerta.component.common.picker.LacertaFilePickerDialog;
 import one.nem.lacerta.data.Document;
 import one.nem.lacerta.data.LacertaLibrary;
@@ -236,7 +238,7 @@ public class ViewerContainerFragment extends Fragment {
             toolbar.inflateMenu(R.menu.viewer_menu);
             toolbar.setOnMenuItemClickListener(item -> {
                 if (item.getItemId() == R.id.action_open_vcs_rev_list) {
-                    Toast.makeText(getContext(), "Work in progress", Toast.LENGTH_SHORT).show();
+                    showRevList();
                     return true;
                 } else if (item.getItemId() == R.id.action_rename) {
                     renameDocument();
@@ -258,6 +260,25 @@ public class ViewerContainerFragment extends Fragment {
                 }
             });
         });
+    }
+
+    private void showRevList() {
+        LacertaSelectRevDialog lacertaSelectRevDialog = new LacertaSelectRevDialog();
+        lacertaSelectRevDialog.setDocumentId(this.documentId).setTitle("リビジョンの選択").setMessage("リビジョンを選択してください。").setNegativeButtonText("キャンセル");
+        lacertaSelectRevDialog.setListener(new LacertaSelectRevDialogListener() {
+            @Override
+            public void onItemSelected(String revId) {
+                logger.debug("ViewerContainerFragment", "Dialog Result: revId: " + revId);
+                getParentFragmentManager().beginTransaction()
+                        .replace(R.id.nav_host_fragment, ViewerListFragment.newInstance(documentId, documentName, revId))
+                        .commit();
+            }
+
+            @Override
+            public void onDialogCanceled() {
+            }
+        });
+        lacertaSelectRevDialog.show(getParentFragmentManager(), "select_rev_dialog");
     }
 
     private void applyTag() {
