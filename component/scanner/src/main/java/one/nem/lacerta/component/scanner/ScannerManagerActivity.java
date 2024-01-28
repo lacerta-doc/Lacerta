@@ -30,7 +30,9 @@ import java.util.concurrent.CompletableFuture;
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
+import one.nem.lacerta.component.common.picker.LacertaFilePickerDialog;
 import one.nem.lacerta.data.Document;
+import one.nem.lacerta.data.LacertaLibrary;
 import one.nem.lacerta.model.document.DocumentDetail;
 import one.nem.lacerta.model.document.DocumentMeta;
 import one.nem.lacerta.processor.factory.DocumentProcessorFactory;
@@ -47,6 +49,9 @@ public class ScannerManagerActivity extends AppCompatActivity {
 
     @Inject
     Document document;
+
+    @Inject
+    LacertaLibrary lacertaLibrary;
 
     @Inject
     DocumentProcessorFactory documentProcessorFactory;
@@ -168,15 +173,13 @@ public class ScannerManagerActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
         if (item.getItemId() == R.id.action_save_new) {
             // 新ドキュメントとして保存
-            Toast.makeText(this, "保存処理", Toast.LENGTH_SHORT).show();
             saveNewDocument();
             return true;
-//        }
-//        else if (item.getItemId() == R.id.action_insert_exist) {
-//            // 既存ドキュメントに挿入
-//            Toast.makeText(this, "Work in progress", Toast.LENGTH_SHORT).show();
-//            insertToExistDocument();
-//            return true;
+        }
+        else if (item.getItemId() == R.id.action_insert_exist) {
+            // 既存ドキュメントに挿入
+            insertToExistDocument();
+            return true;
         } else if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
@@ -217,7 +220,7 @@ public class ScannerManagerActivity extends AppCompatActivity {
             Bitmap[] bitmaps = new Bitmap[croppedImages.size()];
             croppedImages.toArray(bitmaps);
             logger.debug(TAG, "bitmaps.length: " + bitmaps.length);
-            addPagesToDocumentDetail(documentDetail, bitmaps).join();
+            addPagesToDocumentDetail(documentDetail, bitmaps, null).join();
             document.updateDocument(documentDetail).join();
             dialog.dismiss();
             finish();
@@ -225,11 +228,11 @@ public class ScannerManagerActivity extends AppCompatActivity {
 
     }
 
-    private CompletableFuture<Void> addPagesToDocumentDetail(DocumentDetail documentDetail, Bitmap[] bitmaps) {
+    private CompletableFuture<Void> addPagesToDocumentDetail(DocumentDetail documentDetail, Bitmap[] bitmaps, String commitMessage) {
         return CompletableFuture.runAsync(() -> {
             try {
                 document.updateDocument(documentProcessorFactory.create(documentDetail).addNewPagesToLast(bitmaps).getDocumentDetail()).join();
-                lacertaVcsFactory.create(documentDetail.getMeta().getId()).generateRevisionAtCurrent("Initial commit");
+                lacertaVcsFactory.create(documentDetail.getMeta().getId()).generateRevisionAtCurrent(commitMessage == null ? "Update" : commitMessage);
             } catch (Exception e) {
                 logger.error(TAG, "Error: " + e.getMessage());
                 logger.e_code("9dff2a28-20e8-4ccd-9d04-f0c7646faa6a");
@@ -239,7 +242,17 @@ public class ScannerManagerActivity extends AppCompatActivity {
 
     private void insertToExistDocument() {
         logger.debug(TAG, "insertToExistDocument");
-        // TODO-rca: 実装
+        LacertaFilePickerDialog dialog = new LacertaFilePickerDialog();
+        dialog.setListener(((name, fileId) -> {
+            document.getDocument(fileId).thenAccept((documentDetail) -> {
+                Bitmap[] bitmaps = new Bitmap[croppedImages.size()];
+                croppedImages.toArray(bitmaps);
+                logger.debug(TAG, "bitmaps.length: " + bitmaps.length);
+                addPagesToDocumentDetail(documentDetail, bitmaps, "ページを追加").join();
+                document.updateDocument(documentDetail).join();
+                finish();
+            });
+        }));
     }
 
     private void updateResultView(ArrayList<Bitmap> resultImages) {
