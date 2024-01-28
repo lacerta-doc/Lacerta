@@ -121,10 +121,12 @@ public class ViewerContainerFragment extends Fragment {
             logger.debug("ViewerContainerFragment", "hasCombined: " + hasCombined);
             lacertaLibrary.getCombinedDocumentToxiList(documentId).thenAccept(combinedDocumentToxiList -> {
                 logger.debug("ViewerContainerFragment", "combinedDocumentToxiList: " + combinedDocumentToxiList.size());
-                ArrayList<String> pageIdList = combinedDocumentToxiList.stream().map(ToxiDocumentModel::getChildDocumentId).collect(Collectors.toCollection(ArrayList::new));
-                ArrayList<String> pageTitleList = combinedDocumentToxiList.stream().map(ToxiDocumentModel::getTitleCache).collect(Collectors.toCollection(ArrayList::new));
-                viewerViewPagerAdapter.setFragmentTargetIdList(pageIdList);
-                viewerViewPagerAdapter.setFragmentTitleList(pageTitleList);
+
+                viewerViewPagerAdapter.setFragmentTargetIdList(
+                        combinedDocumentToxiList.stream().map(ToxiDocumentModel::getChildDocumentId).collect(Collectors.toCollection(ArrayList::new)));
+                viewerViewPagerAdapter.setFragmentTitleList(
+                        combinedDocumentToxiList.stream().map(ToxiDocumentModel::getTitleCache).collect(Collectors.toCollection(ArrayList::new)));
+
                 viewerViewPagerAdapter.notifyItemRangeChanged(0, combinedDocumentToxiList.size());
             });
         } else {
