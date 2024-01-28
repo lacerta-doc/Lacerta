@@ -36,13 +36,30 @@ public class ViewerBodyFragment extends Fragment {
     @Inject
     LacertaVcsFactory lacertaVcsFactory;
 
+    // Variables
+    private String documentId;
+    private String documentName;
+    private String revisionId;
+
     public ViewerBodyFragment() {
         // Required empty public constructor
     }
 
-    public static ViewerBodyFragment newInstance() {
+    public static ViewerBodyFragment newInstance(String documentId, String documentName) {
         ViewerBodyFragment fragment = new ViewerBodyFragment();
         Bundle args = new Bundle();
+        args.putString("documentId", documentId);
+        args.putString("documentName", documentName);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static ViewerBodyFragment newInstance(String documentId, String documentName, String revisionId) {
+        ViewerBodyFragment fragment = new ViewerBodyFragment();
+        Bundle args = new Bundle();
+        args.putString("documentId", documentId);
+        args.putString("documentName", documentName);
+        args.putString("revisionId", revisionId);
         fragment.setArguments(args);
         return fragment;
     }
