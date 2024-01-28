@@ -96,6 +96,8 @@ public class ViewerContainerFragment extends Fragment {
                                     toxiDocumentModel.getTitleCache());
                 }
             });
+        } else {
+            viewerViewPagerAdapter.addFragment(ViewerBodyFragment.newInstance(documentId, documentName), documentName);
         }
     }
 }
