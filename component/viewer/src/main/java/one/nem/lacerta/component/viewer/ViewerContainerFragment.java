@@ -20,6 +20,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -120,18 +121,19 @@ public class ViewerContainerFragment extends Fragment {
             logger.debug("ViewerContainerFragment", "hasCombined: " + hasCombined);
             lacertaLibrary.getCombinedDocumentToxiList(documentId).thenAccept(combinedDocumentToxiList -> {
                 logger.debug("ViewerContainerFragment", "combinedDocumentToxiList: " + combinedDocumentToxiList.size());
-                for (ToxiDocumentModel toxiDocumentModel : combinedDocumentToxiList) {
-                    logger.debug("ViewerContainerFragment", "titleCache: " + toxiDocumentModel.getTitleCache());
-                    viewerViewPagerAdapter
-                            .addFragment(ViewerBodyFragment.newInstance(toxiDocumentModel.getChildDocumentId(), toxiDocumentModel.getTitleCache()),
-                                    toxiDocumentModel.getTitleCache());
-                }
+                ArrayList<String> pageIdList = combinedDocumentToxiList.stream().map(ToxiDocumentModel::getChildDocumentId).collect(Collectors.toCollection(ArrayList::new));
+                ArrayList<String> pageTitleList = combinedDocumentToxiList.stream().map(ToxiDocumentModel::getTitleCache).collect(Collectors.toCollection(ArrayList::new));
+                viewerViewPagerAdapter.setFragmentTargetIdList(pageIdList);
+                viewerViewPagerAdapter.setFragmentTitleList(pageTitleList);
                 viewerViewPagerAdapter.notifyItemRangeChanged(0, combinedDocumentToxiList.size());
             });
         } else {
             logger.debug("ViewerContainerFragment", "hasCombined: " + hasCombined);
             tabLayout.setVisibility(View.GONE);
-            viewerViewPagerAdapter.addFragment(ViewerBodyFragment.newInstance(documentId, documentName), documentName);
+            ArrayList<String> pageIdList = new ArrayList<>();
+            ArrayList<String> pageTitleList = new ArrayList<>();
+            pageIdList.add(documentId);
+            pageTitleList.add(documentName);
             viewerViewPagerAdapter.notifyItemRangeChanged(0, 1);
         }
 
@@ -144,7 +146,7 @@ public class ViewerContainerFragment extends Fragment {
 
             ImageButton imageButton = customView.findViewById(R.id.tab_modify);
             imageButton.setOnClickListener(v -> {
-                Toast.makeText(getContext(), "Working!, Index:" + position, Toast.LENGTH_SHORT).show();
+
             });
 
             tab.setCustomView(customView);
