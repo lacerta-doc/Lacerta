@@ -117,7 +117,8 @@ public class ViewerContainerFragment extends Fragment {
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         initToolbar(toolbar, true, documentName);
 
-        if (this.hasCombined) {
+        // Get document page
+        if (this.hasCombined) { // 結合親の場合
             logger.debug("ViewerContainerFragment", "hasCombined: " + hasCombined);
             lacertaLibrary.getCombinedDocumentToxiList(documentId).thenAccept(combinedDocumentToxiList -> {
                 logger.debug("ViewerContainerFragment", "combinedDocumentToxiList: " + combinedDocumentToxiList.size());
@@ -129,7 +130,7 @@ public class ViewerContainerFragment extends Fragment {
 
                 viewerViewPagerAdapter.notifyItemRangeChanged(0, combinedDocumentToxiList.size());
             });
-        } else {
+        } else { // それ以外の場合
             logger.debug("ViewerContainerFragment", "hasCombined: " + hasCombined);
             tabLayout.setVisibility(View.GONE);
             viewerViewPagerAdapter.setFragmentTargetIdList(new ArrayList<String>(){{add(documentId);}}); // TODO-rca: 読みにくいので直接追加できるようにする
