@@ -18,6 +18,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
 
 import javax.inject.Inject;
 
@@ -49,6 +50,7 @@ public class LacertaApplyTagDialog extends DialogFragment {
     private String negativeButtonText;
     private String documentId;
     private LacertaApplyTagDialogListener listener;
+    private ArrayList<DocumentTag> registeredTags;
     private ArrayList<DocumentTag> appliedTags;
 
     // Setter
@@ -152,9 +154,17 @@ public class LacertaApplyTagDialog extends DialogFragment {
         });
     }
 
-    private void setAppliedTagList(String documentId) {
-        lacertaLibrary.getAppliedTagList(documentId).thenAccept(documentTags -> {
-            this.appliedTags = documentTags;
+    private CompletableFuture<Void> setAppliedTagList(String documentId) {
+        return CompletableFuture.runAsync(() -> {
+            lacertaLibrary.getAppliedTagList(documentId).thenAccept(documentTags -> {
+                this.appliedTags = documentTags;
+            });
+        });
+    }
+
+    private void setRegisteredTagList() {
+        lacertaLibrary.getTagList().thenAccept(documentTags -> {
+            this.registeredTags = documentTags;
         });
     }
 
