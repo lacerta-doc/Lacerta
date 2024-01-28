@@ -8,13 +8,33 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
+import one.nem.lacerta.data.Document;
+import one.nem.lacerta.data.LacertaLibrary;
+import one.nem.lacerta.utils.LacertaLogger;
+import one.nem.lacerta.vcs.factory.LacertaVcsFactory;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ViewerBodyFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+@AndroidEntryPoint
 public class ViewerBodyFragment extends Fragment {
 
+    @Inject
+    Document document;
+
+    @Inject
+    LacertaLibrary lacertaLibrary;
+
+    @Inject
+    LacertaLogger logger;
+
+    @Inject
+    LacertaVcsFactory lacertaVcsFactory;
 
     public ViewerBodyFragment() {
         // Required empty public constructor
