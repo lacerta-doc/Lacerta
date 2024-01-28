@@ -18,6 +18,8 @@ import one.nem.lacerta.component.common.R;
 import one.nem.lacerta.component.common.picker.base.LacertaFilePickerAdapterBase;
 import one.nem.lacerta.component.common.picker.base.LacertaFilePickerDialogBase;
 import one.nem.lacerta.data.LacertaLibrary;
+import one.nem.lacerta.model.ListItemType;
+import one.nem.lacerta.model.PublicPath;
 
 @AndroidEntryPoint
 public class LacertaDirPickerDialog extends LacertaFilePickerDialogBase {
@@ -53,13 +55,13 @@ public class LacertaDirPickerDialog extends LacertaFilePickerDialogBase {
             @Override
             public void onItemSelected(String dirId) {
                 updateList(adapter, dirId);
-                currentDirTextView.setText(dirId);
+                updatePublicPath(currentDirTextView, dirId);
             }
 
             @Override
             public void onBackSelected(String dirId) {
                 updateList(adapter, dirId);
-                currentDirTextView.setText(dirId);
+                updatePublicPath(currentDirTextView, dirId);
             }
         });
 
@@ -88,10 +90,20 @@ public class LacertaDirPickerDialog extends LacertaFilePickerDialogBase {
         return builder.create();
     }
 
+    private void updatePublicPath(TextView currentDirTextView, String folderId) {
+        lacertaLibrary.getPublicPath(folderId, ListItemType.ITEM_TYPE_FOLDER).thenAccept(publicPath -> {
+            this.updatePathTextView(currentDirTextView, publicPath);
+        });
+    }
+
     private void updateList(LacertaFilePickerAdapterBase adapter, String folderId) {
         lacertaLibrary.getFolderList(folderId).thenAccept(libraryItemPage -> {
-            adapter.setListItems(libraryItemPage);
-            this.updateListView(adapter, libraryItemPage, adapter.getItemCount(), adapter.getCurrentId());
+            int currentCount = adapter.getItemCount();
+            String currentId = adapter.getCurrentId();
+//            adapter.setListItems(libraryItemPage);
+            getActivity().runOnUiThread(() -> {
+                this.updateListView(adapter, libraryItemPage, currentCount, currentId);
+            });
         });
     }
 }

@@ -51,7 +51,11 @@ public class LacertaFilePickerDialogBase extends DialogFragment {
         }
     }
     protected void updateListView(LacertaFilePickerAdapterBase adapter, LibraryItemPage libraryItemPage, int currentCount, String currentDirId) {
-        if (currentDirId == null) {
+        if (currentCount == 0) {
+            // 初回表示
+            adapter.setListItems(libraryItemPage);
+            adapter.notifyItemRangeInserted(0, libraryItemPage.getListItems().size());
+        } else if (currentDirId == null) {
             // Rootが関わる推移 (Rootからの推移)
             adapter.setListItems(libraryItemPage);
             adapter.notifyItemRangeRemoved(0, currentCount);
