@@ -88,9 +88,7 @@ public class LacertaFilePickerDialog extends LacertaFilePickerDialogBase {
         builder.setMessage(this.message == null ? "ファイルを選択してください" : this.message);
         builder.setView(view);
         builder.setNegativeButton(this.negativeButtonText == null ? "キャンセル" : this.negativeButtonText, (dialog, which) -> {
-            if (listener != null) {
-                dismiss();
-            }
+            dismiss();
         });
 
         return builder.create();
