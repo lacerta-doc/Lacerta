@@ -101,7 +101,7 @@ public class LacertaFilePickerDialog extends LacertaFilePickerDialogBase {
     }
 
     private void updateList(LacertaFilePickerAdapterBase adapter, String folderId) {
-        lacertaLibrary.getFolderList(folderId).thenAccept(libraryItemPage -> {
+        lacertaLibrary.getLibraryPage(folderId, 100).thenAccept(libraryItemPage -> { // TODO-rca: 100 is a magic number
             int currentCount = adapter.getItemCount();
             String currentId = adapter.getCurrentId();
 //            adapter.setListItems(libraryItemPage);
