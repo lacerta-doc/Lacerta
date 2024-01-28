@@ -68,7 +68,7 @@ public class LacertaFilePickerSelectDocumentDialog extends DialogFragment {
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        builder.setTitle("Test");
+        builder.setTitle("追加先を選択");
 
         builder.setView(view);
 
