@@ -132,10 +132,8 @@ public class ViewerContainerFragment extends Fragment {
         } else {
             logger.debug("ViewerContainerFragment", "hasCombined: " + hasCombined);
             tabLayout.setVisibility(View.GONE);
-            ArrayList<String> pageIdList = new ArrayList<>();
-            ArrayList<String> pageTitleList = new ArrayList<>();
-            pageIdList.add(documentId);
-            pageTitleList.add(documentName);
+            viewerViewPagerAdapter.setFragmentTargetIdList(new ArrayList<String>(){{add(documentId);}}); // TODO-rca: 読みにくいので直接追加できるようにする
+            viewerViewPagerAdapter.setFragmentTitleList(new ArrayList<String>(){{add(documentName);}});
             viewerViewPagerAdapter.notifyItemRangeChanged(0, 1);
         }
 
