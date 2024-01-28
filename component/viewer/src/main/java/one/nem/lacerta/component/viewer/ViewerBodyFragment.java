@@ -1,5 +1,6 @@
 package one.nem.lacerta.component.viewer;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -16,6 +17,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
+import one.nem.lacerta.component.scanner.ScannerManagerActivity;
 import one.nem.lacerta.data.Document;
 import one.nem.lacerta.data.LacertaLibrary;
 import one.nem.lacerta.utils.LacertaLogger;
@@ -107,7 +109,12 @@ public class ViewerBodyFragment extends Fragment {
                 builder.setTitle("ページを更新しますか？");
 
                 builder.setPositiveButton("更新", (dialog, which) -> {
-                    // update
+                    // ScannerをIntent
+                    Intent intent = new Intent(getActivity(), ScannerManagerActivity.class);
+                    intent.putExtra("update", true);
+                    intent.putExtra("documentId", documentId);
+                    intent.putExtra("index", position);
+                    startActivity(intent);
                 });
                 builder.setNegativeButton("キャンセル", (dialog, which) -> {
                     // cancel
