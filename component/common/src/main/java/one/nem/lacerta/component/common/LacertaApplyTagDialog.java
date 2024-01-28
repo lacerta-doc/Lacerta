@@ -141,39 +141,44 @@ public class LacertaApplyTagDialog extends DialogFragment {
     private CompletableFuture<ArrayList<DocumentTagApplyTagDialogExtendedModel>> getDocumentTagArrayList(String documentId) {
         return CompletableFuture.supplyAsync(() -> {
             ArrayList<DocumentTagApplyTagDialogExtendedModel> documentTagArrayList = new ArrayList<>();
-            setRegisteredTagList().thenAccept(Void -> {
-                setAppliedTagList(documentId).join();
-                for (int i = 0; i < this.registeredTags.size(); i++) {
-                    boolean isChecked = false;
-                    for (int j = 0; j < this.appliedTags.size(); j++) {
-                        if (this.registeredTags.get(i).getId().equals(this.appliedTags.get(j).getId())) {
-                            isChecked = true;
-                            break;
-                        }
+
+            setRegisteredTagList().join();
+            setAppliedTagList(documentId).join();
+
+            logger.debug("getDocumentTagArrayList", "this.registeredTags.size(): " + this.registeredTags.size());
+            logger.debug("getDocumentTagArrayList", "this.appliedTags.size(): " + this.appliedTags.size());
+
+            for (int i = 0; i < this.registeredTags.size(); i++) {
+                boolean isChecked = false;
+                for (int j = 0; j < this.appliedTags.size(); j++) {
+                    if (this.registeredTags.get(i).getId().equals(this.appliedTags.get(j).getId())) {
+                        isChecked = true;
+                        break;
                     }
-                    documentTagArrayList.add(new DocumentTagApplyTagDialogExtendedModel(
-                            new DocumentTag(this.registeredTags.get(i).getId(), this.registeredTags.get(i).getName(), this.registeredTags.get(i).getColor()), isChecked));
                 }
-            });
+                documentTagArrayList.add(new DocumentTagApplyTagDialogExtendedModel(
+                        new DocumentTag(this.registeredTags.get(i).getId(), this.registeredTags.get(i).getName(), this.registeredTags.get(i).getColor()), isChecked));
+            }
+
             return documentTagArrayList;
         });
     }
 
-    private CompletableFuture<Void> setAppliedTagList(String documentId) {
+    private CompletableFuture<ArrayList<DocumentTag>> setAppliedTagList(String documentId) {
         return CompletableFuture.supplyAsync(() -> {
             lacertaLibrary.getAppliedTagList(documentId).thenAccept(documentTags -> {
                 this.appliedTags = documentTags;
             });
-            return null;
+            return this.appliedTags;
         });
     }
 
-    private CompletableFuture<Void> setRegisteredTagList() {
+    private CompletableFuture<ArrayList<DocumentTag>> setRegisteredTagList() {
         return CompletableFuture.supplyAsync(() -> {
             lacertaLibrary.getTagList().thenAccept(documentTags -> {
                 this.registeredTags = documentTags;
             });
-            return null;
+            return this.registeredTags;
         });
     }
 
