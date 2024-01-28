@@ -48,9 +48,7 @@ public class LacertaFilePickerDialogBase extends DialogFragment {
     }
 
     // Methods
-    protected void updateList(LacertaFilePickerAdapterBase adapter, LibraryItemPage libraryItemPage) {
-        int currentCount = adapter.getItemCount();
-        String currentDirId = adapter.getCurrentId();
+    protected void updateList(LacertaFilePickerAdapterBase adapter, LibraryItemPage libraryItemPage, int currentCount, String currentDirId) {
         if (currentDirId == null) {
             // Rootが関わる推移 (Rootからの推移)
             adapter.setListItems(libraryItemPage);

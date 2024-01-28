@@ -9,19 +9,24 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import one.nem.lacerta.component.common.LacertaSelectDirDialogInternalEventListener;
 import one.nem.lacerta.model.LibraryItemPage;
 import one.nem.lacerta.model.ListItem;
 import one.nem.lacerta.model.ListItemType;
 
 public class LacertaFilePickerAdapterBase extends RecyclerView.Adapter<LacertaFilePickerAdapterBase.LacertaFilePickerViewHolder> {
 
+    // Listener
+    public interface LacertaFilePickerAdapterListener {
+        void onItemSelected(String dirId);
+        void onBackSelected(String dirId);
+    }
 
     private LibraryItemPage libraryItemPage;
-    LacertaSelectDirDialogInternalEventListener listener;
 
-    public LacertaFilePickerAdapterBase(LacertaSelectDirDialogInternalEventListener listener) {
-        this.listener = listener;
+    private LacertaFilePickerAdapterListener listener;
+
+    // Empty constructor
+    public LacertaFilePickerAdapterBase() {
     }
 
     public void setListItems(LibraryItemPage libraryItemPage) {
@@ -29,6 +34,10 @@ public class LacertaFilePickerAdapterBase extends RecyclerView.Adapter<LacertaFi
         if (this.libraryItemPage.getPageId() != null) { // ルートディレクトリの場合は戻るボタンを表示しない
             this.libraryItemPage.getListItems().add(0, new ListItem("戻る", " ", ListItemType.ITEM_TYPE_ACTION_BACK, null));
         }
+    }
+
+    public void setListener(LacertaFilePickerAdapterListener listener) {
+        this.listener = listener;
     }
 
     @NonNull
@@ -47,7 +56,7 @@ public class LacertaFilePickerAdapterBase extends RecyclerView.Adapter<LacertaFi
         if(listItem.getItemType() == ListItemType.ITEM_TYPE_ACTION_BACK) {
             holder.itemView.setOnClickListener(v -> listener.onBackSelected(this.libraryItemPage.getParentId()));
         } else {
-            holder.itemView.setOnClickListener(v -> listener.onDirSelected(listItem.getTitle(), listItem.getItemId()));
+            holder.itemView.setOnClickListener(v -> listener.onItemSelected(listItem.getItemId()));
         }
     }
 
