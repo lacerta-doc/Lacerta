@@ -22,6 +22,10 @@ public class ViewerViewPagerAdapter extends FragmentStateAdapter {
         this.fragmentTargetIdList = fragmentTargetIdList;
     }
 
+    public void setFragmentTitleList(ArrayList<String> fragmentTitleList) {
+        this.fragmentTitleList = fragmentTitleList;
+    }
+
     public ViewerViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
     }
