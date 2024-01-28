@@ -48,7 +48,7 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ListIt
         holder.title.setText(listItem.getTitle());
         holder.description.setText(listItem.getDescription());
 
-        if (listItem.getTagList() != null) {
+        if (listItem.getTagList() != null && !listItem.getTagList().isEmpty()) {
             for (int i = 0; i < listItem.getTagList().size(); i++) {
                 Toast.makeText(holder.tagGroup.getContext(), listItem.getTagList().get(i).getName(), Toast.LENGTH_SHORT).show();
                 ChipGroup chipGroup = holder.tagGroup;
