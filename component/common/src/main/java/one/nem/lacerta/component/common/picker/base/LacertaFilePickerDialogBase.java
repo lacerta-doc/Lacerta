@@ -21,16 +21,34 @@ import one.nem.lacerta.utils.FeatureSwitch;
 import one.nem.lacerta.utils.LacertaLogger;
 
 public class LacertaFilePickerDialogBase extends DialogFragment {
-
-    @Inject
-    LacertaLibrary lacertaLibrary;
-
     @Inject
     LacertaLogger logger;
 
+    // Variables
+    protected String title;
+    protected String message;
+    protected String positiveButtonText;
+    protected String negativeButtonText;
+
+    // Setter
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public void setPositiveButtonText(String positiveButtonText) {
+        this.positiveButtonText = positiveButtonText;
+    }
+
+    public void setNegativeButtonText(String negativeButtonText) {
+        this.negativeButtonText = negativeButtonText;
+    }
 
     // Methods
-    public void updateList(LacertaFilePickerAdapterBase adapter, LibraryItemPage libraryItemPage) {
+    protected void updateList(LacertaFilePickerAdapterBase adapter, LibraryItemPage libraryItemPage) {
         int currentCount = adapter.getItemCount();
         String currentDirId = adapter.getCurrentId();
         if (currentDirId == null) {
