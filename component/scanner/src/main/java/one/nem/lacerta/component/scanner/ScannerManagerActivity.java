@@ -58,7 +58,7 @@ public class ScannerManagerActivity extends AppCompatActivity {
     private ArrayList<Bitmap> croppedImages = new ArrayList<>();
 
     private int maxPage = 0;
-    private boolean singlePage = false;
+    private boolean withOutLimit = false;
 
     View view;
 
@@ -86,7 +86,7 @@ public class ScannerManagerActivity extends AppCompatActivity {
             },
             null,
             null,
-            singlePage ? 1 : maxPage
+            withOutLimit ? null : maxPage
     );
 
     @Override
@@ -121,7 +121,7 @@ public class ScannerManagerActivity extends AppCompatActivity {
         Bundle bundle = intent.getExtras();
         if (bundle != null) {
             this.maxPage = bundle.getInt("maxPage", 0);
-            this.singlePage = bundle.getBoolean("singlePage", false);
+            this.withOutLimit = bundle.getBoolean("withOutLimit", false);
         }
     }
 
