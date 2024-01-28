@@ -157,15 +157,15 @@ public class ScannerManagerActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
-//        Intent intent = getIntent();
-//        Bundle bundle = intent.getExtras();
-//        if (bundle != null) {
-//            this.single = bundle.getBoolean("single", false);
-//        }
-//
-//        if (this.single) {
-//            documentScanner = documentScannerSingle;
-//        }
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        if (bundle != null) {
+            this.single = bundle.getBoolean("single", false);
+        }
+
+        if (this.single) {
+            documentScanner = documentScannerSingle;
+        }
         documentScanner.startScan();
         // Init
 
