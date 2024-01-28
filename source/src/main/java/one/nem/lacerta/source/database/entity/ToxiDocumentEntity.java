@@ -20,4 +20,7 @@ public class ToxiDocumentEntity {
 
     @ColumnInfo(name = "is_active")
     public boolean isActive;
+
+    @ColumnInfo(name = "title_cache")
+    public String titleCache;
 }
