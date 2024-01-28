@@ -55,6 +55,7 @@ public class LacertaFilePickerDialogBase extends DialogFragment {
             }
         }
     }
+
     protected void updateListView(LacertaFilePickerAdapterBase adapter, LibraryItemPage libraryItemPage, int currentCount, String currentDirId) {
         if (currentCount == 0) {
             // 初回表示
