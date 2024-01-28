@@ -44,23 +44,30 @@ public class ScannerManagerActivity extends AppCompatActivity {
 
     String TAG = "ScannerManagerActivity";
 
+    @Inject
     LacertaLogger logger;
 
+    @Inject
     Document document;
 
-    LacertaLibrary lacertaLibrary;
-
+    @Inject
     DocumentProcessorFactory documentProcessorFactory;
 
+    @Inject
     LacertaVcsFactory lacertaVcsFactory;
 
+//    @Inject
+//    public ScannerManagerActivity(LacertaLogger logger, Document document, LacertaLibrary lacertaLibrary, DocumentProcessorFactory documentProcessorFactory, LacertaVcsFactory lacertaVcsFactory) {
+//        this.logger = logger;
+//        this.document = document;
+//        this.lacertaLibrary = lacertaLibrary;
+//        this.documentProcessorFactory = documentProcessorFactory;
+//        this.lacertaVcsFactory = lacertaVcsFactory;
+//    }
+
     @Inject
-    public ScannerManagerActivity(LacertaLogger logger, Document document, LacertaLibrary lacertaLibrary, DocumentProcessorFactory documentProcessorFactory, LacertaVcsFactory lacertaVcsFactory) {
-        this.logger = logger;
-        this.document = document;
-        this.lacertaLibrary = lacertaLibrary;
-        this.documentProcessorFactory = documentProcessorFactory;
-        this.lacertaVcsFactory = lacertaVcsFactory;
+    public ScannerManagerActivity() {
+        // Required empty public constructor
     }
 
     // Variables
@@ -150,15 +157,15 @@ public class ScannerManagerActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
-        Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
-        if (bundle != null) {
-            this.single = bundle.getBoolean("single", false);
-        }
-
-        if (this.single) {
-            documentScanner = documentScannerSingle;
-        }
+//        Intent intent = getIntent();
+//        Bundle bundle = intent.getExtras();
+//        if (bundle != null) {
+//            this.single = bundle.getBoolean("single", false);
+//        }
+//
+//        if (this.single) {
+//            documentScanner = documentScannerSingle;
+//        }
         documentScanner.startScan();
         // Init
 
