@@ -3,10 +3,13 @@ package one.nem.lacerta.component.viewer;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import javax.inject.Inject;
 
@@ -14,6 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 import one.nem.lacerta.data.Document;
 import one.nem.lacerta.data.LacertaLibrary;
 import one.nem.lacerta.utils.LacertaLogger;
+import one.nem.lacerta.vcs.LacertaVcs;
 import one.nem.lacerta.vcs.factory.LacertaVcsFactory;
 
 /**
@@ -67,6 +71,11 @@ public class ViewerBodyFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            documentId = getArguments().getString("documentId");
+            documentName = getArguments().getString("documentName");
+            revisionId = getArguments().getString("revisionId");
+        }
     }
 
     @Override
@@ -74,5 +83,39 @@ public class ViewerBodyFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_viewer_body, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        logger.debug("ViewerBodyFragment", "ViewerBodyFragment.onViewCreated");
+
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        ViewerBodyAdapter viewerBodyAdapter = new ViewerBodyAdapter(fileName -> {
+            Toast.makeText(getContext(), fileName, Toast.LENGTH_SHORT).show();
+            // TODO-rca: なにか処理をもたせる
+        });
+        recyclerView.setAdapter(viewerBodyAdapter);
+    }
+
+    private void loadDocument(ViewerBodyAdapter adapter, String documentId, String revisionId) {
+        if (revisionId == null) { // load latest revision
+            document.getDocument(documentId).thenAccept(document -> {
+                getActivity().runOnUiThread(() -> {
+                    adapter.setPages(document.getPages());
+                    adapter.notifyDataSetChanged();
+                });
+            });
+        } else { // load specified revision
+            LacertaVcs vcs = lacertaVcsFactory.create(documentId);
+            document.getDocumentPageListByFileNameList(documentId, vcs.getDocumentPagePathListRev(revisionId).join()).thenAccept(documentPageList -> {
+                getActivity().runOnUiThread(() -> {
+                    adapter.setPages(documentPageList);
+                    adapter.notifyDataSetChanged();
+                });
+            });
+        }
     }
 }
