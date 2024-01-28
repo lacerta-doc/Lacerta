@@ -8,6 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -301,30 +302,48 @@ public class LacertaLibraryImpl implements LacertaLibrary {
     }
 
     @Override
-    public CompletableFuture<Void> combineDocument(String parentId, String childId) {
+    public CompletableFuture<Void> combineDocument(String targetId1, String tagetId2) {
         return CompletableFuture.supplyAsync(() -> {
-            DocumentEntity parentDocumentEntity = database.documentDao().findById(parentId);
-            DocumentEntity childDocumentEntity = database.documentDao().findById(childId);
-            if (parentDocumentEntity == null || childDocumentEntity == null) {
+            DocumentEntity target1DocumentEntity = database.documentDao().findById(targetId1);
+            DocumentEntity target2DocumentEntity = database.documentDao().findById(tagetId2);
+            if (target1DocumentEntity == null || target2DocumentEntity == null) {
                 logger.warn("LacertaLibraryImpl", "DocumentEntity is not found.");
                 return null;
             }
-            parentDocumentEntity.isCombineParent = true;
-            childDocumentEntity.isCombineChild = true;
-            database.documentDao().update(parentDocumentEntity);
-            database.documentDao().update(childDocumentEntity);
+            target1DocumentEntity.isCombineChild = true;
+            target2DocumentEntity.isCombineChild = true;
+            database.documentDao().update(target1DocumentEntity);
+            database.documentDao().update(target2DocumentEntity);
             logger.debug("LacertaLibraryImpl", "Database Query: Updated DocumentEntity");
 
-            ToxiDocumentEntity toxiDocumentEntity = new ToxiDocumentEntity();
-            toxiDocumentEntity.parentDocumentId = parentId;
-            toxiDocumentEntity.childDocumentId = childId;
-            toxiDocumentEntity.order = 0; // TODO-rca: 並び順の概念をもたせる
-            toxiDocumentEntity.isActive = true; // TODO-rca: タブから非表示にできるようにする
-            toxiDocumentEntity.titleCache = childDocumentEntity.title;
-            database.toxiDocumentDao().insert(toxiDocumentEntity);
-            logger.debug("LacertaLibraryImpl", "Database Query: Inserted ToxiDocumentEntity");
+            DocumentEntity parentDocumentEntity = new DocumentEntity();
+            parentDocumentEntity.id = UUID.randomUUID().toString();
+            parentDocumentEntity.title = target1DocumentEntity.title + "(Combined)";
+            parentDocumentEntity.parentId = target1DocumentEntity.parentId;
+            parentDocumentEntity.author = target1DocumentEntity.author; // TODO-rca: Target1とTarget2の作者が異なる場合の処理
+            // CombinedなDocumentはいま作成された と考える
+            parentDocumentEntity.createdAt = new Date();
+            parentDocumentEntity.updatedAt = new Date();
+            parentDocumentEntity.isCombineParent = true;
+            parentDocumentEntity.isCombineChild = false;
+            database.documentDao().insert(parentDocumentEntity);
+            logger.debug("LacertaLibraryImpl", "Database Query: Inserted DocumentEntity");
+
+            insertCombineDocumentToxi(parentDocumentEntity.id, target1DocumentEntity.id, target1DocumentEntity.title);
+            insertCombineDocumentToxi(parentDocumentEntity.id, target2DocumentEntity.id, target2DocumentEntity.title);
             return null;
         });
+    }
+
+    private void insertCombineDocumentToxi(String parentId, String childId, String titleCache) {
+        ToxiDocumentEntity toxiDocumentEntity = new ToxiDocumentEntity();
+        toxiDocumentEntity.parentDocumentId = parentId;
+        toxiDocumentEntity.childDocumentId = childId;
+        toxiDocumentEntity.order = 0; // TODO-rca: 並び順の概念をもたせる
+        toxiDocumentEntity.isActive = true; // TODO-rca: タブから非表示にできるようにする
+        toxiDocumentEntity.titleCache = titleCache;
+        database.toxiDocumentDao().insert(toxiDocumentEntity);
+        logger.debug("LacertaLibraryImpl", "Database Query: Inserted ToxiDocumentEntity");
     }
 
     @Override
