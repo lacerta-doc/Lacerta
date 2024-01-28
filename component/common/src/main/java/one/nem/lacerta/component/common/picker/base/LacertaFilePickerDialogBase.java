@@ -31,20 +31,24 @@ public class LacertaFilePickerDialogBase extends DialogFragment {
     protected String negativeButtonText;
 
     // Setter
-    public void setTitle(String title) {
+    public LacertaFilePickerDialogBase setTitle(String title) {
         this.title = title;
+        return this;
     }
 
-    public void setMessage(String message) {
+    public LacertaFilePickerDialogBase setMessage(String message) {
         this.message = message;
+        return this;
     }
 
-    public void setPositiveButtonText(String positiveButtonText) {
+    public LacertaFilePickerDialogBase setPositiveButtonText(String positiveButtonText) {
         this.positiveButtonText = positiveButtonText;
+        return this;
     }
 
-    public void setNegativeButtonText(String negativeButtonText) {
+    public LacertaFilePickerDialogBase setNegativeButtonText(String negativeButtonText) {
         this.negativeButtonText = negativeButtonText;
+        return this;
     }
 
     // Methods
