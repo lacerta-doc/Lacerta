@@ -80,6 +80,7 @@ public class ViewerContainerFragment extends Fragment {
         if (getArguments() != null){
             documentId = getArguments().getString("documentId");
             documentName = getArguments().getString("documentName");
+            hasCombined = getArguments().getBoolean("hasCombined");
         }
     }
 
@@ -106,6 +107,7 @@ public class ViewerContainerFragment extends Fragment {
         initToolbar(toolbar, true, documentName);
 
         if (this.hasCombined) {
+            logger.debug("ViewerContainerFragment", "hasCombined: " + hasCombined);
             lacertaLibrary.getCombinedDocumentToxiList(documentId).thenAccept(combinedDocumentToxiList -> {
                 for (ToxiDocumentModel toxiDocumentModel : combinedDocumentToxiList) {
                     viewerViewPagerAdapter
@@ -114,6 +116,7 @@ public class ViewerContainerFragment extends Fragment {
                 }
             });
         } else {
+            logger.debug("ViewerContainerFragment", "hasCombined: " + hasCombined);
             TabLayout tabLayout = view.findViewById(R.id.tab_layout);
             tabLayout.setVisibility(View.GONE);
             viewerViewPagerAdapter.addFragment(ViewerBodyFragment.newInstance(documentId, documentName), documentName);
