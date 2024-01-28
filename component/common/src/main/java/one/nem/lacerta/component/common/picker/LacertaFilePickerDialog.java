@@ -76,6 +76,19 @@ public class LacertaFilePickerDialog extends LacertaFilePickerDialogBase {
                     listener.onFileSelected(documentId, documentId);
                 }
             }
+
+            @Override
+            public void onCombinedDocumentSelected(String documentId) {
+                if (listener != null) {
+                    LacertaFilePickerSelectDocumentDialog dialog = new LacertaFilePickerSelectDocumentDialog();
+                    dialog.setDocumentId(documentId);
+                    dialog.setListener(documentId1 -> {
+                        dismiss();
+                        listener.onFileSelected(documentId1, documentId1);
+                    });
+                    dialog.show(getParentFragmentManager(), "select_document_dialog");
+                }
+            }
         });
 
         recyclerView.setAdapter(adapter);
