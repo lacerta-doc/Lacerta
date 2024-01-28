@@ -1,5 +1,6 @@
 package one.nem.lacerta.component.common;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +51,9 @@ public class LacertaApplyTagAdapter extends RecyclerView.Adapter<LacertaApplyTag
     @Override
     public void onBindViewHolder(@NonNull LacertaApplyTagAdapter.LacertaApplyTagViewHolder holder, int position) {
         DocumentTagApplyTagDialogExtendedModel documentTag = documentTagArrayList.get(position);
+        if (holder.checkBox == null) {
+            Log.d("LacertaApplyTagAdapter", "onBindViewHolder: holder.checkBox is null");
+        }
         holder.checkBox.setText(documentTag.getName());
         holder.checkBox.setChecked(documentTag.getIsChecked());
         holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -73,7 +77,7 @@ public class LacertaApplyTagAdapter extends RecyclerView.Adapter<LacertaApplyTag
         public LacertaApplyTagViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            checkBox = itemView.findViewById(R.id.checkBox);
+            checkBox = itemView.findViewById(R.id.tag_check_box);
         }
     }
 }
