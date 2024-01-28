@@ -21,9 +21,9 @@ public class LacertaFilePickerAdapterBase extends RecyclerView.Adapter<LacertaFi
         void onBackSelected(String dirId);
     }
 
-    private LibraryItemPage libraryItemPage;
+    protected LibraryItemPage libraryItemPage;
 
-    private LacertaFilePickerAdapterListener listener;
+    protected LacertaFilePickerAdapterListener listener;
 
     // Empty constructor
     public LacertaFilePickerAdapterBase() {
