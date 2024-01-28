@@ -22,6 +22,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
+import one.nem.lacerta.component.common.LacertaApplyTagDialog;
 import one.nem.lacerta.component.common.picker.LacertaFilePickerDialog;
 import one.nem.lacerta.data.Document;
 import one.nem.lacerta.data.LacertaLibrary;
@@ -187,11 +188,24 @@ public class ViewerContainerFragment extends Fragment {
                 } else if (item.getItemId() == R.id.action_combine) {
                     combineDocument();
                     return true;
+                } else if (item.getItemId() == R.id.action_apply_tag) {
+                    applyTag();
+                    return true;
                 } else {
                     return false;
                 }
             });
         });
+    }
+
+    private void applyTag() {
+        LacertaApplyTagDialog lacertaApplyTagDialog = new LacertaApplyTagDialog();
+        lacertaApplyTagDialog
+                .setTitle("タグの適用")
+                .setMessage("タグを適用するファイルを選択してください")
+                .setNegativeButtonText("キャンセル")
+                .setDocumentId(documentId)
+                .show(getChildFragmentManager(), "LacertaApplyTagDialog");
     }
 
     private void combineDocument() {
