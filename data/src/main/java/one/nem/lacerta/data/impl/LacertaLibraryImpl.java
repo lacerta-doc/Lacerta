@@ -321,7 +321,23 @@ public class LacertaLibraryImpl implements LacertaLibrary {
 
     @Override
     public CompletableFuture<Void> uncombineDocument(String parentId, String childId) {
-        return null;
+        return CompletableFuture.supplyAsync(() -> {
+            DocumentEntity parentDocumentEntity = database.documentDao().findById(parentId);
+            DocumentEntity childDocumentEntity = database.documentDao().findById(childId);
+            if (parentDocumentEntity == null || childDocumentEntity == null) {
+                logger.warn("LacertaLibraryImpl", "DocumentEntity is not found.");
+                return null;
+            }
+            parentDocumentEntity.isCombineParent = false;
+            childDocumentEntity.isCombineChild = false;
+            database.documentDao().update(parentDocumentEntity);
+            database.documentDao().update(childDocumentEntity);
+            logger.debug("LacertaLibraryImpl", "Database Query: Updated DocumentEntity");
+
+            database.toxiDocumentDao().deleteByParentIdAndChildId(parentId, childId);
+            logger.debug("LacertaLibraryImpl", "Database Query: Deleted ToxiDocumentEntity");
+            return null;
+        });
     }
 
     @Override
