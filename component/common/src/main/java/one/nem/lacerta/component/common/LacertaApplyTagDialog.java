@@ -24,6 +24,7 @@ import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import one.nem.lacerta.component.common.model.DocumentTagApplyTagDialogExtendedModel;
+import one.nem.lacerta.data.Document;
 import one.nem.lacerta.data.LacertaLibrary;
 import one.nem.lacerta.model.document.tag.DocumentTag;
 import one.nem.lacerta.utils.LacertaLogger;
@@ -162,26 +163,25 @@ public class LacertaApplyTagDialog extends DialogFragment {
         });
     }
 
-    private CompletableFuture<Void> setAppliedTagList(String documentId) {
-        return CompletableFuture.supplyAsync(() -> {
-            lacertaLibrary.getAppliedTagList(documentId).thenAccept(documentTags -> {
-                if (documentTags == null) {
-                    this.appliedTags = new ArrayList<>();
-                } else {
-                    this.appliedTags = documentTags;
-                }
-            });
-            return null;
-        });
-    }
-
     private CompletableFuture<Void> setRegisteredTagList() {
-        return CompletableFuture.supplyAsync(() -> {
-            lacertaLibrary.getTagList().thenAccept(documentTags -> {
-                this.registeredTags = documentTags;
-            });
-            return null;
+        return CompletableFuture.runAsync(() -> {
+            this.registeredTags = new ArrayList<>();
+            this.lacertaLibrary.getTagList().thenAccept(documentTagList -> {
+                for (int i = 0; i < documentTagList.size(); i++) {
+                    this.registeredTags.add(new DocumentTag(documentTagList.get(i).getId(), documentTagList.get(i).getName(), documentTagList.get(i).getColor()));
+                }
+            }).join();
         });
     }
 
+    private CompletableFuture<Void> setAppliedTagList(String documentId) {
+        return CompletableFuture.runAsync(() -> {
+            this.appliedTags = new ArrayList<>();
+            this.lacertaLibrary.getAppliedTagList(documentId).thenAccept(documentTagList -> {
+                for (int i = 0; i < documentTagList.size(); i++) {
+                    this.appliedTags.add(new DocumentTag(documentTagList.get(i).getId(), documentTagList.get(i).getName(), documentTagList.get(i).getColor()));
+                }
+            }).join();
+        });
+    }
 }
