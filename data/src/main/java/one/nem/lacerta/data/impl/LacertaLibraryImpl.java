@@ -22,6 +22,7 @@ import one.nem.lacerta.model.ListItemType;
 import one.nem.lacerta.model.PublicPath;
 import one.nem.lacerta.model.document.DocumentDetail;
 import one.nem.lacerta.model.document.tag.DocumentTag;
+import one.nem.lacerta.model.pref.ToxiDocumentModel;
 import one.nem.lacerta.source.database.LacertaDatabase;
 import one.nem.lacerta.source.database.common.DateTypeConverter;
 import one.nem.lacerta.source.database.entity.DocumentEntity;
@@ -341,14 +342,20 @@ public class LacertaLibraryImpl implements LacertaLibrary {
     }
 
     @Override
-    public CompletableFuture<ArrayList<String>> getCombinedDocumentIdList(String parentId) {
+    public CompletableFuture<ArrayList<ToxiDocumentModel>> getCombinedDocumentToxiList(String parentId) {
         return CompletableFuture.supplyAsync(() -> {
             List<ToxiDocumentEntity> toxiDocumentEntities = database.toxiDocumentDao().findByParentId(parentId);
-            ArrayList<String> documentIdList = new ArrayList<>();
+            ArrayList<ToxiDocumentModel> toxiDocumentModels = new ArrayList<>();
             for (ToxiDocumentEntity toxiDocumentEntity : toxiDocumentEntities) {
-                documentIdList.add(toxiDocumentEntity.childDocumentId);
+                ToxiDocumentModel toxiDocumentModel = new ToxiDocumentModel();
+                toxiDocumentModel.setParentDocumentId(toxiDocumentEntity.parentDocumentId);
+                toxiDocumentModel.setChildDocumentId(toxiDocumentEntity.childDocumentId);
+                toxiDocumentModel.setOrder(toxiDocumentEntity.order);
+                toxiDocumentModel.setActive(toxiDocumentEntity.isActive);
+                toxiDocumentModel.setTitleCache(toxiDocumentEntity.titleCache);
+                toxiDocumentModels.add(toxiDocumentModel);
             }
-            return documentIdList;
+            return toxiDocumentModels;
         });
     }
 

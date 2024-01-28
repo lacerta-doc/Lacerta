@@ -10,6 +10,7 @@ import one.nem.lacerta.model.LibraryItemPage;
 import one.nem.lacerta.model.PublicPath;
 import one.nem.lacerta.model.document.DocumentDetail;
 import one.nem.lacerta.model.document.tag.DocumentTag;
+import one.nem.lacerta.model.pref.ToxiDocumentModel;
 
 public interface LacertaLibrary {
 
@@ -54,5 +55,5 @@ public interface LacertaLibrary {
 //
 //    CompletableFuture<Void> uncombineDocument(String parentId, ArrayList<String> childIdList);
 
-    CompletableFuture<ArrayList<String>> getCombinedDocumentIdList(String parentId);
+    CompletableFuture<ArrayList<ToxiDocumentModel>> getCombinedDocumentToxiList(String parentId);
 }
