@@ -314,6 +314,9 @@ public class LacertaLibraryImpl implements LacertaLibrary {
             ToxiDocumentEntity toxiDocumentEntity = new ToxiDocumentEntity();
             toxiDocumentEntity.parentDocumentId = parentId;
             toxiDocumentEntity.childDocumentId = childId;
+            toxiDocumentEntity.order = 0; // TODO-rca: 並び順の概念をもたせる
+            toxiDocumentEntity.isActive = true; // TODO-rca: タブから非表示にできるようにする
+            toxiDocumentEntity.titleCache = childDocumentEntity.title;
             database.toxiDocumentDao().insert(toxiDocumentEntity);
             logger.debug("LacertaLibraryImpl", "Database Query: Inserted ToxiDocumentEntity");
             return null;
