@@ -1,15 +1,18 @@
 package one.nem.lacerta.source.database.entity;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 
-@Entity(tableName = "toxi_document")
+@Entity(primaryKeys = {"parent_document_id", "child_document_id"}, tableName = "toxi_document")
 public class ToxiDocumentEntity {
 
     @ColumnInfo(name = "parent_document_id")
+    @NonNull
     public String parentDocumentId;
 
     @ColumnInfo(name = "child_document_id")
+    @NonNull
     public String childDocumentId;
 
     @ColumnInfo(name = "order")
