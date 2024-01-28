@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -148,11 +149,24 @@ public class ViewerContainerFragment extends Fragment {
 
             ImageButton imageButton = customView.findViewById(R.id.tab_modify);
             imageButton.setOnClickListener(v -> {
-                renameCombinedDocument(
-                        this.documentId,
-                        viewerViewPagerAdapter.getFragmentTargetId(position),
-                        viewerViewPagerAdapter.getFragmentTitle(position),
-                        position);
+                PopupMenu popupMenu = new PopupMenu(getContext(), v);
+                popupMenu.inflate(R.menu.viewer_tab_menu);
+                popupMenu.setOnMenuItemClickListener(item -> {
+                    if (item.getItemId() == R.id.action_rename) {
+                        renameCombinedDocument(
+                                documentId,
+                                viewerViewPagerAdapter.getFragmentTargetIdList().get(position),
+                                viewerViewPagerAdapter.getFragmentTitle(position),
+                                position);
+                        return true;
+                    } else if (item.getItemId() == R.id.action_delete) {
+                        Toast.makeText(getContext(), "Work in progress", Toast.LENGTH_SHORT).show();
+                        return true;
+                    } else {
+                        return false;
+                    }
+                });
+                popupMenu.show();
             });
 
             tab.setCustomView(customView);
