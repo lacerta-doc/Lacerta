@@ -49,6 +49,7 @@ public class LacertaFilePickerSelectDocumentAdapter extends RecyclerView.Adapter
     public void onBindViewHolder(@NonNull LacertaFilePickerSelectDocumentAdapter.LacertaFilePickerSelectDocumentViewHolder holder, int position) {
         ListItem listItem = listItems.get(position);
         holder.title.setText(listItem.getTitle());
+        holder.description.setVisibility(View.GONE);
         holder.icon.setImageResource(listItem.getItemType().getIconId());
         holder.itemView.setOnClickListener(v -> listener.onDocumentSelected(listItem.getItemId()));
     }
