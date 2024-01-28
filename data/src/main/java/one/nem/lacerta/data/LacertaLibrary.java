@@ -54,5 +54,5 @@ public interface LacertaLibrary {
 //
 //    CompletableFuture<Void> uncombineDocument(String parentId, ArrayList<String> childIdList);
 
-    CompletableFuture<ArrayList<DocumentDetail>> getCombinedDocumentList(String parentId);
+    CompletableFuture<ArrayList<String>> getCombinedDocumentIdList(String parentId);
 }

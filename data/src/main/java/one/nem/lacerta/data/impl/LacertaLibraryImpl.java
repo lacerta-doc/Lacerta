@@ -341,8 +341,8 @@ public class LacertaLibraryImpl implements LacertaLibrary {
     }
 
     @Override
-    public CompletableFuture<ArrayList<DocumentDetail>> getCombinedDocumentList(String parentId) {
-        return null;
+    public CompletableFuture<ArrayList<String>> getCombinedDocumentIdList(String parentId) {
+
     }
 
     /**
