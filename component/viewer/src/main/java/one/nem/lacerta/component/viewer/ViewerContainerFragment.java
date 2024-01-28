@@ -9,6 +9,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -136,6 +137,11 @@ public class ViewerContainerFragment extends Fragment {
 
             TextView textView = customView.findViewById(R.id.tab_title);
             textView.setText(viewerViewPagerAdapter.getTabTitle(position));
+
+            ImageButton imageButton = customView.findViewById(R.id.tab_modify);
+            imageButton.setOnClickListener(v -> {
+                Toast.makeText(getContext(), "Working!, Index:" + position, Toast.LENGTH_SHORT).show();
+            });
 
             tab.setCustomView(customView);
         }).attach();
