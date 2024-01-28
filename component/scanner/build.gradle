@@ -52,4 +52,6 @@ dependencies {
     implementation project(':vcs')
 
     implementation project(':data')
+
+    implementation project(':component:common')
 }
