@@ -21,9 +21,11 @@ import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import one.nem.lacerta.component.viewer.ViewerMainActivity;
+import one.nem.lacerta.data.Document;
 import one.nem.lacerta.data.LacertaLibrary;
 import one.nem.lacerta.model.LibraryItemPage;
 import one.nem.lacerta.model.ListItemType;
+import one.nem.lacerta.model.document.tag.DocumentTag;
 import one.nem.lacerta.utils.FeatureSwitch;
 import one.nem.lacerta.utils.LacertaLogger;
 
@@ -52,6 +54,9 @@ public class LibraryPageFragment extends Fragment {
 
     @Inject
     LacertaLogger logger;
+
+    @Inject
+    Document document;
 
     ListItemAdapter listItemAdapter;
 
@@ -231,6 +236,9 @@ public class LibraryPageFragment extends Fragment {
                 });
             }
         });
+    }
+
+    private void getTag(String documentId) { //debug
     }
 
     /**

@@ -1,13 +1,18 @@
 package one.nem.lacerta.feature.library;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 
 import one.nem.lacerta.model.LibraryItemPage;
 import one.nem.lacerta.model.ListItem;
@@ -31,7 +36,7 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ListIt
     @NonNull
     @Override
     public ListItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(one.nem.lacerta.shared.ui.R.layout.common_list_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(one.nem.lacerta.shared.ui.R.layout.common_list_item_with_tag, parent, false);
         return new ListItemViewHolder(view);
     }
 
@@ -42,6 +47,19 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ListIt
         holder.icon.setColorFilter(one.nem.lacerta.shared.ui.R.color.colorOnSurface);
         holder.title.setText(listItem.getTitle());
         holder.description.setText(listItem.getDescription());
+
+        if (listItem.getTagList() != null && !listItem.getTagList().isEmpty()) {
+            for (int i = 0; i < listItem.getTagList().size(); i++) {
+                Toast.makeText(holder.tagGroup.getContext(), listItem.getTagList().get(i).getName(), Toast.LENGTH_SHORT).show();
+                ChipGroup chipGroup = holder.tagGroup;
+                Chip chip = new Chip(chipGroup.getContext());
+                chip.setText(listItem.getTagList().get(i).getName());
+                chipGroup.addView(chip);
+            }
+            holder.tagGroup.setVisibility(View.VISIBLE);
+        } else {
+            holder.tagGroup.setVisibility(View.GONE);
+        }
 
         holder.itemView.setOnClickListener( v -> {
             if (listItem.getItemType() == ListItemType.ITEM_TYPE_DOCUMENT) {
@@ -64,12 +82,14 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ListIt
         ImageView icon;
         TextView title;
         TextView description;
+        ChipGroup tagGroup;
         public ListItemViewHolder(@NonNull View itemView) {
             super(itemView);
 
             icon = itemView.findViewById(one.nem.lacerta.shared.ui.R.id.item_icon);
             title = itemView.findViewById(one.nem.lacerta.shared.ui.R.id.item_title);
             description = itemView.findViewById(one.nem.lacerta.shared.ui.R.id.item_description);
+            tagGroup = itemView.findViewById(one.nem.lacerta.shared.ui.R.id.item_tags);
         }
     }
 }

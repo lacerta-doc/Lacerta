@@ -121,6 +121,19 @@ public class LacertaLibraryImpl implements LacertaLibrary {
                 listItem.setDescription(simpleDateFormat.format(documentEntity.updatedAt));
                 listItem.setItemId(documentEntity.id);
                 listItem.setHasCombined(documentEntity.isCombineParent);
+                // タグを取得して関連付ける処理 TODO-rca: わかりにくい + 責任がめちゃくちゃ + めちゃくちゃ重いのでなんとかする
+                List<ToxiDocumentTagEntity> documentTagEntities = database.toxiDocumentTagDao().findByDocumentId(documentEntity.id);
+                ArrayList<DocumentTag> documentTags = new ArrayList<>();
+                for (ToxiDocumentTagEntity toxiDocumentTagEntity : documentTagEntities) {
+                    logger.debug("LacertaLibraryImpl", "toxiDocumentTagEntity.tagId: " + toxiDocumentTagEntity.tagId);
+                    TagEntity tagEntity = database.tagDao().findById(toxiDocumentTagEntity.tagId);
+                    if (tagEntity != null) {
+                        logger.debug("LacertaLibraryImpl", "tagEntity.tagName: " + tagEntity.tagName);
+                        documentTags.add(convertTagEntityToDocumentTag(tagEntity));
+                    }
+                }
+                listItem.setTagList(documentTags);
+                logger.debug("LacertaLibraryImpl", "documentTags.size(): " + documentTags.size());
                 listItems.add(listItem);
             }
 
@@ -243,6 +256,22 @@ public class LacertaLibraryImpl implements LacertaLibrary {
             ArrayList<DocumentTag> documentTags = new ArrayList<>();
             for (TagEntity tagEntity : tagEntities) {
                 documentTags.add(convertTagEntityToDocumentTag(tagEntity));
+            }
+            return documentTags;
+        });
+    }
+
+    @Override
+    public CompletableFuture<ArrayList<DocumentTag>> getAppliedTagList(String documentId) {
+        return CompletableFuture.supplyAsync(() -> {
+            List<ToxiDocumentTagEntity> toxiDocumentTagEntities = database.toxiDocumentTagDao().findByDocumentId(documentId);
+            logger.debug("LacertaLibraryImpl", "Database Query: Get ToxiDocumentTagEntity List (Size: " + toxiDocumentTagEntities.size() + ")");
+            ArrayList<DocumentTag> documentTags = new ArrayList<>();
+            for (ToxiDocumentTagEntity toxiDocumentTagEntity : toxiDocumentTagEntities) {
+                TagEntity tagEntity = database.tagDao().findById(toxiDocumentTagEntity.tagId);
+                if (tagEntity != null) {
+                    documentTags.add(convertTagEntityToDocumentTag(tagEntity));
+                }
             }
             return documentTags;
         });

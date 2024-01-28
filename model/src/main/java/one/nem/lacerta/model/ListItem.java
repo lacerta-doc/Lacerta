@@ -2,6 +2,10 @@ package one.nem.lacerta.model;
 
 import android.graphics.drawable.Drawable;
 
+import java.util.ArrayList;
+
+import one.nem.lacerta.model.document.tag.DocumentTag;
+
 public class ListItem {
 
     // Properties
@@ -11,6 +15,7 @@ public class ListItem {
     ListItemType itemType;
     String itemId;
     boolean hasCombined;
+    ArrayList<DocumentTag> tagList;
 
     // Constructor
 
@@ -27,6 +32,15 @@ public class ListItem {
         this.itemType = itemType;
         this.itemId = itemId;
         this.hasCombined = hasCombined;
+    }
+
+    public ListItem(String title, String description, ListItemType itemType, String itemId,boolean hasCombined, ArrayList<DocumentTag> tagList) {
+        this.title = title;
+        this.description = description;
+        this.itemType = itemType;
+        this.itemId = itemId;
+        this.hasCombined = hasCombined;
+        this.tagList = tagList;
     }
 
     public ListItem() {
@@ -55,6 +69,10 @@ public class ListItem {
         return hasCombined;
     }
 
+    public ArrayList<DocumentTag> getTagList() {
+        return tagList;
+    }
+
     // Setter
 
     public void setTitle(String title) {
@@ -77,4 +95,7 @@ public class ListItem {
         this.hasCombined = hasCombined;
     }
 
+    public void setTagList(ArrayList<DocumentTag> tagList) {
+        this.tagList = tagList;
+    }
 }
