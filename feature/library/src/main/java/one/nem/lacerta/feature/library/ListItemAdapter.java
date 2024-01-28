@@ -58,7 +58,6 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ListIt
             }
             holder.tagGroup.setVisibility(View.VISIBLE);
         } else {
-            Log.d("tagList", "tagList is null");
             holder.tagGroup.setVisibility(View.GONE);
         }
 
