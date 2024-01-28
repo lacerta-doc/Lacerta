@@ -99,6 +99,10 @@ public class ViewerContainerFragment extends Fragment {
         ViewerViewPagerAdapter viewerViewPagerAdapter = new ViewerViewPagerAdapter(requireActivity());
         viewPager.setAdapter(viewerViewPagerAdapter);
 
+        // Init toolbar
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        initToolbar(toolbar, true, documentName);
+
         if (this.hasCombined) {
             lacertaLibrary.getCombinedDocumentToxiList(documentId).thenAccept(combinedDocumentToxiList -> {
                 for (ToxiDocumentModel toxiDocumentModel : combinedDocumentToxiList) {
