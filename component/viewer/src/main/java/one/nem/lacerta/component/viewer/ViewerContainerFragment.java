@@ -211,6 +211,7 @@ public class ViewerContainerFragment extends Fragment {
                 .setListener(new LacertaApplyTagDialog.LacertaApplyTagDialogListener() {
                     @Override
                     public void onDialogPositiveClick(ArrayList<DocumentTag> appliedTags) {
+                        logger.debug("ViewerContainerFragment", "Dialog Result: appliedTags: " + appliedTags.size());
                         lacertaLibrary.applyTagListToDocument(documentId, appliedTags).thenAccept(aVoid -> {
                             getActivity().runOnUiThread(() -> {
                                 Toast.makeText(getContext(), "タグを適用しました", Toast.LENGTH_SHORT).show();
