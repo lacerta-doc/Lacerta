@@ -266,7 +266,17 @@ public class ScannerManagerActivity extends AppCompatActivity {
         dialog.show();
         document.getDocument(documentId).thenAccept((documentDetail) -> {
             DocumentProcessor documentProcessor = documentProcessorFactory.create(documentDetail);
-            documentProcessor.updatePageAtIndex(croppedImages.get(0), index);
+            if (croppedImages.size() != 1) {
+                logger.error(TAG, "croppedImages.size() != 1");
+                logger.e_code("d8e2b8c9-9b7e-4b7e-9e1e-9e3b8b8b8b8b");
+                return;
+            }
+            if (croppedImages.get(0) == null) {
+                logger.error(TAG, "croppedImages.get(0) == null");
+                logger.e_code("d8e2b8c9-9b7e-4b7e-9e1e-9e3b8b8b8b8b");
+                return;
+            }
+//            documentProcessor.updatePageAtIndex(croppedImages.get(0), index);
             logger.debug(TAG, "documentProcessor.getPageCount(): " + documentProcessor.getPageCount()
                 + ", documentDetail.getPages().size(): " + documentDetail.getPages().size());
             document.updateDocument(documentProcessor.getDocumentDetail()).join();
@@ -316,6 +326,8 @@ public class ScannerManagerActivity extends AppCompatActivity {
 
             resultView.addView(resultImageView);
         }
+
+        selectedImage.setImageBitmap(resultImages.get(0));
     }
 
 }
