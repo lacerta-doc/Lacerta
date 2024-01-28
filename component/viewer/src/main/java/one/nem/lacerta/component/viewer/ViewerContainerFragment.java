@@ -110,7 +110,8 @@ public class ViewerContainerFragment extends Fragment {
             logger.debug("ViewerContainerFragment", "hasCombined: " + hasCombined);
             lacertaLibrary.getCombinedDocumentToxiList(documentId).thenAccept(combinedDocumentToxiList -> {
                 logger.debug("ViewerContainerFragment", "combinedDocumentToxiList: " + combinedDocumentToxiList.size());
-                for (ToxiDocumentModel toxiDocumentModel : combinedDocumentToxiList) {
+                viewerViewPagerAdapter.addFragment(ViewerBodyFragment.newInstance(documentId, documentName), documentName); // 親を追加
+                for (ToxiDocumentModel toxiDocumentModel : combinedDocumentToxiList) { // 子を追加
                     viewerViewPagerAdapter
                             .addFragment(ViewerBodyFragment.newInstance(toxiDocumentModel.getChildDocumentId(), toxiDocumentModel.getTitleCache()),
                                     toxiDocumentModel.getTitleCache());
