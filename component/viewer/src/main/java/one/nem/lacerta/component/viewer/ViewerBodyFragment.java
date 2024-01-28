@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -101,7 +103,18 @@ public class ViewerBodyFragment extends Fragment {
 
             @Override
             public void onItemLongClick(String fileName, int position) {
+                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity());
+                builder.setTitle("ページを更新しますか？");
 
+                builder.setPositiveButton("更新", (dialog, which) -> {
+                    // update
+                });
+                builder.setNegativeButton("キャンセル", (dialog, which) -> {
+                    // cancel
+                    dialog.dismiss();
+                });
+
+                builder.show();
             }
         });
         recyclerView.setAdapter(viewerBodyAdapter);
