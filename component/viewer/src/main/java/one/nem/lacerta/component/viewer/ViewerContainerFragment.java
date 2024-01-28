@@ -147,14 +147,14 @@ public class ViewerContainerFragment extends Fragment {
 
             ImageButton imageButton = customView.findViewById(R.id.tab_modify);
             imageButton.setOnClickListener(v -> {
-                renameCombinedDocument(viewerViewPagerAdapter.getFragmentTargetId(position), viewerViewPagerAdapter.getFragmentTitle(position));
+                renameCombinedDocument(this.documentId, viewerViewPagerAdapter.getFragmentTargetId(position), viewerViewPagerAdapter.getFragmentTitle(position));
             });
 
             tab.setCustomView(customView);
         }).attach();
     }
 
-    private void renameCombinedDocument(String documentId, String current) {
+    private void renameCombinedDocument(String parentId, String childId, String current) {
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext());
         builder.setTitle("アイテム名の変更");
         builder.setMessage("アイテム名を入力してください");
@@ -167,11 +167,14 @@ public class ViewerContainerFragment extends Fragment {
         builder.setView(view);
 
         builder.setPositiveButton("変更", (dialog, which) -> {
-            document.renameDocument(documentId, textInputEditText.getText().toString()).thenAccept(aVoid -> {
-                getActivity().runOnUiThread(() -> {
-                    this.documentName = textInputEditText.getText().toString();
+            document.renameDocument(childId, textInputEditText.getText().toString()).thenCombine(
+                lacertaLibrary.updateTitleCache(parentId, childId, textInputEditText.getText().toString()), (aVoid, aVoid2) -> {
+                    getActivity().runOnUiThread(() -> {
+                        Toast.makeText(getContext(), "変更しました", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    });
+                    return null;
                 });
-            });
         });
         builder.setNegativeButton("キャンセル", (dialog, which) -> {
             dialog.cancel();
