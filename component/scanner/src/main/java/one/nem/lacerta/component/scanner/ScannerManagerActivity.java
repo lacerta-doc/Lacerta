@@ -116,6 +116,7 @@ public class ScannerManagerActivity extends AppCompatActivity {
                 for (String result : croppedImageResults) {
                     croppedImages.add(BitmapFactory.decodeFile(result));
                 }
+                processResult(croppedImages);
                 updatePage();
                 return null;
             },
@@ -276,7 +277,7 @@ public class ScannerManagerActivity extends AppCompatActivity {
                 logger.e_code("d8e2b8c9-9b7e-4b7e-9e1e-9e3b8b8b8b8b");
                 return;
             }
-//            documentProcessor.updatePageAtIndex(croppedImages.get(0), index);
+            documentProcessor.updatePageAtIndex(croppedImages.get(0), index);
             logger.debug(TAG, "documentProcessor.getPageCount(): " + documentProcessor.getPageCount()
                 + ", documentDetail.getPages().size(): " + documentDetail.getPages().size());
             document.updateDocument(documentProcessor.getDocumentDetail()).join();
