@@ -116,7 +116,7 @@ public class ScannerManagerActivity extends AppCompatActivity {
                 for (String result : croppedImageResults) {
                     croppedImages.add(BitmapFactory.decodeFile(result));
                 }
-                processResult(croppedImages);
+                updatePage();
                 return null;
             },
             (errorMessage) -> {
@@ -267,6 +267,8 @@ public class ScannerManagerActivity extends AppCompatActivity {
         document.getDocument(documentId).thenAccept((documentDetail) -> {
             DocumentProcessor documentProcessor = documentProcessorFactory.create(documentDetail);
             documentProcessor.updatePageAtIndex(croppedImages.get(0), index);
+            logger.debug(TAG, "documentProcessor.getPageCount(): " + documentProcessor.getPageCount()
+                + ", documentDetail.getPages().size(): " + documentDetail.getPages().size());
             document.updateDocument(documentProcessor.getDocumentDetail()).join();
             dialog.dismiss();
         });

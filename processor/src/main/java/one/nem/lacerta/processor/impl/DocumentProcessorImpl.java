@@ -133,6 +133,8 @@ public class DocumentProcessorImpl implements DocumentProcessor{
         logger.debug("updatePageAtIndex", "called");
         String filename = UUID.randomUUID().toString() + ".png"; // TODO-rca: 拡張子を動的にする
 
+        logger.debug("updatePageAtIndex", "filename1: " + filename);
+
         try {
             this.fileManager.getNewInstance().createDirectoryIfNotExist(DEFAULT_SAVE_DIR).resolve(DEFAULT_SAVE_DIR).saveBitmap(bitmap, filename);
         } catch (Exception e) {
@@ -141,6 +143,8 @@ public class DocumentProcessorImpl implements DocumentProcessor{
             // Recover (Undo latest action)
             lacertaVcs.undo();
         }
+
+        logger.debug("updatePageAtIndex", "filename: " + filename);
 
         Page page = new Page();
         page.setFileName(filename);
