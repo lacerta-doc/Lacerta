@@ -148,14 +148,18 @@ public class ViewerContainerFragment extends Fragment {
 
             ImageButton imageButton = customView.findViewById(R.id.tab_modify);
             imageButton.setOnClickListener(v -> {
-                renameCombinedDocument(this.documentId, viewerViewPagerAdapter.getFragmentTargetId(position), viewerViewPagerAdapter.getFragmentTitle(position));
+                renameCombinedDocument(
+                        this.documentId,
+                        viewerViewPagerAdapter.getFragmentTargetId(position),
+                        viewerViewPagerAdapter.getFragmentTitle(position),
+                        position);
             });
 
             tab.setCustomView(customView);
         }).attach();
     }
 
-    private void renameCombinedDocument(String parentId, String childId, String current) {
+    private void renameCombinedDocument(String parentId, String childId, String current, int position) { // TODO-rca: 無理やりpositionを渡してるのでなんとかする
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext());
         builder.setTitle("アイテム名の変更");
         builder.setMessage("アイテム名を入力してください");
@@ -172,6 +176,7 @@ public class ViewerContainerFragment extends Fragment {
                 lacertaLibrary.updateTitleCache(parentId, childId, textInputEditText.getText().toString()), (aVoid, aVoid2) -> {
                     getActivity().runOnUiThread(() -> {
                         Toast.makeText(getContext(), "変更しました", Toast.LENGTH_SHORT).show();
+                        updateTabTitle(position, textInputEditText.getText().toString());
                         dialog.dismiss();
                     });
                     return null;
