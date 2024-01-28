@@ -61,4 +61,12 @@ public class ViewerViewPagerAdapter extends FragmentStateAdapter {
     public String getFragmentTitle(int position) {
         return fragmentTitleList.get(position);
     }
+
+    public ArrayList<String> getFragmentTargetIdList() {
+        return fragmentTargetIdList;
+    }
+
+    public ArrayList<String> getFragmentTitleList() {
+        return fragmentTitleList;
+    }
 }
