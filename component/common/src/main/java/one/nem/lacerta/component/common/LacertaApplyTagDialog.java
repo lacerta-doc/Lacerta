@@ -98,14 +98,12 @@ public class LacertaApplyTagDialog extends DialogFragment {
         lacertaApplyTagAdapter.setListener(new LacertaApplyTagAdapter.LacertaApplyTagDialogListener() {
             @Override
             public void itemChecked(View view, String tagId) {
-                // Do something
-                Toast.makeText(view.getContext(), tagId, Toast.LENGTH_SHORT).show();
+                applyChangeToVariable(true, tagId);
             }
 
             @Override
             public void itemUnchecked(View view, String tagId) {
-                // Do something
-                Toast.makeText(view.getContext(), tagId, Toast.LENGTH_SHORT).show();
+                applyChangeToVariable(false, tagId);
             }
         });
 
@@ -130,6 +128,14 @@ public class LacertaApplyTagDialog extends DialogFragment {
                     listener.onDialogNegativeClick(LacertaApplyTagDialog.this);
                 });
         return builder.create();
+    }
+
+    private void applyChangeToVariable(boolean isChecked, String tagId) {
+        if (isChecked) {
+            this.registeredTags.stream().findAny().filter(tag -> tag.getId().equals(tagId)).ifPresent(tag -> this.appliedTags.add(tag));
+        } else {
+            this.appliedTags.stream().findAny().filter(tag -> tag.getId().equals(tagId)).ifPresent(tag -> this.appliedTags.remove(tag));
+        }
     }
 
     private CompletableFuture<ArrayList<DocumentTagApplyTagDialogExtendedModel>> getDocumentTagArrayList(String documentId) {
