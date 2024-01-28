@@ -91,7 +91,7 @@ public class LacertaDirPickerDialog extends LacertaFilePickerDialogBase {
     private void updateList(LacertaFilePickerAdapterBase adapter, String folderId) {
         lacertaLibrary.getFolderList(folderId).thenAccept(libraryItemPage -> {
             adapter.setListItems(libraryItemPage);
-            this.updateList(adapter, libraryItemPage, adapter.getItemCount(), adapter.getCurrentId());
+            this.updateListView(adapter, libraryItemPage, adapter.getItemCount(), adapter.getCurrentId());
         });
     }
 }

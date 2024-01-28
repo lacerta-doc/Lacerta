@@ -1,23 +1,10 @@
 package one.nem.lacerta.component.common.picker.base;
 
-import android.app.Dialog;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.TextView;
-
 import androidx.fragment.app.DialogFragment;
-
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import javax.inject.Inject;
 
-import one.nem.lacerta.component.common.LacertaSelectDirDialog;
-import one.nem.lacerta.component.common.R;
-import one.nem.lacerta.component.common.SelectDirDialogItemAdapter;
-import one.nem.lacerta.data.LacertaLibrary;
 import one.nem.lacerta.model.LibraryItemPage;
-import one.nem.lacerta.model.ListItemType;
-import one.nem.lacerta.utils.FeatureSwitch;
 import one.nem.lacerta.utils.LacertaLogger;
 
 public class LacertaFilePickerDialogBase extends DialogFragment {
@@ -52,7 +39,7 @@ public class LacertaFilePickerDialogBase extends DialogFragment {
     }
 
     // Methods
-    protected void updateList(LacertaFilePickerAdapterBase adapter, LibraryItemPage libraryItemPage, int currentCount, String currentDirId) {
+    protected void updateListView(LacertaFilePickerAdapterBase adapter, LibraryItemPage libraryItemPage, int currentCount, String currentDirId) {
         if (currentDirId == null) {
             // Rootが関わる推移 (Rootからの推移)
             adapter.setListItems(libraryItemPage);
