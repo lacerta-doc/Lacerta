@@ -390,6 +390,21 @@ public class LacertaLibraryImpl implements LacertaLibrary {
     }
 
     @Override
+    public CompletableFuture<Void> updateTitleCache(String parentId, String documentId, String titleCache) {
+        return CompletableFuture.supplyAsync(() -> {
+            ToxiDocumentEntity toxiDocumentEntity = database.toxiDocumentDao().findByParentIdAndChildId(parentId, documentId);
+            if (toxiDocumentEntity == null) {
+                logger.warn("LacertaLibraryImpl", "ToxiDocumentEntity is not found.");
+                return null;
+            }
+            toxiDocumentEntity.titleCache = titleCache;
+            database.toxiDocumentDao().update(toxiDocumentEntity);
+            logger.debug("LacertaLibraryImpl", "Database Query: Updated ToxiDocumentEntity");
+            return null;
+        });
+    }
+
+    @Override
     public CompletableFuture<Void> uncombineDocument(String parentId, String childId) {
         return CompletableFuture.supplyAsync(() -> {
             DocumentEntity parentDocumentEntity = database.documentDao().findById(parentId);

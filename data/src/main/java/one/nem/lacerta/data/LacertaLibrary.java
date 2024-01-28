@@ -53,6 +53,8 @@ public interface LacertaLibrary {
 
     CompletableFuture<Void> combineDocument(String parentId, String childId);
 
+    CompletableFuture<Void> updateTitleCache(String parentId, String childId, String titleCache);
+
     CompletableFuture<Void> uncombineDocument(String parentId, String childId);
 
 //    CompletableFuture<Void> combineDocument(String parentId, ArrayList<String> childIdList);
