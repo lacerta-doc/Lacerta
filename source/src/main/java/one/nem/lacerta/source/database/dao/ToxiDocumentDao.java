@@ -15,6 +15,9 @@ public interface ToxiDocumentDao {
     @Query("SELECT * FROM toxi_document WHERE parent_document_id = :parentId AND is_active = 1 ORDER BY `order` ASC")
     List<ToxiDocumentEntity> findByParentId(String parentId);
 
+    @Query("SELECT * FROM toxi_document WHERE parent_document_id = :parentId AND child_document_id = :childId AND is_active = 1")
+    ToxiDocumentEntity findByParentIdAndChildId(String parentId, String childId);
+
     @Insert
     void insert(ToxiDocumentEntity toxiDocument);
 
