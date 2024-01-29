@@ -57,7 +57,7 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ListIt
                 ChipGroup chipGroup = holder.tagGroup;
                 Chip chip = new Chip(chipGroup.getContext());
                 chip.setText(listItem.getTagList().get(i).getName());
-                chip.setBackgroundColor(Color.parseColor(listItem.getTagList().get(i).getColor()));
+                chip.setTextColor(Color.parseColor(listItem.getTagList().get(i).getColor()));
                 chipGroup.addView(chip);
             }
             holder.tagGroup.setVisibility(View.VISIBLE);
