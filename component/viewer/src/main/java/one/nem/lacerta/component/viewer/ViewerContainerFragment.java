@@ -61,6 +61,7 @@ public class ViewerContainerFragment extends Fragment {
     private String documentId;
     private String documentName;
     private boolean hasCombined = false;
+    private String revId;
     private ViewerViewPagerAdapter viewerViewPagerAdapter;
 
     public ViewerContainerFragment() {
@@ -74,6 +75,7 @@ public class ViewerContainerFragment extends Fragment {
         args.putString("documentId", documentId);
         args.putString("documentName", documentName);
         args.putBoolean("hasCombined", hasCombined);
+        args.putString("revId", null);
         return fragment;
     }
 
@@ -84,6 +86,18 @@ public class ViewerContainerFragment extends Fragment {
         args.putString("documentId", documentId);
         args.putString("documentName", documentName);
         args.putBoolean("hasCombined", false);
+        args.putString("revId", null);
+        return fragment;
+    }
+
+    public static ViewerContainerFragment newInstance(String documentId, String documentName, String revId) {
+        ViewerContainerFragment fragment = new ViewerContainerFragment();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        args.putString("documentId", documentId);
+        args.putString("documentName", documentName);
+        args.putBoolean("hasCombined", false);
+        args.putString("revId", revId);
         return fragment;
     }
 
