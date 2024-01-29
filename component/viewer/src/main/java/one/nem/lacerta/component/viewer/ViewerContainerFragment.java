@@ -29,6 +29,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 import one.nem.lacerta.component.common.LacertaApplyTagDialog;
 import one.nem.lacerta.component.common.LacertaSelectRevDialog;
 import one.nem.lacerta.component.common.LacertaSelectRevDialogListener;
+import one.nem.lacerta.component.common.picker.LacertaDirPickerDialog;
 import one.nem.lacerta.component.common.picker.LacertaFilePickerDialog;
 import one.nem.lacerta.data.Document;
 import one.nem.lacerta.data.LacertaLibrary;
@@ -247,7 +248,7 @@ public class ViewerContainerFragment extends Fragment {
                     deleteDocument();
                     return true;
                 } else if (item.getItemId() == R.id.action_move) {
-                    Toast.makeText(getContext(), "Work in progress", Toast.LENGTH_SHORT).show();
+                    moveDocument();
                     return true;
                 } else if (item.getItemId() == R.id.action_combine) {
                     combineDocument();
@@ -279,6 +280,24 @@ public class ViewerContainerFragment extends Fragment {
             }
         });
         lacertaSelectRevDialog.show(getParentFragmentManager(), "select_rev_dialog");
+    }
+
+    private void moveDocument() {
+        LacertaDirPickerDialog lacertaDirPickerDialog = new LacertaDirPickerDialog();
+        lacertaDirPickerDialog.setListener((name, dirId) -> {
+            logger.debug("MoveDocument", "Selected dir: " + name + ", " + dirId);
+            document.moveDocument(documentId, dirId).thenAccept(aVoid -> {
+                getActivity().runOnUiThread(() -> {
+                    // Stop Activity
+                    getActivity().finish(); // TODO-rca: ファイル移動後に終了するべきかは検討
+                });
+            });
+        });
+        lacertaDirPickerDialog.setTitle("ファイルの移動")
+                .setMessage("ファイルを移動するフォルダを選択してください。")
+                .setPositiveButtonText("移動")
+                .setNegativeButtonText("キャンセル");
+        lacertaDirPickerDialog.show(getParentFragmentManager(), "select_dir_dialog");
     }
 
     private void deleteDocument() {
