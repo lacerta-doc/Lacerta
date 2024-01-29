@@ -208,6 +208,14 @@ public class LacertaLibraryImpl implements LacertaLibrary {
     }
 
     @Override
+    public CompletableFuture<Void> deleteFolder(String folderId) {
+        return CompletableFuture.supplyAsync(() -> {
+            database.folderDao().deleteById(folderId);
+            return null;
+        });
+    }
+
+    @Override
     public CompletableFuture<PublicPath> getPublicPath(String itemId, ListItemType itemType) {
         return CompletableFuture.supplyAsync(() -> {
             if (itemType == ListItemType.ITEM_TYPE_DOCUMENT) {
