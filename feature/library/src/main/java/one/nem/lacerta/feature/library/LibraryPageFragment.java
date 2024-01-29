@@ -294,9 +294,6 @@ public class LibraryPageFragment extends Fragment {
         updateItem(this.folderId); // 暫定, Pull-to-refreshを実装するまで
     }
 
-    private void getTag(String documentId) { //debug
-    }
-
     /**
      * Toolbarのサブタイトルを更新
      * @param subtitle サブタイトル
