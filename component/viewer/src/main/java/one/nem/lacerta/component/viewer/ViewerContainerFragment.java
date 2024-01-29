@@ -377,7 +377,7 @@ public class ViewerContainerFragment extends Fragment {
         LacertaApplyTagDialog lacertaApplyTagDialog = new LacertaApplyTagDialog();
         lacertaApplyTagDialog
                 .setTitle("タグの適用")
-                .setMessage("タグを適用するファイルを選択してください")
+                .setMessage("適用するタグを選択してください")
                 .setNegativeButtonText("キャンセル")
                 .setDocumentId(documentId)
                 .setListener(new LacertaApplyTagDialog.LacertaApplyTagDialogListener() {
