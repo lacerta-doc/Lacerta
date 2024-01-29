@@ -287,6 +287,13 @@ public class LibraryPageFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        updateItem(this.folderId);
+    }
+
     private void getTag(String documentId) { //debug
     }
 
