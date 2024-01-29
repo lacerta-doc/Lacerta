@@ -106,8 +106,16 @@ public class ViewerListFragment extends Fragment {
 
         RecyclerView recyclerView = view.findViewById(R.id.body_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        ViewerBodyAdapter viewerBodyAdapter = new ViewerBodyAdapter(fileName -> {
-            Toast.makeText(getContext(), fileName, Toast.LENGTH_SHORT).show();
+        ViewerBodyAdapter viewerBodyAdapter = new ViewerBodyAdapter(new ItemClickListener() {
+            @Override
+            public void onItemClick(String fileName) {
+
+            }
+
+            @Override
+            public void onItemLongClick(String fileName, int position) {
+
+            }
         });
         recyclerView.setAdapter(viewerBodyAdapter);
 

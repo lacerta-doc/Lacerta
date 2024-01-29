@@ -1,5 +1,6 @@
 package one.nem.lacerta.component.viewer;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -11,9 +12,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
+import java.util.ArrayList;
+
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
+import one.nem.lacerta.component.scanner.ScannerManagerActivity;
 import one.nem.lacerta.data.Document;
 import one.nem.lacerta.data.LacertaLibrary;
 import one.nem.lacerta.utils.LacertaLogger;
@@ -93,30 +99,68 @@ public class ViewerBodyFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        ViewerBodyAdapter viewerBodyAdapter = new ViewerBodyAdapter(fileName -> {
-            Toast.makeText(getContext(), fileName, Toast.LENGTH_SHORT).show();
-            // TODO-rca: なにか処理をもたせる
+        ViewerBodyAdapter viewerBodyAdapter = new ViewerBodyAdapter(new ItemClickListener() {
+            @Override
+            public void onItemClick(String fileName) {
+
+            }
+
+            @Override
+            public void onItemLongClick(String fileName, int position) {
+                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity());
+                builder.setTitle("ページを更新しますか？");
+
+                builder.setPositiveButton("更新", (dialog, which) -> {
+                    // ScannerをIntent
+                    Intent intent = new Intent(getActivity(), ScannerManagerActivity.class);
+                    intent.putExtra("update", true);
+                    intent.putExtra("documentId", documentId);
+                    intent.putExtra("index", position);
+                    startActivity(intent);
+                });
+                builder.setNegativeButton("キャンセル", (dialog, which) -> {
+                    // cancel
+                    dialog.dismiss();
+                });
+
+                builder.show();
+            }
         });
-        recyclerView.setAdapter(viewerBodyAdapter);
+
+        getActivity().runOnUiThread(() -> {
+            recyclerView.setAdapter(viewerBodyAdapter);
+            viewerBodyAdapter.notifyDataSetChanged();
+        });
 
         loadDocument(viewerBodyAdapter, documentId, revisionId);
     }
 
     private void loadDocument(ViewerBodyAdapter adapter, String documentId, String revisionId) {
         if (revisionId == null) { // load latest revision
-            document.getDocument(documentId).thenAccept(document -> {
+            document.getDocument(documentId).thenApply(document -> {
                 getActivity().runOnUiThread(() -> {
                     adapter.setPages(document.getPages());
                     adapter.notifyDataSetChanged();
                 });
+                return null;
             });
         } else { // load specified revision
             LacertaVcs vcs = lacertaVcsFactory.create(documentId);
-            document.getDocumentPageListByFileNameList(documentId, vcs.getDocumentPagePathListRev(revisionId).join()).thenAccept(documentPageList -> {
+//            document.getDocumentPageListByFileNameList(documentId, vcs.getDocumentPagePathListRev(revisionId).join()).thenApply(documentPageList -> {
+//                getActivity().runOnUiThread(() -> {
+//                    adapter.setPages(documentPageList);
+//                    adapter.notifyDataSetChanged();
+//                });
+//                return null;
+//            });
+
+            ArrayList<String> fileNameList = vcs.getDocumentPagePathListRev(revisionId).join();
+            document.getDocumentPageListByFileNameList(documentId, fileNameList).thenApply(documentPageList -> {
                 getActivity().runOnUiThread(() -> {
                     adapter.setPages(documentPageList);
                     adapter.notifyDataSetChanged();
                 });
+                return null;
             });
         }
     }

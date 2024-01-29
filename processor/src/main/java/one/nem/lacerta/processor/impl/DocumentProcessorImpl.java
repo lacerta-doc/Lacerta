@@ -130,7 +130,30 @@ public class DocumentProcessorImpl implements DocumentProcessor{
 
     @Override
     public DocumentProcessor updatePageAtIndex(Bitmap bitmap, int index) {
-        return null;
+        logger.debug("updatePageAtIndex", "called");
+        String filename = UUID.randomUUID().toString() + ".png"; // TODO-rca: 拡張子を動的にする
+
+        logger.debug("updatePageAtIndex", "filename1: " + filename);
+
+        try {
+            this.fileManager.getNewInstance().createDirectoryIfNotExist(DEFAULT_SAVE_DIR).resolve(DEFAULT_SAVE_DIR).saveBitmap(bitmap, filename);
+        } catch (Exception e) {
+            logger.error("updatePageAtIndex", "failed: Unknown error");
+            logger.e_code("d9191286-6092-40b3-80ed-9239106a8c65");
+            // Recover (Undo latest action)
+            lacertaVcs.undo();
+        }
+
+        logger.debug("updatePageAtIndex", "filename: " + filename);
+
+        Page page = new Page();
+        page.setFileName(filename);
+        page.setBitmap(bitmap);
+        this.documentDetail.getPages().set(index, page);
+
+        lacertaVcs.updatePage(index, filename);
+
+        return this;
     }
 
     @Override

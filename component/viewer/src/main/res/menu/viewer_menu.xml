@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_open_vcs_rev_list"
-        android:title="Open VCS Rev List" />
+        android:title="バージョン履歴" />
 
     <item
         android:id="@+id/action_rename"
@@ -10,7 +11,9 @@
 
     <item
         android:id="@+id/action_delete"
-        android:title="削除" />
+        android:icon="@drawable/delete_24px"
+        android:title="削除"
+        app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/action_move"
@@ -18,11 +21,9 @@
 
     <item
         android:id="@+id/action_combine"
-        android:title="結合" />
-
-    <item
-        android:id="@+id/action_edit_meta"
-        android:title="メタデータ編集" />
+        android:icon="@drawable/merge_type_24px"
+        android:title="結合"
+        app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/action_apply_tag"

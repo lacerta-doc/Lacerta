@@ -55,6 +55,10 @@ dependencies {
 
     implementation project(':component:viewer')
 
+    implementation project(':processor') // TODO-rca: あんまり依存したくないけど時間がないので一旦
+
+    implementation project(':vcs') // TODO-rca: あんまり依存したくないけど時間がないので一旦
+
     // TODO-rca: バージョンカタログに切り出す
     implementation "com.hendraanggrian.material:collapsingtoolbarlayout-subtitle:1.5.0"
 }
