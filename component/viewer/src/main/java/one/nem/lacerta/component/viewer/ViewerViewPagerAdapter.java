@@ -38,7 +38,11 @@ public class ViewerViewPagerAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        return ViewerBodyFragment.newInstance(fragmentTargetIdList.get(position), fragmentTitleList.get(position));
+        if (fragmentRevisionList != null && fragmentRevisionList.size() > position) {
+            return ViewerBodyFragment.newInstance(fragmentTargetIdList.get(position), fragmentTitleList.get(position), fragmentRevisionList.get(position));
+        } else {
+            return ViewerBodyFragment.newInstance(fragmentTargetIdList.get(position), fragmentTitleList.get(position));
+        }
     }
 
     @Override
