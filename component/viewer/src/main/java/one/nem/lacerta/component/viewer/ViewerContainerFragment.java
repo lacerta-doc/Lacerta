@@ -108,6 +108,7 @@ public class ViewerContainerFragment extends Fragment {
             documentId = getArguments().getString("documentId");
             documentName = getArguments().getString("documentName");
             hasCombined = getArguments().getBoolean("hasCombined");
+            revId = getArguments().getString("revId");
         }
     }
 
