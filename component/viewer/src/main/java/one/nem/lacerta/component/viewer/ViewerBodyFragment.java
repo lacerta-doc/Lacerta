@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,6 +50,12 @@ public class ViewerBodyFragment extends Fragment {
     private String documentId;
     private String documentName;
     private String revisionId;
+
+    private SharedViewModel sharedViewModel;
+
+    private RecyclerView recyclerView;
+
+    private int maxPage = 0;
 
     public ViewerBodyFragment() {
         // Required empty public constructor
@@ -94,8 +102,32 @@ public class ViewerBodyFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         logger.debug("ViewerBodyFragment", "ViewerBodyFragment.onViewCreated");
 
-        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
+        this.recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+
+        ViewPager2 viewPager2 = getActivity().findViewById(R.id.view_pager);
+        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                sharedViewModel.setCurrentFragmentPosition(position);
+
+                if (maxPage > 0 && position >= maxPage) {
+                    // out of range
+                } else {
+                    try {
+                        recyclerView.scrollToPosition(position);
+                    } catch (Exception e) {
+                        logger.error("ViewerBodyFragment", "recyclerView.scrollToPosition");
+                        logger.error("ViewerBodyFragment", e.getMessage());
+                        logger.e_code("8beec84b-1f7d-4e1e-9364-9fcf00f3509a");
+
+                    }
+                }
+            }
+        });
 
         ViewerBodyAdapter viewerBodyAdapter = new ViewerBodyAdapter(new ItemClickListener() {
             @Override
@@ -129,9 +161,19 @@ public class ViewerBodyFragment extends Fragment {
         loadDocument(viewerBodyAdapter, documentId, revisionId);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        logger.debug("ViewerBodyFragment", "ViewerBodyFragment.onResume");
+
+        this.sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        this.recyclerView.scrollToPosition(sharedViewModel.getCurrentFragmentPosition());
+    }
+
     private void loadDocument(ViewerBodyAdapter adapter, String documentId, String revisionId) {
         if (revisionId == null) { // load latest revision
             document.getDocument(documentId).thenAccept(document -> {
+                this.maxPage = document.getPages().size();
                 getActivity().runOnUiThread(() -> {
                     adapter.setPages(document.getPages());
                     adapter.notifyDataSetChanged();

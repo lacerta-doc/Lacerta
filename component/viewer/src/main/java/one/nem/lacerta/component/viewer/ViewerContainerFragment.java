@@ -224,6 +224,18 @@ public class ViewerContainerFragment extends Fragment {
 
             tab.setCustomView(customView);
         }).attach();
+
+        // Sync position between pages
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                logger.debug("ViewerContainerFragment", "onPageSelected: " + position);
+                super.onPageSelected(position);
+                if (hasCombined) {
+                    toolbar.setTitle(viewerViewPagerAdapter.getFragmentTitle(position));
+                }
+            }
+        });
     }
 
     private void renameCombinedDocument(String parentId, String childId, String current, int position) { // TODO-rca: 無理やりpositionを渡してるのでなんとかする
