@@ -205,7 +205,10 @@ public class ViewerContainerFragment extends Fragment {
                 PopupMenu popupMenu = new PopupMenu(getContext(), v);
                 popupMenu.inflate(R.menu.viewer_tab_menu);
                 popupMenu.setOnMenuItemClickListener(item -> {
-                    if (item.getItemId() == R.id.action_rename) {
+                    if (item.getItemId() == R.id.action_open_vcs_rev_list) {
+                        showRevList(viewerViewPagerAdapter.getFragmentTargetId(position), viewerViewPagerAdapter.getFragmentTitle(position));
+                        return true;
+                    } else if (item.getItemId() == R.id.action_rename) {
                         renameCombinedDocument(
                                 documentId,
                                 viewerViewPagerAdapter.getFragmentTargetIdList().get(position),
@@ -289,7 +292,7 @@ public class ViewerContainerFragment extends Fragment {
             toolbar.inflateMenu(R.menu.viewer_menu);
             toolbar.setOnMenuItemClickListener(item -> {
                 if (item.getItemId() == R.id.action_open_vcs_rev_list) {
-                    showRevList();
+                    showRevList(this.documentId, this.documentName);
                     return true;
                 } else if (item.getItemId() == R.id.action_rename) {
                     renameDocument();
@@ -313,15 +316,15 @@ public class ViewerContainerFragment extends Fragment {
         });
     }
 
-    private void showRevList() {
+    private void showRevList(String targetId, String targetName) {
         LacertaSelectRevDialog lacertaSelectRevDialog = new LacertaSelectRevDialog();
-        lacertaSelectRevDialog.setDocumentId(this.documentId).setTitle("リビジョンの選択").setMessage("リビジョンを選択してください。").setNegativeButtonText("キャンセル");
+        lacertaSelectRevDialog.setDocumentId(targetId).setTitle("リビジョンの選択").setMessage("リビジョンを選択してください。").setNegativeButtonText("キャンセル");
         lacertaSelectRevDialog.setListener(new LacertaSelectRevDialogListener() {
             @Override
             public void onItemSelected(String revId) {
                 logger.debug("ViewerContainerFragment", "Dialog Result: revId: " + revId);
                 getParentFragmentManager().beginTransaction()
-                        .replace(R.id.nav_host_fragment, ViewerContainerFragment.newInstance(documentId, documentName, revId))
+                        .replace(R.id.nav_host_fragment, ViewerContainerFragment.newInstance(targetId, targetName, revId))
                         .commit();
             }
 
