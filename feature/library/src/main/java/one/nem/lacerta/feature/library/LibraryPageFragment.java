@@ -1,8 +1,13 @@
 package one.nem.lacerta.feature.library;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -17,6 +22,8 @@ import android.view.ViewGroup;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import java.util.concurrent.CompletableFuture;
+
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -25,9 +32,12 @@ import one.nem.lacerta.data.Document;
 import one.nem.lacerta.data.LacertaLibrary;
 import one.nem.lacerta.model.LibraryItemPage;
 import one.nem.lacerta.model.ListItemType;
+import one.nem.lacerta.model.document.DocumentDetail;
 import one.nem.lacerta.model.document.tag.DocumentTag;
+import one.nem.lacerta.processor.factory.DocumentProcessorFactory;
 import one.nem.lacerta.utils.FeatureSwitch;
 import one.nem.lacerta.utils.LacertaLogger;
+import one.nem.lacerta.vcs.factory.LacertaVcsFactory;
 
 
 /**
@@ -48,6 +58,8 @@ public class LibraryPageFragment extends Fragment {
     String parentId;
     Toolbar toolbar;
 
+    // ActivityResultContracts
+    ActivityResultLauncher<String> getContent;
 
     @Inject
     LacertaLibrary lacertaLibrary;
@@ -57,6 +69,12 @@ public class LibraryPageFragment extends Fragment {
 
     @Inject
     Document document;
+
+    @Inject
+    DocumentProcessorFactory documentProcessorFactory;
+
+    @Inject
+    LacertaVcsFactory lacertaVcsFactory;
 
     ListItemAdapter listItemAdapter;
 
@@ -97,6 +115,37 @@ public class LibraryPageFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getContent = registerForActivityResult(new ActivityResultContracts.GetMultipleContents(), uris -> {
+            for (int i = 0; i < uris.size(); i++) {
+                logger.debug("LibraryTopFragment", "uris.get(" + i + "): " + uris.get(i).getPath());
+            }
+            // ここで取得したURIリストを使用して画像を操作します。
+            if (uris != null) {
+                Bitmap[] bitmaps = new Bitmap[uris.size()];
+                for (int i = 0; i < uris.size(); i++) {
+                    Uri uri = uris.get(i);
+                    try {
+                        bitmaps[i] = BitmapFactory.decodeStream(requireContext().getContentResolver().openInputStream(uri));
+                    } catch (Exception e) {
+                        logger.error("LibraryTopFragment", "Error: " + e.getMessage());
+                        logger.e_code("826da745-7fc9-43e6-9935-9daa17a3932f");
+                    }
+                }
+
+                logger.debug("LibraryTopFragment", "bitmaps.length: " + bitmaps.length);
+                // ドキュメントを作成
+                document.createDocument().thenApply(documentDetail -> {
+                    logger.debug("LibraryTopFragment", "create document (may) success!");
+                    // ドキュメントにページを追加
+                    addPagesToDocumentDetail(documentDetail, bitmaps, "Initial commit(IMPORT)").join();
+                    document.updateDocument(documentDetail).join();
+                    return null;
+                });
+            } else {
+                logger.debug("LibraryTopFragment", "uris is null");
+            }
+        });
     }
 
 
@@ -277,10 +326,29 @@ public class LibraryPageFragment extends Fragment {
                 if (item.getItemId() == R.id.menu_item_create_new_folder) {
                     createFolder(this.folderId);
                     return true;
+                } else if (item.getItemId() == R.id.menu_item_add_by_media) {
+                    createDocByMediaPicker();
+                    return true;
                 } else {
                     return false;
                 }
             });
+        });
+    }
+
+    private void createDocByMediaPicker() {
+        getContent.launch("image/*");
+    }
+
+    private CompletableFuture<Void> addPagesToDocumentDetail(DocumentDetail documentDetail, Bitmap[] bitmaps, String commitMessage) {
+        return CompletableFuture.runAsync(() -> {
+            try {
+                document.updateDocument(documentProcessorFactory.create(documentDetail).addNewPagesToLast(bitmaps).getDocumentDetail()).join();
+                lacertaVcsFactory.create(documentDetail.getMeta().getId()).generateRevisionAtCurrent(commitMessage == null ? "NONE" : commitMessage);
+            } catch (Exception e) {
+                logger.error("LibraryAddSupport", "Error: " + e.getMessage());
+                logger.e_code("9dff2a28-20e8-4ccd-9d04-f0c7646faa6a");
+            }
         });
     }
 }
