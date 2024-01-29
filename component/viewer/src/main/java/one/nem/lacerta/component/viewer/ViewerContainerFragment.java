@@ -244,7 +244,7 @@ public class ViewerContainerFragment extends Fragment {
                     renameDocument();
                     return true;
                 } else if (item.getItemId() == R.id.action_delete) {
-                    Toast.makeText(getContext(), "Work in progress", Toast.LENGTH_SHORT).show();
+                    deleteDocument();
                     return true;
                 } else if (item.getItemId() == R.id.action_move) {
                     Toast.makeText(getContext(), "Work in progress", Toast.LENGTH_SHORT).show();
@@ -279,6 +279,26 @@ public class ViewerContainerFragment extends Fragment {
             }
         });
         lacertaSelectRevDialog.show(getParentFragmentManager(), "select_rev_dialog");
+    }
+
+    private void deleteDocument() {
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext());
+        builder.setTitle("ファイルの削除");
+        builder.setMessage("ファイルを削除しますか？");
+
+        builder.setPositiveButton("削除", (dialog, which) -> {
+            document.deleteDocument(documentId).thenAccept(aVoid -> {
+                getActivity().runOnUiThread(() -> {
+                    Toast.makeText(getContext(), "削除しました", Toast.LENGTH_SHORT).show();
+                    getActivity().finish(); // TODO-rca: 終了させずにUIを更新したい
+                });
+            });
+        });
+        builder.setNegativeButton("キャンセル", (dialog, which) -> {
+            dialog.cancel();
+        });
+
+        builder.show();
     }
 
     private void applyTag() {
