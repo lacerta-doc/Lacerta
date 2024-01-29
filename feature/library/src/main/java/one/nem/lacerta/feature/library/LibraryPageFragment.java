@@ -320,7 +320,6 @@ public class LibraryPageFragment extends Fragment {
                 toolbar.setNavigationIcon(null);
             }
 
-            if (this.folderId == null) toolbar.getMenu().findItem(R.id.menu_item_delete_folder).setVisible(false); // ルートフォルダの場合は削除ボタンを非表示にする
             toolbar.setTitle(title);
             toolbar.getMenu().clear();
             toolbar.inflateMenu(R.menu.dir_menu);
@@ -349,12 +348,23 @@ public class LibraryPageFragment extends Fragment {
                     return false;
                 }
             });
+
+            if (this.folderId == null) toolbar.getMenu().findItem(R.id.menu_item_delete_folder).setVisible(false); // ルートフォルダの場合は削除ボタンを非表示にする
         });
     }
 
     private void deleteMe() {
         lacertaLibrary.deleteFolder(this.folderId).thenAccept(aVoid -> {
-            Navigation.findNavController(requireView()).popBackStack();
+            // Move to root
+            getActivity().runOnUiThread(() -> {
+                Navigation.findNavController(requireView()).popBackStack(R.id.feature_library_top_fragment, false);
+
+                // Refresh
+                updateItem(this.folderId);
+
+                // Update toolbar
+                toolbarSetup(this.toolbar, false, "ライブラリ");
+            });
         });
     }
 
