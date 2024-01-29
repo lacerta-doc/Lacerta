@@ -50,12 +50,13 @@ public class LacertaLibraryImpl implements LacertaLibrary {
         return CompletableFuture.supplyAsync(() -> {
             List<DocumentEntity> documentEntities = database.documentDao().getRecentDocument(limit);
 
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
             ArrayList<ListItem> listItems = new ArrayList<>();
             for (DocumentEntity documentEntity : documentEntities) {
                 ListItem listItem = new ListItem();
                 listItem.setItemType(ListItemType.ITEM_TYPE_DOCUMENT);
                 listItem.setTitle(documentEntity.title);
-                listItem.setDescription(DateFormat.getDateInstance().format(documentEntity.updatedAt));
+                listItem.setDescription(simpleDateFormat.format(documentEntity.updatedAt));
                 listItem.setItemId(documentEntity.id);
                 listItem.setHasCombined(documentEntity.isCombineParent);
                 listItems.add(listItem);
