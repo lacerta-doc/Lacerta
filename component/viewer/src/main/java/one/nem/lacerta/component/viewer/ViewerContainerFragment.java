@@ -37,6 +37,8 @@ import one.nem.lacerta.model.document.page.Page;
 import one.nem.lacerta.model.document.tag.DocumentTag;
 import one.nem.lacerta.model.pref.ToxiDocumentModel;
 import one.nem.lacerta.utils.LacertaLogger;
+import one.nem.lacerta.vcs.LacertaVcs;
+import one.nem.lacerta.vcs.factory.LacertaVcsFactory;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -56,6 +58,9 @@ public class ViewerContainerFragment extends Fragment {
 
     @Inject
     Document document;
+
+    @Inject
+    LacertaVcsFactory lacertaVcsFactory;
 
     // Variables
     private String documentId;
@@ -136,6 +141,26 @@ public class ViewerContainerFragment extends Fragment {
         // Init toolbar
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         initToolbar(toolbar, true, documentName);
+
+        if (this.revId != null) { // Revが指定されている場合
+            LacertaVcs lacertaVcs = lacertaVcsFactory.create(documentId);
+            lacertaVcs.getDocumentPagePathListRev(this.revId).thenApply(pagePathList -> {
+                logger.debug("ViewerContainerFragment", "pagePathList: " + pagePathList.size());
+                document.getDocumentPageListByFileNameList(this.documentId, pagePathList).thenApply(pageList -> {
+                    logger.debug("ViewerContainerFragment", "pageList: " + pageList.size());
+                    // 暫定: 履歴を遡って表示している場合は結合を無視する
+                    this.hasCombined = false;
+
+                    viewerViewPagerAdapter.setFragmentTargetIdList(new ArrayList<String>(){{add(documentId);}}); // TODO-rca: 読みにくいので直接追加できるようにする
+                    viewerViewPagerAdapter.setFragmentTitleList(new ArrayList<String>(){{add(documentName);}}); // TODO-rca: 読みにくいので直接追加できるようにする
+
+                    viewerViewPagerAdapter.setFragmentRevisionList(new ArrayList<String>(){{add(revId);}}); // TODO-rca: 読みにくいので直接追加できるようにする
+                    viewerViewPagerAdapter.notifyItemRangeChanged(0, pageList.size());
+                    return null;
+                });
+                return null;
+            });
+        }
 
         // Get document page
         if (this.hasCombined) { // 結合親の場合
