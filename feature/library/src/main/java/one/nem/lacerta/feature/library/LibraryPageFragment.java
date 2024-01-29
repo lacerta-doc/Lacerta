@@ -319,6 +319,8 @@ public class LibraryPageFragment extends Fragment {
             } else {
                 toolbar.setNavigationIcon(null);
             }
+
+            if (this.folderId == null) toolbar.getMenu().findItem(R.id.menu_item_delete_folder).setVisible(false); // ルートフォルダの場合は削除ボタンを非表示にする
             toolbar.setTitle(title);
             toolbar.getMenu().clear();
             toolbar.inflateMenu(R.menu.dir_menu);
