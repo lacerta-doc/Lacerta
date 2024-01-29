@@ -145,54 +145,44 @@ public class ViewerContainerFragment extends Fragment {
 
         if (this.revId != null) { // Revが指定されている場合
             LacertaVcs lacertaVcs = lacertaVcsFactory.create(documentId);
-            lacertaVcs.getDocumentPagePathListRev(this.revId).thenApply(pagePathList -> {
-                logger.debug("ViewerContainerFragment", "pagePathList: " + pagePathList.size());
-                document.getDocumentPageListByFileNameList(this.documentId, pagePathList).thenApply(pageList -> {
-                    logger.debug("ViewerContainerFragment", "pageList: " + pageList.size());
-                    // 暫定: 履歴を遡って表示している場合は結合を無視する(処理自体は単純だけどUI側の対応をする時間がないので)
-                    tabLayout.setVisibility(View.GONE);
-                    viewerViewPagerAdapter.setFragmentTargetIdList(new ArrayList<String>(){{add(documentId);}}); // TODO-rca: 読みにくいので直接追加できるようにする
-                    viewerViewPagerAdapter.setFragmentTitleList(new ArrayList<String>(){{add(documentName);}}); // TODO-rca: 読みにくいので直接追加できるようにする
-
-                    viewerViewPagerAdapter.setFragmentRevisionList(new ArrayList<String>(){{add(revId);}}); // TODO-rca: 読みにくいので直接追加できるようにする
-                    viewerViewPagerAdapter.notifyItemRangeChanged(0, pageList.size());
-                    toolbar.setSubtitle("リビジョン: " + revId);
-                    return null;
-                });
-                return null;
-            });
-        }
-
-        // Get document page
-        if (this.hasCombined) { // 結合親の場合
-            // バージョンを遡る操作を非表示
-            toolbar.getMenu().findItem(R.id.action_open_vcs_rev_list).setVisible(false);
-            logger.debug("ViewerContainerFragment", "hasCombined: " + hasCombined);
-            lacertaLibrary.getCombinedDocumentToxiList(documentId).thenAccept(combinedDocumentToxiList -> {
-                logger.debug("ViewerContainerFragment", "combinedDocumentToxiList: " + combinedDocumentToxiList.size());
-
-                viewerViewPagerAdapter.setFragmentTargetIdList(
-                        combinedDocumentToxiList.stream().map(ToxiDocumentModel::getChildDocumentId).collect(Collectors.toCollection(ArrayList::new)));
-                viewerViewPagerAdapter.setFragmentTitleList(
-                        combinedDocumentToxiList.stream().map(ToxiDocumentModel::getTitleCache).collect(Collectors.toCollection(ArrayList::new)));
-
-                viewerViewPagerAdapter.notifyItemRangeChanged(0, combinedDocumentToxiList.size());
-                toolbar.setSubtitle("結合ドキュメント");
-            });
-        } else { // それ以外の場合
-            logger.debug("ViewerContainerFragment", "hasCombined: " + hasCombined);
-            tabLayout.setVisibility(View.GONE);
             viewerViewPagerAdapter.setFragmentTargetIdList(new ArrayList<String>(){{add(documentId);}}); // TODO-rca: 読みにくいので直接追加できるようにする
-            viewerViewPagerAdapter.setFragmentTitleList(new ArrayList<String>(){{add(documentName);}});
+            viewerViewPagerAdapter.setFragmentTitleList(new ArrayList<String>(){{add(documentName);}}); // TODO-rca: 読みにくいので直接追加できるようにする
+            viewerViewPagerAdapter.setFragmentRevisionList(new ArrayList<String>(){{add(revId);}}); // TODO-rca: 読みにくいので直接追加できるようにする
             viewerViewPagerAdapter.notifyItemRangeChanged(0, 1);
+            tabLayout.setVisibility(View.GONE);
+            toolbar.setSubtitle("リビジョン: " + revId);
+        } else {
+            // Get document page
+            if (this.hasCombined) { // 結合親の場合
+                // バージョンを遡る操作を非表示
+                toolbar.getMenu().findItem(R.id.action_open_vcs_rev_list).setVisible(false);
+                logger.debug("ViewerContainerFragment", "hasCombined: " + hasCombined);
+                lacertaLibrary.getCombinedDocumentToxiList(documentId).thenAccept(combinedDocumentToxiList -> {
+                    logger.debug("ViewerContainerFragment", "combinedDocumentToxiList: " + combinedDocumentToxiList.size());
+
+                    viewerViewPagerAdapter.setFragmentTargetIdList(
+                            combinedDocumentToxiList.stream().map(ToxiDocumentModel::getChildDocumentId).collect(Collectors.toCollection(ArrayList::new)));
+                    viewerViewPagerAdapter.setFragmentTitleList(
+                            combinedDocumentToxiList.stream().map(ToxiDocumentModel::getTitleCache).collect(Collectors.toCollection(ArrayList::new)));
+
+                    viewerViewPagerAdapter.notifyItemRangeChanged(0, combinedDocumentToxiList.size());
+                    toolbar.setSubtitle("結合ドキュメント");
+                });
+            } else { // それ以外の場合
+                logger.debug("ViewerContainerFragment", "hasCombined: " + hasCombined);
+                tabLayout.setVisibility(View.GONE);
+                viewerViewPagerAdapter.setFragmentTargetIdList(new ArrayList<String>(){{add(documentId);}}); // TODO-rca: 読みにくいので直接追加できるようにする
+                viewerViewPagerAdapter.setFragmentTitleList(new ArrayList<String>(){{add(documentName);}});
+                viewerViewPagerAdapter.notifyItemRangeChanged(0, 1);
+            }
+
+            // サブタイトルとしてパスを表示(暫定)
+            lacertaLibrary.getPublicPath(documentId, ListItemType.ITEM_TYPE_DOCUMENT).thenAccept(publicPath -> {
+                logger.debug("ViewerContainerFragment", "publicPath: " + publicPath);
+                toolbar.setSubtitle("/" + publicPath.parent().getStringPath());
+            });
+
         }
-
-        // サブタイトルとしてパスを表示(暫定)
-        lacertaLibrary.getPublicPath(documentId, ListItemType.ITEM_TYPE_DOCUMENT).thenAccept(publicPath -> {
-            logger.debug("ViewerContainerFragment", "publicPath: " + publicPath);
-            toolbar.setSubtitle("/" + publicPath.parent().getStringPath());
-        });
-
         // Attach tab layout to view pager
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
             View customView = LayoutInflater.from(getContext()).inflate(R.layout.viewer_custom_tab, null);

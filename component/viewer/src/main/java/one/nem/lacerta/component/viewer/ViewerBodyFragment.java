@@ -14,6 +14,8 @@ import android.widget.Toast;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import java.util.ArrayList;
+
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -124,26 +126,41 @@ public class ViewerBodyFragment extends Fragment {
                 builder.show();
             }
         });
-        recyclerView.setAdapter(viewerBodyAdapter);
+
+        getActivity().runOnUiThread(() -> {
+            recyclerView.setAdapter(viewerBodyAdapter);
+            viewerBodyAdapter.notifyDataSetChanged();
+        });
 
         loadDocument(viewerBodyAdapter, documentId, revisionId);
     }
 
     private void loadDocument(ViewerBodyAdapter adapter, String documentId, String revisionId) {
         if (revisionId == null) { // load latest revision
-            document.getDocument(documentId).thenAccept(document -> {
+            document.getDocument(documentId).thenApply(document -> {
                 getActivity().runOnUiThread(() -> {
                     adapter.setPages(document.getPages());
                     adapter.notifyDataSetChanged();
                 });
+                return null;
             });
         } else { // load specified revision
             LacertaVcs vcs = lacertaVcsFactory.create(documentId);
-            document.getDocumentPageListByFileNameList(documentId, vcs.getDocumentPagePathListRev(revisionId).join()).thenAccept(documentPageList -> {
+//            document.getDocumentPageListByFileNameList(documentId, vcs.getDocumentPagePathListRev(revisionId).join()).thenApply(documentPageList -> {
+//                getActivity().runOnUiThread(() -> {
+//                    adapter.setPages(documentPageList);
+//                    adapter.notifyDataSetChanged();
+//                });
+//                return null;
+//            });
+
+            ArrayList<String> fileNameList = vcs.getDocumentPagePathListRev(revisionId).join();
+            document.getDocumentPageListByFileNameList(documentId, fileNameList).thenApply(documentPageList -> {
                 getActivity().runOnUiThread(() -> {
                     adapter.setPages(documentPageList);
                     adapter.notifyDataSetChanged();
                 });
+                return null;
             });
         }
     }
