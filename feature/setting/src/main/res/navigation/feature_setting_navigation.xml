@@ -12,34 +12,38 @@
         <action
             android:id="@+id/action_settingTopFragment_to_settingAboutPageFragment"
             app:destination="@id/settingAboutPageFragment"
-            app:enterAnim="@anim/slide_from_right"
-            app:exitAnim="@anim/slide_to_left"
-            app:popEnterAnim="@anim/slide_from_left"
-            app:popExitAnim="@anim/slide_to_right" />
+            app:enterAnim="@anim/nav_twitter_enter_anim"
+            app:exitAnim="@anim/nav_twitter_exit_anim"
+            app:popEnterAnim="@anim/nav_twitter_pop_enter_anim"
+            app:popExitAnim="@anim/nav_twitter_pop_exit_anim" />
         <action
             android:id="@+id/action_settingTopFragment_to_settingDisplayPageFragment"
             app:destination="@id/settingDisplayPageFragment"
-            app:enterAnim="@anim/slide_from_right"
-            app:exitAnim="@anim/slide_to_left"
-            app:popEnterAnim="@anim/slide_from_left"
-            app:popExitAnim="@anim/slide_to_right" />
+            app:enterAnim="@anim/nav_twitter_enter_anim"
+            app:exitAnim="@anim/nav_twitter_exit_anim"
+            app:popEnterAnim="@anim/nav_twitter_pop_enter_anim"
+            app:popExitAnim="@anim/nav_twitter_pop_exit_anim" />
         <action
             android:id="@+id/action_settingTopFragment_to_settingDataPageFragment"
             app:destination="@id/settingDataPageFragment"
-            app:enterAnim="@anim/slide_from_right"
-            app:exitAnim="@anim/slide_to_left"
-            app:popEnterAnim="@anim/slide_from_left"
-            app:popExitAnim="@anim/slide_to_right" />
+            app:enterAnim="@anim/nav_twitter_enter_anim"
+            app:exitAnim="@anim/nav_twitter_exit_anim"
+            app:popEnterAnim="@anim/nav_twitter_pop_enter_anim"
+            app:popExitAnim="@anim/nav_twitter_pop_exit_anim" />
         <action
             android:id="@+id/action_settingTopFragment_to_settingScanPageFragment"
             app:destination="@id/settingScanPageFragment"
-            app:enterAnim="@anim/slide_from_right"
-            app:exitAnim="@anim/slide_to_left"
-            app:popEnterAnim="@anim/slide_from_left"
-            app:popExitAnim="@anim/slide_to_right" />
+            app:enterAnim="@anim/nav_twitter_enter_anim"
+            app:exitAnim="@anim/nav_twitter_exit_anim"
+            app:popEnterAnim="@anim/nav_twitter_pop_enter_anim"
+            app:popExitAnim="@anim/nav_twitter_pop_exit_anim"/>
         <action
             android:id="@+id/action_settingTopFragment_to_settingTagManageFragment"
-            app:destination="@id/settingTagManageFragment" />
+            app:destination="@id/settingTagManageFragment"
+            app:enterAnim="@anim/nav_twitter_enter_anim"
+            app:exitAnim="@anim/nav_twitter_exit_anim"
+            app:popEnterAnim="@anim/nav_twitter_pop_enter_anim"
+            app:popExitAnim="@anim/nav_twitter_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/settingAboutPageFragment"
