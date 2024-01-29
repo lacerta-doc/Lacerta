@@ -111,7 +111,7 @@ public class LacertaLibraryImpl implements LacertaLibrary {
                 listItems.add(listItem);
             }
 
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:");
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
             for (DocumentEntity documentEntity : documentEntities) {
                 logger.debug("LacertaLibraryImpl", "documentEntity.title: " + documentEntity.title);
