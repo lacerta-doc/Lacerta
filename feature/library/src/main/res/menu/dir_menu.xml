@@ -8,4 +8,10 @@
         android:title="@string/create_new_folder"
         app:showAsAction="never"/>
 
+    <item
+        android:id="@+id/menu_item_add_by_media"
+        android:icon="@drawable/developer_mode_24px"
+        android:title="メディアピッカーからドキュメントを作成"
+        app:showAsAction="never"/>
+
 </menu>
