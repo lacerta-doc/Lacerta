@@ -329,10 +329,30 @@ public class LibraryPageFragment extends Fragment {
                 } else if (item.getItemId() == R.id.menu_item_add_by_media) {
                     createDocByMediaPicker();
                     return true;
+                } else if (item.getItemId() == R.id.menu_item_delete_folder) {
+                    MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireContext());
+                    builder.setTitle("フォルダの削除");
+                    builder.setMessage("フォルダを削除しますか？");
+
+                    builder.setPositiveButton("削除", (dialog, which) -> {
+                        deleteMe();
+                    });
+                    builder.setNegativeButton("キャンセル", (dialog, which) -> {
+                        dialog.cancel();
+                    });
+
+                    builder.show();
+                    return true;
                 } else {
                     return false;
                 }
             });
+        });
+    }
+
+    private void deleteMe() {
+        lacertaLibrary.deleteFolder(this.folderId).thenAccept(aVoid -> {
+            Navigation.findNavController(requireView()).popBackStack();
         });
     }
 

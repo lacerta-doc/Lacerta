@@ -9,9 +9,14 @@
         app:showAsAction="never"/>
 
     <item
+        android:id="@+id/menu_item_delete_folder"
+        android:title="このフォルダを削除"
+        app:showAsAction="never"/>
+
+    <item
         android:id="@+id/menu_item_add_by_media"
         android:icon="@drawable/developer_mode_24px"
-        android:title="DEBUG_メディアピッカーから新規作成"
+        android:title="DEBUG_MediaPicker"
         app:showAsAction="never"/>
 
 </menu>
