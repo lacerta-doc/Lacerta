@@ -148,8 +148,9 @@ public class ViewerContainerFragment extends Fragment {
                 logger.debug("ViewerContainerFragment", "pagePathList: " + pagePathList.size());
                 document.getDocumentPageListByFileNameList(this.documentId, pagePathList).thenApply(pageList -> {
                     logger.debug("ViewerContainerFragment", "pageList: " + pageList.size());
-                    // 暫定: 履歴を遡って表示している場合は結合を無視する
+                    // 暫定: 履歴を遡って表示している場合は結合を無視する(処理自体は単純だけどUI側の対応をする時間がないので)
                     this.hasCombined = false;
+                    tabLayout.setVisibility(View.GONE);
 
                     viewerViewPagerAdapter.setFragmentTargetIdList(new ArrayList<String>(){{add(documentId);}}); // TODO-rca: 読みにくいので直接追加できるようにする
                     viewerViewPagerAdapter.setFragmentTitleList(new ArrayList<String>(){{add(documentName);}}); // TODO-rca: 読みにくいので直接追加できるようにする
@@ -311,7 +312,7 @@ public class ViewerContainerFragment extends Fragment {
             public void onItemSelected(String revId) {
                 logger.debug("ViewerContainerFragment", "Dialog Result: revId: " + revId);
                 getParentFragmentManager().beginTransaction()
-                        .replace(R.id.nav_host_fragment, ViewerListFragment.newInstance(documentId, documentName, revId))
+                        .replace(R.id.nav_host_fragment, ViewerContainerFragment.newInstance(documentId, documentName, revId))
                         .commit();
             }
 
