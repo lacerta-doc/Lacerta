@@ -202,10 +202,6 @@ public class LibraryPageFragment extends Fragment {
             @Override
             public void onFolderSelected(String folderId, String folderName) {
                 logger.debug("LibraryTopFragment", "Folder selected! folderId: " + folderId + ", folderName: " + folderName);
-//                // 画面遷移
-//                FragmentNavigation fragmentNavigation = (FragmentNavigation) getActivity();
-//                // folderId: 推移先で表示するフォルダのID, folderName: 推移先で表示するフォルダの名前, parentId: このフラグメントで表示しているフォルダのID(推移先の親)
-//                fragmentNavigation.navigateToFragment(LibraryPageFragment.newInstance(folderId, folderName, libraryItemPage != null ? libraryItemPage.getParentId() : null), false);
                 Bundle bundle = new Bundle();
                 bundle.putString("folderId", folderId);
                 bundle.putString("title", folderName);
@@ -340,10 +336,20 @@ public class LibraryPageFragment extends Fragment {
         });
     }
 
+    /**
+     * メディアピッカーを使用してドキュメントを作成する(呼び出し部分)
+     */
     private void createDocByMediaPicker() {
         getContent.launch("image/*");
     }
 
+    /**
+     * ページを追加する
+     * @param documentDetail ドキュメント詳細
+     * @param bitmaps ビットマップ
+     * @param commitMessage コミットメッセージ
+     * @return CompletableFuture
+     */
     private CompletableFuture<Void> addPagesToDocumentDetail(DocumentDetail documentDetail, Bitmap[] bitmaps, String commitMessage) {
         return CompletableFuture.runAsync(() -> {
             try {
