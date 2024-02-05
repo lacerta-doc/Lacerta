@@ -35,6 +35,8 @@ import one.nem.lacerta.data.Document;
 import one.nem.lacerta.data.LacertaLibrary;
 import one.nem.lacerta.model.document.DocumentDetail;
 import one.nem.lacerta.model.document.DocumentMeta;
+import one.nem.lacerta.model.document.page.Page;
+import one.nem.lacerta.processor.DocumentProcessor;
 import one.nem.lacerta.processor.factory.DocumentProcessorFactory;
 import one.nem.lacerta.utils.LacertaLogger;
 import one.nem.lacerta.vcs.factory.LacertaVcsFactory;
@@ -73,7 +75,9 @@ public class ScannerManagerActivity extends AppCompatActivity {
     // Variables
     private ArrayList<Bitmap> croppedImages = new ArrayList<>();
 
-    private boolean single = false;
+    private boolean update = false;
+    private String documentId;
+    private int index = 0;
 
     View view;
 
@@ -104,7 +108,7 @@ public class ScannerManagerActivity extends AppCompatActivity {
             null
     );
 
-    DocumentScanner documentScannerSingle = new DocumentScanner( // TODO-rca: ひどすぎるのでなんとかする
+    DocumentScanner documentScannerUpdate = new DocumentScanner( // TODO-rca: ひどすぎるのでなんとかする
             this,
             (croppedImageResults) -> {
                 logger.debug(TAG, "croppedImage size: " + croppedImageResults.size());
@@ -113,6 +117,7 @@ public class ScannerManagerActivity extends AppCompatActivity {
                     croppedImages.add(BitmapFactory.decodeFile(result));
                 }
                 processResult(croppedImages);
+                updatePage();
                 return null;
             },
             (errorMessage) -> {
@@ -160,11 +165,12 @@ public class ScannerManagerActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         if (bundle != null) {
-            this.single = bundle.getBoolean("single", false);
+            update = bundle.getBoolean("update", false);
+            documentId = bundle.getString("documentId");
+            index = bundle.getInt("index", 0);
         }
-
-        if (this.single) {
-            documentScanner = documentScannerSingle;
+        if (this.update) {
+            documentScanner = documentScannerUpdate;
         }
         documentScanner.startScan();
         // Init
@@ -231,7 +237,7 @@ public class ScannerManagerActivity extends AppCompatActivity {
             Bitmap[] bitmaps = new Bitmap[croppedImages.size()];
             croppedImages.toArray(bitmaps);
             logger.debug(TAG, "bitmaps.length: " + bitmaps.length);
-            addPagesToDocumentDetail(documentDetail, bitmaps, null).join();
+            addPagesToDocumentDetail(documentDetail, bitmaps, "Initial Commit").join();
             document.updateDocument(documentDetail).join();
             dialog.dismiss();
             finish();
@@ -243,11 +249,38 @@ public class ScannerManagerActivity extends AppCompatActivity {
         return CompletableFuture.runAsync(() -> {
             try {
                 document.updateDocument(documentProcessorFactory.create(documentDetail).addNewPagesToLast(bitmaps).getDocumentDetail()).join();
-                lacertaVcsFactory.create(documentDetail.getMeta().getId()).generateRevisionAtCurrent(commitMessage == null ? "Update" : commitMessage);
+                lacertaVcsFactory.create(documentDetail.getMeta().getId()).generateRevisionAtCurrent(commitMessage == null ? "NONE" : commitMessage);
             } catch (Exception e) {
                 logger.error(TAG, "Error: " + e.getMessage());
                 logger.e_code("9dff2a28-20e8-4ccd-9d04-f0c7646faa6a");
             }
+        });
+    }
+
+    private void updatePage() {
+        logger.debug(TAG, "updatePage");
+        // Deprecatedだが、中断機能が存在しないので操作をブロックする目的で(意図的に)使用
+        ProgressDialog dialog = new ProgressDialog(this);
+        dialog.setMessage("保存中..."); // TODO-rca: テキストをリソースに移動
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog.setCancelable(false);
+        dialog.show();
+        document.getDocument(documentId).thenAccept((documentDetail) -> {
+            DocumentProcessor documentProcessor = documentProcessorFactory.create(documentDetail);
+            if (croppedImages.size() != 1) {
+                logger.error(TAG, "croppedImages.size() != 1");
+                logger.e_code("d8e2b8c9-9b7e-4b7e-9e1e-9e3b8b8b8b8b");
+                return;
+            }
+            if (croppedImages.get(0) == null) {
+                logger.error(TAG, "croppedImages.get(0) == null");
+                logger.e_code("d8e2b8c9-9b7e-4b7e-9e1e-9e3b8b8b8b8b");
+                return;
+            }
+            documentProcessor.updatePageAtIndex(croppedImages.get(0), index);
+            document.updateDocument(documentProcessor.getDocumentDetail()).join();
+            lacertaVcsFactory.create(documentDetail.getMeta().getId()).generateRevisionAtCurrent(index + "ページ目を更新"); // TODO-rca: メッセージを動的にする, 指定できるようにする
+            dialog.dismiss();
         });
     }
 
@@ -293,6 +326,8 @@ public class ScannerManagerActivity extends AppCompatActivity {
 
             resultView.addView(resultImageView);
         }
+
+        selectedImage.setImageBitmap(resultImages.get(0));
     }
 
 }

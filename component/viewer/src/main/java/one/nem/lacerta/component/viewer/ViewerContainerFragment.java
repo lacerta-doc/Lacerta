@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,13 +27,19 @@ import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import one.nem.lacerta.component.common.LacertaApplyTagDialog;
+import one.nem.lacerta.component.common.LacertaSelectRevDialog;
+import one.nem.lacerta.component.common.LacertaSelectRevDialogListener;
+import one.nem.lacerta.component.common.picker.LacertaDirPickerDialog;
 import one.nem.lacerta.component.common.picker.LacertaFilePickerDialog;
 import one.nem.lacerta.data.Document;
 import one.nem.lacerta.data.LacertaLibrary;
+import one.nem.lacerta.model.ListItemType;
 import one.nem.lacerta.model.document.page.Page;
 import one.nem.lacerta.model.document.tag.DocumentTag;
 import one.nem.lacerta.model.pref.ToxiDocumentModel;
 import one.nem.lacerta.utils.LacertaLogger;
+import one.nem.lacerta.vcs.LacertaVcs;
+import one.nem.lacerta.vcs.factory.LacertaVcsFactory;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -53,10 +60,14 @@ public class ViewerContainerFragment extends Fragment {
     @Inject
     Document document;
 
+    @Inject
+    LacertaVcsFactory lacertaVcsFactory;
+
     // Variables
     private String documentId;
     private String documentName;
     private boolean hasCombined = false;
+    private String revId;
     private ViewerViewPagerAdapter viewerViewPagerAdapter;
 
     public ViewerContainerFragment() {
@@ -70,6 +81,7 @@ public class ViewerContainerFragment extends Fragment {
         args.putString("documentId", documentId);
         args.putString("documentName", documentName);
         args.putBoolean("hasCombined", hasCombined);
+        args.putString("revId", null);
         return fragment;
     }
 
@@ -80,6 +92,18 @@ public class ViewerContainerFragment extends Fragment {
         args.putString("documentId", documentId);
         args.putString("documentName", documentName);
         args.putBoolean("hasCombined", false);
+        args.putString("revId", null);
+        return fragment;
+    }
+
+    public static ViewerContainerFragment newInstance(String documentId, String documentName, String revId) {
+        ViewerContainerFragment fragment = new ViewerContainerFragment();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        args.putString("documentId", documentId);
+        args.putString("documentName", documentName);
+        args.putBoolean("hasCombined", false);
+        args.putString("revId", revId);
         return fragment;
     }
 
@@ -90,6 +114,7 @@ public class ViewerContainerFragment extends Fragment {
             documentId = getArguments().getString("documentId");
             documentName = getArguments().getString("documentName");
             hasCombined = getArguments().getBoolean("hasCombined");
+            revId = getArguments().getString("revId");
         }
     }
 
@@ -118,27 +143,46 @@ public class ViewerContainerFragment extends Fragment {
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         initToolbar(toolbar, true, documentName);
 
-        // Get document page
-        if (this.hasCombined) { // 結合親の場合
-            logger.debug("ViewerContainerFragment", "hasCombined: " + hasCombined);
-            lacertaLibrary.getCombinedDocumentToxiList(documentId).thenAccept(combinedDocumentToxiList -> {
-                logger.debug("ViewerContainerFragment", "combinedDocumentToxiList: " + combinedDocumentToxiList.size());
-
-                viewerViewPagerAdapter.setFragmentTargetIdList(
-                        combinedDocumentToxiList.stream().map(ToxiDocumentModel::getChildDocumentId).collect(Collectors.toCollection(ArrayList::new)));
-                viewerViewPagerAdapter.setFragmentTitleList(
-                        combinedDocumentToxiList.stream().map(ToxiDocumentModel::getTitleCache).collect(Collectors.toCollection(ArrayList::new)));
-
-                viewerViewPagerAdapter.notifyItemRangeChanged(0, combinedDocumentToxiList.size());
-            });
-        } else { // それ以外の場合
-            logger.debug("ViewerContainerFragment", "hasCombined: " + hasCombined);
-            tabLayout.setVisibility(View.GONE);
+        if (this.revId != null) { // Revが指定されている場合
+            LacertaVcs lacertaVcs = lacertaVcsFactory.create(documentId);
             viewerViewPagerAdapter.setFragmentTargetIdList(new ArrayList<String>(){{add(documentId);}}); // TODO-rca: 読みにくいので直接追加できるようにする
-            viewerViewPagerAdapter.setFragmentTitleList(new ArrayList<String>(){{add(documentName);}});
+            viewerViewPagerAdapter.setFragmentTitleList(new ArrayList<String>(){{add(documentName);}}); // TODO-rca: 読みにくいので直接追加できるようにする
+            viewerViewPagerAdapter.setFragmentRevisionList(new ArrayList<String>(){{add(revId);}}); // TODO-rca: 読みにくいので直接追加できるようにする
             viewerViewPagerAdapter.notifyItemRangeChanged(0, 1);
-        }
+            tabLayout.setVisibility(View.GONE);
+            toolbar.setSubtitle("リビジョン: " + revId);
+        } else {
+            // Get document page
+            if (this.hasCombined) { // 結合親の場合
+                // バージョンを遡る操作を非表示
+                toolbar.getMenu().findItem(R.id.action_open_vcs_rev_list).setVisible(false);
+                logger.debug("ViewerContainerFragment", "hasCombined: " + hasCombined);
+                lacertaLibrary.getCombinedDocumentToxiList(documentId).thenAccept(combinedDocumentToxiList -> {
+                    logger.debug("ViewerContainerFragment", "combinedDocumentToxiList: " + combinedDocumentToxiList.size());
 
+                    viewerViewPagerAdapter.setFragmentTargetIdList(
+                            combinedDocumentToxiList.stream().map(ToxiDocumentModel::getChildDocumentId).collect(Collectors.toCollection(ArrayList::new)));
+                    viewerViewPagerAdapter.setFragmentTitleList(
+                            combinedDocumentToxiList.stream().map(ToxiDocumentModel::getTitleCache).collect(Collectors.toCollection(ArrayList::new)));
+
+                    viewerViewPagerAdapter.notifyItemRangeChanged(0, combinedDocumentToxiList.size());
+                    toolbar.setSubtitle("結合ドキュメント");
+                });
+            } else { // それ以外の場合
+                logger.debug("ViewerContainerFragment", "hasCombined: " + hasCombined);
+                tabLayout.setVisibility(View.GONE);
+                viewerViewPagerAdapter.setFragmentTargetIdList(new ArrayList<String>(){{add(documentId);}}); // TODO-rca: 読みにくいので直接追加できるようにする
+                viewerViewPagerAdapter.setFragmentTitleList(new ArrayList<String>(){{add(documentName);}});
+                viewerViewPagerAdapter.notifyItemRangeChanged(0, 1);
+            }
+
+            // サブタイトルとしてパスを表示(暫定)
+            lacertaLibrary.getPublicPath(documentId, ListItemType.ITEM_TYPE_DOCUMENT).thenAccept(publicPath -> {
+                logger.debug("ViewerContainerFragment", "publicPath: " + publicPath);
+                toolbar.setSubtitle("/" + publicPath.parent().getStringPath());
+            });
+
+        }
         // Attach tab layout to view pager
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
             View customView = LayoutInflater.from(getContext()).inflate(R.layout.viewer_custom_tab, null);
@@ -148,11 +192,27 @@ public class ViewerContainerFragment extends Fragment {
 
             ImageButton imageButton = customView.findViewById(R.id.tab_modify);
             imageButton.setOnClickListener(v -> {
-                renameCombinedDocument(
-                        this.documentId,
-                        viewerViewPagerAdapter.getFragmentTargetId(position),
-                        viewerViewPagerAdapter.getFragmentTitle(position),
-                        position);
+                PopupMenu popupMenu = new PopupMenu(getContext(), v);
+                popupMenu.inflate(R.menu.viewer_tab_menu);
+                popupMenu.setOnMenuItemClickListener(item -> {
+                    if (item.getItemId() == R.id.action_open_vcs_rev_list) {
+                        showRevList(viewerViewPagerAdapter.getFragmentTargetId(position), viewerViewPagerAdapter.getFragmentTitle(position));
+                        return true;
+                    } else if (item.getItemId() == R.id.action_rename) {
+                        renameCombinedDocument(
+                                documentId,
+                                viewerViewPagerAdapter.getFragmentTargetIdList().get(position),
+                                viewerViewPagerAdapter.getFragmentTitle(position),
+                                position);
+                        return true;
+                    } else if (item.getItemId() == R.id.action_delete) {
+                        Toast.makeText(getContext(), "Work in progress", Toast.LENGTH_SHORT).show();
+                        return true;
+                    } else {
+                        return false;
+                    }
+                });
+                popupMenu.show();
             });
 
             tab.setCustomView(customView);
@@ -222,16 +282,16 @@ public class ViewerContainerFragment extends Fragment {
             toolbar.inflateMenu(R.menu.viewer_menu);
             toolbar.setOnMenuItemClickListener(item -> {
                 if (item.getItemId() == R.id.action_open_vcs_rev_list) {
-                    Toast.makeText(getContext(), "Work in progress", Toast.LENGTH_SHORT).show();
+                    showRevList(this.documentId, this.documentName);
                     return true;
                 } else if (item.getItemId() == R.id.action_rename) {
                     renameDocument();
                     return true;
                 } else if (item.getItemId() == R.id.action_delete) {
-                    Toast.makeText(getContext(), "Work in progress", Toast.LENGTH_SHORT).show();
+                    deleteDocument();
                     return true;
                 } else if (item.getItemId() == R.id.action_move) {
-                    Toast.makeText(getContext(), "Work in progress", Toast.LENGTH_SHORT).show();
+                    moveDocument();
                     return true;
                 } else if (item.getItemId() == R.id.action_combine) {
                     combineDocument();
@@ -246,11 +306,68 @@ public class ViewerContainerFragment extends Fragment {
         });
     }
 
+    private void showRevList(String targetId, String targetName) {
+        LacertaSelectRevDialog lacertaSelectRevDialog = new LacertaSelectRevDialog();
+        lacertaSelectRevDialog.setDocumentId(targetId).setTitle("リビジョンの選択").setMessage("リビジョンを選択してください。").setNegativeButtonText("キャンセル");
+        lacertaSelectRevDialog.setListener(new LacertaSelectRevDialogListener() {
+            @Override
+            public void onItemSelected(String revId) {
+                logger.debug("ViewerContainerFragment", "Dialog Result: revId: " + revId);
+                getParentFragmentManager().beginTransaction()
+                        .replace(R.id.nav_host_fragment, ViewerContainerFragment.newInstance(targetId, targetName, revId))
+                        .commit();
+            }
+
+            @Override
+            public void onDialogCanceled() {
+            }
+        });
+        lacertaSelectRevDialog.show(getParentFragmentManager(), "select_rev_dialog");
+    }
+
+    private void moveDocument() {
+        LacertaDirPickerDialog lacertaDirPickerDialog = new LacertaDirPickerDialog();
+        lacertaDirPickerDialog.setListener((name, dirId) -> {
+            logger.debug("MoveDocument", "Selected dir: " + name + ", " + dirId);
+            document.moveDocument(documentId, dirId).thenAccept(aVoid -> {
+                getActivity().runOnUiThread(() -> {
+                    // Stop Activity
+                    getActivity().finish(); // TODO-rca: ファイル移動後に終了するべきかは検討
+                });
+            });
+        });
+        lacertaDirPickerDialog.setTitle("ファイルの移動")
+                .setMessage("ファイルを移動するフォルダを選択してください。")
+                .setPositiveButtonText("移動")
+                .setNegativeButtonText("キャンセル");
+        lacertaDirPickerDialog.show(getParentFragmentManager(), "select_dir_dialog");
+    }
+
+    private void deleteDocument() {
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext());
+        builder.setTitle("ファイルの削除");
+        builder.setMessage("ファイルを削除しますか？");
+
+        builder.setPositiveButton("削除", (dialog, which) -> {
+            document.deleteDocument(documentId).thenAccept(aVoid -> {
+                getActivity().runOnUiThread(() -> {
+                    Toast.makeText(getContext(), "削除しました", Toast.LENGTH_SHORT).show();
+                    getActivity().finish(); // TODO-rca: 終了させずにUIを更新したい
+                });
+            });
+        });
+        builder.setNegativeButton("キャンセル", (dialog, which) -> {
+            dialog.cancel();
+        });
+
+        builder.show();
+    }
+
     private void applyTag() {
         LacertaApplyTagDialog lacertaApplyTagDialog = new LacertaApplyTagDialog();
         lacertaApplyTagDialog
                 .setTitle("タグの適用")
-                .setMessage("タグを適用するファイルを選択してください")
+                .setMessage("適用するタグを選択してください")
                 .setNegativeButtonText("キャンセル")
                 .setDocumentId(documentId)
                 .setListener(new LacertaApplyTagDialog.LacertaApplyTagDialogListener() {

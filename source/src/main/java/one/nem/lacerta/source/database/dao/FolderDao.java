@@ -26,4 +26,7 @@ public interface FolderDao {
 
     @Insert
     void insertAll(FolderEntity... folderEntities);
+
+    @Query("DELETE FROM Folder WHERE id = :id")
+    void deleteById(String id);
 }

@@ -28,6 +28,9 @@ public interface LacertaLibrary {
     // Create Folder
     CompletableFuture<String> createFolder(String parentId, String name);
 
+    // delete Folder
+    CompletableFuture<Void> deleteFolder(String folderId);
+
     // Get Public Path
     CompletableFuture<PublicPath> getPublicPath(String itemId, ListItemType itemType);
 

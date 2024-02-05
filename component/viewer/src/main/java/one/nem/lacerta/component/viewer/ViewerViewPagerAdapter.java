@@ -15,6 +15,7 @@ public class ViewerViewPagerAdapter extends FragmentStateAdapter {
     // Variables
     private ArrayList<String> fragmentTargetIdList = new ArrayList<>();
     private ArrayList<String> fragmentTitleList = new ArrayList<>();
+    private ArrayList<String> fragmentRevisionList = new ArrayList<>();
 
     // Setter
 
@@ -26,6 +27,10 @@ public class ViewerViewPagerAdapter extends FragmentStateAdapter {
         this.fragmentTitleList = fragmentTitleList;
     }
 
+    public void setFragmentRevisionList(ArrayList<String> fragmentRevisionList) {
+        this.fragmentRevisionList = fragmentRevisionList;
+    }
+
     public ViewerViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
     }
@@ -33,7 +38,11 @@ public class ViewerViewPagerAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        return ViewerBodyFragment.newInstance(fragmentTargetIdList.get(position), fragmentTitleList.get(position));
+        if (fragmentRevisionList != null && fragmentRevisionList.size() > position) {
+            return ViewerBodyFragment.newInstance(fragmentTargetIdList.get(position), fragmentTitleList.get(position), fragmentRevisionList.get(position));
+        } else {
+            return ViewerBodyFragment.newInstance(fragmentTargetIdList.get(position), fragmentTitleList.get(position));
+        }
     }
 
     @Override

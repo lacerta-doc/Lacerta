@@ -1,5 +1,6 @@
 package one.nem.lacerta.feature.library;
 
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,11 +50,14 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ListIt
         holder.description.setText(listItem.getDescription());
 
         if (listItem.getTagList() != null && !listItem.getTagList().isEmpty()) {
+            if (holder.tagGroup.getChildCount() > 0) { // ごまかし
+                holder.tagGroup.removeAllViews();
+            }
             for (int i = 0; i < listItem.getTagList().size(); i++) {
-                Toast.makeText(holder.tagGroup.getContext(), listItem.getTagList().get(i).getName(), Toast.LENGTH_SHORT).show();
                 ChipGroup chipGroup = holder.tagGroup;
                 Chip chip = new Chip(chipGroup.getContext());
                 chip.setText(listItem.getTagList().get(i).getName());
+                chip.setTextColor(Color.parseColor(listItem.getTagList().get(i).getColor()));
                 chipGroup.addView(chip);
             }
             holder.tagGroup.setVisibility(View.VISIBLE);

@@ -63,4 +63,6 @@ dependencies {
 
     // ViewPager2
     implementation "androidx.viewpager2:viewpager2:1.0.0"
+
+    implementation project(':component:scanner') // めちゃくちゃよくないけどもう正しくやってる時間がないので
 }
